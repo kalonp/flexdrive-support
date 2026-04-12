@@ -3452,13 +3452,37 @@ function translateNodes(nodes, lang) {
 }
 
 function translateFullPage(lang) {
-  // Translate chatArea
-  var chatArea = document.getElementById('chatArea');
-  if (chatArea) translateNodes(getTextNodesIn(chatArea), lang);
+  // Collect ALL text nodes across the entire page in ONE pass
+  var allNodes = [];
+  var roots = [
+    document.getElementById('chatArea'),
+    document.getElementById('app')
+  ];
+  // Also grab any nodes outside app (disclaimer, buttons)
+  document.querySelectorAll('.quick-btn, .talk-btn, .input-disclaimer, .find-location-btn').forEach(function(el) {
+    roots.push(el);
+  });
 
-  // Translate quick buttons
-  document.querySelectorAll('.quick-btn, .talk-btn, .input-disclaimer, .welcome-message, .msg-bubble').forEach(function(el) {
-    translateNodes(getTextNodesIn(el), lang);
+  var seen = [];
+  roots.forEach(function(root) {
+    if (!root) return;
+    // Avoid duplicate nodes if one root is inside another
+    var already = false;
+    for (var i = 0; i < seen.length; i++) {
+      if (seen[i].contains(root)) { already = true; break; }
+    }
+    if (!already) {
+      seen.push(root);
+      getTextNodesIn(root).forEach(function(n) { allNodes.push(n); });
+    }
+  });
+
+  if (!allNodes.length) return;
+
+  // ONE batch call for everything
+  var texts = allNodes.map(function(n) { return n.nodeValue; });
+  translateBatch(texts, lang, function(map) {
+    applyMapToNodes(allNodes, map);
   });
 }
 
@@ -3489,13 +3513,20 @@ function stopObserver() {
 }
 
 function activateLanguage(lang) {
-  // Always reload on language switch — prevents stale DOM from previous translation
   stopObserver();
-  if (!lang) {
-    sessionStorage.removeItem('fd_lang');
-  } else {
-    sessionStorage.setItem('fd_lang', lang);
+  // Clear ALL cached translations to prevent bleed between languages
+  var keys = [];
+  for (var i = 0; i < sessionStorage.length; i++) {
+    keys.push(sessionStorage.key(i));
   }
+  keys.forEach(function(k) {
+    if (k && k.indexOf('fd_') === 0) sessionStorage.removeItem(k);
+  });
+  if (!lang) {
+    location.reload();
+    return;
+  }
+  sessionStorage.setItem('fd_lang', lang);
   location.reload();
 }
 
