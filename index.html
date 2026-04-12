@@ -3489,20 +3489,14 @@ function stopObserver() {
 }
 
 function activateLanguage(lang) {
+  // Always reload on language switch — prevents stale DOM from previous translation
+  stopObserver();
   if (!lang) {
-    // Restore English
-    stopObserver();
-    currentLang = '';
     sessionStorage.removeItem('fd_lang');
-    updateBtnLabel();
-    location.reload();
-    return;
+  } else {
+    sessionStorage.setItem('fd_lang', lang);
   }
-  currentLang = lang;
-  sessionStorage.setItem('fd_lang', lang);
-  updateBtnLabel();
-  translateFullPage(lang);
-  startObserver(lang);
+  location.reload();
 }
 
 function updateBtnLabel(override) {
@@ -3563,8 +3557,11 @@ function closeLangMenuOutside(e) {
 window.addEventListener('load', function() {
   updateBtnLabel();
   if (currentLang) {
-    startObserver(currentLang);
-    setTimeout(function() { translateFullPage(currentLang); }, 500);
+    // Wait for chatbot welcome message to fully render before translating
+    setTimeout(function() {
+      translateFullPage(currentLang);
+      startObserver(currentLang);
+    }, 1200);
   }
 });
 </script>
