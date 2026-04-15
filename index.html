@@ -958,8 +958,8 @@
  <div id="modalSuccessView" class="modal-success" style="display:none;">
  <div class="modal-success-icon"></div>
  <div class="modal-success-title">Message Sent!</div>
- <div class="modal-success-text">
- Your message has been sent to the PDX support team.<br><br>
+ <div class="modal-success-text" id="modalSuccessText">
+ Your message has been sent to the support team.<br><br>
  We'll reply to your email within 1 business day.<br>
  Office hours: Mon–Fri, 9:00 AM – 5:00 PM
  </div>
@@ -3251,13 +3251,19 @@ function submitContactForm() {
  mode: 'no-cors'
  })
  .then(function() {
+ var rName = userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'your regional';
+ var successEl = document.getElementById('modalSuccessText');
+ if (successEl) {
+   successEl.innerHTML = 'Your message has been sent to the ' + rName + ' support team.<br><br>We\'ll reply to your email within 1 business day.<br>Office hours: Mon\u2013Fri, 9:00 AM \u2013 5:00 PM';
+ }
  document.getElementById('modalFormView').style.display = 'none';
  document.getElementById('modalSuccessView').style.display = 'block';
  btn.disabled = false;
  btn.textContent = 'Send Message';
  })
  .catch(function(err) {
- alert('Something went wrong. Please try again or email pdx-support@flexdrive.com directly.');
+ var supportEmail = userRegion && VENDORS[userRegion] ? userRegion.toLowerCase() + '-support@flexdrive.com' : 'pdx-support@flexdrive.com';
+ alert('Something went wrong. Please try again or email ' + supportEmail + ' directly.');
  btn.disabled = false;
  btn.textContent = 'Send Message';
  });
