@@ -1656,6 +1656,12 @@ var KNOWLEDGE_BASE = [
  response: "To rent a Flexdrive vehicle, you must:\n\n- Be at least 25 years old\n- Have a valid U.S. driver's license\n- Pass a background check and driving record review\n- Be approved and active on the Lyft platform\n- Maintain Lyft platform eligibility throughout your rental\n- Complete the minimum number of weekly paid Lyft rides (varies by region)\n- Provide a valid payment card (prepaid/gift cards are not accepted)\n- Pay a refundable security deposit\n\nFlexdrive may suspend or terminate your membership at any time for violations, non-compliance, or at their discretion."
  },
  {
+ topic: "Wrapped vehicle bonus (SFO)",
+ keywords: ["wrapped", "wrapped car", "decal", "lyft decal", "branded car", "wrapped vehicle", "sign on bonus", "sign-on bonus", "weekly bonus", "100 bonus", "$100 bonus", "bonus offer", "wrapped bonus", "lyft wrapped", "80 rides", "eighty rides", "ride bonus", "weekly ride bonus", "bonus not received", "didn't get my bonus", "missing bonus", "where is my bonus", "wrapped car bonus", "wrapped vehicle bonus", "lyft branded car", "lyft brand decal"],
+ showTalkBtn: true,
+ response: "If you are renting a Lyft-branded \"wrapped\" vehicle (a car with Lyft decals on the doors), you are eligible for the following bonuses:\n\nSIGN-ON BONUS:\n- $100 one-time bonus when you start your first rental in a wrapped vehicle\n\nWEEKLY BONUS:\n- $100 rental cost adjustment every week you complete 80 or more rides\n- This applies each rental week as long as you are in a wrapped vehicle and hit 80 rides\n\nIMPORTANT: You must complete 80 or more rides in the rental week to qualify for the weekly bonus. If you do not reach 80 rides in a given week, the weekly bonus does not apply for that week.\n\nIf you believe you completed 80 rides but did not receive your weekly bonus, please tap Talk to Someone below and our team will look into it for you."
+ },
+ {
  topic: "Late return / failure to return vehicle",
  keywords: ["late return", "didn't return", "overdue", "past due", "haven't returned", "keep the car", "failure to return", "didn't bring the car back", "missed return date", "past my return date", "forgot to return", "return date passed", "overdue vehicle", "late on return", "can i keep it longer", "extend my rental", "keep the car longer", "missed my return", "what happens if i don't return", "late fees", "late fee", "what if i keep the car", "not returning the car", "can i delay return", "extend rental"],
  response: "If your rental is not renewed and you do not return the vehicle, late fees will apply. Important warnings:\n\n- Flexdrive may repossess the vehicle at your expense without notice if you fail to return it upon request.\n- In Arizona: Failure to return within 72 hours of the due date is a CLASS 5 FELONY (A.R.S. 13-1806) - punishable by up to $150,000 fine and/or 7.5 years imprisonment.\n- In California: GPS tracking may be activated 72 hours after a missed return date, with 24-hour prior notice.\n\nIf you need more time, contact your Flexdrive office before your return date to discuss options. Do not simply keep the vehicle past your rental period."
@@ -2026,6 +2032,19 @@ function appendQuickActions(showTalk) {
  ];
 
  var quickActions = renderQuickActions(actions);
+
+ // SFO-only wrapped vehicle bonus button
+ if (userRegion === 'SFO') {
+ var wrappedBtn = document.createElement('button');
+ wrappedBtn.className = 'quick-btn';
+ wrappedBtn.textContent = 'Wrapped vehicle bonus';
+ wrappedBtn.addEventListener('click', function() {
+ userInput.value = 'wrapped vehicle bonus';
+ sendBtn.disabled = false;
+ sendMessage();
+ });
+ quickActions.appendChild(wrappedBtn);
+ }
 
  if (showTalk) {
  var talkBtn = document.createElement('button');
