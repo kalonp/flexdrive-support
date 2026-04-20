@@ -1203,7 +1203,7 @@ const VENDORS = {
  { name: "Just Tires - Los Angeles (Beverly Blvd)", type: "Maintenance", address: "8425 Beverly Blvd, Los Angeles CA 90048", phone: "(323) 653-5300", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
  { name: "Just Tires - Montclair", type: "Maintenance", address: "8915 Central Avenue, Montclair CA 91763", phone: "(909) 626-3090", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" }
  ], recovery: [], hasTolls: true,
- stateNotes: "Renter responsible for ALL collision damage regardless of cause. GPS tracking may be activated 72 hours after missed return. SECOND LA LOCATION: Monrovia Flexdrive - 1111 E Huntington Dr., Monrovia, CA 91016 (Mon-Fri 9am-5pm)."
+ stateNotes: "Renter responsible for ALL collision damage regardless of cause. GPS tracking may be activated 72 hours after missed return. SECOND LA LOCATION: Monrovia Flexdrive - 1111 E Huntington Dr., Monrovia, CA 91016 — TEMPORARILY CLOSED."
  },
  MKE: {
  regionName: "Milwaukee, WI", state: "Wisconsin",
@@ -1487,7 +1487,7 @@ var KNOWLEDGE_BASE = [
  topic: "Damage charges / not at fault",
  keywords: ["damage charge", "not my fault", "fault", "deductible", "subrogation", "other driver", "damage fee", "why am I paying", "charged for damage", "damage bill", "damage invoice", "damage assessment", "damage cost", "how much will damage cost", "damage responsibility", "who pays for damage", "repair cost", "body damage", "panel damage", "bumper damage", "door damage", "damage repair", "charged for someone else's fault", "other driver was at fault", "not responsible for damage"],
  showTalkBtn: true,
- response: "Under the Flexdrive rental agreement, damage fees are based on your protection plan and apply regardless of fault:\n\n- Without CDW: up to $1,000 deductible + up to $1,000 for glass damage\n- With CDW: your deductible, glass, flat tires, and towing are covered\n\nChargeable damage includes any damage greater than 6 inches OR greater than a quarter in size. Do not attempt to repair any damage on your own.\n\nNote: A pre-rental inspection is completed with you before your contract is signed, marking any pre-existing damage. After the contract is signed, you are responsible for any new damage to the vehicle.\n\nIf the accident was caused by another party, a subrogation process may be pursued to recover costs from the at-fault party. If that process is successful, eligible fees may be reimbursed — but this takes time and is not guaranteed.\n\nWe recommend visiting our office so we can review your account and walk you through your options in detail."
+ response: "Under the Flexdrive rental agreement, damage fees are based on your protection plan and apply regardless of fault:\n\n- Without CDW: up to $1,000 deductible + up to $1,000 for glass damage\n- With CDW: your deductible, glass, flat tires, and towing are covered\n\nChargeable damage is assessed at the time of vehicle inspection and is determined by our team. Do not attempt to repair any damage on your own.\n\nNote: A pre-rental inspection is completed with you before your contract is signed, marking any pre-existing damage. After the contract is signed, you are responsible for any new damage to the vehicle.\n\nIf the accident was caused by another party, a subrogation process may be pursued to recover costs from the at-fault party. If that process is successful, eligible fees may be reimbursed — but this takes time and is not guaranteed.\n\nWe recommend visiting our office so we can review your account and walk you through your options in detail."
  },
  {
  topic: "Report damage on vehicle at pickup",
@@ -1559,6 +1559,7 @@ var KNOWLEDGE_BASE = [
  {
  topic: "PCDW / partial collision damage waiver",
  keywords: ["pcdw", "partial", "low deductible", "$500 deductible", "partial collision", "partial cdw", "lower deductible", "reduce deductible", "half deductible", "500 deductible", "partial protection", "partial coverage", "low deductible plan", "reduce my deductible", "cheaper deductible", "pcdw plan", "what is pcdw"],
+ regionExclude: ["LAX", "PDX"],
  response: "Partial Collision Damage Waiver (PCDW) - also called Low Deductible - reduces your deductible from $1,000 to $500 per incident.\n\nPCDW is NOT insurance. It is available in select markets. If you accept PCDW:\n- You pay the weekly PCDW rate added to your rental costs\n- Your deductible is $500 instead of $1,000 for physical damage\n- It auto-renews weekly\n\nTo view your current PCDW rate or make changes, check the Lyft Driver App: Main Menu >Vehicles and Devices >Your Vehicles >See Details.\n\nPCDW has the same exclusions as CDW (prohibited uses void coverage)."
  },
  {
@@ -1638,7 +1639,7 @@ var KNOWLEDGE_BASE = [
  topic: "Where is Flexdrive available",
  keywords: ["where available", "what cities", "locations", "states", "which cities", "is flexdrive in", "near me", "available cities", "how many locations", "flexdrive available", "where is flexdrive", "flexdrive locations", "flexdrive cities", "office locations", "all locations", "list of locations", "what states", "does flexdrive operate", "where does flexdrive operate", "flexdrive near me", "is there a flexdrive near me", "is flexdrive in my city", "flexdrive city list", "what markets", "which markets", "all markets", "flexdrive markets", "flexdrive offices", "where can i rent", "rental locations", "flexdrive map", "find a location"],
  useLocationCards: true,
- response: "Flexdrive is available in 22 cities across 14 states plus D.C. Here are all office locations:\n\nARIZONA\nPhoenix - 2540 E Magnolia Street, Phoenix, AZ 85034\n\nCALIFORNIA\nLos Angeles - 1754 N Main St, Los Angeles, CA 90031\nLos Angeles (Monrovia) - 1111 E Huntington Dr., Monrovia, CA 91016\nSan Diego - 5816 Miramar Rd, San Diego, CA 92121\nSan Francisco - 312 8th St, San Francisco, CA 94103\n\nCOLORADO\nDenver - 4415 Ward Rd, Wheat Ridge, CO 80033\n\nGEORGIA\nAtlanta - 5575 Frontage Road, Forest Park, GA 30297\n\nILLINOIS\nChicago - 1020 N. Elston Ave, Chicago, IL 60642\n\nMARYLAND\nBaltimore - 5901 Reisterstown Rd, Baltimore, MD 21215\n\nMASSACHUSETTS\nBoston - 59 Tosca Dr, Stoughton, MA 02072\n\nNORTH CAROLINA\nCharlotte - 1039 Alleghany St., Charlotte, NC 28208\n\nOHIO\nCincinnati - 317 E. 9th Street, Cincinnati, OH 45202 (closes at 4 PM)\nCleveland - 15931 Lorain Ave, Cleveland, OH 44111\n\nOREGON\nPortland - 13779 SW Farmington Rd, Beaverton, OR 97005\n\nPENNSYLVANIA\nPhiladelphia - 3945 Frankford Ave, Philadelphia, PA 19124\nPittsburgh - 5913 Station Street, Pittsburgh, PA 15206\n\nTEXAS\nAustin - 7020 E Highway 290, Austin, TX 78723\nDallas/Fort Worth - 2214 Century City Blvd., Irving, TX 75062\nHouston - 2855 Mangum Rd., Suite B106, Houston, TX 77092\nSan Antonio - 12836 San Pedro Ave, San Antonio, TX 78216\n\nVIRGINIA\nVirginia Beach - 2886 Airline Blvd Suite B, Portsmouth, VA 23702\n\nWASHINGTON, D.C.\nDC/Virginia - 8201 Leesburg Pike, Vienna, VA 22182\n\nWISCONSIN\nMilwaukee - 550 W. Grange Ave., Milwaukee, WI 53207\n\nAll offices are open Monday-Friday, 9 AM-5 PM (except Cincinnati: 9 AM-4 PM). Appointments are not required but appreciated."
+ response: "Flexdrive is available in 22 cities across 14 states plus D.C. Here are all office locations:\n\nARIZONA\nPhoenix - 2540 E Magnolia Street, Phoenix, AZ 85034\n\nCALIFORNIA\nLos Angeles - 1754 N Main St, Los Angeles, CA 90031\nLos Angeles (Monrovia) - 1111 E Huntington Dr., Monrovia, CA 91016 (temporarily closed)\nSan Diego - 5816 Miramar Rd, San Diego, CA 92121\nSan Francisco - 312 8th St, San Francisco, CA 94103\n\nCOLORADO\nDenver - 4415 Ward Rd, Wheat Ridge, CO 80033\n\nGEORGIA\nAtlanta - 5575 Frontage Road, Forest Park, GA 30297\n\nILLINOIS\nChicago - 1020 N. Elston Ave, Chicago, IL 60642\n\nMARYLAND\nBaltimore - 5901 Reisterstown Rd, Baltimore, MD 21215\n\nMASSACHUSETTS\nBoston - 59 Tosca Dr, Stoughton, MA 02072\n\nNORTH CAROLINA\nCharlotte - 1039 Alleghany St., Charlotte, NC 28208\n\nOHIO\nCincinnati - 317 E. 9th Street, Cincinnati, OH 45202 (closes at 4 PM)\nCleveland - 15931 Lorain Ave, Cleveland, OH 44111\n\nOREGON\nPortland - 13779 SW Farmington Rd, Beaverton, OR 97005\n\nPENNSYLVANIA\nPhiladelphia - 3945 Frankford Ave, Philadelphia, PA 19124\nPittsburgh - 5913 Station Street, Pittsburgh, PA 15206\n\nTEXAS\nAustin - 7020 E Highway 290, Austin, TX 78723\nDallas/Fort Worth - 2214 Century City Blvd., Irving, TX 75062\nHouston - 2855 Mangum Rd., Suite B106, Houston, TX 77092\nSan Antonio - 12836 San Pedro Ave, San Antonio, TX 78216\n\nVIRGINIA\nVirginia Beach - 2886 Airline Blvd Suite B, Portsmouth, VA 23702\n\nWASHINGTON, D.C.\nDC/Virginia - 8201 Leesburg Pike, Vienna, VA 22182\n\nWISCONSIN\nMilwaukee - 550 W. Grange Ave., Milwaukee, WI 53207\n\nAll offices are open Monday-Friday, 9 AM-5 PM (except Cincinnati: 9 AM-4 PM). Appointments are not required but appreciated."
  },
  {
  topic: "Rental agreement / contract / terms",
@@ -2289,7 +2290,7 @@ var ACCIDENT_SECTIONS = [
  {
  title: "Damage Charges & Deductible",
  emoji: "",
- content: "Flexdrive charges up to $1,000 per incident (plus applicable tax and fees), based on the assessment of damages when the vehicle is returned.\n\nWITHOUT CDW (no protection plan):\n- You are responsible for up to $1,000 for physical damage\n- You are also responsible for up to $1,000 for glass damage\n- This applies REGARDLESS of who was at fault\n- If the at-fault party is identified, Flexdrive may pursue subrogation — if successful, your charges may be refunded\n\nWITH CDW (Collision Damage Waiver):\n- Your deductible is waived\n- Glass damage, flat tires, and towing are also covered\n- CDW does NOT protect you if the damage was caused by prohibited uses (see CDW Exclusions section)\n\nWITH PCDW (Partial Collision Damage Waiver):\n- Your deductible is reduced to $500 instead of $1,000\n- Same exclusions apply as CDW\n\nIMPORTANT: Chargeable damage includes any damage greater than 6 inches OR greater than a quarter in size. A pre-rental inspection is completed before your contract is signed — any new damage after that point is your responsibility.\n\nIf subrogation is pursued and Flexdrive successfully collects from the at-fault third party, a refund of your charges will be issued."
+ content: "Flexdrive charges up to $1,000 per incident (plus applicable tax and fees), based on the assessment of damages when the vehicle is returned.\n\nWITHOUT CDW (no protection plan):\n- You are responsible for up to $1,000 for physical damage\n- You are also responsible for up to $1,000 for glass damage\n- This applies REGARDLESS of who was at fault\n- If the at-fault party is identified, Flexdrive may pursue subrogation — if successful, your charges may be refunded\n\nWITH CDW (Collision Damage Waiver):\n- Your deductible is waived\n- Glass damage, flat tires, and towing are also covered\n- CDW does NOT protect you if the damage was caused by prohibited uses (see CDW Exclusions section)\n\nIMPORTANT: Chargeable damage is assessed at the time of vehicle inspection and is determined by our team. A pre-rental inspection is completed before your contract is signed — any new damage after that point is your responsibility.\n\nIf subrogation is pursued and Flexdrive successfully collects from the at-fault third party, a refund of your charges will be issued."
  },
  {
  title: "CDW & Protection Plans",
@@ -2626,6 +2627,8 @@ function findBestMatch(userText) {
  var bestMatch = null;
 
  KNOWLEDGE_BASE.forEach(function(entry) {
+ // Skip entries excluded for the current region
+ if (entry.regionExclude && userRegion && entry.regionExclude.indexOf(userRegion) !== -1) return;
  var score = 0;
  entry.keywords.forEach(function(kw) {
  if (lower.includes(kw)) score += 2;
@@ -2798,7 +2801,10 @@ function sendMessage() {
  var office = VENDORS[userRegion].office;
  if (match.topic === 'Return vehicle / end rental') {
  if (userRegion === 'LAX') {
- responseText += '\n\nReturn your vehicle to the office where you picked it up:\n- Los Angeles: 1754 N Main St, Los Angeles, CA 90031\n- Monrovia: 1111 E Huntington Dr., Monrovia, CA 91016\nHours: Monday-Friday, 9:00 AM - 5:00 PM';
+ responseText = responseText.replace('\n- Minimum rental period is 7 days', '');
+ responseText = responseText.replace('\n- For after-hours returns, our overnight drop box is located to the right of the mailbox at the office', '\n- After-hours and weekend returns are not available at the LAX office. Returns must be completed during business hours: Monday-Friday, 9:00 AM - 5:00 PM');
+ responseText = responseText.replace('\n- Weekend/after-hours returns: your rental contract will not close until the next business day and you will be charged through that date', '\n- Weekend/after-hours returns: your rental contract will not close until the next business day and you will be charged through that date\n- Your final rental week is prorated — you are only charged for the days remaining when you return');
+ responseText += '\n\nReturn your vehicle to the Los Angeles office:\n- Los Angeles: 1754 N Main St, Los Angeles, CA 90031\nHours: Monday-Friday, 9:00 AM - 5:00 PM\n(Monrovia location is temporarily closed)';
  } else if (userRegion === 'SFO') {
  responseText = responseText.replace('\n- For after-hours returns, our overnight drop box is located to the right of the mailbox at the office', '');
  responseText += '\n\nIMPORTANT: After-hours and weekend returns are NOT available at the SFO office. You must return your vehicle during business hours: Monday-Friday, 9:00 AM - 5:00 PM.';
@@ -2808,7 +2814,7 @@ function sendMessage() {
  }
  } else if (match.topic === 'Accident / car was hit') {
  if (userRegion === 'LAX') {
- responseText += '\n\nBring your vehicle to your Flexdrive office:\n- Los Angeles: 1754 N Main St, Los Angeles, CA 90031\n- Monrovia: 1111 E Huntington Dr., Monrovia, CA 91016\nHours: Monday-Friday, 9:00 AM - 5:00 PM\n\nPlease bring the vehicle to the office where you originally picked it up.';
+ responseText += '\n\nBring your vehicle to your Flexdrive office:\n- Los Angeles: 1754 N Main St, Los Angeles, CA 90031\n- Monrovia: 1111 E Huntington Dr., Monrovia, CA 91016 (temporarily closed)\nHours: Monday-Friday, 9:00 AM - 5:00 PM\n\nPlease bring the vehicle to the office where you originally picked it up.';
  } else {
  responseText += '\n\nBring your vehicle to:\n' + office.address + '\n' + office.hours;
  }
@@ -2958,7 +2964,7 @@ function handleLocationInput(locationText) {
  // Confirm region — LAX gets both office locations
  var officeText;
  if (region === 'LAX') {
- officeText = "Your Flexdrive offices:\n- Los Angeles: 1754 N Main St, Los Angeles, CA 90031\n- Monrovia: 1111 E Huntington Dr., Monrovia, CA 91016\nHours: Monday-Friday, 9:00 AM - 5:00 PM";
+ officeText = "Your Flexdrive offices:\n- Los Angeles: 1754 N Main St, Los Angeles, CA 90031\n- Monrovia: 1111 E Huntington Dr., Monrovia, CA 91016 (temporarily closed)\nHours: Monday-Friday, 9:00 AM - 5:00 PM";
  } else {
  officeText = "Your Flexdrive office: " + regionData.office.address + "\nHours: " + regionData.office.hours;
  }
