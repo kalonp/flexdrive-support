@@ -1665,6 +1665,12 @@ var KNOWLEDGE_BASE = [
  response: "If you are renting a Lyft-branded \"wrapped\" vehicle (a car with Lyft decals on the doors), you are eligible for the following bonuses:\n\nSIGN-ON BONUS:\n- $100 one-time bonus when you start your first rental in a wrapped vehicle\n\nWEEKLY BONUS:\n- $100 rental cost adjustment every week you complete 80 or more rides\n- This applies each rental week as long as you are in a wrapped vehicle and hit 80 rides\n\nIMPORTANT: You must complete 80 or more rides in the rental week to qualify for the weekly bonus. If you do not reach 80 rides in a given week, the weekly bonus does not apply for that week.\n\nIf you believe you completed 80 rides but did not receive your weekly bonus, please tap Talk to Someone below. Include your name and the week in question and our team will review your account and resolve it without you needing to come in."
  },
  {
+ topic: "Inspections",
+ keywords: ["inspection", "inspect", "visit your rental location", "bring your car in", "inspection email", "inspection notice", "to do this week", "car needs to be inspected", "annual inspection", "lyft inspection", "pbot", "pbot inspection", "vehicle inspection", "inspection due", "inspection required", "inspection form", "inspection location", "car inspection", "inspection reminder", "inspection notification", "schedule inspection", "inspection appointment", "car sitting", "car not moving", "vehicle not driven", "car hasn't moved", "haven't driven", "not driven", "car idle"],
+ inspectionAccordion: true,
+ response: "Here is everything you need to know about vehicle inspections:"
+ },
+ {
  topic: "Late return / failure to return vehicle",
  keywords: ["late return", "didn't return", "overdue", "past due", "haven't returned", "keep the car", "failure to return", "didn't bring the car back", "missed return date", "past my return date", "forgot to return", "return date passed", "overdue vehicle", "late on return", "can i keep it longer", "extend my rental", "keep the car longer", "missed my return", "what happens if i don't return", "late fees", "late fee", "what if i keep the car", "not returning the car", "can i delay return", "extend rental"],
  response: "If your rental is not renewed and you do not return the vehicle, late fees will apply. Important warnings:\n\n- Flexdrive may repossess the vehicle at your expense without notice if you fail to return it upon request.\n- In Arizona: Failure to return within 72 hours of the due date is a CLASS 5 FELONY (A.R.S. 13-1806) - punishable by up to $150,000 fine and/or 7.5 years imprisonment.\n- In California: GPS tracking may be activated 72 hours after a missed return date, with 24-hour prior notice.\n\nIf you need more time, contact your Flexdrive office before your return date to discuss options. Do not simply keep the vehicle past your rental period."
@@ -1804,7 +1810,7 @@ const STATE_LYFT_REQUIREMENTS = {
  helpUrl: "https://help.lyft.com/hc/en-us/all/articles/115013080708-California-Driver-Information",
  requirements: [
  "TWO Lyft emblems required at all times in driver mode — one front windshield, one rear (CPUC requirement). Airport pickups at LAX also require an additional airport placard.",
- "Vehicle inspection required before approval and every 12 months or 50,000 miles, whichever comes first. Inspections cost ~$20-$30 and are not covered by Lyft.",
+ "Vehicle inspection required before approval and every 12 months. Inspections cost ~$20-$30 and are not covered by Lyft.",
  "California requires at least 1 year of licensed driving experience.",
  "California AB 2293: Lyft provides PRIMARY liability coverage during Period 1 (app on, no ride accepted), unlike most other states where it is secondary.",
  "Driver hour restrictions apply — check the Lyft Driver app for current California limits.",
@@ -1862,7 +1868,7 @@ const STATE_LYFT_REQUIREMENTS = {
  helpUrl: "https://help.lyft.com/hc/en-us/all/articles/115013080708-California-Driver-Information",
  requirements: [
  "TWO Lyft emblems required at all times in driver mode (CPUC requirement).",
- "Vehicle inspection required before approval and every 12 months or 50,000 miles. Cost ~$20-$30, not covered by Lyft.",
+ "Vehicle inspection required before approval and every 12 months. Cost ~$20-$30, not covered by Lyft.",
  "California requires at least 1 year of licensed driving experience.",
  "California AB 2293: Lyft provides PRIMARY liability coverage during Period 1.",
  "Contact Lyft support with your info to transfer your driver account to California."
@@ -1873,7 +1879,7 @@ const STATE_LYFT_REQUIREMENTS = {
  helpUrl: "https://help.lyft.com/hc/en-us/all/articles/115013080708-California-Driver-Information",
  requirements: [
  "TWO Lyft emblems required at all times in driver mode (CPUC requirement). SFO airport pickups also require an airport placard.",
- "Vehicle inspection required before approval and every 12 months or 50,000 miles. Cost ~$20-$30, not covered by Lyft.",
+ "Vehicle inspection required before approval and every 12 months. Cost ~$20-$30, not covered by Lyft.",
  "California requires at least 1 year of licensed driving experience.",
  "California AB 2293: Lyft provides PRIMARY liability coverage during Period 1.",
  "Contact Lyft support with your info to transfer your driver account to California."
@@ -2031,7 +2037,8 @@ function appendQuickActions(showTalk) {
  "EV vehicle / charging",
  "I'm moving to a new state",
  "Payment plan / overdue balance",
- "Where is Flexdrive available?"
+ "Where is Flexdrive available?",
+ "Inspections"
  ];
 
  var quickActions = renderQuickActions(actions);
@@ -2152,6 +2159,14 @@ function mapsUrl(address) {
 function renderVendorCards(vendors) {
  var container = document.createElement('div');
  container.className = 'vendor-cards';
+
+ // PDX-only PBOT inspection alert
+ if (userRegion === 'PDX') {
+ var pbotAlert = document.createElement('div');
+ pbotAlert.style.cssText = 'background:#E3F2FD;border:1px solid #90CAF9;border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:13px;color:#1565C0;line-height:1.5;';
+ pbotAlert.innerHTML = '<strong>PBOT Inspection (Portland):</strong> If you need a PBOT inspection, please call the shop ahead of your visit to confirm they are able to perform PBOT inspections before booking.';
+ container.appendChild(pbotAlert);
+ }
 
  // Flexdrive notice at top
  var notice = document.createElement('div');
@@ -2622,6 +2637,74 @@ function renderRoadsideAccordion() {
  return container;
 }
 
+// INSPECTION ACCORDION
+var INSPECTION_SECTIONS = [
+ {
+ title: '"Visit your rental location" email',
+ emoji: "",
+ content: "If you received a Lyft email saying \"Visit your rental location\" or that your car needs to be inspected, this is most commonly triggered when your vehicle has not been driven or turned on for several days.\n\nWHAT TO DO FIRST — JUST DRIVE IT:\nTake the vehicle out for a drive. Once the vehicle shows activity, Lyft's system will automatically detect it and you will receive a follow-up email confirming you are good to go. No appointment or office visit needed.\n\nIF THE ISSUE PERSISTS AFTER DRIVING:\nIf you continue receiving notices or do not get a follow-up confirmation within 1–2 days, please visit your Flexdrive office during business hours and our team will inspect the vehicle in person.\n\nOffice hours: Monday–Friday, 9:00 AM – 5:00 PM"
+ },
+ {
+ title: "Annual Lyft vehicle inspection",
+ emoji: "",
+ content: "Lyft requires all drivers to complete a vehicle inspection annually to stay eligible to drive. You will receive a notification in the Lyft Driver app when your inspection is due.\n\nHOW TO COMPLETE IT:\n1. Open the Lyft Driver app and find an approved inspection location near you\n2. Go to your appointment — the shop will have the inspection form and complete it for you\n3. Upload the completed form in the app: Account >Documents\n\nLyft does not cover the cost of inspections — typically $20–$50 depending on location.\n\nCALIFORNIA MARKETS (LAX, SFO, SAN):\nInspection required every 12 months.\n\nPORTLAND (PDX) — PBOT INSPECTION REQUIRED:\nPortland uses a specific PBOT/ASE inspection form — this is different from the standard Lyft form. You must also bring a fire extinguisher, first aid kit, and phone mount to your appointment. Use our approved vendor list to find an inspection location near you.\n\nALL OTHER MARKETS:\nCheck your Lyft Driver app for your inspection due date and approved locations near you."
+ }
+];
+
+function renderInspectionAccordion() {
+ var container = document.createElement('div');
+ container.className = 'ev-accordion';
+
+ INSPECTION_SECTIONS.forEach(function(section, idx) {
+ var item = document.createElement('div');
+ item.className = 'ev-accordion-item';
+
+ var header = document.createElement('button');
+ header.className = 'ev-accordion-header';
+ header.innerHTML = section.emoji + ' ' + section.title + '<span class="ev-accordion-icon">&#9660;</span>';
+
+ var body = document.createElement('div');
+ body.className = 'ev-accordion-body';
+
+ // For "Visit your rental location" — inject region office address dynamically
+ var bodyContent = section.content;
+ if (idx === 0 && userRegion && VENDORS[userRegion]) {
+  var office = VENDORS[userRegion].office;
+  bodyContent = bodyContent.replace('Office hours: Monday\u2013Friday, 9:00 AM \u2013 5:00 PM',
+   office.name + '\n' + office.address + '\n' + office.hours);
+ }
+ body.innerHTML = linkifyContent(bodyContent);
+
+ header.addEventListener('click', function() {
+  var isOpen = body.style.display === 'block';
+  container.querySelectorAll('.ev-accordion-body').forEach(function(b) { b.style.display = 'none'; b.style.animation = 'none'; });
+  container.querySelectorAll('.ev-accordion-header').forEach(function(h) { h.classList.remove('open'); });
+  container.querySelectorAll('.ev-accordion-item').forEach(function(i) { i.classList.remove('is-open'); });
+  if (!isOpen) {
+   body.style.animation = 'none';
+   body.offsetHeight;
+   body.style.animation = '';
+   body.style.display = 'block';
+   header.classList.add('open');
+   item.classList.add('is-open');
+   setTimeout(function() {
+    var chatRect = chatArea.getBoundingClientRect();
+    var itemRect = item.getBoundingClientRect();
+    if (itemRect.bottom > chatRect.bottom) {
+     chatArea.scrollBy({ top: itemRect.bottom - chatRect.bottom + 16, behavior: 'smooth' });
+    }
+   }, 50);
+  }
+ });
+
+ item.appendChild(header);
+ item.appendChild(body);
+ container.appendChild(item);
+ });
+
+ return container;
+}
+
 // AI MATCHING 
 function findBestMatch(userText) {
  var lower = userText.toLowerCase();
@@ -2856,6 +2939,9 @@ function sendMessage() {
  } else if (match.evAccordion) {
  var accordion = renderEVAccordion();
  renderMessage('assistant', responseText, accordion);
+ } else if (match.inspectionAccordion) {
+ var inspectionAccordion = renderInspectionAccordion();
+ renderMessage('assistant', responseText, inspectionAccordion);
  } else if (match.needsRelocationRegion) {
  renderMessage('assistant', responseText);
  setTimeout(function() {
