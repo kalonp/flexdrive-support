@@ -1347,31 +1347,58 @@ const ZIP_TO_REGION = {
 };
 
 const CITY_TO_REGION = {
- "portland": "PDX", "beaverton": "PDX", "tigard": "PDX", "hillsboro": "PDX",
+ // PDX
+ "portland": "PDX", "pdx": "PDX", "beaverton": "PDX", "tigard": "PDX", "hillsboro": "PDX",
  "lake oswego": "PDX", "gresham": "PDX", "tualatin": "PDX", "milwaukie": "PDX",
  "happy valley": "PDX", "clackamas": "PDX", "oregon city": "PDX", "wilsonville": "PDX",
  "vancouver": "PDX", "eugene": "PDX",
- "atlanta": "ATL", "decatur": "ATL", "marietta": "ATL", "sandy springs": "ATL",
+ // ATL
+ "atlanta": "ATL", "atl": "ATL", "decatur": "ATL", "marietta": "ATL", "sandy springs": "ATL",
+ // AUS
  "austin": "AUS", "round rock": "AUS",
- "dallas": "DAL", "plano": "DAL", "irving": "DAL", "garland": "DAL",
+ // DAL / FTW
+ "dallas": "DAL", "plano": "DAL", "irving": "DAL", "garland": "DAL", "dfw": "DAL",
  "fort worth": "FTW", "arlington": "FTW",
- "houston": "HOU", "katy": "HOU", "sugar land": "HOU", "pasadena": "HOU",
- "san antonio": "SAT",
- "baltimore": "BAL", "glen burnie": "BAL", "towson": "BAL",
+ // HOU
+ "houston": "HOU", "katy": "HOU", "sugar land": "HOU",
+ // SAT
+ "san antonio": "SAT", "sat": "SAT",
+ // BAL
+ "baltimore": "BAL", "bal": "BAL", "glen burnie": "BAL", "towson": "BAL",
+ // BOS
  "boston": "BOS", "cambridge": "BOS", "somerville": "BOS",
- "charlotte": "CLT", "concord": "CLT", "gastonia": "CLT",
- "chicago": "CHI", "evanston": "CHI", "cicero": "CHI", "oak park": "CHI",
- "cincinnati": "CIN", "covington": "CIN",
+ // CLT
+ "charlotte": "CLT", "clt": "CLT", "concord": "CLT", "gastonia": "CLT",
+ // CHI
+ "chicago": "CHI", "chi": "CHI", "evanston": "CHI", "cicero": "CHI", "oak park": "CHI",
+ // CIN
+ "cincinnati": "CIN", "cincy": "CIN", "covington": "CIN",
+ // CLE
  "cleveland": "CLE", "akron": "CLE", "parma": "CLE",
+ // DEN
  "denver": "DEN", "aurora": "DEN", "lakewood": "DEN", "arvada": "DEN",
- "los angeles": "LAX", "long beach": "LAX", "glendale": "LAX", "inglewood": "LAX", "monrovia": "LAX", "pasadena": "LAX", "burbank": "LAX",
- "san diego": "SAN", "chula vista": "SAN",
- "san francisco": "SFO", "oakland": "SFO", "daly city": "SFO", "fremont": "SFO",
- "milwaukee": "MKE", "waukesha": "MKE",
- "philadelphia": "PHL", "camden": "PHL",
- "pittsburgh": "PIT",
- "phoenix": "PHX", "scottsdale": "PHX", "tempe": "PHX", "mesa": "PHX", "chandler": "PHX", "gilbert": "PHX",
- "washington": "DC", "washington dc": "DC", "washington d.c.": "DC", "dc": "DC"
+ // LAX
+ "los angeles": "LAX", "la": "LAX", "lax": "LAX", "los angeles ca": "LAX",
+ "long beach": "LAX", "glendale": "LAX", "inglewood": "LAX", "monrovia": "LAX",
+ "pasadena": "LAX", "burbank": "LAX", "socal": "LAX", "so cal": "LAX",
+ // SAN
+ "san diego": "SAN", "san diego ca": "SAN", "san diego california": "SAN",
+ "diego": "SAN", "sd": "SAN", "chula vista": "SAN",
+ // SFO
+ "san francisco": "SFO", "san francisco ca": "SFO", "san fran": "SFO", "sf": "SFO",
+ "oakland": "SFO", "daly city": "SFO", "fremont": "SFO", "bay area": "SFO",
+ // MKE
+ "milwaukee": "MKE", "mke": "MKE", "waukesha": "MKE",
+ // PHL
+ "philadelphia": "PHL", "philly": "PHL", "camden": "PHL",
+ // PIT
+ "pittsburgh": "PIT", "pit": "PIT", "pitt": "PIT",
+ // PHX
+ "phoenix": "PHX", "phx": "PHX", "scottsdale": "PHX", "tempe": "PHX",
+ "mesa": "PHX", "chandler": "PHX", "gilbert": "PHX",
+ // DC
+ "washington": "DC", "washington dc": "DC", "washington d.c.": "DC", "dc": "DC",
+ "northern virginia": "DC", "nova": "DC", "vienna": "DC"
 };
 
 function resolveRegion(input) {
@@ -1926,7 +1953,7 @@ var sendBtn = document.getElementById('sendBtn');
 
 // Lock textarea until location is entered
 userInput.disabled = true;
-userInput.placeholder = 'Enter your city or zip code above to get started...';
+userInput.placeholder = 'Enter the city where you picked up your vehicle above...';
 document.querySelector('.input-bar').style.display = 'none';
 sendBtn.disabled = true;
 
@@ -2217,7 +2244,7 @@ function renderLocationPrompt(callback) {
  container.className = 'location-prompt';
  var input = document.createElement('input');
  input.type = 'text';
- input.placeholder = 'Enter your city or zip code...';
+ input.placeholder = 'City or zip code where you picked up your vehicle...';
  var btn = document.createElement('button');
  btn.textContent = 'Find Location';
  btn.addEventListener('click', function() {
@@ -2790,7 +2817,7 @@ function showSessionTimeoutPrompt() {
  userRegion = null;
  awaitingLocation = true;
  userInput.disabled = true;
- userInput.placeholder = 'Enter your city or zip code above to get started...';
+ userInput.placeholder = 'Enter the city where you picked up your vehicle above...';
  document.querySelector('.input-bar').style.display = 'none';
  sendBtn.disabled = true;
  if (sessionTimeoutTimer) clearTimeout(sessionTimeoutTimer);
@@ -3271,7 +3298,7 @@ function showWelcome() {
  var s4 = document.createElement('div');
  s4.className = 'welcome-section';
  s4.style.animationDelay = '0.8s';
- s4.textContent = 'Enter your city or zip code below to get started:';
+ s4.textContent = 'Enter the city or zip code where you picked up your Flexdrive vehicle to get started:';
  bubble.appendChild(s4);
 
  var wrapper = document.createElement('div');
