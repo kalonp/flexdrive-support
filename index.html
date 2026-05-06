@@ -171,6 +171,12 @@
  padding: 2px 14px;
  animation: msgIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
  }
+ .msg-row.assistant {
+ animation: msgInLeft 0.4s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+ }
+ .msg-row.user {
+ animation: msgInRight 0.35s cubic-bezier(0.34, 1.5, 0.64, 1) both;
+ }
  /* WELCOME SCREEN ANIMATIONS */
  @keyframes welcomePop {
  0% { opacity: 0; transform: translateY(20px) scale(0.95); }
@@ -244,6 +250,16 @@
  0% { opacity: 0; transform: translateY(14px) scale(0.95); }
  60% { opacity: 1; }
  100% { opacity: 1; transform: translateY(0) scale(1); }
+ }
+ @keyframes msgInLeft {
+ 0% { opacity: 0; transform: translateX(-18px) translateY(6px) scale(0.96); }
+ 55% { opacity: 1; transform: translateX(3px) translateY(-1px) scale(1.01); }
+ 100% { opacity: 1; transform: translateX(0) translateY(0) scale(1); }
+ }
+ @keyframes msgInRight {
+ 0% { opacity: 0; transform: translateX(18px) translateY(6px) scale(0.96); }
+ 55% { opacity: 1; transform: translateX(-3px) translateY(-1px) scale(1.01); }
+ 100% { opacity: 1; transform: translateX(0) translateY(0) scale(1); }
  }
  .msg-row.user { justify-content: flex-end; flex-wrap: wrap; }
  .msg-row.assistant { justify-content: flex-start; align-items: flex-end; }
@@ -403,8 +419,9 @@
  .quick-btn:nth-child(12) { animation-delay: 0.55s; }
  .quick-btn:nth-child(13) { animation-delay: 0.60s; }
  @keyframes btnPop {
- 0% { opacity: 0; transform: scale(0.85) translateY(6px); }
- 70% { opacity: 1; transform: scale(1.04) translateY(-1px); }
+ 0% { opacity: 0; transform: scale(0.78) translateY(10px); }
+ 55% { opacity: 1; transform: scale(1.07) translateY(-2px); }
+ 75% { transform: scale(0.97) translateY(1px); }
  100% { opacity: 1; transform: scale(1) translateY(0); }
  }
  .quick-btn:active { background: var(--navy); color: var(--white); border-color: var(--navy); transform: scale(0.96); box-shadow: 0 1px 4px rgba(0,59,113,0.2); }
@@ -596,7 +613,22 @@
  background: var(--white);
  border-top: 2px solid var(--pink);
  white-space: pre-wrap; word-wrap: break-word;
- animation: bodyReveal 0.35s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+ animation: bodyReveal 0.38s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+ position: relative;
+ }
+ .ev-accordion-body::before {
+ content: '';
+ position: absolute;
+ top: -2px; left: 0;
+ height: 2px;
+ background: var(--pink);
+ width: 0%;
+ animation: borderDraw 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards;
+ }
+ @keyframes borderDraw {
+ 0% { width: 0%; opacity: 0.4; }
+ 60% { opacity: 1; }
+ 100% { width: 100%; opacity: 1; }
  }
  @keyframes bodyReveal {
  0% { opacity: 0; transform: translateY(-8px); }
@@ -605,16 +637,17 @@
  .ev-accordion-body a { color: var(--navy); text-decoration: underline; word-break: break-all; }
 
  /* TYPING */
- .typing-indicator { display: flex; gap: 5px; padding: 8px 2px; align-items: center; }
+ .typing-indicator { display: flex; gap: 6px; padding: 10px 4px; align-items: center; }
  .typing-indicator span {
- width: 8px; height: 8px; background: #B0BCC8; border-radius: 50%;
- animation: typingBounce 1.2s ease-in-out infinite;
+ width: 9px; height: 9px; border-radius: 50%;
+ animation: typingWave 1.4s ease-in-out infinite;
  }
- .typing-indicator span:nth-child(2) { animation-delay: 0.18s; }
- .typing-indicator span:nth-child(3) { animation-delay: 0.36s; }
- @keyframes typingBounce {
- 0%, 60%, 100% { transform: translateY(0); }
- 30% { transform: translateY(-6px); }
+ .typing-indicator span:nth-child(1) { background: var(--pink); animation-delay: 0s; }
+ .typing-indicator span:nth-child(2) { background: var(--navy-mid); animation-delay: 0.22s; }
+ .typing-indicator span:nth-child(3) { background: var(--pink); animation-delay: 0.44s; }
+ @keyframes typingWave {
+ 0%, 60%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+ 30% { transform: translateY(-7px) scale(1.2); opacity: 1; }
  }
 
  /* INPUT BAR */
@@ -2178,7 +2211,7 @@ function renderMessage(role, content, extra) {
  sessionLog.push({ role: 'bot', text: content, time: new Date().toLocaleTimeString() });
  var isFirst = sessionLog.filter(function(e) { return e.role === 'bot'; }).length === 1;
  var suppressTalk = lastMatch && lastMatch.sendMsgBtn && !lastMatch.showTalkBtn;
- setTimeout(function() { appendQuickActions(!isFirst && !suppressTalk); }, isFirst ? 1500 : 5000);
+ setTimeout(function() { appendQuickActions(!isFirst && !suppressTalk); }, isFirst ? 1500 : 2000);
  }
  return bubble;
 }
