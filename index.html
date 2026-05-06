@@ -290,12 +290,12 @@
  color: var(--pink);
  }
  .msg-row.user .msg-bubble {
- background: var(--white);
+ background: #E8EEF5;
  color: var(--navy);
  border-bottom-right-radius: 6px;
  font-weight: 600;
  box-shadow: 0 2px 6px rgba(0,59,113,0.10),
- 0 0 0 1.5px rgba(0,59,113,0.08);
+ 0 0 0 1.5px rgba(0,59,113,0.12);
  max-width: 80%;
  }
 
@@ -751,11 +751,11 @@
  .modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
  .modal-submit {
  width: 100%; padding: 16px;
- background: var(--pink); color: var(--white);
+ background: var(--navy); color: var(--white);
  border: none; border-radius: 16px;
  font-family: var(--font); font-size: 18px; font-weight: 700;
  cursor: pointer; margin-top: 10px;
- box-shadow: 0 4px 16px rgba(255,0,191,0.35);
+ box-shadow: 0 4px 16px rgba(0,59,113,0.35);
  min-height: 56px; touch-action: manipulation;
  }
  .modal-submit:active { opacity: 0.88; transform: scale(0.99); }
@@ -921,14 +921,14 @@
  <div id="modalFormView">
  <div class="modal-header">
  <div>
- <div class="modal-title">Talk to Someone</div>
- <div class="modal-subtitle">We'll respond within 1 business day</div>
+ <div class="modal-title" id="modalTitle">Send a Message</div>
+ <div class="modal-subtitle" id="modalSubtitle">Notify your local office — pick up, drop off, or a question</div>
  </div>
  <button class="modal-close" onclick="closeContactModal()">&#10005;</button>
  </div>
  <div class="modal-hours">
  <strong>Mon–Fri, 9:00 AM – 5:00 PM</strong><br>
- After hours or weekends? For urgent issues, contact Lyft support through the Driver App.
+ This form notifies your local office. You may not receive a reply — for urgent issues, contact Lyft support through the Driver App.
  </div>
  <div class="modal-row">
  <div class="modal-field">
@@ -949,20 +949,8 @@
  <div class="modal-select-wrap">
  <select class="modal-select" id="cf-reason">
  <option value="">-- Select a reason --</option>
- <option value="Mileage dispute">Mileage dispute</option>
- <option value="Billing question">Billing question</option>
- <option value="Overdue balance / payment plan">Overdue balance / payment plan</option>
- <option value="Vehicle maintenance or service">Vehicle maintenance or service</option>
- <option value="Accident or damage">Accident or damage</option>
- <option value="Vehicle return">Vehicle return</option>
- <option value="Vehicle swap or replacement">Vehicle swap or replacement</option>
- <option value="Deposit refund">Deposit refund</option>
- <option value="CDW / protection plan">CDW / protection plan</option>
- <option value="Toll or violation charge">Toll or violation charge</option>
- <option value="Repossessed vehicle / belongings">Repossessed vehicle / belongings</option>
- <option value="Lyft deactivation">Lyft deactivation</option>
- <option value="EV / charging issue">EV / charging issue</option>
- <option value="Registration or compliance">Registration or compliance</option>
+ <option value="Picking up my vehicle">Picking up my vehicle</option>
+ <option value="Dropping off / returning my vehicle">Dropping off / returning my vehicle</option>
  <option value="Other">Other</option>
  </select>
  </div>
@@ -977,8 +965,7 @@
  <div class="modal-success-icon"></div>
  <div class="modal-success-title">Message Sent!</div>
  <div class="modal-success-text" id="modalSuccessText">
- Your message has been sent to the support team.<br><br>
- We'll reply to your email within 1 business day.<br>
+ Your message has been sent to the local office.<br><br>
  Office hours: Mon–Fri, 9:00 AM – 5:00 PM
  </div>
  <button class="modal-submit" style="margin-top:24px;" onclick="closeContactModal()">Close</button>
@@ -1560,7 +1547,7 @@ var KNOWLEDGE_BASE = [
  keywords: ["picking up", "pick up", "pickup", "picking up my car", "picking up my vehicle", "picking up my reservation", "pick up my car", "pick up my vehicle", "getting my car", "getting my vehicle", "first day", "start my rental", "starting my rental", "when do i pick up", "where do i pick up", "how do i pick up", "picking up today", "picking up tomorrow", "i have a reservation", "my reservation", "coming to pick up", "on my way", "heading to the office", "arriving today", "new rental", "new car", "starting today"],
  needsRegion: true,
  sendMsgBtn: true,
- response: "Welcome — we're excited to get you on the road!\n\nHere's what to bring to your pickup appointment:\n- Valid driver's license\n- Payment card on file with Lyft\n- Your Lyft Driver app open and ready\n\nOffice hours: Monday\u2013Friday, 9:00 AM \u2013 5:00 PM\nAppointments are not required but are appreciated.\n\nHave a question before you arrive? Tap Send a Message below and our team will get back to you within 1 business day."
+ response: "Welcome — we're excited to get you on the road!\n\nHere's what to bring to your pickup appointment:\n- Valid driver's license\n- The payment card used for your deposit (must be in your name)\n- Your Lyft Driver app open and ready\n\nOffice hours: Monday\u2013Friday, 9:00 AM \u2013 5:00 PM\nAppointments are not required but are appreciated.\n\nHave a question before you arrive? Tap Send a Message below."
  },
  {
  topic: "Return vehicle / end rental",
@@ -2123,7 +2110,7 @@ function appendQuickActions(showTalk) {
  talkBtn.style.color = 'var(--white)';
  talkBtn.style.borderColor = 'var(--pink)';
  talkBtn.innerHTML = 'Talk to Someone';
- talkBtn.addEventListener('click', openContactModal);
+ talkBtn.addEventListener('click', function() { openContactModal('talk'); });
  quickActions.appendChild(talkBtn);
  }
 
@@ -2131,7 +2118,7 @@ function appendQuickActions(showTalk) {
  var sendMsgBtn = document.createElement('button');
  sendMsgBtn.className = 'send-msg-btn';
  sendMsgBtn.innerHTML = 'Send a Message';
- sendMsgBtn.addEventListener('click', openContactModal);
+ sendMsgBtn.addEventListener('click', function() { openContactModal('send'); });
  quickActions.appendChild(sendMsgBtn);
  }
 
@@ -2190,7 +2177,8 @@ function renderMessage(role, content, extra) {
  if (role === 'assistant') {
  sessionLog.push({ role: 'bot', text: content, time: new Date().toLocaleTimeString() });
  var isFirst = sessionLog.filter(function(e) { return e.role === 'bot'; }).length === 1;
- setTimeout(function() { appendQuickActions(!isFirst); }, isFirst ? 1500 : 5000);
+ var suppressTalk = lastMatch && lastMatch.sendMsgBtn && !lastMatch.showTalkBtn;
+ setTimeout(function() { appendQuickActions(!isFirst && !suppressTalk); }, isFirst ? 1500 : 5000);
  }
  return bubble;
 }
@@ -3141,19 +3129,25 @@ function handleLocationInput(locationText) {
  resetSessionTimeout();
 
  } else {
- // No match — unlock anyway, proceed without region
- awaitingLocation = false;
- userRegion = null;
-
+ // No match — keep locked, prompt to try again
  renderMessage('assistant',
- "I wasn't able to match that location to a Flexdrive region. Flexdrive is available in 22 cities across 14 states + D.C.\n\nI'll do my best to help — some responses may not include your specific office or vendor details. You can also check availability at flexdrive.com or through the Lyft Driver App.\n\nWhat can I help you with?"
+ "We weren't able to find a Flexdrive location for that city or zip code.\n\nFlexdrive is available in: Portland, Los Angeles, San Francisco, San Diego, Denver, Atlanta, Chicago, Baltimore, Boston, Charlotte, Cincinnati, Cleveland, Dallas/Fort Worth, Houston, Milwaukee, Philadelphia, Pittsburgh, Phoenix, San Antonio, and Washington D.C.\n\nPlease enter the city or zip code where you picked up your Flexdrive vehicle to continue."
  );
 
- // Unlock textarea (no focus — avoids keyboard jumping on mobile)
- userInput.disabled = false;
- userInput.placeholder = 'Ask a question...';
- document.querySelector('.input-bar').style.display = '';
- resetSessionTimeout();
+ // Re-render location prompt so driver can try again
+ setTimeout(function() {
+ var retryPrompt = renderLocationPrompt(function(loc) { handleLocationInput(loc); });
+ var row = document.createElement('div');
+ row.className = 'msg-row assistant';
+ var av = document.createElement('div');
+ av.className = 'msg-avatar';
+ setAvatarText(av);
+ row.appendChild(av);
+ row.appendChild(retryPrompt);
+ chatArea.appendChild(row);
+ scrollToBottom();
+ }, 400);
+ // Keep textarea locked
  }
 }
 
@@ -3364,12 +3358,18 @@ function showWelcome() {
 // CONTACT FORM 
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyDGHsVfVnieQhX9B2gi0qCNq96EBRG8zjJC0tB_tFpG3PP32BUm8rS5NHskp8OvL0rbw/exec';
 
-function openContactModal() {
+function openContactModal(mode) {
  document.getElementById('cf-name').value = '';
  document.getElementById('cf-email').value = '';
  document.getElementById('cf-phone').value = '';
  document.getElementById('cf-reason').value = '';
  document.getElementById('cf-message').value = '';
+ // Set title based on mode
+ var isTalk = (mode === 'talk');
+ var titleEl = document.getElementById('modalTitle');
+ var subtitleEl = document.getElementById('modalSubtitle');
+ if (titleEl) titleEl.textContent = isTalk ? 'Talk to Someone' : 'Send a Message';
+ if (subtitleEl) subtitleEl.textContent = isTalk ? 'Our team will review your message' : 'Notify your local office — pick up, drop off, or a question';
  document.getElementById('modalFormView').style.display = 'block';
  document.getElementById('modalSuccessView').style.display = 'none';
  document.getElementById('contactModal').classList.add('open');
@@ -3442,7 +3442,7 @@ function submitContactForm() {
  var rName = userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'your regional';
  var successEl = document.getElementById('modalSuccessText');
  if (successEl) {
-   successEl.innerHTML = 'Your message has been sent to the ' + rName + ' support team.<br><br>We\'ll reply to your email within 1 business day.<br>Office hours: Mon\u2013Fri, 9:00 AM \u2013 5:00 PM';
+   successEl.innerHTML = 'Your message has been sent to the ' + rName + ' office.<br><br>Office hours: Mon\u2013Fri, 9:00 AM \u2013 5:00 PM';
  }
  document.getElementById('modalFormView').style.display = 'none';
  document.getElementById('modalSuccessView').style.display = 'block';
