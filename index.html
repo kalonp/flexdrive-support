@@ -80,7 +80,7 @@
  position: absolute;
  bottom: 0; left: 0; right: 0;
  height: 3px;
- background: linear-gradient(90deg, #FF00BF 0%, #FF00BF 25%, #F000BF 45%, #D400B8 62%, #A800AC 80%, #8B10A8 100%);
+ background: linear-gradient(90deg, #FF00BF 0%, #FF00BF 45%, #EE00B5 65%, #D400A8 82%, #CC0099 100%);
  }
  .header-left { display: flex; align-items: center; gap: 12px; }
 
@@ -136,7 +136,7 @@
  letter-spacing: 0.2px;
  }
  .status-dot {
- width: 7px; height: 7px; background: linear-gradient(90deg, #FF00BF 0%, #FF00BF 25%, #F000BF 45%, #D400B8 62%, #A800AC 80%, #8B10A8 100%);
+ width: 7px; height: 7px; background: linear-gradient(90deg, #FF00BF 0%, #FF00BF 45%, #EE00B5 65%, #D400A8 82%, #CC0099 100%);
  border-radius: 50%; animation: pulse 2s ease-in-out infinite;
  }
  @keyframes pulse {
@@ -479,7 +479,7 @@
   .talk-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     padding: 11px 20px;
-    background: linear-gradient(135deg, #FF00BF 0%, #FF00BF 50%, #CC00A8 75%, #8B10A8 100%);
+    background: linear-gradient(90deg, #FF00BF 0%, #FF00BF 55%, #E000B0 78%, #CC0099 100%);
     color: var(--white);
     border: none; border-radius: 24px;
     font-family: var(--font); font-size: 15px; font-weight: 600;
@@ -628,7 +628,7 @@
  font-size: 15px; line-height: 1.65; color: #2D3138;
  background: var(--white);
  border-top: 2px solid transparent;
- border-image: linear-gradient(90deg, #FF00BF, #8B10A8) 1;
+ border-image: linear-gradient(90deg, #FF00BF, #CC0099) 1;
  white-space: pre-wrap; word-wrap: break-word;
  animation: bodyReveal 0.38s cubic-bezier(0.34, 1.2, 0.64, 1) both;
  position: relative;
@@ -638,7 +638,7 @@
  position: absolute;
  top: -2px; left: 0;
  height: 2px;
- background: linear-gradient(90deg, #FF00BF 0%, #CC00A8 40%, #8B10A8 100%);
+ background: linear-gradient(90deg, #FF00BF 0%, #EE00B5 50%, #CC0099 100%);
  width: 0%;
  animation: borderDraw 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards;
  }
@@ -729,7 +729,7 @@
  .send-btn {
  width: 52px; height: 52px;
  border-radius: 50%; border: none;
- background: linear-gradient(135deg, #FF00BF 0%, #CC00A8 35%, #8B10A8 100%); color: var(--white);
+ background: linear-gradient(135deg, #FF00BF 0%, #EE00B5 50%, #CC0099 100%); color: var(--white);
  cursor: pointer; display: flex; align-items: center; justify-content: center;
  flex-shrink: 0; transition: all 0.15s;
  box-shadow: 0 3px 10px rgba(139,16,168,0.4);
@@ -787,16 +787,7 @@
  40% { opacity: 1; }
  100% { width: 100%; opacity: 1; }
  }
- .modal-box::before {
- content: '';
- display: block;
- height: 4px;
- background: linear-gradient(90deg, #FF00BF 0%, #FF00BF 25%, #F000BF 45%, #D400B8 62%, #A800AC 80%, #8B10A8 100%);
- background-size: 200% 100%;
- width: 0%;
- animation: modalStripeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
- border-radius: 28px 28px 0 0;
- }
+ .modal-box::before { display: none; }
  .modal-drag-handle {
  width: 44px; height: 5px; background: #D0D8E2;
  border-radius: 3px; margin: 14px auto 0;
@@ -839,11 +830,11 @@
  .modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
  .modal-submit {
  width: 100%; padding: 16px;
- background: linear-gradient(90deg, #FF00BF 0%, #FF00BF 25%, #F000BF 45%, #D400B8 62%, #A800AC 80%, #8B10A8 100%); color: var(--white);
+ background: linear-gradient(90deg, #003B71 0%, #003B71 50%, #1A5A96 72%, #2E6EA8 86%, #4A85B8 100%); color: var(--white);
  border: none; border-radius: 16px;
  font-family: var(--font); font-size: 18px; font-weight: 700;
  cursor: pointer; margin-top: 10px;
- box-shadow: 0 4px 16px rgba(139,16,168,0.4);
+ box-shadow: 0 4px 16px rgba(0,59,113,0.35);
  min-height: 56px; touch-action: manipulation;
  }
  .modal-submit:active { opacity: 0.88; transform: scale(0.99); }
@@ -1034,6 +1025,7 @@
 <!-- CONTACT FORM MODAL -->
 <div class="modal-overlay" id="contactModal">
  <div class="modal-box">
+ <div id="modal-stripe" style="height:4px;width:0%;border-radius:28px 28px 0 0;animation:modalStripeIn 0.5s cubic-bezier(0.4,0,0.2,1) 0.2s forwards;"></div>
  <div class="modal-drag-handle"></div>
  <div class="modal-inner">
  <div id="modalFormView">
@@ -1077,6 +1069,23 @@
  <div class="modal-field">
  <label class="modal-label" for="cf-message">Message *</label>
  <textarea class="modal-textarea" id="cf-message" placeholder="Describe your issue in detail..."></textarea>
+ </div>
+ <div class="modal-field">
+ <label class="modal-label">Attachment <span style="font-weight:400;text-transform:none;font-size:11px;color:#9BA8B8;">(optional)</span></label>
+ <input type="file" id="cf-attachment" accept="image/*,.pdf" style="display:none;" onchange="handleAttachmentChange(this)" />
+ <div id="attach-drop-zone" onclick="document.getElementById('cf-attachment').click()" style="border:2px dashed rgba(255,0,191,0.4);border-radius:14px;padding:20px 16px;text-align:center;cursor:pointer;background:linear-gradient(135deg,rgba(139,16,168,0.06) 0%,rgba(255,0,191,0.06) 100%);transition:border-color 0.15s,background 0.15s;touch-action:manipulation;">
+ <div style="font-size:32px;margin-bottom:8px;">&#128206;</div>
+ <div style="font-size:15px;font-weight:600;color:#003B71;">Tap to attach a photo or PDF</div>
+ <div style="font-size:12px;color:#9BA8B8;margin-top:4px;">JPG · PNG · PDF — max 5MB</div>
+ </div>
+ <div id="attach-preview" style="display:none;margin-top:10px;padding:12px 14px;background:#EEF4FB;border-radius:12px;align-items:center;gap:12px;">
+ <div style="font-size:28px;" id="attach-icon">&#128206;</div>
+ <div style="flex:1;min-width:0;">
+ <div id="attach-filename" style="font-size:13px;font-weight:600;color:#003B71;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+ <div id="attach-filesize" style="font-size:11px;color:#7D868C;margin-top:2px;"></div>
+ </div>
+ <button type="button" onclick="clearAttachment()" style="background:rgba(0,0,0,0.06);border:none;border-radius:50%;width:28px;height:28px;font-size:14px;color:#7D868C;cursor:pointer;touch-action:manipulation;flex-shrink:0;">&#10005;</button>
+ </div>
  </div>
  <button class="modal-submit" id="cf-submit" onclick="submitContactForm()">Send Message</button>
  </div>
@@ -1831,6 +1840,7 @@ var KNOWLEDGE_BASE = [
  topic: "Inspections",
  keywords: ["inspection", "inspect", "visit your rental location", "bring your car in", "inspection email", "inspection notice", "to do this week", "car needs to be inspected", "annual inspection", "lyft inspection", "pbot", "pbot inspection", "vehicle inspection", "inspection due", "inspection required", "inspection form", "inspection location", "car inspection", "inspection reminder", "inspection notification", "schedule inspection", "inspection appointment", "car sitting", "car not moving", "vehicle not driven", "car hasn't moved", "haven't driven", "not driven", "car idle"],
  inspectionAccordion: true,
+ sendMsgBtn: true,
  response: "Here is everything you need to know about vehicle inspections:"
  },
  {
@@ -2348,7 +2358,7 @@ function appendQuickActions(showTalk) {
  var talkBtn = document.createElement('button');
  talkBtn.className = 'talk-btn quick-btn';
  talkBtn.style.animationDelay = '0.3s';
- talkBtn.style.background = 'linear-gradient(90deg, #FF00BF 0%, #FF00BF 25%, #F000BF 45%, #D400B8 62%, #A800AC 80%, #8B10A8 100%)';
+ talkBtn.style.background = 'linear-gradient(90deg, #FF00BF 0%, #FF00BF 55%, #E000B0 78%, #CC0099 100%)';
  talkBtn.style.color = 'var(--white)';
  talkBtn.style.borderColor = 'var(--pink)';
  talkBtn.innerHTML = 'Talk to Someone';
@@ -3757,6 +3767,51 @@ function openContactModal(mode) {
  waitEl.textContent = wm; waitEl.style.display = 'block';
  } else { waitEl.style.display = 'none'; }
  }
+ // Swap modal stripe based on mode
+ var stripeEl = document.getElementById('modal-stripe');
+ if (stripeEl) {
+ stripeEl.style.background = isTalk
+ ? 'linear-gradient(90deg, #FF00BF 0%, #FF00BF 55%, #E000B0 78%, #CC0099 100%)'
+ : 'linear-gradient(90deg, #003B71 0%, #003B71 50%, #1A5A96 72%, #2E6EA8 86%, #4A85B8 100%)';
+ // Re-trigger animation
+ stripeEl.style.animation = 'none';
+ stripeEl.offsetHeight;
+ stripeEl.style.animation = 'modalStripeIn 0.5s cubic-bezier(0.4,0,0.2,1) 0.2s forwards';
+ }
+
+ // Swap submit button gradient based on mode
+ var submitBtn = document.getElementById('cf-submit');
+ if (submitBtn) {
+ submitBtn.style.background = isTalk
+ ? 'linear-gradient(90deg, #FF00BF 0%, #FF00BF 55%, #E000B0 78%, #CC0099 100%)'
+ : 'linear-gradient(90deg, #003B71 0%, #003B71 50%, #1A5A96 72%, #2E6EA8 86%, #4A85B8 100%)';
+ submitBtn.style.boxShadow = isTalk
+ ? '0 4px 16px rgba(139,16,168,0.4)'
+ : '0 4px 16px rgba(0,59,113,0.35)';
+ }
+
+ // Swap reason dropdown based on mode
+ var reasonSelect = document.getElementById('cf-reason');
+ if (reasonSelect) {
+ reasonSelect.innerHTML = isTalk
+ ? '<option value="">-- Select a reason --</option>' +
+ '<option value="Mileage dispute">Mileage dispute</option>' +
+ '<option value="Billing question">Billing question</option>' +
+ '<option value="Overdue balance / payment plan">Overdue balance / payment plan</option>' +
+ '<option value="Vehicle maintenance or service">Vehicle maintenance or service</option>' +
+ '<option value="Accident or damage">Accident or damage</option>' +
+ '<option value="Vehicle return">Vehicle return</option>' +
+ '<option value="Vehicle swap or replacement">Vehicle swap or replacement</option>' +
+ '<option value="Deposit refund">Deposit refund</option>' +
+ '<option value="CDW / protection plan">CDW / protection plan</option>' +
+ '<option value="Inspection">Inspection</option>' +
+ '<option value="Lyft deactivation">Lyft deactivation</option>' +
+ '<option value="Other">Other</option>'
+ : '<option value="">-- Select a reason --</option>' +
+ '<option value="Picking up my vehicle">Picking up my vehicle</option>' +
+ '<option value="Dropping off / returning my vehicle">Dropping off / returning my vehicle</option>' +
+ '<option value="Other">Other</option>';
+ }
  document.getElementById('modalFormView').style.display = 'block';
  document.getElementById('modalSuccessView').style.display = 'none';
  document.getElementById('contactModal').classList.add('open');
@@ -3788,6 +3843,8 @@ function submitContactForm() {
  var phone = document.getElementById('cf-phone').value.trim();
  var reason = document.getElementById('cf-reason').value;
  var message = document.getElementById('cf-message').value.trim();
+ var fileInput = document.getElementById('cf-attachment');
+ var file = fileInput && fileInput.files && fileInput.files[0];
 
  if (!name || !email || !reason || !message) {
  alert('Please fill in all required fields.');
@@ -3797,12 +3854,36 @@ function submitContactForm() {
  alert('Please enter a valid email address.');
  return;
  }
+ if (file && file.size > 5 * 1024 * 1024) {
+ alert('Attachment must be under 5MB.');
+ return;
+ }
 
  var btn = document.getElementById('cf-submit');
  btn.disabled = true;
  btn.textContent = 'Sending...';
 
  var regionName = userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown';
+
+ // If file attached, read as base64 first
+ if (file) {
+ var reader = new FileReader();
+ reader.onload = function(e) {
+ var base64Data = e.target.result.split(',')[1];
+ doSubmit(name, email, phone, reason, message, regionName, {
+ name: file.name,
+ type: file.type,
+ data: base64Data
+ });
+ };
+ reader.readAsDataURL(file);
+ return;
+ }
+ doSubmit(name, email, phone, reason, message, regionName, null);
+}
+
+function doSubmit(name, email, phone, reason, message, regionName, attachment) {
+ var btn = document.getElementById('cf-submit');
 
  var pairs = [];
  for (var si = 0; si < sessionLog.length - 1; si++) {
@@ -3826,7 +3907,8 @@ function submitContactForm() {
  region: userRegion || 'UNKNOWN',
  regionName: regionName,
  transcript: buildTranscript(),
- timestamp: new Date().toISOString()
+ timestamp: new Date().toISOString(),
+ attachment: attachment || null
  };
 
  // Apps Script requires no-cors mode and content sent as text/plain to avoid CORS preflight
@@ -4235,6 +4317,30 @@ window.addEventListener('load', function() {
     }, 1200);
   }
 });
+
+// ATTACHMENT HANDLER
+function handleAttachmentChange(input) {
+ var file = input.files && input.files[0];
+ if (!file) return;
+ if (file.size > 5 * 1024 * 1024) {
+ alert('File is too large. Please choose a file under 5MB.');
+ input.value = ''; return;
+ }
+ document.getElementById('attach-drop-zone').style.display = 'none';
+ var preview = document.getElementById('attach-preview');
+ preview.style.display = 'flex';
+ document.getElementById('attach-filename').textContent = file.name;
+ document.getElementById('attach-filesize').textContent = (file.size / 1024).toFixed(0) + ' KB';
+ document.getElementById('attach-icon').innerHTML = file.type === 'application/pdf' ? '&#128196;' : '&#128444;&#65039;';
+}
+function clearAttachment() {
+ var input = document.getElementById('cf-attachment');
+ if (input) input.value = '';
+ var dz = document.getElementById('attach-drop-zone');
+ var pv = document.getElementById('attach-preview');
+ if (dz) dz.style.display = 'block';
+ if (pv) pv.style.display = 'none';
+}
 </script>
 </body>
 </html>
