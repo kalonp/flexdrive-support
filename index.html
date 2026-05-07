@@ -664,6 +664,29 @@
  30% { transform: translateY(-7px) scale(1.2); opacity: 1; }
  }
 
+ /* SATISFACTION SIGNAL */
+ .satisfaction-row {
+ display: flex; align-items: center; gap: 8px;
+ margin-top: 10px; padding: 0 2px;
+ opacity: 0;
+ animation: welcomeFadeUp 0.3s ease 0.8s both;
+ }
+ .satisfaction-label {
+ font-size: 12px; color: rgba(255,255,255,0.55); font-weight: 500;
+ }
+ .satisfaction-btn {
+ background: transparent; border: 1px solid rgba(255,255,255,0.2);
+ border-radius: 20px; padding: 4px 10px;
+ font-size: 14px; cursor: pointer; color: rgba(255,255,255,0.7);
+ transition: background 0.15s, border-color 0.15s, transform 0.1s;
+ touch-action: manipulation;
+ }
+ .satisfaction-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.4); }
+ .satisfaction-btn:active { transform: scale(0.92); }
+ .satisfaction-btn.voted { opacity: 0.5; pointer-events: none; }
+ .satisfaction-btn.thumbs-up.selected { background: rgba(0,200,100,0.2); border-color: #00c864; color: #00c864; opacity: 1; }
+ .satisfaction-btn.thumbs-down.selected { background: rgba(255,80,80,0.2); border-color: #ff5050; color: #ff5050; opacity: 1; }
+
  /* INPUT BAR */
  .input-bar {
  flex-shrink: 0;
@@ -2025,6 +2048,7 @@ var isTyping = false;
 var userRegion = null;
 var awaitingLocation = true;
 var lastMatch = null;
+var conversationHistory = []; // tracks {topic, keywords} of matched entries this session
 var sessionTimeoutTimer = null;
 var SESSION_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes
 
@@ -2130,8 +2154,46 @@ function linkifyContent(text) {
  return html;
 }
 
+
+// RELATED TOPICS MAP — drives proactive suggestions
+var RELATED_TOPICS = {
+ "Personal mileage dispute": ["Change mileage plan", "Personal mileage overage rates", "Billing week / when am I charged"],
+ "Personal miles went up unexpectedly": ["Personal mileage dispute", "Change mileage plan", "Personal mileage overage rates"],
+ "Change mileage plan": ["Personal mileage overage rates", "Personal miles went up unexpectedly", "Billing week / when am I charged"],
+ "Personal mileage overage rates": ["Personal mileage dispute", "Change mileage plan", "Rental charge different / rate went up"],
+ "Rental charge different / rate went up": ["Card charged unexpectedly", "Billing week / when am I charged", "Personal mileage overage rates"],
+ "Card charged unexpectedly": ["Overdue balance / how to pay", "Billing week / when am I charged", "Partial payments / repayment plan / Foundever"],
+ "Overdue balance / how to pay": ["Partial payments / repayment plan / Foundever", "Card charged unexpectedly", "Cannot cash out / missing earnings"],
+ "Partial payments / repayment plan / Foundever": ["Overdue balance / how to pay", "Card charged unexpectedly", "Collections / sent to collections"],
+ "Oil change / maintenance location": ["Dashboard maintenance light / check engine", "Charged for maintenance at vendor", "Flat tire"],
+ "Flat tire": ["Roadside assistance / Holman / towing / lockout", "CDW / protection plan", "Oil change / maintenance location"],
+ "Roadside assistance / Holman / towing / lockout": ["Flat tire", "Accident / car was hit", "Windshield / glass damage"],
+ "Accident / car was hit": ["Damage charges / not at fault", "CDW / protection plan", "Roadside assistance / Holman / towing / lockout"],
+ "Damage charges / not at fault": ["CDW / protection plan", "Accident / car was hit", "Insurance coverage"],
+ "CDW / protection plan": ["PCDW / partial collision damage waiver", "Damage charges / not at fault", "Insurance coverage"],
+ "Insurance coverage": ["CDW / protection plan", "Accident / car was hit", "Damage charges / not at fault"],
+ "Return vehicle / end rental": ["Deposit refund", "Gas / fuel level at return", "Minimum rental period"],
+ "Deposit refund": ["Return vehicle / end rental", "Overdue balance / how to pay", "Card charged unexpectedly"],
+ "Swaps": ["Return vehicle / end rental", "Need replacement vehicle", "Dashboard maintenance light / check engine"],
+ "Lyft deactivation": ["Return vehicle / end rental", "Overdue balance / how to pay", "Contact info / phone number / how to reach Flexdrive"],
+ "EV / electric vehicle": ["Oil change / maintenance location", "Roadside assistance / Holman / towing / lockout", "Gas / fuel level at return"],
+ "Inspections": ["Oil change / maintenance location", "Dashboard maintenance light / check engine", "Swaps"],
+ "Picking up my vehicle / reservation": ["What is included in my rental", "CDW / protection plan", "Oil change / maintenance location"],
+ "What is included in my rental": ["CDW / protection plan", "Insurance coverage", "Roadside assistance / Holman / towing / lockout"],
+ "Moving to a new state / relocating": ["Return vehicle / end rental", "Office hours / office location", "Eligibility / requirements to rent"],
+};
+
+function getRelatedTopics(currentTopic) {
+ var related = RELATED_TOPICS[currentTopic] || [];
+ // Filter out topics already seen this session
+ var seen = conversationHistory.map(function(h) { return h.topic; });
+ var filtered = related.filter(function(t) { return seen.indexOf(t) === -1; });
+ // Fall back to unfiltered if all seen
+ return (filtered.length >= 2 ? filtered : related).slice(0, 3);
+}
+
 function appendQuickActions(showTalk) {
- var actions = [
+ var allActions = [
  "I was in an accident",
  "Roadside / towing help",
  "Mileage dispute",
@@ -2149,7 +2211,91 @@ function appendQuickActions(showTalk) {
  "Inspections"
  ];
 
+ // After first response, show related topics if available
+ var isSubsequent = conversationHistory.length > 1;
+ var actions = allActions;
+ var showSeeAll = false;
+
+ if (isSubsequent && lastMatch && RELATED_TOPICS[lastMatch.topic]) {
+ var related = getRelatedTopics(lastMatch.topic);
+ if (related.length >= 2) {
+ // Map topic names to display labels
+ var topicToLabel = {
+ "Personal mileage dispute": "Mileage dispute",
+ "Personal miles went up unexpectedly": "Why did my miles go up?",
+ "Change mileage plan": "Change mileage plan",
+ "Personal mileage overage rates": "Overage rates",
+ "Rental charge different / rate went up": "Billing question",
+ "Card charged unexpectedly": "Card charged unexpectedly",
+ "Overdue balance / how to pay": "Payment plan / overdue balance",
+ "Partial payments / repayment plan / Foundever": "Set up a payment plan",
+ "Collections / sent to collections": "Collections",
+ "Oil change / maintenance location": "Find a maintenance vendor",
+ "Flat tire": "Flat tire",
+ "Roadside assistance / Holman / towing / lockout": "Roadside / towing help",
+ "Accident / car was hit": "I was in an accident",
+ "Damage charges / not at fault": "Damage charges",
+ "CDW / protection plan": "CDW / protection plan",
+ "Insurance coverage": "Insurance coverage",
+ "Return vehicle / end rental": "Return my vehicle",
+ "Deposit refund": "Deposit refund",
+ "Gas / fuel level at return": "Fuel level at return",
+ "Swaps": "Swaps",
+ "Need replacement vehicle": "Need a replacement vehicle",
+ "Dashboard maintenance light / check engine": "Dashboard warning light",
+ "Lyft deactivation": "Lyft deactivation",
+ "EV / electric vehicle": "EV vehicle / charging",
+ "Inspections": "Inspections",
+ "Picking up my vehicle / reservation": "Picking up my vehicle",
+ "What is included in my rental": "What is included in my rental",
+ "Moving to a new state / relocating": "I'm moving to a new state",
+ "Windshield / glass damage": "Windshield / glass damage",
+ "Charged for maintenance at vendor": "Charged for maintenance",
+ "Minimum rental period": "Minimum rental period",
+ "Billing week / when am I charged": "Billing week",
+ "Office hours / office location": "Office hours / location",
+ "Eligibility / requirements to rent": "Eligibility requirements",
+ "Cannot cash out / missing earnings": "Missing earnings",
+ "PCDW / partial collision damage waiver": "PCDW / partial protection",
+ "Wrapped vehicle bonus (SFO)": "Wrapped vehicle bonus",
+ "Speak to a manager / escalation": "Speak to a manager",
+ };
+ actions = related.map(function(t) { return topicToLabel[t] || t; });
+ showSeeAll = true;
+ }
+ }
+
  var quickActions = renderQuickActions(actions);
+
+ // "See all topics" button when showing related topics
+ if (showSeeAll) {
+ var seeAllBtn = document.createElement('button');
+ seeAllBtn.className = 'quick-btn';
+ seeAllBtn.style.cssText = 'border-style:dashed;opacity:0.7;font-size:13px;padding:8px 16px;';
+ seeAllBtn.textContent = 'See all topics';
+ seeAllBtn.addEventListener('click', function() {
+ // Remove this row and show full grid
+ var parentRow = seeAllBtn.closest('.msg-row');
+ if (parentRow) parentRow.remove();
+ var fullActions = renderQuickActions([
+ "I was in an accident","Roadside / towing help","Mileage dispute","Billing question",
+ "Find a maintenance vendor","Swaps","Return my vehicle","Deposit refund",
+ "CDW / protection plan","Insurance coverage","EV vehicle / charging",
+ "I'm moving to a new state","Payment plan / overdue balance",
+ "Where is Flexdrive available?","Inspections"
+ ]);
+ var row = document.createElement('div');
+ row.className = 'msg-row assistant';
+ var av = document.createElement('div');
+ av.className = 'msg-avatar';
+ setAvatarText(av);
+ row.appendChild(av);
+ row.appendChild(fullActions);
+ chatArea.appendChild(row);
+ scrollToBottom();
+ });
+ quickActions.appendChild(seeAllBtn);
+ }
 
  // SFO-only wrapped vehicle bonus button
  if (userRegion === 'SFO') {
@@ -2240,6 +2386,59 @@ function renderMessage(role, content, extra) {
  sessionLog.push({ role: 'bot', text: content, time: new Date().toLocaleTimeString() });
  var isFirst = sessionLog.filter(function(e) { return e.role === 'bot'; }).length === 1;
  var suppressTalk = lastMatch && lastMatch.sendMsgBtn && !lastMatch.showTalkBtn;
+ // Add satisfaction signal on non-first bot messages
+ if (!isFirst && lastMatch) {
+ var currentMatch = lastMatch;
+ setTimeout(function() {
+ var satRow = document.createElement('div');
+ satRow.className = 'satisfaction-row';
+ var satLabel = document.createElement('span');
+ satLabel.className = 'satisfaction-label';
+ satLabel.textContent = 'Was this helpful?';
+ var thumbUp = document.createElement('button');
+ thumbUp.className = 'satisfaction-btn thumbs-up';
+ thumbUp.textContent = '👍';
+ var thumbDown = document.createElement('button');
+ thumbDown.className = 'satisfaction-btn thumbs-down';
+ thumbDown.textContent = '👎';
+ thumbUp.addEventListener('click', function() {
+ thumbUp.classList.add('selected', 'voted');
+ thumbDown.classList.add('voted');
+ satLabel.textContent = 'Thanks for the feedback!';
+ logSatisfaction(currentMatch.topic, 'helpful');
+ });
+ thumbDown.addEventListener('click', function() {
+ thumbDown.classList.add('selected', 'voted');
+ thumbUp.classList.add('voted');
+ satLabel.textContent = 'Sorry about that.';
+ logSatisfaction(currentMatch.topic, 'not_helpful');
+ // Show nudge after a beat
+ setTimeout(function() {
+ var nudgeRow = document.createElement('div');
+ nudgeRow.className = 'msg-row assistant';
+ var nudgeAv = document.createElement('div');
+ nudgeAv.className = 'msg-avatar';
+ setAvatarText(nudgeAv);
+ var nudgeBubble = document.createElement('div');
+ nudgeBubble.className = 'msg-bubble';
+ nudgeBubble.textContent = "Sorry we couldn't help with that. Tap Talk to Someone below and our team will sort it out for you.";
+ nudgeRow.appendChild(nudgeAv);
+ nudgeRow.appendChild(nudgeBubble);
+ chatArea.appendChild(nudgeRow);
+ scrollToBottom();
+ }, 600);
+ });
+ satRow.appendChild(satLabel);
+ satRow.appendChild(thumbUp);
+ satRow.appendChild(thumbDown);
+ // Append satisfaction row inside the bot bubble wrapper
+ var lastBotRow = chatArea.querySelector('.msg-row.assistant:last-of-type');
+ if (lastBotRow) {
+ var wrapper = lastBotRow.querySelector('div[style]') || lastBotRow;
+ wrapper.appendChild(satRow);
+ }
+ }, 800);
+ }
  setTimeout(function() { appendQuickActions(!isFirst && !suppressTalk); }, isFirst ? 1500 : 2000);
  }
  return bubble;
@@ -2939,6 +3138,23 @@ function logSession(region, regionName) {
  }).catch(function() {});
 }
 
+// ─── LOG SATISFACTION SIGNAL ───
+function logSatisfaction(topic, signal) {
+ var payload = {
+ action: 'satisfaction',
+ topic: topic,
+ signal: signal,
+ region: userRegion || 'UNKNOWN',
+ regionName: userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown',
+ timestamp: new Date().toISOString()
+ };
+ fetch(APPS_SCRIPT_URL, {
+ method: 'POST',
+ body: JSON.stringify(payload),
+ mode: 'no-cors'
+ }).catch(function() {});
+}
+
 // ─── LOG UNMATCHED QUESTIONS ───
 function logUnmatchedQuestion(question) {
  var payload = {
@@ -2985,6 +3201,9 @@ function sendMessage() {
 
  if (match) {
  lastMatch = match;
+ // Track conversation history for context
+ conversationHistory.push({ topic: match.topic, keywords: match.keywords });
+ if (conversationHistory.length > 8) conversationHistory.shift();
  var responseText = match.response;
 
  // Location-aware overage rate: prepend renter's specific rate if known
@@ -3115,10 +3334,70 @@ function sendMessage() {
  });
  appendLocationRow(msg2, locPrompt2);
  } else {
+ // Smart fallback — find closest partial matches
+ var lower2 = text.toLowerCase();
+ var scored = KNOWLEDGE_BASE.map(function(entry) {
+ if (entry.regionExclude && userRegion && entry.regionExclude.indexOf(userRegion) !== -1) return { entry: entry, score: 0 };
+ var score = 0;
+ var words = lower2.split(/\s+/);
+ entry.keywords.forEach(function(kw) {
+ if (lower2.includes(kw)) score += 3;
+ words.forEach(function(w) {
+ if (w.length > 2 && kw.includes(w)) score += 1;
+ });
+ });
+ return { entry: entry, score: score };
+ }).filter(function(s) { return s.score > 0; })
+ .sort(function(a, b) { return b.score - a.score; })
+ .slice(0, 3);
+
+ if (scored.length >= 2) {
+ // Show smart fallback with related matches
+ var topicToLabel2 = {
+ "Personal mileage dispute": "Mileage dispute", "Oil change / maintenance location": "Find a maintenance vendor",
+ "Roadside assistance / Holman / towing / lockout": "Roadside / towing help",
+ "Accident / car was hit": "I was in an accident", "CDW / protection plan": "CDW / protection plan",
+ "Return vehicle / end rental": "Return my vehicle", "Deposit refund": "Deposit refund",
+ "Overdue balance / how to pay": "Payment plan / overdue balance",
+ "EV / electric vehicle": "EV vehicle / charging", "Insurance coverage": "Insurance coverage",
+ "Swaps": "Swaps", "Inspections": "Inspections",
+ "Rental charge different / rate went up": "Billing question",
+ "Card charged unexpectedly": "Card charged unexpectedly",
+ "Picking up my vehicle / reservation": "Picking up my vehicle",
+ "Lyft deactivation": "Lyft deactivation", "Flat tire": "Flat tire",
+ "Windshield / glass damage": "Windshield / glass damage",
+ };
+ var suggLabels = scored.map(function(s) { return topicToLabel2[s.entry.topic] || s.entry.topic; });
+ renderMessage('assistant', "I couldn't find an exact match for that. Here are the closest topics — do any of these help?");
+ setTimeout(function() {
+ var suggActions = renderQuickActions(suggLabels);
+ // Add "Try a different search" button
+ var retryBtn = document.createElement('button');
+ retryBtn.className = 'quick-btn';
+ retryBtn.style.cssText = 'border-style:dashed;opacity:0.7;font-size:13px;padding:8px 16px;';
+ retryBtn.textContent = 'Try a different search';
+ retryBtn.addEventListener('click', function() {
+ userInput.focus();
+ userInput.value = '';
+ sendBtn.disabled = true;
+ });
+ suggActions.appendChild(retryBtn);
+ var row = document.createElement('div');
+ row.className = 'msg-row assistant';
+ var av2 = document.createElement('div');
+ av2.className = 'msg-avatar';
+ setAvatarText(av2);
+ row.appendChild(av2);
+ row.appendChild(suggActions);
+ chatArea.appendChild(row);
+ scrollToBottom();
+ }, 400);
+ } else {
+ // No partial matches at all
  renderMessage('assistant',
- "I'm not sure I understood your question. I can help with Flexdrive rental topics like mileage, billing, maintenance, accidents, vehicle returns, and more.\n\nTry rephrasing your question, or use the buttons below:"
+ "I'm not sure I understood that. I can help with mileage, billing, maintenance, accidents, vehicle returns, and more.\n\nTry rephrasing, or use the buttons below:"
  );
- // Log unmatched question to Google Sheet for keyword improvement
+ }
  logUnmatchedQuestion(text);
  }
 
