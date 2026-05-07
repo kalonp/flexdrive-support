@@ -955,6 +955,36 @@
 .lang-item:hover, .lang-item:active { background: #EEF2FF; }
 .lang-item.active { background: #F0F1F2; font-weight: 700; }
 
+
+ @media (prefers-color-scheme: dark) {
+ body { background: #0D1117; }
+ .app { background: #0D1117; }
+ .chat-area { background: #0D1117; }
+ .msg-row.assistant .msg-bubble { background: #1A2332; box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 4px 14px rgba(0,0,0,0.4); }
+ .msg-row.user .msg-bubble { background: #1E2A3B; color: #E6EDF3; box-shadow: 0 2px 6px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06); }
+ .quick-btn { background: #161B22; color: #E6EDF3; border-color: #30363D; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+ .quick-btn:active { background: #003B71; color: #fff; }
+ .vendor-card { background: #161B22; border-color: #30363D; }
+ .vendor-card-name { color: #58A6FF; }
+ .vendor-card-detail { color: #8B949E; }
+ .ev-accordion-item { background: #161B22; border-color: #30363D; }
+ .ev-accordion-header { background: #161B22; color: #E6EDF3; }
+ .ev-accordion-header.open { background: #003B71; color: #fff; }
+ .ev-accordion-body { background: #161B22; color: #E6EDF3; }
+ .modal-box { background: #161B22; }
+ .modal-title { color: #58A6FF; }
+ .modal-subtitle { color: #8B949E; }
+ .modal-hours { background: #1C2333; border-left-color: #58A6FF; color: #8B949E; }
+ .modal-input, .modal-select, .modal-textarea { background: #0D1117; color: #E6EDF3; border-color: #30363D; }
+ .modal-label { color: #8B949E; }
+ .modal-close { background: #30363D; color: #E6EDF3; }
+ .input-wrap textarea { background: #161B22; color: #E6EDF3; border-color: #30363D; }
+ .input-wrap textarea::placeholder { color: #8B949E; }
+ .modal-success-title { color: #58A6FF; }
+ .modal-success-text { color: #8B949E; }
+ .location-prompt input { background: #161B22; color: #E6EDF3; border-color: #30363D; }
+ .location-prompt input::placeholder { color: #8B949E; }
+ }
 </style>
 </head>
 <body>
@@ -1013,7 +1043,8 @@
  </div>
  <div class="modal-hours">
  <strong>Mon–Fri, 9:00 AM – 5:00 PM</strong><br>
- This form notifies your local office. If your message doesn’t require a response, you may not hear back from us. For urgent issues, contact Lyft support through the Driver App.
+ This form notifies your local office. If your message doesn’t require a response, you may not hear back from us. For urgent issues, contact Lyft support through the Driver App.<br>
+ <span id="modalWaitTime" style="display:none;margin-top:6px;font-weight:600;color:#003B71;font-size:13px;"></span>
  </div>
  <div class="modal-row">
  <div class="modal-field">
@@ -2518,6 +2549,7 @@ function renderQuickActions(actions) {
  btn.className = 'quick-btn';
  btn.textContent = a;
  btn.addEventListener('click', function() {
+ haptic();
  sessionLog.push({ role: 'user', text: a, time: new Date().toLocaleTimeString() });
  userInput.value = a;
  sendBtn.disabled = false;
@@ -3705,12 +3737,23 @@ function openContactModal(mode) {
  document.getElementById('cf-phone').value = '';
  document.getElementById('cf-reason').value = '';
  document.getElementById('cf-message').value = '';
- // Set title based on mode
  var isTalk = (mode === 'talk');
  var titleEl = document.getElementById('modalTitle');
  var subtitleEl = document.getElementById('modalSubtitle');
  if (titleEl) titleEl.textContent = isTalk ? 'Talk to Someone' : 'Send a Message';
  if (subtitleEl) subtitleEl.textContent = isTalk ? 'Our team will review your message' : 'Notify your local office — pick up, drop off, or a question';
+ var waitEl = document.getElementById('modalWaitTime');
+ if (waitEl) {
+ if (isTalk) {
+ var now = new Date(); var day = now.getDay(); var hour = now.getHours();
+ var wm = day === 0 || day === 6 ? '⏱ Weekend — we\'ll respond first thing Monday morning.'
+ : hour < 9 ? '⏱ Before hours — we\'ll respond when we open at 9:00 AM.'
+ : hour >= 17 ? '⏱ After hours — we\'ll respond first thing tomorrow morning.'
+ : hour >= 14 ? '⏱ Typically responds within 1–2 hours today.'
+ : '⏱ Typically responds within a few hours today.';
+ waitEl.textContent = wm; waitEl.style.display = 'block';
+ } else { waitEl.style.display = 'none'; }
+ }
  document.getElementById('modalFormView').style.display = 'block';
  document.getElementById('modalSuccessView').style.display = 'none';
  document.getElementById('contactModal').classList.add('open');
@@ -3758,12 +3801,25 @@ function submitContactForm() {
 
  var regionName = userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown';
 
+ var pairs = [];
+ for (var si = 0; si < sessionLog.length - 1; si++) {
+ if (sessionLog[si].role === 'user' && sessionLog[si+1] && sessionLog[si+1].role === 'bot') {
+ pairs.push({ q: sessionLog[si].text, a: sessionLog[si+1].text.substring(0, 140) + (sessionLog[si+1].text.length > 140 ? '...' : '') });
+ }
+ }
+ var recentSummary = '';
+ if (pairs.length > 0) {
+ recentSummary = '\n--- RECENT CHATBOT CONVERSATION ---\n';
+ pairs.slice(-3).forEach(function(p, i) {
+ recentSummary += 'Q' + (i+1) + ': ' + p.q + '\nA' + (i+1) + ': ' + p.a + '\n\n';
+ });
+ }
  var payload = {
  action: 'contact',
  name: name,
  email: email,
  phone: phone || 'Not provided',
- message: '[' + reason + ']\n\n' + message,
+ message: '[' + reason + ']\n\n' + message + recentSummary,
  region: userRegion || 'UNKNOWN',
  regionName: regionName,
  transcript: buildTranscript(),
@@ -3789,6 +3845,37 @@ function submitContactForm() {
  document.getElementById('modalSuccessView').style.display = 'block';
  btn.disabled = false;
  btn.textContent = 'Send Message';
+ setTimeout(function() {
+ var sv = document.getElementById('modalSuccessView');
+ if (!sv || sv.querySelector('.form-feedback-row')) return;
+ var fb = document.createElement('div');
+ fb.className = 'form-feedback-row';
+ fb.style.cssText = 'margin-top:18px;text-align:center;';
+ var fbLabel = document.createElement('div');
+ fbLabel.style.cssText = 'font-size:13px;color:#7D868C;margin-bottom:8px;';
+ fbLabel.textContent = 'Was this form easy to use?';
+ var upBtn = document.createElement('button');
+ upBtn.className = 'satisfaction-btn thumbs-up';
+ upBtn.style.cssText = 'margin:0 6px;font-size:18px;padding:6px 12px;';
+ upBtn.innerHTML = '&#128077;';
+ var downBtn = document.createElement('button');
+ downBtn.className = 'satisfaction-btn thumbs-down';
+ downBtn.style.cssText = 'margin:0 6px;font-size:18px;padding:6px 12px;';
+ downBtn.innerHTML = '&#128078;';
+ upBtn.addEventListener('click', function() {
+ upBtn.classList.add('selected','voted'); downBtn.classList.add('voted');
+ fbLabel.textContent = 'Thanks! We appreciate the feedback.';
+ logSatisfaction({ topic: 'Contact Form UX', signal: 'form_helpful', region: userRegion || 'UNKNOWN', regionName: userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown', timestamp: new Date().toISOString() });
+ });
+ downBtn.addEventListener('click', function() {
+ downBtn.classList.add('selected','voted'); upBtn.classList.add('voted');
+ fbLabel.textContent = 'Thanks for the feedback!';
+ logSatisfaction({ topic: 'Contact Form UX', signal: 'form_not_helpful', region: userRegion || 'UNKNOWN', regionName: userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown', timestamp: new Date().toISOString() });
+ });
+ fb.appendChild(fbLabel); fb.appendChild(upBtn); fb.appendChild(downBtn);
+ var closeBtn = sv.querySelector('.modal-submit');
+ if (closeBtn) sv.insertBefore(fb, closeBtn);
+ }, 700);
  })
  .catch(function(err) {
  var supportEmail = userRegion && VENDORS[userRegion] ? userRegion.toLowerCase() + '-support@flexdrive.com' : 'pdx-support@flexdrive.com';
@@ -3796,6 +3883,12 @@ function submitContactForm() {
  btn.disabled = false;
  btn.textContent = 'Send Message';
  });
+}
+
+
+// ── HAPTIC FEEDBACK ──
+function haptic() {
+ if (navigator.vibrate) navigator.vibrate(8);
 }
 
 window.addEventListener('load', function() {
