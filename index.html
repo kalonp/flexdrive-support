@@ -468,17 +468,17 @@
  width: 100%;
  margin-top: 16px;
  padding: 13px 20px;
- background: var(--purple);
+ background: linear-gradient(90deg, #FF00BF 0%, #FF00BF 52%, #E000B0 75%, #CC0099 100%);
  color: var(--white);
  border: none; border-radius: 16px;
  font-family: var(--font); font-size: 15px; font-weight: 700;
  cursor: pointer;
- box-shadow: 0 3px 12px rgba(94,13,139,0.35);
+ box-shadow: 0 3px 12px rgba(204,0,153,0.35);
  touch-action: manipulation;
- transition: background 0.15s, transform 0.12s;
+ transition: filter 0.15s, transform 0.12s;
  animation: btnPop 0.35s cubic-bezier(0.34, 1.6, 0.64, 1) 0.6s both;
  }
- .talk-btn-inline:active { background: var(--purple-light); transform: scale(0.97); }
+ .talk-btn-inline:active { filter: brightness(0.88); transform: scale(0.97); }
 
  /* TALK TO SOMEONE */
   .talk-btn {
@@ -734,10 +734,10 @@
  .send-btn {
  width: 52px; height: 52px;
  border-radius: 50%; border: none;
- background: linear-gradient(135deg, #FF00BF 0%, #EE00B5 50%, #CC0099 100%); color: var(--white);
+ background: linear-gradient(90deg, #FF00BF 0%, #FF00BF 55%, #E000B0 78%, #CC0099 100%); color: var(--white);
  cursor: pointer; display: flex; align-items: center; justify-content: center;
  flex-shrink: 0; transition: all 0.15s;
- box-shadow: 0 3px 10px rgba(139,16,168,0.4);
+ box-shadow: 0 3px 10px rgba(204,0,153,0.4);
  touch-action: manipulation;
  }
  .send-btn:active { transform: scale(0.93); }
@@ -827,7 +827,7 @@
  -webkit-appearance: none; appearance: none;
  -webkit-user-select: text;
  }
- .modal-input:focus, .modal-select:focus, .modal-textarea:focus { border-color: var(--purple); }
+ .modal-input:focus, .modal-select:focus, .modal-textarea:focus { border-color: #FF00BF; box-shadow: 0 0 0 3px rgba(255,0,191,0.12); }
  .modal-textarea { resize: vertical; min-height: 100px; line-height: 1.55; }
  .modal-select-wrap { position: relative; }
  .modal-select-wrap::after {
@@ -1851,6 +1851,64 @@ var KNOWLEDGE_BASE = [
  sendMsgBtn: true,
  response: "Here is everything you need to know about vehicle inspections:"
  },
+
+ {
+ topic: "Rental cost / weekly rate",
+ keywords: ["how much", "weekly rate", "rental cost", "how much does it cost", "what does it cost", "rental price", "weekly cost", "how much is the rental", "what is my rate", "what is the cost", "rental fee", "weekly fee", "cost per week", "price per week", "how much do i pay", "what am i charged", "rental amount", "how much is flexdrive", "how much is express drive"],
+ response: "Your weekly rental rate is based on your market and vehicle. To see your exact rate:\n\n1. Open the Lyft Driver App\n2. Go to Account > Vehicles > Express Drive\n3. Your weekly rate will be listed there\n\nYour rental cost is automatically deducted from your Lyft earnings each week before you can cash out. If your earnings don't cover the full rental cost, the remaining balance is charged to your payment card on file."
+ },
+ {
+ topic: "How to extend / renew rental",
+ keywords: ["extend rental", "renew rental", "keep the car longer", "how do i renew", "extension", "rental extension", "can i keep renting", "continue renting", "how long can i rent", "week to week", "weekly renewal", "renewal", "can i stay on", "keep driving", "how do i keep the car", "auto renew", "automatically renew", "does it renew", "does my rental renew", "can i extend", "can i continue"],
+ response: "Your Flexdrive rental renews automatically each week as long as you meet all of the following requirements:\n\n- Your payment is current (no overdue balance)\n- You are completing at least 20 rides per week\n- Your scheduled maintenance is up to date\n- Your Lyft driver account remains active and in good standing\n\nAs long as these requirements are being met, there is nothing you need to do — your rental will continue week to week automatically.\n\nIf any of these requirements are not met, your rental may be paused or terminated. If you have concerns about your rental status, contact your Flexdrive office."
+ },
+ {
+ topic: "Mileage plan options / tiers",
+ keywords: ["mileage plan", "mileage plans", "mileage tier", "mileage tiers", "what plans are available", "plan options", "mileage options", "what mileage plans", "change my plan", "available plans", "plan names", "plan types", "mileage packages", "unlimited miles", "basic plan", "standard plan", "what plan am i on", "how many miles do i get", "miles included", "miles per week", "weekly miles"],
+ response: "Mileage plan options and pricing vary by market and are set through the Lyft Driver App.\n\nTo view your current plan and available options:\n\n1. Open the Lyft Driver App\n2. Go to Account > Vehicles > Express Drive\n3. Your current mileage plan and any available upgrades will be listed there\n\nIf you need help understanding your mileage plan or want to discuss your options, contact your Flexdrive office."
+ },
+ {
+ topic: "Cleanliness / car wash requirement",
+ keywords: ["clean the car", "car wash", "cleaning fee", "dirty car", "clean vehicle", "how clean", "wash the car", "cleanliness", "clean before return", "detailing fee", "detail fee", "cleaning charge", "car dirty", "dirty vehicle", "how clean does it need to be", "clean requirement", "return clean", "cleaning requirement", "do i need to wash", "interior clean", "exterior clean"],
+ response: "You are responsible for returning the vehicle in the same general condition it was given to you — clean interior and exterior with no excessive dirt, trash, or odors.\n\nCleaning fees may be assessed at return if the vehicle requires more than standard cleaning. This includes:\n- Excessive trash or debris\n- Spills or stains\n- Smoke or strong odor requiring treatment\n- Pet hair or dander\n\nThere is no requirement to professionally detail the car, but it should be reasonably clean. A standard car wash before return is a good practice.\n\nFlexdrive does not reimburse for car washes."
+ },
+ {
+ topic: "Vehicle makes noise / strange sound",
+ keywords: ["noise", "strange noise", "weird noise", "knocking", "grinding", "rattling", "squeaking", "clicking", "clunking", "thumping", "vibrating", "vibration", "makes a sound", "weird sound", "strange sound", "car noise", "engine noise", "brake noise", "steering noise", "suspension noise", "car shaking", "car vibrating", "something rattling", "car clicking", "car knocking"],
+ response: "If your vehicle is making an unusual noise — knocking, grinding, rattling, squeaking, or any sound that seems off — please visit one of our approved vendors as soon as possible to have it inspected.\n\nDo not ignore unusual sounds as they can indicate mechanical issues that may affect vehicle safety or result in larger repair costs if left unaddressed.\n\nIf the noise makes the vehicle unsafe to drive, do not continue driving — call Holman at (833) 274-5938 for roadside assistance.\n\nUse the Find a Maintenance Vendor button to locate your nearest approved shop."
+ },
+ {
+ topic: "Vehicle smells / odor complaint",
+ keywords: ["car smells", "bad smell", "odor", "weird smell", "musty", "stale smell", "previous renter smell", "smells bad", "unpleasant smell", "air freshener", "car odor", "vehicle smells", "smell in car", "funny smell", "car stinks", "stinks", "foul smell", "old smell", "smell complaint"],
+ response: "If your vehicle has an unpleasant odor when you pick it up, please let our team know before leaving the lot so we can document it and address it.\n\nIf you notice an odor after picking up:\n- An air freshener can help with mild smells\n- For strong or persistent odors (smoke, mildew, chemical), please contact your Flexdrive office so we can arrange a cleaning or swap if needed\n\nNote: You are responsible for keeping the vehicle free of new odors during your rental. Smoking in the vehicle is strictly prohibited and will result in a cleaning fee of up to $250.",
+ showTalkBtn: true
+ },
+ {
+ topic: "Lyft trade dress / amp / sticker",
+ keywords: ["trade dress", "lyft amp", "amp", "lyft sticker", "sticker", "glowstache", "light up sign", "lyft sign", "where do i put", "how to place", "trade dress requirement", "do i need a sticker", "lyft logo sticker", "front window sticker", "where to place amp", "how to get trade dress", "get an amp", "where to get sticker", "lyft decal", "decal"],
+ response: "Lyft trade dress (the Lyft Amp or window sticker) is required to accept rides on the Lyft platform.\n\nHow to get trade dress:\n- Order through the Lyft Driver App: Account > Vehicles > Trade Dress\n- Some markets may have trade dress available at your Flexdrive office — ask your team\n\nPlacement:\n- The Lyft Amp goes on your dashboard facing the windshield\n- Window stickers go on the lower-right corner of the front windshield (passenger side)\n- Always follow the placement instructions included with your trade dress\n\nFor trade dress questions specific to your account, visit help.lyft.com or contact Lyft support through the Driver App."
+ },
+ {
+ topic: "Vehicle not clean at pickup / pre-existing damage",
+ keywords: ["dirty at pickup", "dirty when i got it", "already damaged", "damage at pickup", "pre-existing damage", "car was dirty", "wasn't clean", "damage before i got it", "already scratched", "scratch when i picked up", "dent when i picked up", "damage already there", "wasn't my fault", "wasn't damaged by me", "found damage", "noticed damage", "car not clean at pickup", "dirty car at pickup", "previous damage"],
+ response: "If you notice damage or cleanliness issues at the time of pickup, it is important to report it before leaving the lot.\n\nWhat to do:\n1. Take photos and/or video of all damage or issues immediately\n2. Show it to a Flexdrive team member before driving off\n3. Make sure it is documented on your rental agreement\n\nIf you have already left and noticed damage or cleanliness issues:\n- Contact your Flexdrive office as soon as possible\n- Send photos to your regional team\n\nDo not wait — reporting pre-existing damage promptly protects you from being charged for it.",
+ showTalkBtn: true
+ },
+ {
+ topic: "Express Pay / Instant Pay / cash out",
+ keywords: ["express pay", "instant pay", "cash out", "cashing out", "can't cash out", "unable to cash out", "payout", "direct deposit", "transfer earnings", "when do i get paid", "how do i get paid", "payment transfer", "lyft pay", "earnings transfer", "get my money", "how to cash out", "stripe", "lyft wallet", "earnings not available", "can't access earnings"],
+ response: "Express Pay (Instant Pay) is a Lyft platform feature that allows you to transfer your earnings to a debit card instantly for a small fee, or to your bank account for free within 1–5 business days.\n\nYour Lyft earnings first cover your weekly rental cost before you can cash out the remainder.\n\nFor Express Pay issues:\n- Open the Lyft Driver App > Earnings > Cash Out\n- Make sure your payment method is set up correctly\n- Contact Lyft support through the Driver App if you are having trouble\n\nNote: Flexdrive does not control your Lyft earnings or cash out timing. These are managed entirely through the Lyft platform."
+ },
+ {
+ topic: "Background check / re-screening",
+ keywords: ["background check", "background screening", "re-screening", "background check failed", "background check pending", "how long background check", "background check status", "criminal background", "driving record check", "mvr check", "motor vehicle record", "screening", "failed screening", "did not pass background", "background check taking long", "background check result"],
+ response: "Lyft runs background checks for all drivers on the platform. Flexdrive requires an active Lyft driver account to rent, so your background check status affects your rental eligibility.\n\nFor background check status and results:\n- Check the Lyft Driver App for updates\n- Contact Lyft support through the Driver App\n- Visit help.lyft.com for more information\n\nFlexdrive does not conduct or have access to your background check results — these are managed entirely by Lyft and their screening partner (Checkr).\n\nIf your background check is complete and you are still having issues accessing your rental, contact your Flexdrive office."
+ },
+ {
+ topic: "Vehicle age / mileage eligibility",
+ keywords: ["vehicle age", "how old", "car too old", "year of car", "mileage limit", "too many miles", "high mileage", "vehicle requirement", "car requirement", "what year", "minimum year", "maximum mileage", "vehicle eligibility", "car eligibility", "does my car qualify", "what cars qualify", "car qualifications", "vehicle qualifications", "model year requirement"],
+ response: "Flexdrive provides the vehicle for your rental — you do not need to bring your own car. The vehicles in our fleet are selected and maintained by Flexdrive to meet Lyft's requirements.\n\nIf you are asking about Lyft's requirements for personal vehicle rentals or eligibility:\n- Vehicles must generally be 2010 or newer\n- Mileage and condition requirements vary by market\n- Check the Lyft Driver App or help.lyft.com for your specific market requirements\n\nIf you have questions about the specific vehicle assigned to you, contact your Flexdrive office."
+ },
  {
  topic: "Late return / failure to return vehicle",
  keywords: ["late return", "didn't return", "overdue", "past due", "haven't returned", "keep the car", "failure to return", "didn't bring the car back", "missed return date", "past my return date", "forgot to return", "return date passed", "overdue vehicle", "late on return", "can i keep it longer", "extend my rental", "keep the car longer", "missed my return", "what happens if i don't return", "late fees", "late fee", "what if i keep the car", "not returning the car", "can i delay return", "extend rental"],
@@ -2233,6 +2291,17 @@ var RELATED_TOPICS = {
  "Picking up my vehicle / reservation": ["What is included in my rental", "CDW / protection plan", "Oil change / maintenance location"],
  "What is included in my rental": ["CDW / protection plan", "Insurance coverage", "Roadside assistance / Holman / towing / lockout"],
  "Moving to a new state / relocating": ["Return vehicle / end rental", "Office hours / office location", "Eligibility / requirements to rent"],
+ "Rental cost / weekly rate": ["Billing week / when am I charged", "Mileage plan options / tiers", "Overdue balance / how to pay"],
+ "How to extend / renew rental": ["Rental cost / weekly rate", "Minimum rental period", "Return vehicle / end rental"],
+ "Mileage plan options / tiers": ["Change mileage plan", "Personal mileage overage rates", "Rental cost / weekly rate"],
+ "Cleanliness / car wash requirement": ["Gas / fuel level at return", "Return vehicle / end rental", "Smoking in the vehicle"],
+ "Vehicle makes noise / strange sound": ["Oil change / maintenance location", "Dashboard maintenance light / check engine", "Roadside assistance / Holman / towing / lockout"],
+ "Vehicle smells / odor complaint": ["Smoking in the vehicle", "Cleanliness / car wash requirement", "Swaps"],
+ "Lyft trade dress / amp / sticker": ["Eligibility / requirements to rent", "Lyft app issue / earnings problem", "What is included in my rental"],
+ "Vehicle not clean at pickup / pre-existing damage": ["Report damage on vehicle at pickup", "Damage charges / not at fault", "Swaps"],
+ "Express Pay / Instant Pay / cash out": ["Cannot cash out / missing earnings", "Billing week / when am I charged", "Overdue balance / how to pay"],
+ "Background check / re-screening": ["Eligibility / requirements to rent", "Lyft deactivation", "Contact info / phone number / how to reach Flexdrive"],
+ "Vehicle age / mileage eligibility": ["Eligibility / requirements to rent", "What is Flexdrive / Express Drive", "Swaps"],
 };
 
 function getRelatedTopics(currentTopic) {
@@ -2312,6 +2381,17 @@ function appendQuickActions(showTalk) {
  "Cannot cash out / missing earnings": "Missing earnings",
  "PCDW / partial collision damage waiver": "PCDW / partial protection",
  "Wrapped vehicle bonus (SFO)": "Wrapped vehicle bonus",
+ "Rental cost / weekly rate": "Rental cost / weekly rate",
+ "How to extend / renew rental": "Extend / renew rental",
+ "Mileage plan options / tiers": "Mileage plan options",
+ "Cleanliness / car wash requirement": "Cleanliness requirement",
+ "Vehicle makes noise / strange sound": "Vehicle noise",
+ "Vehicle smells / odor complaint": "Vehicle odor",
+ "Lyft trade dress / amp / sticker": "Trade dress / Lyft amp",
+ "Vehicle not clean at pickup / pre-existing damage": "Pre-existing damage",
+ "Express Pay / Instant Pay / cash out": "Express Pay / cash out",
+ "Background check / re-screening": "Background check",
+ "Vehicle age / mileage eligibility": "Vehicle eligibility",
  "Speak to a manager / escalation": "Speak to a manager",
  };
  actions = related.map(function(t) { return topicToLabel[t] || t; });
