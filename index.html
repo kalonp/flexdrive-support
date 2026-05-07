@@ -80,7 +80,7 @@
  position: absolute;
  bottom: 0; left: 0; right: 0;
  height: 3px;
- background: var(--pink);
+ background: linear-gradient(90deg, #FF00BF 0%, #CC00A8 40%, #8B10A8 100%);
  }
  .header-left { display: flex; align-items: center; gap: 12px; }
 
@@ -136,12 +136,12 @@
  letter-spacing: 0.2px;
  }
  .status-dot {
- width: 7px; height: 7px; background: var(--pink);
+ width: 7px; height: 7px; background: linear-gradient(135deg, #FF00BF 0%, #CC00A8 35%, #8B10A8 100%);
  border-radius: 50%; animation: pulse 2s ease-in-out infinite;
  }
  @keyframes pulse {
- 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255,0,191,0.6); }
- 50% { opacity: 0.85; box-shadow: 0 0 0 7px rgba(255,0,191,0); }
+ 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(139,16,168,0.7); }
+ 50% { opacity: 0.85; box-shadow: 0 0 0 7px rgba(139,16,168,0); }
  }
  @keyframes glowRing {
  0% { box-shadow: 0 0 0 0 rgba(255,0,191,0.7), 0 0 0 0 rgba(255,0,191,0.3); }
@@ -479,19 +479,20 @@
   .talk-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     padding: 11px 20px;
-    background: var(--pink); color: var(--white);
-    border: 2px solid var(--pink); border-radius: 24px;
+    background: linear-gradient(135deg, #FF00BF 0%, #B800B0 30%, #7A10A8 70%, #5E0D8B 100%);
+    color: var(--white);
+    border: none; border-radius: 24px;
     font-family: var(--font); font-size: 15px; font-weight: 600;
     cursor: pointer;
-    transition: background 0.15s, transform 0.12s;
-    box-shadow: 0 2px 6px rgba(255,0,191,0.3),
-                0 0 0 1.5px rgba(255,0,191,0.15),
-                0 4px 14px rgba(255,0,191,0.2);
+    transition: filter 0.15s, transform 0.12s;
+    box-shadow: 0 2px 8px rgba(255,0,191,0.35),
+                0 0 0 1.5px rgba(139,16,168,0.2),
+                0 4px 16px rgba(139,16,168,0.3);
     min-height: 44px; touch-action: manipulation;
     opacity: 0;
     animation: btnPop 0.3s cubic-bezier(0.34, 1.6, 0.64, 1) 0.3s forwards;
   }
-  .talk-btn:active { background: var(--pink-dark); border-color: var(--pink-dark); transform: scale(0.96); }
+  .talk-btn:active { filter: brightness(0.88); transform: scale(0.96); }
 
  /* SEND A MESSAGE BUTTON */
  .send-msg-btn {
@@ -625,7 +626,8 @@
  padding: 14px 16px;
  font-size: 15px; line-height: 1.65; color: #2D3138;
  background: var(--white);
- border-top: 2px solid var(--pink);
+ border-top: 2px solid transparent;
+ border-image: linear-gradient(90deg, #FF00BF, #8B10A8) 1;
  white-space: pre-wrap; word-wrap: break-word;
  animation: bodyReveal 0.38s cubic-bezier(0.34, 1.2, 0.64, 1) both;
  position: relative;
@@ -635,7 +637,7 @@
  position: absolute;
  top: -2px; left: 0;
  height: 2px;
- background: var(--pink);
+ background: linear-gradient(90deg, #FF00BF 0%, #CC00A8 40%, #8B10A8 100%);
  width: 0%;
  animation: borderDraw 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards;
  }
@@ -726,10 +728,10 @@
  .send-btn {
  width: 52px; height: 52px;
  border-radius: 50%; border: none;
- background: var(--pink); color: var(--white);
+ background: linear-gradient(135deg, #FF00BF 0%, #CC00A8 35%, #8B10A8 100%); color: var(--white);
  cursor: pointer; display: flex; align-items: center; justify-content: center;
  flex-shrink: 0; transition: all 0.15s;
- box-shadow: 0 3px 10px rgba(255,0,191,0.35);
+ box-shadow: 0 3px 10px rgba(139,16,168,0.4);
  touch-action: manipulation;
  }
  .send-btn:active { transform: scale(0.93); }
@@ -788,7 +790,7 @@
  content: '';
  display: block;
  height: 4px;
- background: linear-gradient(90deg, var(--pink), var(--navy-mid), var(--pink));
+ background: linear-gradient(90deg, #FF00BF, #CC00A8, #8B10A8, #5E0D8B, #8B10A8);
  background-size: 200% 100%;
  width: 0%;
  animation: modalStripeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
@@ -836,11 +838,11 @@
  .modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
  .modal-submit {
  width: 100%; padding: 16px;
- background: var(--navy); color: var(--white);
+ background: linear-gradient(135deg, #FF00BF 0%, #CC00A8 40%, #7A0EA0 100%); color: var(--white);
  border: none; border-radius: 16px;
  font-family: var(--font); font-size: 18px; font-weight: 700;
  cursor: pointer; margin-top: 10px;
- box-shadow: 0 4px 16px rgba(0,59,113,0.35);
+ box-shadow: 0 4px 16px rgba(139,16,168,0.4);
  min-height: 56px; touch-action: manipulation;
  }
  .modal-submit:active { opacity: 0.88; transform: scale(0.99); }
@@ -2345,7 +2347,7 @@ function appendQuickActions(showTalk) {
  var talkBtn = document.createElement('button');
  talkBtn.className = 'talk-btn quick-btn';
  talkBtn.style.animationDelay = '0.3s';
- talkBtn.style.background = 'var(--pink)';
+ talkBtn.style.background = 'linear-gradient(135deg, #FF00BF 0%, #CC00A8 35%, #8B10A8 100%)';
  talkBtn.style.color = 'var(--white)';
  talkBtn.style.borderColor = 'var(--pink)';
  talkBtn.innerHTML = 'Talk to Someone';
