@@ -3894,18 +3894,17 @@ function submitContactForm() {
 function doSubmit(name, email, phone, reason, message, regionName, attachment) {
  var btn = document.getElementById('cf-submit');
 
- var pairs = [];
+ // Build compact chatbot topic summary — just the topics driver asked about
+ var topicsSeen = [];
  for (var si = 0; si < sessionLog.length - 1; si++) {
  if (sessionLog[si].role === 'user' && sessionLog[si+1] && sessionLog[si+1].role === 'bot') {
- pairs.push({ q: sessionLog[si].text, a: sessionLog[si+1].text.substring(0, 140) + (sessionLog[si+1].text.length > 140 ? '...' : '') });
+ var q = sessionLog[si].text;
+ if (q && q.length > 2) topicsSeen.push(q);
  }
  }
  var recentSummary = '';
- if (pairs.length > 0) {
- recentSummary = '\n--- RECENT CHATBOT CONVERSATION ---\n';
- pairs.slice(-3).forEach(function(p, i) {
- recentSummary += 'Q' + (i+1) + ': ' + p.q + '\nA' + (i+1) + ': ' + p.a + '\n\n';
- });
+ if (topicsSeen.length > 0) {
+ recentSummary = '\n--- CHATBOT TOPICS BEFORE CONTACTING ---\n' + topicsSeen.slice(-3).join(', ');
  }
  var payload = {
  action: 'contact',
