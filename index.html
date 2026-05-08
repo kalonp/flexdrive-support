@@ -4006,23 +4006,26 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment) {
  var btn = document.getElementById('cf-submit');
 
  // Build compact chatbot topic summary — just the topics driver asked about
- var topicsSeen = [];
+ // Build chatbot transcript for email only (not logged to sheet)
+ var chatTranscriptLines = [];
  for (var si = 0; si < sessionLog.length - 1; si++) {
  if (sessionLog[si].role === 'user' && sessionLog[si+1] && sessionLog[si+1].role === 'bot') {
  var q = sessionLog[si].text;
- if (q && q.length > 2) topicsSeen.push(q);
+ var a = sessionLog[si+1].text.substring(0, 200) + (sessionLog[si+1].text.length > 200 ? '...' : '');
+ chatTranscriptLines.push('Q: ' + q + '\nA: ' + a);
  }
  }
- var recentSummary = '';
- if (topicsSeen.length > 0) {
- recentSummary = '\n--- CHATBOT TOPICS BEFORE CONTACTING ---\n' + topicsSeen.slice(-3).join(', ');
- }
+ var chatTranscript = chatTranscriptLines.length > 0
+ ? '\n\n--- CHATBOT CONVERSATION ---\n' + chatTranscriptLines.slice(-3).join('\n\n')
+ : '';
+
  var payload = {
  action: 'contact',
  name: name,
  email: email,
  phone: phone || 'Not provided',
- message: '[' + reason + ']\n\n' + message + recentSummary,
+ message: '[' + reason + ']\n\n' + message,
+ chatTranscript: chatTranscript,
  region: userRegion || 'UNKNOWN',
  regionName: regionName,
  transcript: buildTranscript(),
