@@ -700,29 +700,6 @@
  }
  .expand-toggle-btn:active { background: #F0F4F8; }
 
- /* SATISFACTION SIGNAL */
- .satisfaction-row {
- display: flex; align-items: center; gap: 8px;
- margin-top: 10px; padding: 0 2px;
- opacity: 0;
- animation: welcomeFadeUp 0.3s ease 0.8s both;
- }
- .satisfaction-label {
- font-size: 12px; color: rgba(255,255,255,0.55); font-weight: 500;
- }
- .satisfaction-btn {
- background: transparent; border: 1px solid rgba(255,255,255,0.2);
- border-radius: 20px; padding: 4px 10px;
- font-size: 14px; cursor: pointer; color: rgba(255,255,255,0.7);
- transition: background 0.15s, border-color 0.15s, transform 0.1s;
- touch-action: manipulation;
- }
- .satisfaction-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.4); }
- .satisfaction-btn:active { transform: scale(0.92); }
- .satisfaction-btn.voted { opacity: 0.5; pointer-events: none; }
- .satisfaction-btn.thumbs-up.selected { background: rgba(0,200,100,0.2); border-color: #00c864; color: #00c864; opacity: 1; }
- .satisfaction-btn.thumbs-down.selected { background: rgba(255,80,80,0.2); border-color: #ff5050; color: #ff5050; opacity: 1; }
-
  /* INPUT BAR */
  .input-bar {
  flex-shrink: 0;
@@ -1134,6 +1111,8 @@
  <option value="">-- Select a reason --</option>
  <option value="Picking up my vehicle">Picking up my vehicle</option>
  <option value="Dropping off / returning my vehicle">Dropping off / returning my vehicle</option>
+ <option value="Inspection">Inspection</option>
+ <option value="Accident re-rental request">Accident re-rental request</option>
  <option value="Other">Other</option>
  </select>
  </div>
@@ -1712,8 +1691,8 @@ var KNOWLEDGE_BASE = [
  accidentAccordion: true,
  keywords: ["accident", "hit", "crash", "collision", "wreck", "someone hit me", "I hit", "fender bender", "rear ended", "can i rent again", "re-rent", "rent again", "back on the road", "dnr", "do not rent", "how do i get off dnr", "after accident rent", "rental after accident", "when can i drive again", "return to renting", "got into an accident", "car accident", "i was in a crash", "hit another car", "another car hit me", "car crash", "vehicle collision", "minor accident", "major accident", "hit a pole", "hit a curb", "bumped a car", "scraped a car", "backed into", "side swiped", "t-boned", "totaled", "car is totaled", "car damaged", "damaged my car", "damage to car", "what do i do after accident", "accident report", "police report", "who do i call", "accident procedure", "i was hit"],
  needsRegion: true,
- showTalkBtn: true,
- response: "We are sorry to hear about the incident. Please follow these steps:\n\n1. Call the police to file and receive an accident report\n2. Report the accident through the Lyft Driver App: Help >Support and Resources >Accident, damage, or unsafe ride >Report an accident\n3. If the vehicle has minor damage and is still drivable, please bring it to our office for inspection as soon as possible. The vehicle will be deactivated as soon as the accident is reported.\n4. If the vehicle is NOT safe to drive, call Holman at (833) 274-5938 for towing to our office\n\nIMPORTANT: While the claim is open, you will be ineligible to rent until the claim is resolved, you are deemed not at fault, and any outstanding balance is paid.\n\nDo not attempt to repair any damage on your own.\n\nOnce we inspect the vehicle, we will walk you through next steps regarding any applicable charges based on your protection plan."
+ sendMsgBtn: true,
+ response: "We are sorry to hear about the incident. Please follow these steps:\n\n1. Call the police to file and receive an accident report\n2. Report the accident through the Lyft Driver App: Help >Support and Resources >Accident, damage, or unsafe ride >Report an accident\n3. If the vehicle has minor damage and is still drivable, please bring it to our office for inspection as soon as possible. The vehicle will be deactivated as soon as the accident is reported.\n4. If the vehicle is NOT safe to drive, call Holman at (833) 274-5938 for towing to our office\n\nIMPORTANT: While the claim is open, you will be ineligible to rent until the claim is resolved, you are deemed not at fault, and any outstanding balance is paid.\n\nDo not attempt to repair any damage on your own.\n\nOnce we inspect the vehicle, we will walk you through next steps regarding any applicable charges based on your protection plan.\n\nRE-RENTING AFTER AN ACCIDENT:\nOnce the claim is resolved and you have a not-at-fault determination, send us a screenshot of that email via the Send a Message button below — select Accident re-rental request and attach the screenshot. Our team will review your account and determine eligibility."
  },
  {
  topic: "Damage charges / not at fault",
@@ -2903,7 +2882,7 @@ var ACCIDENT_SECTIONS = [
  {
  title: "Can I Rent Again?",
  emoji: "",
- content: "After any accident, you will be placed on the Do Not Rent (DNR) list immediately — regardless of fault. This also applies across ALL Lyft Express Drive providers, not just Flexdrive.\n\nREGARDLESS OF FAULT — you cannot re-rent the same day, even with CDW.\n\nFault determination can take up to several months or more. You cannot re-rent until fault is determined and all requirements below are met.\n\nYou are NOT eligible to re-rent if:\n- You have more than 1 damage incident in a 12-month period\n- You have 3 or more damage incidents overall\n\nIF DETERMINED NOT AT FAULT, you may re-rent only if:\n- Lyft's First Notice of Loss (FNOL) team completes their review and reactivates you\n- No additional open investigations exist\n- Your Flexdrive account is in good standing:\n · No outstanding balance\n · No history of overdue rentals, payments, or repossessions\n · Been in the program at least 6 weeks with ride minimums met each week\n- All damage fees are paid in full\n- You have cooperated with all insurance adjuster inquiries\n- No previous at-fault claims, abuse, or negligence on record\n\nIF DETERMINED AT FAULT, re-rental may only be considered if:\n- All 'Not at Fault' requirements above are met\n- Damage was caused by a natural event and deemed unavoidable\n\nTo begin the re-rental review process, visit your Flexdrive office in person and provide documentation. Our team will submit your account for review."
+ content: "After any accident, you will be placed on the Do Not Rent (DNR) list immediately — regardless of fault. This also applies across ALL Lyft Express Drive providers, not just Flexdrive.\n\nREGARDLESS OF FAULT — you cannot re-rent the same day, even with CDW.\n\nFault determination can take up to several months or more. You cannot re-rent until fault is determined and all requirements below are met.\n\nYou are NOT eligible to re-rent if:\n- You have more than 1 damage incident in a 12-month period\n- You have 3 or more damage incidents overall\n\nIF DETERMINED NOT AT FAULT, you may re-rent only if:\n- Lyft's First Notice of Loss (FNOL) team completes their review and reactivates you\n- No additional open investigations exist\n- Your Flexdrive account is in good standing:\n · No outstanding balance\n · No history of overdue rentals, payments, or repossessions\n · Been in the program at least 6 weeks with ride minimums met each week\n- All damage fees are paid in full\n- You have cooperated with all insurance adjuster inquiries\n- No previous at-fault claims, abuse, or negligence on record\n\nIF DETERMINED AT FAULT, re-rental may only be considered if:\n- All 'Not at Fault' requirements above are met\n- Damage was caused by a natural event and deemed unavoidable\n\nTo begin the re-rental review process, send us a screenshot of your not-at-fault determination email using the Send a Message button — select Accident re-rental request and attach the screenshot. Our team will review your account and be in touch."
  },
  {
  title: "Rental Charges During Repair",
@@ -3428,22 +3407,7 @@ function logSession(region, regionName) {
  }).catch(function() {});
 }
 
-// ─── LOG SATISFACTION SIGNAL ───
-function logSatisfaction(topic, signal) {
- var payload = {
- action: 'satisfaction',
- topic: topic,
- signal: signal,
- region: userRegion || 'UNKNOWN',
- regionName: userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown',
- timestamp: new Date().toISOString()
- };
- fetch(APPS_SCRIPT_URL, {
- method: 'POST',
- body: JSON.stringify(payload),
- mode: 'no-cors'
- }).catch(function() {});
-}
+
 
 // ─── LOG UNMATCHED QUESTIONS ───
 function logUnmatchedQuestion(question) {
@@ -4051,6 +4015,7 @@ function openContactModal(mode) {
  '<option value="Overdue balance / payment plan">Overdue balance / payment plan</option>' +
  '<option value="Vehicle maintenance or service">Vehicle maintenance or service</option>' +
  '<option value="Accident or damage">Accident or damage</option>' +
+'<option value="Accident re-rental request">Accident re-rental request</option>' +
  '<option value="Vehicle return">Vehicle return</option>' +
  '<option value="Vehicle swap or replacement">Vehicle swap or replacement</option>' +
  '<option value="Deposit refund">Deposit refund</option>' +
@@ -4062,11 +4027,33 @@ function openContactModal(mode) {
  '<option value="Picking up my vehicle">Picking up my vehicle</option>' +
  '<option value="Dropping off / returning my vehicle">Dropping off / returning my vehicle</option>' +
  '<option value="Inspection">Inspection</option>' +
+ '<option value="Accident re-rental request">Accident re-rental request</option>' +
  '<option value="Other">Other</option>';
  }
  document.getElementById('modalFormView').style.display = 'block';
  document.getElementById('modalSuccessView').style.display = 'none';
  document.getElementById('contactModal').classList.add('open');
+
+ // Auto-show hint when accident re-rental selected
+ var reasonSel = document.getElementById('cf-reason');
+ if (reasonSel) {
+ reasonSel.addEventListener('change', function() {
+ var isReRental = this.value === 'Accident re-rental request';
+ var hint = document.getElementById('rerental-hint');
+ if (isReRental && !hint) {
+ hint = document.createElement('div');
+ hint.id = 'rerental-hint';
+ hint.style.cssText = 'background:rgba(0,59,113,0.07);border-left:3px solid #003B71;border-radius:0 10px 10px 0;padding:10px 12px;font-size:13px;color:#003B71;margin-bottom:8px;line-height:1.5;';
+ hint.innerHTML = '<strong>Please attach a screenshot of your not-at-fault email.</strong> Our team will review your account and get back to you about re-renting eligibility.';
+ var dropZone = document.getElementById('attach-drop-zone');
+ if (dropZone && dropZone.parentElement) {
+ dropZone.parentElement.insertBefore(hint, dropZone);
+ }
+ } else if (hint) {
+ hint.style.display = isReRental ? 'block' : 'none';
+ }
+ });
+ }
 }
 
 function closeContactModal() {
@@ -4192,37 +4179,7 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment) {
  ? 'Got it — thank you! I’ll let the team know.'
  : 'Message Sent!';
  }
- setTimeout(function() {
- var sv = document.getElementById('modalSuccessView');
- if (!sv || sv.querySelector('.form-feedback-row')) return;
- var fb = document.createElement('div');
- fb.className = 'form-feedback-row';
- fb.style.cssText = 'margin-top:18px;text-align:center;';
- var fbLabel = document.createElement('div');
- fbLabel.style.cssText = 'font-size:13px;color:#7D868C;margin-bottom:8px;';
- fbLabel.textContent = 'Was this form easy to use?';
- var upBtn = document.createElement('button');
- upBtn.className = 'satisfaction-btn thumbs-up';
- upBtn.style.cssText = 'margin:0 6px;font-size:18px;padding:6px 12px;';
- upBtn.innerHTML = '&#128077;';
- var downBtn = document.createElement('button');
- downBtn.className = 'satisfaction-btn thumbs-down';
- downBtn.style.cssText = 'margin:0 6px;font-size:18px;padding:6px 12px;';
- downBtn.innerHTML = '&#128078;';
- upBtn.addEventListener('click', function() {
- upBtn.classList.add('selected','voted'); downBtn.classList.add('voted');
- fbLabel.textContent = 'Thanks! We appreciate the feedback.';
- logSatisfaction({ topic: 'Contact Form UX', signal: 'form_helpful', region: userRegion || 'UNKNOWN', regionName: userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown', timestamp: new Date().toISOString() });
- });
- downBtn.addEventListener('click', function() {
- downBtn.classList.add('selected','voted'); upBtn.classList.add('voted');
- fbLabel.textContent = 'Thanks for the feedback!';
- logSatisfaction({ topic: 'Contact Form UX', signal: 'form_not_helpful', region: userRegion || 'UNKNOWN', regionName: userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown', timestamp: new Date().toISOString() });
- });
- fb.appendChild(fbLabel); fb.appendChild(upBtn); fb.appendChild(downBtn);
- var closeBtn = sv.querySelector('.modal-submit');
- if (closeBtn) sv.insertBefore(fb, closeBtn);
- }, 700);
+
  })
  .catch(function(err) {
  var supportEmail = userRegion && VENDORS[userRegion] ? userRegion.toLowerCase() + '-support@flexdrive.com' : 'pdx-support@flexdrive.com';
