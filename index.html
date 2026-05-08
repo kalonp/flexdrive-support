@@ -1032,8 +1032,9 @@
      <span class="btn-lang">Translate</span>
    </button>
  </div>
- <button id="startOverBtn" onclick="startOver()" title="Start over" style="background:none;border:1.5px solid rgba(255,255,255,0.35);border-radius:50%;width:34px;height:34px;color:rgba(255,255,255,0.85);font-size:17px;cursor:pointer;touch-action:manipulation;transition:background 0.15s;display:flex;align-items:center;justify-content:center;flex-shrink:0;">&#8635;</button>
+ <button onclick="openFeedback()" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:11px;font-weight:600;font-family:var(--font);cursor:pointer;touch-action:manipulation;padding:4px 0;letter-spacing:0.3px;white-space:nowrap;text-decoration:none;">Feedback</button>
  </div>
+ <button id="startOverBtn" onclick="startOver()" title="Start over" style="background:none;border:1.5px solid rgba(255,255,255,0.35);border-radius:50%;width:34px;height:34px;color:rgba(255,255,255,0.85);font-size:17px;cursor:pointer;touch-action:manipulation;transition:background 0.15s;display:flex;align-items:center;justify-content:center;flex-shrink:0;">&#8635;</button>
  </div>
 
  <!-- CHAT -->
@@ -1051,6 +1052,40 @@
  </button>
  </div>
  </div>
+
+<!-- FEEDBACK MODAL -->
+<div id="feedbackModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.5);align-items:flex-end;justify-content:center;">
+ <div id="feedbackBox" style="background:#fff;border-radius:24px 24px 0 0;padding:0;width:100%;max-width:480px;box-shadow:0 -4px 24px rgba(0,0,0,0.15);animation:sheetUp 0.3s cubic-bezier(0.34,1.2,0.64,1) both;overflow:hidden;">
+ <div id="feedbackStripe" style="height:5px;width:100%;background:linear-gradient(90deg,#003B71 0%,#003B71 30%,#1A5A96 55%,#8AAECB 80%,#D0DCE8 100%);border-radius:0;"></div>
+ <div style="padding:24px 20px 32px;">
+ <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+ <div style="font-size:20px;font-weight:700;color:#003B71;">Chatbot Feedback</div>
+ <button onclick="closeFeedback()" style="background:rgba(0,0,0,0.06);border:none;border-radius:50%;width:30px;height:30px;font-size:16px;color:#7D868C;cursor:pointer;display:flex;align-items:center;justify-content:center;">&#10005;</button>
+ </div>
+ <div style="font-size:13px;color:#7D868C;margin-bottom:20px;">This feedback is about the Flexdrive Support chatbot only — not your rental.</div>
+
+ <div style="font-size:13px;font-weight:700;color:#003B71;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px;">How would you rate this chatbot?</div>
+ <div id="starRow" style="display:flex;gap:8px;margin-bottom:20px;">
+ <button class="star-btn" data-val="1" onclick="selectStar(1)" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:0.3;transition:opacity 0.1s,transform 0.1s;touch-action:manipulation;">&#9733;</button>
+ <button class="star-btn" data-val="2" onclick="selectStar(2)" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:0.3;transition:opacity 0.1s,transform 0.1s;touch-action:manipulation;">&#9733;</button>
+ <button class="star-btn" data-val="3" onclick="selectStar(3)" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:0.3;transition:opacity 0.1s,transform 0.1s;touch-action:manipulation;">&#9733;</button>
+ <button class="star-btn" data-val="4" onclick="selectStar(4)" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:0.3;transition:opacity 0.1s,transform 0.1s;touch-action:manipulation;">&#9733;</button>
+ <button class="star-btn" data-val="5" onclick="selectStar(5)" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:0.3;transition:opacity 0.1s,transform 0.1s;touch-action:manipulation;">&#9733;</button>
+ </div>
+
+ <div style="font-size:13px;font-weight:700;color:#003B71;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">What could be better? <span style="font-weight:400;color:#9BA8B8;">(optional)</span></div>
+ <textarea id="feedbackText" placeholder="Share any thoughts about the chatbot..." style="width:100%;box-sizing:border-box;padding:12px 14px;border:1.5px solid #E2E8EF;border-radius:14px;font-family:var(--font);font-size:14px;line-height:1.5;color:#2D3138;resize:none;height:90px;outline:none;transition:border-color 0.15s;" onfocus="this.style.borderColor='#FF00BF'" onblur="this.style.borderColor='#E2E8EF'"></textarea>
+
+ <button id="feedbackSubmitBtn" onclick="submitFeedback()" style="width:100%;margin-top:14px;padding:15px;background:#003B71;color:#fff;border:none;border-radius:16px;font-family:var(--font);font-size:17px;font-weight:700;cursor:pointer;min-height:52px;touch-action:manipulation;box-shadow:0 4px 14px rgba(0,59,113,0.3);">Submit Feedback</button>
+ <div id="feedbackSuccess" style="display:none;text-align:center;padding:20px 0 8px;">
+ <div style="font-size:32px;margin-bottom:8px;">&#9733;</div>
+ <div style="font-size:18px;font-weight:700;color:#003B71;margin-bottom:6px;">Thanks for your feedback!</div>
+ <div style="font-size:13px;color:#7D868C;">Your input helps us improve the chatbot experience.</div>
+ <button onclick="closeFeedback()" style="margin-top:16px;background:#003B71;color:#fff;border:none;border-radius:14px;padding:10px 24px;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;">Done</button>
+ </div>
+ </div>
+ </div>
+</div>
 
 </div>
 
@@ -2669,59 +2704,6 @@ function renderMessage(role, content, extra) {
  }
  }
  }, 50);
- }
- // Add satisfaction signal on non-first bot messages
- if (!isFirst && lastMatch) {
- var currentMatch = lastMatch;
- setTimeout(function() {
- var satRow = document.createElement('div');
- satRow.className = 'satisfaction-row';
- var satLabel = document.createElement('span');
- satLabel.className = 'satisfaction-label';
- satLabel.textContent = 'Was this helpful?';
- var thumbUp = document.createElement('button');
- thumbUp.className = 'satisfaction-btn thumbs-up';
- thumbUp.textContent = '👍';
- var thumbDown = document.createElement('button');
- thumbDown.className = 'satisfaction-btn thumbs-down';
- thumbDown.textContent = '👎';
- thumbUp.addEventListener('click', function() {
- thumbUp.classList.add('selected', 'voted');
- thumbDown.classList.add('voted');
- satLabel.textContent = 'Thanks for the feedback!';
- logSatisfaction(currentMatch.topic, 'helpful');
- });
- thumbDown.addEventListener('click', function() {
- thumbDown.classList.add('selected', 'voted');
- thumbUp.classList.add('voted');
- satLabel.textContent = 'Sorry about that.';
- logSatisfaction(currentMatch.topic, 'not_helpful');
- // Show nudge after a beat
- setTimeout(function() {
- var nudgeRow = document.createElement('div');
- nudgeRow.className = 'msg-row assistant';
- var nudgeAv = document.createElement('div');
- nudgeAv.className = 'msg-avatar';
- setAvatarText(nudgeAv);
- var nudgeBubble = document.createElement('div');
- nudgeBubble.className = 'msg-bubble';
- nudgeBubble.textContent = "Sorry we couldn't help with that. Tap Talk to Someone below and our team will sort it out for you.";
- nudgeRow.appendChild(nudgeAv);
- nudgeRow.appendChild(nudgeBubble);
- chatArea.appendChild(nudgeRow);
- scrollToBottom();
- }, 600);
- });
- satRow.appendChild(satLabel);
- satRow.appendChild(thumbUp);
- satRow.appendChild(thumbDown);
- // Append satisfaction row inside the bot bubble wrapper
- var lastBotRow = chatArea.querySelector('.msg-row.assistant:last-of-type');
- if (lastBotRow) {
- var wrapper = lastBotRow.querySelector('div[style]') || lastBotRow;
- wrapper.appendChild(satRow);
- }
- }, 800);
  }
  setTimeout(function() { appendQuickActions(!isFirst, suppressTalk); }, isFirst ? 1000 : 800);
  }
@@ -4613,6 +4595,81 @@ function startOver() {
  buildKeywordIndex();
  showWelcome();
 }
+
+// ── FEEDBACK ──
+var feedbackRating = 0;
+
+function openFeedback() {
+ haptic();
+ feedbackRating = 0;
+ document.getElementById('feedbackText').value = '';
+ document.getElementById('feedbackSuccess').style.display = 'none';
+ document.getElementById('feedbackSubmitBtn').style.display = 'block';
+ document.querySelectorAll('.star-btn').forEach(function(b) {
+ b.style.opacity = '0.3';
+ b.style.color = '#9BA8B8';
+ b.style.transform = 'scale(1)';
+ });
+ var modal = document.getElementById('feedbackModal');
+ modal.style.display = 'flex';
+ setTimeout(function() {
+ document.getElementById('feedbackText').focus && document.getElementById('feedbackText').blur();
+ }, 100);
+}
+
+function closeFeedback() {
+ document.getElementById('feedbackModal').style.display = 'none';
+}
+
+function selectStar(val) {
+ haptic();
+ feedbackRating = val;
+ document.querySelectorAll('.star-btn').forEach(function(b) {
+ var bVal = parseInt(b.getAttribute('data-val'));
+ if (bVal <= val) {
+ b.style.opacity = '1';
+ b.style.color = '#FF00BF';
+ b.style.transform = 'scale(1.15)';
+ } else {
+ b.style.opacity = '0.3';
+ b.style.color = '#9BA8B8';
+ b.style.transform = 'scale(1)';
+ }
+ });
+}
+
+function submitFeedback() {
+ if (!feedbackRating) { alert('Please select a star rating.'); return; }
+ var comment = document.getElementById('feedbackText').value.trim();
+ var btn = document.getElementById('feedbackSubmitBtn');
+ btn.disabled = true;
+ btn.textContent = 'Sending...';
+ var payload = {
+ action: 'feedback',
+ rating: feedbackRating,
+ comment: comment || '',
+ region: userRegion || 'UNKNOWN',
+ regionName: userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown',
+ timestamp: new Date().toISOString()
+ };
+ fetch(APPS_SCRIPT_URL, {
+ method: 'POST',
+ body: JSON.stringify(payload),
+ mode: 'no-cors'
+ }).catch(function() {}).finally(function() {
+ btn.disabled = false;
+ btn.textContent = 'Submit Feedback';
+ document.getElementById('feedbackSuccess').style.display = 'block';
+ document.getElementById('feedbackSubmitBtn').style.display = 'none';
+ });
+}
+
+// Close feedback modal on backdrop click
+document.addEventListener('DOMContentLoaded', function() {
+ document.getElementById('feedbackModal').addEventListener('click', function(e) {
+ if (e.target === this) closeFeedback();
+ });
+});
 
 // ATTACHMENT HANDLER
 function handleAttachmentChange(input) {
