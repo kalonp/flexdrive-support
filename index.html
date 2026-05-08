@@ -2238,7 +2238,7 @@ var sendBtn = document.getElementById('sendBtn');
 
 // Lock textarea until location is entered
 userInput.disabled = true;
-userInput.placeholder = 'Enter the city where you picked up your vehicle above...';
+userInput.placeholder = 'City or zip code where you picked up your vehicle...';
 document.querySelector('.input-bar').style.display = 'none';
 sendBtn.disabled = true;
 
@@ -3371,7 +3371,7 @@ function showSessionTimeoutPrompt() {
 
  var bubble = document.createElement('div');
  bubble.className = 'msg-bubble';
- bubble.textContent = 'Still there? Your session has been idle for a while.';
+ bubble.textContent = 'Still there? Your session will reset in 60 seconds due to inactivity.';
 
  var btnRow = document.createElement('div');
  btnRow.className = 'quick-actions';
@@ -3396,7 +3396,7 @@ function showSessionTimeoutPrompt() {
  userRegion = null;
  awaitingLocation = true;
  userInput.disabled = true;
- userInput.placeholder = 'Enter the city where you picked up your vehicle above...';
+ userInput.placeholder = 'City or zip code where you picked up your vehicle...';
  document.querySelector('.input-bar').style.display = 'none';
  sendBtn.disabled = true;
  if (sessionTimeoutTimer) clearTimeout(sessionTimeoutTimer);
@@ -3685,7 +3685,7 @@ function sendMessage() {
  } else {
  // No partial matches at all
  renderMessage('assistant',
- "I'm not sure I understood that. I can help with mileage, billing, maintenance, accidents, vehicle returns, and more.\n\nTry rephrasing, or use the buttons below:"
+ "I couldn't find an exact match for that. Try rephrasing your question — or pick a topic from the list below.\n\nIf you can't find what you're looking for, tap \"Talk to Someone\" and our team will help."
  );
  }
  logUnmatchedQuestion(text);
@@ -3802,7 +3802,7 @@ function handleVendorInput(locationText) {
  renderMessage('assistant', 'For approved vendors in the ' + regionData.regionName + ' area, please check the Lyft Driver App: Vehicles and Devices >Schedule Preventive Maintenance, or refer to the vendor list in your welcome email.\n\nIMPORTANT: Always tell the shop "This is a Flexdrive vehicle" before any work is done.');
  }
  } else {
- renderMessage('assistant', "I wasn't able to match that location to a Flexdrive region. Please try entering a city name (e.g., Portland, Chicago, Houston) or a zip code.");
+ renderMessage('assistant', "We couldn't find that location. Try entering just the city name (e.g. \"Portland\" or \"Los Angeles\") or your zip code.");
  setTimeout(function() {
  var retryPrompt = renderLocationPrompt(function(loc) { handleVendorInput(loc); });
  var row = document.createElement('div');
@@ -3951,7 +3951,7 @@ function showWelcome() {
  var s3 = document.createElement('div');
  s3.className = 'welcome-section';
  s3.style.animationDelay = '0.65s';
- s3.innerHTML = 'Your full rental terms are in the <a href="https://www.flexdrive.com/rental-agreement/" target="_blank" rel="noopener noreferrer">Rental Agreement</a>— worth a read so you know your rights and responsibilities.';
+ s3.innerHTML = 'Your full rental terms are in the <a href="https://www.flexdrive.com/rental-agreement/" target="_blank" rel="noopener noreferrer">Rental Agreement</a> — worth a read so you know your rights and responsibilities.';
  bubble.appendChild(s3);
 
  // Divider
@@ -3964,7 +3964,7 @@ function showWelcome() {
  var s4 = document.createElement('div');
  s4.className = 'welcome-section';
  s4.style.animationDelay = '0.8s';
- s4.textContent = 'Enter the city or zip code where you picked up your Flexdrive vehicle to get started:';
+ s4.textContent = 'What city or zip code did you pick up your vehicle?';
  bubble.appendChild(s4);
 
  var wrapper = document.createElement('div');
