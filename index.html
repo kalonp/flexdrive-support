@@ -312,8 +312,8 @@
  .msg-bubble-wrap { display: flex; flex-direction: column; flex: 1; min-width: 0; }
  .msg-bubble.truncated { max-height: 200px; overflow: hidden; position: relative; }
  .msg-bubble.truncated::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 56px; background: linear-gradient(transparent, #1a4a7a); border-radius: 0 0 20px 4px; pointer-events: none; }
- .read-more-btn { background: rgba(0,59,113,0.15); border: 1px solid rgba(0,59,113,0.25); border-radius: 12px; color: #003B71; font-size: 12px; font-weight: 600; padding: 5px 14px; cursor: pointer; margin-top: 6px; touch-action: manipulation; transition: background 0.15s; align-self: flex-start; width: fit-content; }
- .read-more-btn:active { background: rgba(0,59,113,0.2); }
+ .read-more-btn { background: none; border: none; color: rgba(0,59,113,0.45); font-size: 12px; font-weight: 500; padding: 4px 0; cursor: pointer; margin-top: 4px; touch-action: manipulation; transition: color 0.15s; align-self: flex-start; width: fit-content; letter-spacing: 0.2px; text-decoration: underline; text-underline-offset: 2px; -webkit-tap-highlight-color: transparent; }
+ .read-more-btn:active { color: rgba(0,59,113,0.7); }
  .msg-row.assistant .msg-bubble {
  background: linear-gradient(135deg, #003B71 0%, #003B71 50%, #1A5A96 72%, #2266A0 90%, #2E6EA8 100%);
  color: var(--white);
@@ -2705,18 +2705,30 @@ function renderMessage(role, content, extra) {
  lastBubble.classList.add('truncated');
  var readMoreBtn = document.createElement('button');
  readMoreBtn.className = 'read-more-btn';
- readMoreBtn.innerHTML = '&#9660;';
+ readMoreBtn.innerHTML = 'show more';
  var isExpanded = false;
  readMoreBtn.addEventListener('click', function() {
  isExpanded = !isExpanded;
  if (isExpanded) {
  lastBubble.classList.remove('truncated');
- readMoreBtn.innerHTML = '&#9650;';
+ readMoreBtn.innerHTML = 'show less';
+ // Scroll to top of the bubble, not bottom
+ setTimeout(function() {
+ var msgRow = lastBubble.closest('.msg-row') || lastBubble.parentElement;
+ if (msgRow) {
+ msgRow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+ }
+ }, 50);
  } else {
  lastBubble.classList.add('truncated');
- readMoreBtn.innerHTML = '&#9660;';
+ readMoreBtn.innerHTML = 'show more';
+ setTimeout(function() {
+ var msgRow = lastBubble.closest('.msg-row') || lastBubble.parentElement;
+ if (msgRow) {
+ msgRow.scrollIntoView({ behavior: 'smooth', block: 'start' });
  }
- setTimeout(scrollToBottom, 50);
+ }, 50);
+ }
  });
  // Wrap bubble + button in a column container
  var bubbleParent = lastBubble.parentElement;
