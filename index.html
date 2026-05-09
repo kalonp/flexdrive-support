@@ -3800,6 +3800,12 @@ function handleLocationInput(locationText) {
  userInput.disabled = false;
  userInput.placeholder = 'Ask a question...';
  document.querySelector('.input-bar').style.display = '';
+ userInput.blur(); // explicit blur to prevent iOS auto-focus
+ // Scroll to show the new bot message, not the input bar
+ setTimeout(function() {
+ var lastMsg = chatArea.querySelector('.msg-row:last-child');
+ if (lastMsg) lastMsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+ }, 600);
  resetSessionTimeout();
 
  } else {
@@ -4290,7 +4296,14 @@ window.addEventListener('load', function() {
 
  // Scroll to bottom when keyboard opens
  userInputEl.addEventListener('focus', function() {
+ userInputEl.removeAttribute('readonly'); // allow typing now
  setTimeout(function() { scrollToBottom(); }, 400);
+ });
+ // Re-add readonly after blur so next focus doesn't trigger scroll
+ userInputEl.addEventListener('blur', function() {
+ if (userInput.disabled) {
+ userInputEl.setAttribute('readonly', 'true');
+ }
  });
 
  // Re-focus input after blur (only if user tapped input bar area, not elsewhere)
