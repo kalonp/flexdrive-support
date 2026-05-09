@@ -1063,7 +1063,7 @@
  <div class="input-disclaimer">Flexdrive Support helps with rental questions. For Lyft app or earnings issues, visit <a href="https://help.lyft.com" target="_blank">help.lyft.com</a></div>
  <div class="input-bar-inner">
  <div class="input-wrap">
- <textarea id="userInput" rows="1" placeholder="Ask a question..."></textarea>
+ <textarea id="userInput" rows="1" placeholder="Ask a question..." readonly></textarea>
  </div>
  <button class="send-btn" id="sendBtn" disabled>
  <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -3685,9 +3685,9 @@ function sendMessage() {
  retryBtn.style.cssText = 'border-style:dashed;opacity:0.7;font-size:13px;padding:8px 16px;';
  retryBtn.textContent = 'Try a different search';
  retryBtn.addEventListener('click', function() {
- userInput.focus();
  userInput.value = '';
  sendBtn.disabled = true;
+ if (!isMobile) userInput.focus();
  });
  suggActions.appendChild(retryBtn);
  var row = document.createElement('div');
@@ -3774,6 +3774,7 @@ function handleLocationInput(locationText) {
  // Unlock textarea (no focus — avoids keyboard jumping on mobile)
  userInput.disabled = false;
  userInput.placeholder = 'Ask a question...';
+ userInput.setAttribute('readonly', 'true'); // prevent iOS auto-keyboard
  document.querySelector('.input-bar').style.display = '';
  userInput.blur(); // explicit blur to prevent iOS auto-focus
  // Scroll to show the new bot message, not the input bar
@@ -4267,7 +4268,7 @@ window.addEventListener('load', function() {
  // MOBILE KEYBOARD & VIEWPORT HANDLING 
  var userInputEl = document.getElementById('userInput');
  var appEl = document.querySelector('.app');
- var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+ var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1);
 
  // Scroll to bottom when keyboard opens
  userInputEl.addEventListener('focus', function() {
