@@ -4323,7 +4323,7 @@ window.addEventListener('load', function() {
  var focusedInput = document.querySelector('.location-prompt input:focus');
  if (focusedInput) {
  setTimeout(function() {
- focusedInput.closest('.location-prompt').scrollIntoView({ behavior: 'smooth', block: 'center' });
+ focusedInput.closest('.location-prompt').scrollIntoView({ behavior: 'smooth', block: 'end' });
  }, 100);
  } else {
  setTimeout(scrollToBottom, 80);
