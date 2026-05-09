@@ -2551,6 +2551,7 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  userInput.value = label;
  sendBtn.disabled = false;
  sendMessage();
+ if (isMobile) { userInput.blur(); userInput.setAttribute('readonly', 'true'); }
  });
  btnRow.appendChild(btn);
  });
@@ -2575,6 +2576,7 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  userInput.value = label;
  sendBtn.disabled = false;
  sendMessage();
+ if (isMobile) { userInput.blur(); userInput.setAttribute('readonly', 'true'); }
  });
  otherWrap.appendChild(btn);
  });
@@ -3481,6 +3483,7 @@ function logUnmatchedQuestion(question) {
 
 // SEND & RESPOND 
 function sendMessage() {
+ userInput.removeAttribute('readonly'); // ensure value is readable
  var text = userInput.value.trim();
  if (!text || isTyping || awaitingLocation) return;
 
@@ -3496,6 +3499,7 @@ function sendMessage() {
 
  // Blur to dismiss keyboard and reset zoom on mobile
  userInput.blur();
+ if (isMobile) userInput.setAttribute('readonly', 'true');
 
  renderTyping();
 
