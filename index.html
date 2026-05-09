@@ -2266,6 +2266,7 @@ var lastMatch = null;
 var conversationHistory = []; // tracks {topic, keywords} of matched entries this session
 var sessionTimeoutTimer = null;
 var SESSION_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1);
 
 var chatArea = document.getElementById('chatArea');
 var userInput = document.getElementById('userInput');
@@ -2548,6 +2549,7 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  btn.addEventListener('click', function() {
  haptic();
  sessionLog.push({ role: 'user', text: label, time: new Date().toLocaleTimeString() });
+ userInput.removeAttribute('readonly');
  userInput.value = label;
  sendBtn.disabled = false;
  sendMessage();
@@ -2573,6 +2575,7 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  btn.addEventListener('click', function() {
  haptic();
  sessionLog.push({ role: 'user', text: label, time: new Date().toLocaleTimeString() });
+ userInput.removeAttribute('readonly');
  userInput.value = label;
  sendBtn.disabled = false;
  sendMessage();
@@ -2839,6 +2842,7 @@ function renderQuickActions(actions) {
  btn.addEventListener('click', function() {
  haptic();
  sessionLog.push({ role: 'user', text: a, time: new Date().toLocaleTimeString() });
+ userInput.removeAttribute('readonly');
  userInput.value = a;
  sendBtn.disabled = false;
  sendMessage();
@@ -4272,7 +4276,6 @@ window.addEventListener('load', function() {
  // MOBILE KEYBOARD & VIEWPORT HANDLING 
  var userInputEl = document.getElementById('userInput');
  var appEl = document.querySelector('.app');
- var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1);
 
  // Scroll to bottom when keyboard opens
  userInputEl.addEventListener('focus', function() {
