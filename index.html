@@ -745,13 +745,17 @@
  .send-btn {
  width: 52px; height: 52px;
  border-radius: 50%; border: none;
- background: #FF00BF !important; color: var(--white);
+ background-color: #FF00BF !important;
  -webkit-appearance: none;
+ appearance: none;
+ color: var(--white);
  cursor: pointer; display: flex; align-items: center; justify-content: center;
  flex-shrink: 0; transition: all 0.15s;
  box-shadow: 0 3px 10px rgba(255,0,191,0.4);
  touch-action: manipulation;
+ -webkit-tap-highlight-color: transparent;
  }
+ .send-btn svg { fill: #ffffff !important; color: #ffffff !important; }
  .send-btn:active { transform: scale(0.93); }
  .send-btn:disabled { opacity: 0.25; cursor: not-allowed; box-shadow: none; }
  .send-btn svg { width: 22px; height: 22px; }
@@ -1062,7 +1066,7 @@
  <textarea id="userInput" rows="1" placeholder="Ask a question..."></textarea>
  </div>
  <button class="send-btn" id="sendBtn" disabled>
- <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+ <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
  </button>
  </div>
  </div>
@@ -2854,10 +2858,8 @@ function renderLocationPrompt(callback) {
  input.setAttribute('autocapitalize', 'off');
  input.setAttribute('spellcheck', 'false');
  input.addEventListener('focus', function() {
- // On mobile, scroll the location card into view when keyboard opens
- setTimeout(function() {
- container.scrollIntoView({ behavior: 'smooth', block: 'center' });
- }, 300);
+ // Instantly scroll location card into view when keyboard opens
+ container.scrollIntoView({ behavior: 'instant', block: 'end' });
  });
  var btn = document.createElement('button');
  btn.textContent = 'Find Location';
@@ -4323,7 +4325,7 @@ window.addEventListener('load', function() {
  var focusedInput = document.querySelector('.location-prompt input:focus');
  if (focusedInput) {
  setTimeout(function() {
- focusedInput.closest('.location-prompt').scrollIntoView({ behavior: 'smooth', block: 'end' });
+ focusedInput.closest('.location-prompt').scrollIntoView({ behavior: 'instant', block: 'end' });
  }, 100);
  } else {
  setTimeout(scrollToBottom, 80);
