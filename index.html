@@ -2845,13 +2845,25 @@ function renderLocationPrompt(callback) {
  var input = document.createElement('input');
  input.type = 'text';
  input.placeholder = 'City or zip code where you picked up your vehicle...';
+ // Prevent auto-focus opening keyboard on mobile
+ input.setAttribute('autocomplete', 'off');
+ input.setAttribute('autocorrect', 'off');
+ input.setAttribute('autocapitalize', 'off');
+ input.setAttribute('spellcheck', 'false');
  var btn = document.createElement('button');
  btn.textContent = 'Find Location';
+ btn.className = 'location-find-btn';
  btn.addEventListener('click', function() {
- if (input.value.trim()) callback(input.value.trim());
+ if (input.value.trim()) {
+ input.blur(); // dismiss keyboard on mobile after submit
+ callback(input.value.trim());
+ }
  });
  input.addEventListener('keydown', function(e) {
- if (e.key === 'Enter' && input.value.trim()) callback(input.value.trim());
+ if (e.key === 'Enter' && input.value.trim()) {
+ input.blur();
+ callback(input.value.trim());
+ }
  });
  container.appendChild(input);
  container.appendChild(btn);
