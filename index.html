@@ -2303,17 +2303,16 @@ function scrollToBottom() {
 
 // Scroll so the new bot message appears at the top — works on iOS Safari + Android Chrome
 function scrollToElement(el) {
- setTimeout(function() {
- var chatRect = chatArea.getBoundingClientRect();
- var elRect = el.getBoundingClientRect();
- var newScrollTop = chatArea.scrollTop + (elRect.top - chatRect.top) - 12;
- // Try smooth first; fall back to instant if not supported
  try {
+ var elRect = el.getBoundingClientRect();
+ var chatRect = chatArea.getBoundingClientRect();
+ var newScrollTop = chatArea.scrollTop + (elRect.top - chatRect.top) - 12;
+ setTimeout(function() {
  chatArea.scrollTo({ top: newScrollTop, behavior: 'smooth' });
- } catch(e) {
- chatArea.scrollTop = newScrollTop;
- }
  }, 120);
+ } catch(e) {
+ chatArea.scrollTop = chatArea.scrollHeight;
+ }
 }
 
 // RENDERING 
@@ -3130,14 +3129,8 @@ function renderEVAccordion() {
  body.style.display = 'block';
  header.classList.add('open');
  item.classList.add('is-open');
- // Scroll item into view smoothly
- setTimeout(function() {
- var chatRect = chatArea.getBoundingClientRect();
- var itemRect = item.getBoundingClientRect();
- if (itemRect.bottom >chatRect.bottom) {
- chatArea.scrollBy({ top: itemRect.bottom - chatRect.bottom + 16, behavior: 'smooth' });
- }
- }, 50);
+  // Scroll to top of accordion item instantly
+  item.scrollIntoView({ behavior: 'instant', block: 'start' });
  }
  });
 
@@ -3177,13 +3170,7 @@ function renderAccidentAccordion() {
  body.style.display = 'block';
  header.classList.add('open');
  item.classList.add('is-open');
- setTimeout(function() {
- var chatRect = chatArea.getBoundingClientRect();
- var itemRect = item.getBoundingClientRect();
- if (itemRect.bottom >chatRect.bottom) {
- chatArea.scrollBy({ top: itemRect.bottom - chatRect.bottom + 16, behavior: 'smooth' });
- }
- }, 50);
+  item.scrollIntoView({ behavior: 'instant', block: 'start' });
  }
  });
 
@@ -3223,13 +3210,7 @@ function renderSwapAccordion() {
  body.style.display = 'block';
  header.classList.add('open');
  item.classList.add('is-open');
- setTimeout(function() {
- var chatRect = chatArea.getBoundingClientRect();
- var itemRect = item.getBoundingClientRect();
- if (itemRect.bottom >chatRect.bottom) {
- chatArea.scrollBy({ top: itemRect.bottom - chatRect.bottom + 16, behavior: 'smooth' });
- }
- }, 50);
+  item.scrollIntoView({ behavior: 'instant', block: 'start' });
  }
  });
 
@@ -3269,13 +3250,7 @@ function renderRoadsideAccordion() {
  body.style.display = 'block';
  header.classList.add('open');
  item.classList.add('is-open');
- setTimeout(function() {
- var chatRect = chatArea.getBoundingClientRect();
- var itemRect = item.getBoundingClientRect();
- if (itemRect.bottom >chatRect.bottom) {
- chatArea.scrollBy({ top: itemRect.bottom - chatRect.bottom + 16, behavior: 'smooth' });
- }
- }, 50);
+  item.scrollIntoView({ behavior: 'instant', block: 'start' });
  }
  });
 
@@ -3337,13 +3312,7 @@ function renderInspectionAccordion() {
    body.style.display = 'block';
    header.classList.add('open');
    item.classList.add('is-open');
-   setTimeout(function() {
-    var chatRect = chatArea.getBoundingClientRect();
-    var itemRect = item.getBoundingClientRect();
-    if (itemRect.bottom > chatRect.bottom) {
-     chatArea.scrollBy({ top: itemRect.bottom - chatRect.bottom + 16, behavior: 'smooth' });
-    }
-   }, 50);
+  item.scrollIntoView({ behavior: 'instant', block: 'start' });
   }
  });
 
