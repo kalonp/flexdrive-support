@@ -2420,6 +2420,44 @@ function getRelatedTopics(currentTopic) {
  return (filtered.length >= 2 ? filtered : related).slice(0, 3);
 }
 
+function getTopQuickLinks() {
+ var allActions = [
+ "I was in an accident",
+ "Roadside / towing help",
+ "Mileage dispute",
+ "Billing question",
+ "Find a maintenance vendor",
+ "Swaps",
+ "Return my vehicle",
+ "Deposit refund",
+ "CDW / protection plan",
+ "Insurance coverage",
+ "EV vehicle / charging",
+ "I'm moving to a new state",
+ "Payment plan / overdue balance",
+ "Where is Flexdrive available?",
+ "Inspections",
+ "My office"
+ ];
+ // Seed defaults if not yet set
+ var DEFAULTS = ["I was in an accident", "Find a maintenance vendor", "Billing question"];
+ var raw = sessionStorage.getItem('ql_counts');
+ var counts = raw ? JSON.parse(raw) : {};
+ // Ensure defaults always have a baseline score so they appear until displaced
+ DEFAULTS.forEach(function(d) { if (!counts[d]) counts[d] = 1; });
+ // Sort all actions by count descending, return top 3
+ return allActions.slice().sort(function(a, b) {
+ return (counts[b] || 0) - (counts[a] || 0);
+ }).slice(0, 3);
+}
+
+function trackQuickLinkClick(label) {
+ var raw = sessionStorage.getItem('ql_counts');
+ var counts = raw ? JSON.parse(raw) : {};
+ counts[label] = (counts[label] || 0) + 1;
+ sessionStorage.setItem('ql_counts', JSON.stringify(counts));
+}
+
 function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  // Remove previous quick action rows so only the latest set is visible
  var prevRows = chatArea.querySelectorAll('.msg-row.assistant');
@@ -2453,8 +2491,12 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  // After first response, show related topics if available
  // showTalk=false means first response, showTalk=true means subsequent
  var isSubsequent = isSubsequentCall;
- var actions = allActions;
  var showSeeAll = false;
+
+ // FIRST VIEW: show top 3 tracked quick links + More topics button
+ // SUBSEQUENT: show related topics as before
+ var actions = isSubsequent ? allActions : getTopQuickLinks();
+ if (!isSubsequent) showSeeAll = true;
 
  // Always show expand/collapse on subsequent responses
  // Use related topics if available, otherwise fall back to popular defaults
@@ -2518,8 +2560,17 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  showSeeAll = true;
  }
  }
+ // First view: actions already set to top 3 above
 
  var quickActions = renderQuickActions(actions);
+
+ // Add "Top topics" label for first view only
+ if (!isSubsequent) {
+ var topLabel = document.createElement('div');
+ topLabel.style.cssText = 'font-size:11px;font-weight:700;color:#7D868C;text-transform:uppercase;letter-spacing:0.8px;padding:0 2px;margin-bottom:2px;width:100%;';
+ topLabel.textContent = 'Top topics';
+ quickActions.insertBefore(topLabel, quickActions.firstChild);
+ }
 
  // Expand/collapse for subsequent responses — grouped by category
  if (showSeeAll) {
@@ -2556,6 +2607,7 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  btn.textContent = label;
  btn.addEventListener('click', function() {
  haptic();
+ trackQuickLinkClick(label);
  sessionLog.push({ role: 'user', text: label, time: new Date().toLocaleTimeString() });
  userInput.removeAttribute('readonly');
  userInput.value = label;
@@ -2582,6 +2634,7 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  btn.textContent = label;
  btn.addEventListener('click', function() {
  haptic();
+ trackQuickLinkClick(label);
  sessionLog.push({ role: 'user', text: label, time: new Date().toLocaleTimeString() });
  userInput.removeAttribute('readonly');
  userInput.value = label;
@@ -2849,6 +2902,7 @@ function renderQuickActions(actions) {
  btn.textContent = a;
  btn.addEventListener('click', function() {
  haptic();
+ trackQuickLinkClick(a);
  sessionLog.push({ role: 'user', text: a, time: new Date().toLocaleTimeString() });
  userInput.removeAttribute('readonly');
  userInput.value = a;
