@@ -378,7 +378,7 @@
  box-shadow: 0 2px 6px rgba(0,59,113,0.10), 0 0 0 1.5px rgba(0,59,113,0.06);
  touch-action: manipulation;
  opacity: 0;
- animation: btnPop 0.3s cubic-bezier(0.34, 1.6, 0.64, 1) forwards;
+ animation: btnFadeIn 0.2s ease-out forwards;
  }
  .reloc-btn .reloc-state {
  font-size: 10px; font-weight: 600;
@@ -446,6 +446,10 @@
  .quick-btn:nth-child(11) { animation-delay: 0.50s; }
  .quick-btn:nth-child(12) { animation-delay: 0.55s; }
  .quick-btn:nth-child(13) { animation-delay: 0.60s; }
+ @keyframes btnFadeIn {
+ 0% { opacity: 0; }
+ 100% { opacity: 1; }
+ }
  @keyframes btnPop {
  0% { opacity: 0; transform: scale(0.78) translateY(10px); }
  55% { opacity: 1; transform: scale(1.07) translateY(-2px); }
@@ -2835,7 +2839,17 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  row.appendChild(av);
  row.appendChild(quickActions);
  chatArea.appendChild(row);
- // No forced scroll — let driver finish reading the response
+ // Scroll to top of the bot response, not the bottom
+ var botRows = chatArea.querySelectorAll('.msg-row.assistant');
+ var targetRow = botRows.length >= 2 ? botRows[botRows.length - 2] : botRows[botRows.length - 1];
+ if (targetRow) {
+ setTimeout(function() {
+ var rect = targetRow.getBoundingClientRect();
+ var chatRect = chatArea.getBoundingClientRect();
+ var newTop = chatArea.scrollTop + (rect.top - chatRect.top) - 12;
+ chatArea.scrollTo({ top: Math.max(0, newTop), behavior: 'smooth' });
+ }, 50);
+ }
 }
 
 function renderMessage(role, content, extra) {
