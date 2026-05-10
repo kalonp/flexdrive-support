@@ -2279,7 +2279,7 @@ var sendBtn = document.getElementById('sendBtn');
 
 // Lock textarea until location is entered
 userInput.disabled = true;
-userInput.placeholder = 'City or zip code where you picked up your vehicle...';
+userInput.placeholder = 'Enter City or Zip Code...';
 document.querySelector('.input-bar').style.display = 'none';
 sendBtn.disabled = true;
 
@@ -2924,7 +2924,7 @@ function renderLocationPrompt(callback) {
  container.className = 'location-prompt';
  var input = document.createElement('input');
  input.type = 'text';
- input.placeholder = 'City or zip code where you picked up your vehicle...';
+ input.placeholder = 'Enter City or Zip Code...';
  input.setAttribute('autocomplete', 'off');
  input.setAttribute('autocorrect', 'off');
  input.setAttribute('autocapitalize', 'off');
@@ -3504,7 +3504,7 @@ function showSessionTimeoutPrompt() {
  userRegion = null;
  awaitingLocation = true;
  userInput.disabled = true;
- userInput.placeholder = 'City or zip code where you picked up your vehicle...';
+ userInput.placeholder = 'Enter City or Zip Code...';
  document.querySelector('.input-bar').style.display = 'none';
  sendBtn.disabled = true;
  if (sessionTimeoutTimer) clearTimeout(sessionTimeoutTimer);
@@ -4694,7 +4694,7 @@ function startOver() {
  userRegion = null;
  awaitingLocation = true;
  userInput.disabled = true;
- userInput.placeholder = 'City or zip code where you picked up your vehicle...';
+ userInput.placeholder = 'Enter City or Zip Code...';
  userInput.value = '';
  sendBtn.disabled = true;
  document.querySelector('.input-bar').style.display = 'none';
