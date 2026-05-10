@@ -339,7 +339,7 @@
  .vendor-cards { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
  .vendor-card {
  background: var(--white); border: 1.5px solid var(--gray-border);
- border-radius: 16px; padding: 16px 18px;
+ border-radius: 12px; padding: 10px 14px;
  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
  animation: fadeSlideUp 0.35s cubic-bezier(0.34, 1.3, 0.64, 1) both, vendorBorderFlash 0.7s ease-out both;
  border-left: 3px solid transparent;
@@ -356,10 +356,10 @@
  .vendor-card:nth-child(4) { animation-delay: 0.15s; }
  .vendor-card:nth-child(5) { animation-delay: 0.20s; }
  .vendor-card:nth-child(6) { animation-delay: 0.25s; }
- .vendor-card-name { font-weight: 700; font-size: 16px; color: var(--navy); }
- .vendor-card-type { font-size: 11px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 3px; }
- .vendor-card-detail { font-size: 15px; color: #5A6370; margin-top: 8px; line-height: 1.5; }
- .vendor-card-phone { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 15px; font-weight: 600; color: var(--navy); text-decoration: none; }
+ .vendor-card-name { font-weight: 700; font-size: 14px; color: var(--navy); }
+ .vendor-card-type { font-size: 10px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 2px; }
+ .vendor-card-detail { font-size: 13px; color: #5A6370; margin-top: 5px; line-height: 1.4; }
+ .vendor-card-phone { display: inline-flex; align-items: center; gap: 5px; margin-top: 5px; font-size: 13px; font-weight: 600; color: var(--navy); text-decoration: none; }
  /* RELOCATION REGION BUTTONS */
  .reloc-regions {
  display: flex; flex-wrap: wrap; gap: 8px;
@@ -389,14 +389,14 @@
  .reloc-btn:active .reloc-state { color: var(--pink); }
 
  .book-btn {
- display: inline-flex; align-items: center; gap: 7px;
- margin-top: 12px;
- padding: 10px 20px;
+ display: inline-flex; align-items: center; gap: 6px;
+ margin-top: 8px;
+ padding: 7px 14px;
  background: var(--navy);
  color: var(--white);
- border-radius: 22px;
+ border-radius: 18px;
  font-family: var(--font);
- font-size: 14px;
+ font-size: 12px;
  font-weight: 700;
  text-decoration: none;
  letter-spacing: 0.3px;
@@ -2029,7 +2029,7 @@ var KNOWLEDGE_BASE = [
  {
  topic: "Where is Flexdrive available",
  keywords: ["where is flexdrive available?", "where available", "what cities", "locations", "states", "which cities", "is flexdrive in", "near me", "available cities", "how many locations", "flexdrive available", "where is flexdrive", "flexdrive locations", "flexdrive cities", "office locations", "all locations", "list of locations", "what states", "does flexdrive operate", "where does flexdrive operate", "flexdrive near me", "is there a flexdrive near me", "is flexdrive in my city", "flexdrive city list", "what markets", "which markets", "all markets", "flexdrive markets", "flexdrive offices", "where can i rent", "rental locations", "flexdrive map", "find a location"],
- useLocationCards: true,
+ marketsGrid: true,
  response: "Flexdrive is available in 22 cities across 14 states plus D.C. Here are all office locations:\n\nARIZONA\nPhoenix - 2540 E Magnolia Street, Phoenix, AZ 85034\n\nCALIFORNIA\nLos Angeles - 1754 N Main St, Los Angeles, CA 90031\nLos Angeles (Monrovia) - 1111 E Huntington Dr., Monrovia, CA 91016 (temporarily closed)\nSan Diego - 5816 Miramar Rd, San Diego, CA 92121\nSan Francisco - 312 8th St, San Francisco, CA 94103\n\nCOLORADO\nDenver - 4415 Ward Rd, Wheat Ridge, CO 80033\n\nGEORGIA\nAtlanta - 5575 Frontage Road, Forest Park, GA 30297\n\nILLINOIS\nChicago - 1020 N. Elston Ave, Chicago, IL 60642\n\nMARYLAND\nBaltimore - 5901 Reisterstown Rd, Baltimore, MD 21215\n\nMASSACHUSETTS\nBoston - 59 Tosca Dr, Stoughton, MA 02072\n\nNORTH CAROLINA\nCharlotte - 1039 Alleghany St., Charlotte, NC 28208\n\nOHIO\nCincinnati - 317 E. 9th Street, Cincinnati, OH 45202 (closes at 4 PM)\nCleveland - 15931 Lorain Ave, Cleveland, OH 44111\n\nOREGON\nPortland - 13779 SW Farmington Rd, Beaverton, OR 97005\n\nPENNSYLVANIA\nPhiladelphia - 3945 Frankford Ave, Philadelphia, PA 19124\nPittsburgh - 5913 Station Street, Pittsburgh, PA 15206\n\nTEXAS\nAustin - 7020 E Highway 290, Austin, TX 78723\nDallas/Fort Worth - 2214 Century City Blvd., Irving, TX 75062\nHouston - 2855 Mangum Rd., Suite B106, Houston, TX 77092\nSan Antonio - 12836 San Pedro Ave, San Antonio, TX 78216\n\nVIRGINIA\nVirginia Beach - 2886 Airline Blvd Suite B, Portsmouth, VA 23702\n\nWASHINGTON, D.C.\nDC/Virginia - 8201 Leesburg Pike, Vienna, VA 22182\n\nWISCONSIN\nMilwaukee - 550 W. Grange Ave., Milwaukee, WI 53207\n\nAll offices are open Monday-Friday, 9 AM-5 PM (except Cincinnati: 9 AM-4 PM). Appointments are not required but appreciated."
  },
  {
@@ -2136,7 +2136,8 @@ var KNOWLEDGE_BASE = [
  keywords: ["i'm leaving the state", "leaving the state", "moving out of state", "transferring to another city", "can i travel out of state", "travel out of state", "i am relocating", "moving", "relocate", "relocating", "transfer", "new state", "moving to", "different state", "switching states", "change state", "new city", "new market", "i'm moving", "moving out of state", "relocating to another city", "moving to a new city", "transferring to another market", "switching to a different city", "moving away", "new location", "different region", "going to a new state", "i want to drive in another state", "move my account", "transfer my account", "can i move my rental", "can i take the car with me", "drive to another state", "different market", "new market", "can i drive in california", "can i drive in texas"],
  needsRegion: true,
  needsRelocationRegion: true,
- response: "If you're moving to a different state with a Flexdrive location, here's what you need to do:\n\n1. RETURN YOUR CURRENT VEHICLE - You must return your rental at your current Flexdrive office. You cannot take a Flexdrive vehicle to a different state permanently.\n\n2. UPDATE YOUR LYFT DRIVER REGION - In the Lyft Driver app: Main Menu >Get Help >Help Center >Account and earnings. Request a region change.\n\n3. MEET NEW STATE REQUIREMENTS - Each state has different rules. You may need to get a new state driver's license, pass a vehicle inspection, or obtain special permits.\n\n4. RESERVE A NEW VEHICLE in your new market through the Lyft Driver app once approved.\n\nWould you like to know the specific Lyft requirements for the state you're moving to? Share the city or state and I'll provide the details."
+ movingAccordion: true,
+ response: "Here is everything you need to know about moving to a new state with Flexdrive:"
  }
 ];
 
@@ -2991,10 +2992,14 @@ function renderVendorCards(vendors) {
  var html = '<div class="vendor-card-name">' + v.name + '</div>';
  if (v.type) html += '<div class="vendor-card-type">' + v.type + '</div>';
  html += '<a class="vendor-card-detail" href="' + mapsUrl(v.address) + '" target="_blank" style="display:block;text-decoration:none;color:#5A6370;">' + v.address + '</a>';
- if (v.phone) html += '<div style="margin-top:8px;"><a class="vendor-card-phone" style="margin-top:0;" href="tel:' + v.phone.replace(/\D/g, '') + '">' + v.phone + '</a></div>';
- if (v.note) html += '<div class="vendor-card-detail" style="font-style:italic;color:#9BA3AE;margin-top:4px;">' + v.note + '</div>';
- if (v.bookingUrl) {
- html += '<div style="margin-top:10px;"><a href="' + v.bookingUrl + '" target="_blank" rel="noopener noreferrer" class="book-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Book Appointment</a></div>';
+ if (v.note) html += '<div class="vendor-card-detail" style="font-style:italic;color:#9BA3AE;margin-top:3px;">' + v.note + '</div>';
+ // Phone + Book button on same row
+ if (v.phone || v.bookingUrl) {
+ html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:7px;flex-wrap:wrap;gap:6px;">';
+ if (v.phone) html += '<a class="vendor-card-phone" style="margin-top:0;" href="tel:' + v.phone.replace(/\D/g, '') + '">' + v.phone + '</a>';
+ else html += '<span></span>';
+ if (v.bookingUrl) html += '<a href="' + v.bookingUrl + '" target="_blank" rel="noopener noreferrer" class="book-btn" style="margin-top:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Book</a>';
+ html += '</div>';
  }
  card.innerHTML = html;
  container.appendChild(card);
@@ -3024,6 +3029,101 @@ function renderQuickActions(actions) {
  container.appendChild(btn);
  });
  return container;
+}
+
+function renderMovingAccordion() {
+ var c = document.createElement('div');
+ c.className = 'ev-accordion';
+
+ makeAccordionItem(c, 'Before You Move — What You Need to Do', '', [
+ '<div class="ac-callout urgent"><strong>You Cannot Take the Vehicle With You</strong>Flexdrive vehicles cannot be permanently relocated to a different state. You must return your current vehicle before moving.</div>',
+ '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body"><strong>Complete any outstanding maintenance</strong> before returning — this keeps your account in good standing.</div></div>',
+ '<div class="ac-step"><div class="ac-step-num">2</div><div class="ac-step-body"><strong>Return your vehicle</strong> to your current Flexdrive office. Schedule in the Lyft Driver App: Vehicle tab → Schedule a return.</div></div>',
+ '<div class="ac-step"><div class="ac-step-num">3</div><div class="ac-step-body"><strong>Update your Lyft driver region</strong> in the Lyft Driver App:<br>Main Menu → Get Help → Help Center → Account and earnings. Request a region change.</div></div>',
+ '<div class="ac-step"><div class="ac-step-num">4</div><div class="ac-step-body"><strong>Meet new state requirements</strong> — each state has different rules. You may need a new state driver\'s license, a vehicle inspection, or special permits.</div></div>',
+ '<div class="ac-step"><div class="ac-step-num">5</div><div class="ac-step-body"><strong>Reserve a new vehicle</strong> in your new market through the Lyft Driver App once your region change is approved.</div></div>',
+ '<div class="ac-callout info"><strong>Is Flexdrive in Your New City?</strong>Flexdrive is available in 22 cities. Tap "Where is Flexdrive available?" to see the full list.</div>'
+ ].join(''));
+
+ makeAccordionItem(c, 'What Happens to Your Rental & Deposit', '', [
+ '<div class="ac-callout info"><strong>Rental Charges Stop When You Return the Vehicle</strong>Your contract closes on the next business day after return.</div>',
+ '<div class="ac-section-label">Deposit Refund Timeline</div>',
+ '<div class="ac-gate">',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">1</div><div>Contract is officially closed after vehicle is processed</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">2</div><div>Any outstanding balance is deducted from your deposit first</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">3</div><div>Deposit refunded to your original card within 3 weeks</div></div>',
+ '</div>',
+ '<div class="ac-callout warn"><strong>Outstanding Balance?</strong>Pay it off before or at return. An unpaid balance will delay your refund and may affect your ability to start a new rental in your new city.</div>'
+ ].join(''));
+
+ makeAccordionItem(c, 'Starting Fresh in Your New Market', '', [
+ '<div class="ac-callout success"><strong>Good News</strong>If your account is in good standing and your Lyft region change is approved, you can start a new rental in your new market.</div>',
+ '<div class="ac-section-label">Requirements to Re-Rent in a New Market</div>',
+ '<div class="ac-gate">',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Lyft region change approved</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>No outstanding balance from previous rental</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Account in good standing — no DNR status</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Meet the new state\'s driver requirements</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>New security deposit required</div></div>',
+ '</div>',
+ '<div class="ac-callout info"><strong>Questions About Your New Market?</strong>Tap Talk to Someone below and include your new city — our team can help coordinate.</div>'
+ ].join(''));
+
+ return c;
+}
+
+function renderMarketsGrid() {
+ var wrapper = document.createElement('div');
+ wrapper.style.cssText = 'width:100%;';
+
+ var markets = [
+ { state: 'Arizona', cities: ['Phoenix'] },
+ { state: 'California', cities: ['Los Angeles', 'Los Angeles (Monrovia)*', 'San Diego', 'San Francisco'] },
+ { state: 'Colorado', cities: ['Denver'] },
+ { state: 'Georgia', cities: ['Atlanta'] },
+ { state: 'Illinois', cities: ['Chicago'] },
+ { state: 'Maryland', cities: ['Baltimore'] },
+ { state: 'Massachusetts', cities: ['Boston'] },
+ { state: 'North Carolina', cities: ['Charlotte'] },
+ { state: 'Ohio', cities: ['Cincinnati', 'Cleveland'] },
+ { state: 'Oregon', cities: ['Portland'] },
+ { state: 'Pennsylvania', cities: ['Philadelphia', 'Pittsburgh'] },
+ { state: 'Texas', cities: ['Austin', 'Dallas/Fort Worth', 'Houston', 'San Antonio'] },
+ { state: 'Virginia', cities: ['Virginia Beach'] },
+ { state: 'Washington D.C.', cities: ['DC/Virginia'] },
+ { state: 'Wisconsin', cities: ['Milwaukee'] },
+ ];
+
+ markets.forEach(function(m) {
+ var stateBlock = document.createElement('div');
+ stateBlock.style.cssText = 'margin-bottom:10px;';
+
+ var stateLabel = document.createElement('div');
+ stateLabel.className = 'ac-section-label';
+ stateLabel.style.marginTop = '0';
+ stateLabel.textContent = m.state;
+ stateBlock.appendChild(stateLabel);
+
+ var cityRow = document.createElement('div');
+ cityRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;';
+
+ m.cities.forEach(function(city) {
+ var pill = document.createElement('div');
+ pill.style.cssText = 'background:#EEF3FA;border:1.5px solid #D0DCF0;border-radius:20px;padding:4px 12px;font-size:13px;color:#003B71;font-weight:600;';
+ pill.textContent = city;
+ cityRow.appendChild(pill);
+ });
+
+ stateBlock.appendChild(cityRow);
+ wrapper.appendChild(stateBlock);
+ });
+
+ var note = document.createElement('div');
+ note.style.cssText = 'font-size:12px;color:#7D868C;margin-top:10px;';
+ note.textContent = '* Temporarily closed. All offices open Monday–Friday, 9 AM–5 PM (Cincinnati closes at 4 PM).';
+ wrapper.appendChild(note);
+
+ return wrapper;
 }
 
 function renderRentalAccountAccordion() {
@@ -4419,6 +4519,355 @@ function logUnmatchedQuestion(question) {
  }).catch(function() {});
 }
 
+// ── CARD-LEVEL INLINE ANSWERS ─────────────────────────────────────────────────
+// Specific queries get a direct inline answer instead of opening the full accordion.
+// Each entry: { keywords: [...phrases], answer: "..." }
+// Keywords use substring matching (same as main engine) but checked as exact phrases.
+
+var CARD_ANSWERS = [
+
+ // ── ACCIDENT ──────────────────────────────────────────────────────────────────
+ { k: ["how do i report an accident","report an accident","report accident lyft","accident report lyft app","where to report accident"],
+ a: "Report in the Lyft Driver App immediately: Help → Support and Resources → Accident, damage, or unsafe ride → Report an accident. Also call the police and get an accident report number." },
+
+ { k: ["can i rent again after accident","can i rent after accident","rent again after accident","how long until i can rent again","how long dnr","how long do not rent"],
+ a: "After an accident you are placed on the Do Not Rent list immediately regardless of fault. You can re-rent once fault is determined, all damage fees are paid, and your account is in good standing. This process can take several months." },
+
+ { k: ["rental charges after accident","still being charged after accident","charges during repair","rental cost while car is being fixed","do i still pay rent if car is in shop"],
+ a: "Yes — rental charges continue until the vehicle is physically returned to the Flexdrive office and your contract is officially closed. Dropping it at a shop does not stop charges." },
+
+ { k: ["subrogation","get my money back after accident","will i get refunded if not at fault","not at fault refund","other driver was at fault refund"],
+ a: "If the other driver was at fault, Flexdrive may pursue subrogation — a legal process to recover costs from their insurance. If successful, applicable charges are refunded to you. This can take months and is separate from fault determination." },
+
+ { k: ["damage charge","deductible accident","how much is deductible","accident deductible","damage fee accident"],
+ a: "Up to $1,000 per incident for the deductible and up to $1,000 for glass damage, regardless of fault. With CDW, the deductible is waived." },
+
+ // ── ROADSIDE ──────────────────────────────────────────────────────────────────
+ { k: ["holman number","holman phone","call holman","holman roadside number","holman contact","roadside number","towing number"],
+ a: "Call Holman 24/7 at (833) 274-5938 for any roadside emergency — breakdown, flat tire, lockout, or tow. Do not call Allstate — Holman is your provider." },
+
+ { k: ["will i be charged for roadside","roadside fee","tow charge","towing fee","is roadside free","cost of roadside"],
+ a: "Most legitimate breakdowns are covered at no charge. You will be charged if you requested a non-emergency tow, ran the EV out of charge without a mechanical reason, or were not present when the tow arrived." },
+
+ { k: ["flat tire covered","flat tire charge","who pays for flat tire","flat tire fee"],
+ a: "With CDW, flat tire service is fully covered. Without CDW, normal wear flats are generally covered but road hazard or curb strike damage may result in a charge." },
+
+ { k: ["locked out","keys locked in car","lockout service","locked out of car","lost keys"],
+ a: "Call Holman at (833) 274-5938 for lockout service — available 24/7. Do not call a third-party locksmith as those costs will not be reimbursed." },
+
+ { k: ["key fob replacement","lost key fob","replace key fob","key fob cost","key replacement fee"],
+ a: "A key fob replacement fee of $300 may apply. Call Holman first to document the issue, then visit the Flexdrive office for the replacement." },
+
+ { k: ["jump start","dead battery","car won't start battery","battery dead"],
+ a: "Call Holman at (833) 274-5938 for a jump start — available 24/7. For EVs, a dead 12V auxiliary battery can prevent the car from starting even with a full main battery. Do not attempt to push-start an EV." },
+
+ { k: ["tire charge","tire suspension charge","suspension damage charge","how much for tire damage","tire damage fee"],
+ a: "Up to $500 per tire and up to $1,000 for suspension damage if caused by driver impact. Normal tread wear is not charged. TPMS sensor charges are never passed through." },
+
+ // ── CDW / PROTECTION ──────────────────────────────────────────────────────────
+ { k: ["how do i add cdw","add cdw","get cdw","sign up for cdw","add protection plan","add coverage"],
+ a: "Visit your Flexdrive office in person for a free vehicle inspection. CDW cannot be added through the app. Coverage begins the day the inspection is completed." },
+
+ { k: ["how do i remove cdw","cancel cdw","remove cdw","drop cdw","downgrade cdw","remove protection plan"],
+ a: "In the Lyft Driver App: Main Menu → Vehicles and Devices → Your Vehicles → See Details → Change plan. The change takes effect at your next weekly renewal. No inspection needed." },
+
+ { k: ["what does cdw cover","cdw covers what","cdw coverage","what is covered by cdw","cdw include"],
+ a: "CDW covers your $1,000 deductible, glass damage, flat tires, and towing. Without CDW, you are responsible for up to $1,000 for damage and up to $1,000 for glass, regardless of fault." },
+
+ { k: ["cdw exclusions","when does cdw not cover","cdw void","cdw invalid","cdw exceptions"],
+ a: "CDW does not cover damage from DUI, unauthorized drivers, racing, towing/pushing, criminal acts, driving outside the US, or intentional damage. CDW cannot be added retroactively after an incident." },
+
+ { k: ["what is pcdw","pcdw coverage","partial collision waiver","low deductible plan","pcdw vs cdw"],
+ a: "PCDW (Partial Collision Damage Waiver) reduces your deductible from $1,000 to $500. It does not cover glass damage or flat tires. Available in select markets only." },
+
+ { k: ["insurance period 1","period 1 coverage","app on no ride","waiting for ride coverage"],
+ a: "Period 1 (app on, waiting for a ride): physical damage covered regardless of fault with $1,000 deductible, liability coverage for third parties. Limits vary by state." },
+
+ { k: ["insurance period 2","insurance period 3","period 2 coverage","period 3 coverage","ride in progress coverage","on a trip coverage"],
+ a: "Periods 2 & 3 (ride accepted through drop-off): physical damage covered, liability up to $1,000,000 per accident ($125,000 in Maryland). $1,000 deductible applies unless you have CDW." },
+
+ { k: ["personal insurance","period 0","app off coverage","personal driving coverage","offline coverage"],
+ a: "Period 0 (app off): Flexdrive may provide coverage regardless of fault with a $1,000 deductible. Depending on your state, your personal insurance may be primary. States vary — check your rental agreement." },
+
+ // ── MILEAGE ───────────────────────────────────────────────────────────────────
+ { k: ["how are miles tracked","how does mileage work","how personal miles work","when do miles count","what counts as personal miles"],
+ a: "Personal miles are tracked every time the vehicle moves and your Lyft Driver App is NOT in Driver Mode. Miles driven while online giving rides do not count toward your personal mileage." },
+
+ { k: ["miles roll over","do miles roll over","unused miles","miles expire","miles reset"],
+ a: "Miles do not roll over. Unused miles are forfeited each Monday at 5:00 AM. Your first week is prorated based on your pickup day." },
+
+ { k: ["why did my miles go up","miles went up while parked","miles jumped overnight","miles while offline","miles while not driving"],
+ a: "Common causes: Destination Filter auto-logout after 30 minutes, consecutive missed rides logging you out, driving to/from maintenance (offline), or deactivation periods. Any movement while offline counts as personal miles." },
+
+ { k: ["destination filter logout","destination filter miles","destination filter 30 minutes"],
+ a: "After 30 minutes on a Destination Filter you are automatically logged out of Driver Mode. Any movement after that counts as personal miles. Re-enable after 30 minutes if you need to keep driving." },
+
+ { k: ["how to dispute miles","dispute mileage","mileage dispute process","wrong miles what to do","how do i dispute my mileage"],
+ a: "Tap Talk to Someone and include: the week you are disputing (Monday to Monday), the mileage amount you believe is incorrect, and any context such as a maintenance trip or deactivation period. We respond within 1 business day." },
+
+ { k: ["how to change mileage plan","change miles plan","switch mileage plan","upgrade mileage","downgrade mileage","change my miles"],
+ a: "In the Lyft Driver App: Main Menu → Vehicles and Devices → Your Vehicles → See Details → Change mileage plan. Changes take effect Monday at 5:00 AM — not mid-week." },
+
+ { k: ["overage rate","overage fee","cost per mile over","how much per mile over","overage charge","mileage overage cost"],
+ a: "Overage fees are charged in 25-mile increments and vary by market. To find your exact rate: Lyft Driver App → Vehicles and Devices → Your Vehicles → See Details." },
+
+ { k: ["check my miles","how do i check my miles","where do i see my miles","current mileage balance","how many miles do i have left"],
+ a: "Swipe up on the Lyft Driver App main screen when not in Driver Mode to see your current personal mileage balance and remaining miles for the week." },
+
+ // ── BILLING ───────────────────────────────────────────────────────────────────
+ { k: ["billing week","when does billing week start","when does billing week end","billing week monday","billing schedule"],
+ a: "Your billing week runs Monday to Monday — starts at 5:00 AM and ends the following Monday at 4:59 AM. Earnings cover rental costs throughout the week; any remaining balance is charged to your card on Tuesday." },
+
+ { k: ["when am i charged","when does my card get charged","what day is my card charged","tuesday charge","card charged tuesday"],
+ a: "If your Lyft earnings don't fully cover the rental by Monday 4:59 AM, the remaining balance is charged to your card on file the following Tuesday." },
+
+ { k: ["why did my bill change","why did my rate change","why is my bill different","rate went up reason","bill higher than usual"],
+ a: "Common reasons: first week proration, mileage plan change, personal mileage overages, delayed toll charges (2-3 week delay), or CDW/PCDW added to your plan." },
+
+ { k: ["first week charge","prorated charge","first week bill","why is first week different","first payment"],
+ a: "Your first week is prorated based on your pickup day, so it is typically less than your standard weekly rate. This is normal." },
+
+ { k: ["how to pay balance","pay my balance","pay overdue balance","pay what i owe","pay now lyft app","how to pay flexdrive"],
+ a: "In the Lyft Driver App: Main Menu → Account → Pay and Tax Info. Update your payment info if needed, then select Pay Now. Do not wait — repossession consequences apply until the balance is cleared." },
+
+ { k: ["foundever","repayment plan","payment arrangement","partial payment","can i make partial payments"],
+ a: "Foundever can accept partial payments while your rental is active. Call (972) 936-8999, Monday–Saturday 7:00 AM – 9:00 PM CST. Repayment plans are also available after the vehicle is returned." },
+
+ { k: ["sent to collections","debt collector","collection agency","collections notice","flexdrive collections"],
+ a: "An unpaid Flexdrive balance may be referred to a collection agency. To avoid this, pay your balance in the Lyft App (Menu → Account → Pay and Tax Info → Pay Now) or call Foundever at (972) 936-8999 to set up a repayment plan." },
+
+ { k: ["view billing history","see my charges","billing history","express drive billing","check my charges","billing breakdown"],
+ a: "In the Lyft Driver App: Main Menu → Account → Express Drive billing history. This shows a full breakdown of all weekly charges." },
+
+ { k: ["unexpected card charge","random charge on card","card charged unexpectedly","why was my card charged","card charged out of nowhere"],
+ a: "Your card is charged on Tuesday if your Lyft earnings didn't fully cover the rental by Monday 4:59 AM. Check your billing history in the Lyft App: Main Menu → Account → Express Drive billing history." },
+
+ // ── DEPOSIT ───────────────────────────────────────────────────────────────────
+ { k: ["when do i get my deposit back","deposit timeline","how long for deposit","deposit refund timeline","3 weeks deposit"],
+ a: "Within 3 weeks after your contract is officially closed. Any outstanding balance is deducted first, then the remainder is refunded to your original payment card." },
+
+ { k: ["deposit original card","deposit different card","deposit card closed","can i change deposit card","where does deposit go"],
+ a: "The deposit can only be returned to the original card on file when you placed it. Changing your payout method in the Lyft App does not affect where your deposit is sent." },
+
+ { k: ["deposit not received","deposit missing","haven't received deposit","where is my deposit","deposit late","deposit not back"],
+ a: "First confirm your contract is officially closed. Then wait the full 30 days — banks vary on processing time. Contact your bank with your ARN number (available 1-3 days after refund is issued for Visa/Mastercard). If still missing after 30 days, tap Talk to Someone." },
+
+ { k: ["arn number","acquirer reference number","bank tracking deposit","trace my deposit","deposit tracking"],
+ a: "An ARN (Acquirer Reference Number) for bank tracking becomes available within 1-3 days of the refund being initiated for Visa and Mastercard only. Provide this to your bank to trace the transaction." },
+
+ // ── RETURN ────────────────────────────────────────────────────────────────────
+ { k: ["how to schedule return","schedule a return","book return appointment","return appointment","how do i return my car"],
+ a: "In the Lyft Driver App: Vehicle tab at the bottom of the page → Schedule a return. Appointments are not required but appreciated. Office hours: Monday–Friday 9:00 AM – 5:00 PM." },
+
+ { k: ["return requirements","what condition return","car condition at return","clean car return","what do i need to return"],
+ a: "Return the vehicle with: interior vacuumed and wiped down, exterior washed, fuel or charge at the same level as pickup, and all keys/accessories. Fees apply if cleaning or fueling requirements are not met." },
+
+ { k: ["after hours return","night return","weekend return","return on weekend","return after 5pm","drop box return"],
+ a: "You can use the overnight drop box to the right of the mailbox at the office. Your rental contract will NOT close until the next business day and charges continue through that date." },
+
+ { k: ["minimum rental period","minimum rental","7 day minimum","early return","can i return early","return before 7 days"],
+ a: "The minimum rental period is 7 days. Your rental auto-renews each week as long as you meet requirements. To return, schedule in the Lyft Driver App: Vehicle tab → Schedule a return." },
+
+ { k: ["delete phone from car","remove personal data car","infotainment personal data","remove contacts from car","paired phone return"],
+ a: "Before returning, delete your personal information from the vehicle's infotainment or navigation system. Flexdrive is not responsible for personal data left in the vehicle." },
+
+ { k: ["belongings in car","items left in car","stuff left in car","personal items in returned car","forgot something in car"],
+ a: "Flexdrive is NOT responsible for any belongings left in the vehicle after return or repossession. All belongings left in the vehicle will be disposed of upon return. Retrieve everything before returning." },
+
+ // ── SWAPS ─────────────────────────────────────────────────────────────────────
+ { k: ["can i swap my car","can i get a different car","swap my vehicle","vehicle swap eligibility","qualify for swap"],
+ a: "Flexdrive does not swap vehicles based on preference. A swap is only considered for two reasons: (1) Remarketing — Flexdrive pulls your vehicle from the fleet, or (2) a verified serious mechanical issue confirmed by an approved vendor." },
+
+ { k: ["what is remarketing","remarketing notice","due for replacement","vehicle being replaced","remarketing email"],
+ a: "Remarketing means Flexdrive is pulling your vehicle from the rental fleet. You will be contacted with instructions to come in. The timeline: Day 10 initial notice, Day 24 warning, Day 38 vehicle deactivated and $500 repossession fee may apply." },
+
+ { k: ["remarketing timeline","swap appointment timeline","how long until swap","when do i swap","remarketing days"],
+ a: "Day 10: initial notice sent. Day 24: warning about rideshare ineligibility. Day 38: vehicle deactivated — blocked from going online. Repeatedly missing swap appointments can result in DNR status." },
+
+ { k: ["missed swap appointment","missed my swap","didn't make swap appointment","late for swap"],
+ a: "Contact us immediately — tap Talk to Someone or come to the office. Schedule a new appointment as soon as possible. Day 38 consequences are real and will proceed without action on your part." },
+
+ { k: ["swap for mechanical issue","mechanical problem swap","car problem swap","need new car mechanical","broken car swap"],
+ a: "Take the vehicle to an approved vendor first. Tell them it is a Flexdrive vehicle. They confirm the issue to Flexdrive directly. Once we receive their confirmation, we determine if a swap is warranted." },
+
+ { k: ["remarketing deposit","deposit during swap","do i need new deposit for swap","deposit stays during swap"],
+ a: "Your deposit stays on file during a remarketing swap as long as your account is in good standing. No new deposit is required for the replacement vehicle." },
+
+ // ── EV ────────────────────────────────────────────────────────────────────────
+ { k: ["evgo discount","evgo setup","connect evgo","evgo charging discount","evgo account"],
+ a: "In the Lyft Driver App: Vehicles and Devices → Electric Vehicle Hub → Discounted Fast Charging → enter your email and connect to EVgo. Check the EVgo app Plans section to confirm. Use the EVgo app at any station to start charging." },
+
+ { k: ["electrify america discount","electrify america setup","ea charging discount","electrify america code"],
+ a: "Lyft Driver App: Main Menu → Lyft Rewards → Request an enrollment code (arrives within 2 hours). Enter the code as a promo in the Electrify America app. To charge: plug in, open the EA app, find the station number on the pump, and slide green to begin." },
+
+ { k: ["turtle mode","power limited","ev turtle","battery critically low","low battery warning ev"],
+ a: "Turtle mode means your battery is critically low. The car will reduce speed and acceleration. Find the nearest charging station immediately — do not try to complete rides. If you cannot reach a charger, call Holman at (833) 274-5938 for a tow." },
+
+ { k: ["ev return charge level","ev return battery","return ev at 80","ev charging requirement return","ev return fee"],
+ a: "Return your EV with at least 80% charge. Fees: 20-80% = $30, below 20% = up to $70 (CA, CO, MD: $30 recharge + $40 admin fee). Cannot reach 80%? Let the office know when you arrive." },
+
+ { k: ["how to charge ev","where to charge","charging station near me","find charging station","ev charging location"],
+ a: "Two ways: (1) Lyft Driver App → Electric Vehicle Hub → Charging Stations for nearby stations and discounts, or (2) download PlugShare and filter for CCS/SAE, EVgo + Electrify America networks, minimum 50kW." },
+
+ { k: ["charging speed","level 1 level 2 level 3","dcfc charging","fast charger ev","how fast does ev charge"],
+ a: "Level 1 (~48 hours, standard outlet) — avoid for daily use. Level 2 (~6-8 hours, home/work charger). Level 3 DCFC (~45 minutes to 80%, fast charger) — always prioritize when you need a quick top-up." },
+
+ { k: ["ev range tips","save ev range","increase ev range","ev battery tips","maximize range ev"],
+ a: "Use seat warmers instead of the heater, turn off AC and use Drive Mode, use regenerative braking, avoid Accessory Mode, charge proactively before hitting 20%. Cold weather reduces range — plan for more frequent charging." },
+
+ { k: ["ev charging support","broken charger","charger not working","charging station problem","evgo support number","electrify america support"],
+ a: "EVgo support: (855) 509-5581. Electrify America support: (833) 632-2778. The support number is also on the charger itself. Lyft and Flexdrive cannot assist with charging station technical issues." },
+
+ { k: ["ev not fast charging","ev charging slow","not charging at full speed","dcfc charging slow","ev charge slow"],
+ a: "Slow charging on a fast charger can indicate a drained 12V auxiliary battery (separate from the main drive battery). Take the vehicle to an approved vendor for inspection." },
+
+ { k: ["ev idle fee","charging idle fee","move car charger","charged for sitting at charger"],
+ a: "Public chargers may charge up to $1/min for cars sitting past 80% during busy hours. Unplug promptly once charged." },
+
+ // ── INSPECTIONS ───────────────────────────────────────────────────────────────
+ { k: ["visit your rental location email","inspection email what to do","got inspection email","visit rental location","inspection notice email"],
+ a: "Bring your vehicle to the Flexdrive office as soon as possible. Complete any outstanding maintenance before arriving. An Operations Associate will complete the inspection — no appointment needed. Monday–Friday 9:00 AM – 5:00 PM." },
+
+ { k: ["annual lyft inspection","lyft annual inspection","annual vehicle inspection","yearly inspection lyft","inspection due lyft"],
+ a: "Open the Lyft Driver App to find an approved inspection location near you. Bring your Flexdrive rental — no payment needed. Results submit to Lyft automatically. Failing to complete by the due date may result in Lyft deactivation." },
+
+ { k: ["pbot inspection","portland inspection","pbot vehicle check","pbot flexdrive"],
+ a: "For a PBOT inspection in Portland, call the shop ahead of your visit to confirm they can perform PBOT inspections before booking. Questions? Tap Send a Message below." },
+
+ // ── RENTAL ACCOUNT ────────────────────────────────────────────────────────────
+ { k: ["what to bring pickup","pickup appointment","picking up my car what do i need","what do i need at pickup","reservation pickup"],
+ a: "Bring: valid U.S. driver's license, the payment card used for your deposit (must be in your name), and have your Lyft Driver App open and ready. Office hours: Monday–Friday 9:00 AM – 5:00 PM." },
+
+ { k: ["what is included in rental","does rental include maintenance","what comes with rental","rental includes what","does flexdrive include insurance"],
+ a: "Included: vehicle use within your mileage plan, insurance coverage, preventative maintenance at approved vendors (oil changes, diagnostics, tires), and 24/7 Holman roadside at (833) 274-5938. Not included: gas/charging, tolls, violations, overages, or CDW." },
+
+ { k: ["how to extend rental","extend my rental","renew rental","keep the car longer","how long can i keep the car"],
+ a: "Your rental renews automatically every week as long as you meet requirements (no overdue balance, minimum rides, maintenance up to date, active Lyft account). No action needed to continue. To return, use the Lyft Driver App: Vehicle tab → Schedule a return." },
+
+ { k: ["auto renewal requirements","rental renewal requirements","what do i need to keep renting","renewal conditions"],
+ a: "Your rental auto-renews if: payment is current, you complete at least 20 rides per week, scheduled maintenance is up to date, and your Lyft account remains active and in good standing." },
+
+ { k: ["eligibility to rent","age requirement flexdrive","how old to rent flexdrive","flexdrive requirements","can i rent flexdrive"],
+ a: "You must be at least 25 years old, have a valid U.S. driver's license, pass a background check, be approved and active on Lyft, complete minimum weekly rides, provide a valid payment card (no prepaid/gift cards), and pay a security deposit." },
+
+ { k: ["background check status","lyft background check","re-screening","background check failed","background screening"],
+ a: "Background checks are run and managed by Lyft — not Flexdrive. Check the Lyft Driver App for your status. Contact Lyft support through the Driver App or visit help.lyft.com to dispute or appeal." },
+
+ // ── EARNINGS ──────────────────────────────────────────────────────────────────
+ { k: ["how does express pay work","instant pay how does it work","express pay explained","how to use express pay","express pay lyft"],
+ a: "Express Pay lets you transfer earnings to a debit card instantly (fee applies) or to a bank account for free within 1-5 business days. Your rental cost is covered first — then you can cash out the remainder." },
+
+ { k: ["why can't i cash out","can't cash out earnings","unable to cash out","earnings not available","cash out not working"],
+ a: "Your Lyft earnings cover your weekly rental cost first. You can only cash out what remains after rental charges are covered. An outstanding balance from a prior week means all earnings go toward that first. Check: Lyft App → Account → Express Drive billing history." },
+
+ { k: ["lyft deactivated my account","lyft account deactivated","deactivated by lyft","lyft suspended me","lyft account suspended"],
+ a: "If your Lyft account is deactivated you must return your Flexdrive rental. Schedule a return in the Lyft Driver App or contact the office. Outstanding rental charges remain your responsibility. Appeal your deactivation through Lyft — Flexdrive cannot restore your account." },
+
+ { k: ["reactivated by lyft","lyft account restored","can i rent after reactivation","rent again after deactivation"],
+ a: "Once your Lyft account is restored and in good standing, contact our office to discuss availability for a new rental." },
+
+ // ── VEHICLE RULES ─────────────────────────────────────────────────────────────
+ { k: ["cleaning fee","dirty car fee","clean car fee","what is cleaning fee","vehicle cleaning charge"],
+ a: "Vehicle Cleaning: $50. Excessive pet hair: $300. Smoke odor: $300. Full detail: $150. Fees are charged when the vehicle is not returned in reasonable condition." },
+
+ { k: ["smoke fee","smoking fee","smoking charge","smoke removal fee","cigarette smell fee"],
+ a: "A $300 smoke removal fee is charged if smoking is detected. Smoking — including vaping and e-cigarettes — is never permitted in a Flexdrive rental vehicle, even with windows down." },
+
+ { k: ["pet fee","pet hair fee","dog in car fee","animals in car charge","excessive pet cleaning"],
+ a: "A $300 excessive pet hair cleaning fee applies if pet hair is found in the vehicle at return. Pets are permitted but you are responsible for cleaning." },
+
+ { k: ["toll charge personal","personal toll","tolls who pays","am i charged for tolls","toll fee flexdrive"],
+ a: "Tolls incurred during a Lyft ride are reimbursed through your earnings. Tolls during personal driving (app off) are charged to you and added to your weekly rental costs. Charges often appear 2-3 weeks after the trip." },
+
+ { k: ["parking ticket","traffic ticket","traffic violation","parking violation","citation flexdrive","got a ticket"],
+ a: "All traffic and parking violations are your responsibility to resolve directly with the issuing authority. A $50 administrative processing fee may apply per violation notification we receive. Exception: registration citations are Flexdrive's responsibility — bring the citation to the office." },
+
+ { k: ["late return fee","didn't return car","failure to return","overdue rental consequences","vehicle not returned"],
+ a: "If you don't return the vehicle after your rental ends, Flexdrive may repossess it without notice. A $500 repossession fee may apply and you will be placed on the Do Not Rent list. In Arizona, failure to return within 72 hours is a Class 5 Felony." },
+
+ { k: ["prohibited uses","what can't i do with car","not allowed rental","forbidden uses rental","car rules flexdrive"],
+ a: "Prohibited: racing, unauthorized drivers, DUI, towing/pushing anything, driving on unpaved roads, moving the vehicle permanently out of state, criminal activity, subleasing, or providing false info to Flexdrive. Violations void your insurance coverage." },
+
+ { k: ["can someone else drive","unauthorized driver","spouse drive","friend drive my flexdrive","can my wife drive","can my husband drive"],
+ a: "Only the approved renter may drive the Flexdrive vehicle. Unauthorized drivers are a prohibited use and void your CDW/insurance coverage — no exceptions." },
+
+ // ── MOVING ────────────────────────────────────────────────────────────────────
+ { k: ["can i take car to another state","drive to another state","move to new state flexdrive","take flexdrive to new city","relocate with flexdrive car"],
+ a: "You cannot permanently take a Flexdrive vehicle to a different state. Return your current vehicle, update your Lyft driver region, meet the new state's requirements, then reserve a new vehicle in your new market through the Lyft Driver App." },
+
+ { k: ["update lyft region","change lyft region","request region change lyft","move lyft account to new city"],
+ a: "In the Lyft Driver App: Main Menu → Get Help → Help Center → Account and earnings. Request a region change. You must return your current Flexdrive vehicle before relocating." },
+
+ { k: ["flexdrive cities","flexdrive locations","what cities is flexdrive in","is flexdrive in my city","flexdrive available where"],
+ a: "Flexdrive is available in 22 cities across 14 states plus D.C.: Phoenix, Los Angeles (2 locations), San Diego, San Francisco, Denver, Atlanta, Chicago, Baltimore, Boston, Charlotte, Cincinnati, Cleveland, Portland, Philadelphia, Pittsburgh, Austin, Dallas/Fort Worth, Houston, San Antonio, Virginia Beach, DC/Virginia, and Milwaukee." },
+
+ // ── MAINTENANCE ───────────────────────────────────────────────────────────────
+ { k: ["approved vendor","flexdrive vendor list","where to get oil change","maintenance vendor near me","find approved vendor","which shops accept flexdrive"],
+ a: "Tap 'Find a maintenance vendor' to see your market's approved vendor list. Always tell the shop 'This is a Flexdrive vehicle' when you arrive to ensure billing goes to Flexdrive, not you." },
+
+ { k: ["tell shop flexdrive vehicle","mention flexdrive at shop","what to say at vendor","billing to flexdrive maintenance"],
+ a: "Always tell the shop 'This is a Flexdrive vehicle' when you arrive — either in the appointment notes or in person. This ensures billing goes to Flexdrive, not you." },
+
+ { k: ["charged by vendor","vendor charged me","shop billed me","paid for maintenance out of pocket","shop charged my card"],
+ a: "If you were charged at an approved vendor, visit the Flexdrive office with your receipt or tap Talk to Someone below. Our team will review the charge. If the service was at a non-approved location, we are unable to reimburse those costs." },
+
+ // ── WINDSHIELD ────────────────────────────────────────────────────────────────
+ { k: ["cracked windshield","broken windshield","windshield chip","windshield damage","glass damage repair","windshield replacement"],
+ a: "Call Holman at (833) 274-5938 — available 24/7. Do not take the vehicle to a glass shop on your own. With CDW, glass is fully covered. Without CDW, you may be responsible for up to $1,000." },
+
+ // ── FUEL ──────────────────────────────────────────────────────────────────────
+ { k: ["fuel level at return","fuel return requirement","gas level return","return fuel level","tank level return"],
+ a: "Return the vehicle at the same fuel level as pickup. Fuel fees vary by market — typically $18–$25 per 1/4 tank. Check the Lyft Driver App for your exact rate." },
+
+ // ── REGISTRATION ──────────────────────────────────────────────────────────────
+ { k: ["registration expired","expired tags","expired registration","registration citation","tags expired"],
+ a: "An expired registration citation is Flexdrive's responsibility — not yours. Bring the citation to the office immediately. You should not be held responsible for this." },
+
+ // ── DASHBOARD ─────────────────────────────────────────────────────────────────
+ { k: ["check engine light","engine light on","maintenance light on","oil light on","dashboard warning","warning light on"],
+ a: "Take the vehicle to an approved maintenance vendor as soon as possible. If the light is serious or the car feels unsafe, call Holman at (833) 274-5938 — available 24/7." },
+
+ // ── MISC ──────────────────────────────────────────────────────────────────────
+ { k: ["what is flexdrive","what is express drive","flexdrive explained","what is the express drive program","how does flexdrive work"],
+ a: "Flexdrive is Lyft's Express Drive vehicle rental program. It lets Lyft drivers rent a vehicle weekly to drive on the Lyft platform. Rentals include maintenance and roadside — you cover fuel, tolls, and violations." },
+
+ { k: ["speak to a manager","talk to manager","escalate issue","request manager","manager flexdrive"],
+ a: "Tap Talk to Someone below to reach our team. If you have an urgent issue requiring a manager, include 'Requesting manager review' in your message and describe the situation in detail." },
+
+ { k: ["rental agreement","contract terms","flexdrive terms","view my contract","rental terms and conditions"],
+ a: "Your full rental terms are at flexdrive.com/rental-agreement. Key points: 7-day minimum, only approved renter may drive, all maintenance at approved vendors, you are responsible for violations and tolls, CDW/PCDW are optional. Disputes resolved through binding arbitration." },
+
+ { k: ["lyft amp","lyft sticker","trade dress","trade dress requirement","lyft light up sign","glowstache"],
+ a: "Lyft trade dress (amp or sticker) must be displayed when giving rides per Lyft requirements. Contact your local Flexdrive office if you need a replacement amp or trade dress item." },
+
+ { k: ["vehicle noise","strange noise","car makes noise","rattling sound","weird sound car"],
+ a: "If your vehicle is making an unusual noise, take it to an approved maintenance vendor for inspection. If the noise is severe or the car feels unsafe to drive, call Holman at (833) 274-5938 before driving further." },
+
+ { k: ["car smells","bad odor in car","weird smell car","odor complaint","car stinks"],
+ a: "If the vehicle has an odor at pickup, report it to the office immediately and document it before driving. If the smell develops during your rental, take it to an approved vendor for inspection." },
+
+ { k: ["repossessed car","vehicle repossessed","car was repossessed","belongings in repossessed car","repo belongings"],
+ a: "If your vehicle was repossessed, Flexdrive is not responsible for any belongings left inside. Contact your office immediately — a $500 recovery fee may apply and to discuss next steps for your account." },
+
+ { k: ["lyft app issue","lyft app not working","lyft earnings wrong","lyft platform issue","lyft support"],
+ a: "Flexdrive handles vehicle rental questions only. For issues with the Lyft app, earnings, or platform features, contact Lyft support through the Driver App or visit help.lyft.com." },
+
+];
+
+function findCardAnswer(text) {
+ var lower = text.toLowerCase().trim();
+ for (var i = 0; i < CARD_ANSWERS.length; i++) {
+ var entry = CARD_ANSWERS[i];
+ for (var j = 0; j < entry.k.length; j++) {
+ if (lower.includes(entry.k[j])) {
+ return entry.a;
+ }
+ }
+ }
+ return null;
+}
+
+
 // SEND & RESPOND 
 function sendMessage() {
  userInput.removeAttribute('readonly'); // ensure value is readable
@@ -4443,6 +4892,16 @@ function sendMessage() {
 
  setTimeout(function() {
  removeTyping();
+
+ // Card-level inline answer — check BEFORE topic-level match
+ var cardAnswer = findCardAnswer(text);
+ if (cardAnswer) {
+ removeTyping();
+ renderMessage('assistant', cardAnswer);
+ isTyping = false;
+ setTimeout(function() { appendQuickActions(true, false); }, 400);
+ return;
+ }
 
  var match = findBestMatch(text);
  var wantsVendor = needsVendorLookup(text);
@@ -4517,6 +4976,11 @@ function sendMessage() {
  } else if (match.roadsideAccordion) {
  var roadsideAccordion = renderRoadsideAccordion();
  renderMessage('assistant', responseText, roadsideAccordion);
+ } else if (match.movingAccordion) {
+ renderMessage('assistant', 'Here is everything you need to know about moving to a new state:', renderMovingAccordion());
+ } else if (match.marketsGrid) {
+ var gridEl = renderMarketsGrid();
+ renderMessage('assistant', responseText, gridEl);
  } else if (match.rentalAccountAccordion) {
  renderMessage('assistant', 'Here is everything you need to know about your rental account:', renderRentalAccountAccordion());
  } else if (match.earningsAccordion) {
