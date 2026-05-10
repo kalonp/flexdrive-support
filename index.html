@@ -308,6 +308,7 @@
  word-wrap: break-word;
  word-break: break-word;
  -webkit-font-smoothing: antialiased;
+ will-change: opacity, transform;
  }
  .msg-bubble-wrap { display: flex; flex-direction: column; flex: 1; min-width: 0; }
  .msg-bubble.truncated { max-height: 200px; overflow: hidden; position: relative; }
@@ -649,13 +650,14 @@
  background: var(--white);
  border-top: 1px solid #E2E8EF;
  white-space: pre-wrap; word-wrap: break-word;
- animation: bodyReveal 0.38s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+ animation: bodyReveal 0.2s ease-out both;
+ will-change: opacity;
  position: relative;
  }
 
  @keyframes bodyReveal {
- 0% { opacity: 0; transform: translateY(-8px); }
- 100% { opacity: 1; transform: translateY(0); }
+ 0% { opacity: 0; }
+ 100% { opacity: 1; }
  }
  .ev-accordion-body a { color: var(--navy); text-decoration: underline; word-break: break-all; }
 
@@ -2839,17 +2841,7 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  row.appendChild(av);
  row.appendChild(quickActions);
  chatArea.appendChild(row);
- // Scroll to top of the bot response, not the bottom
- var botRows = chatArea.querySelectorAll('.msg-row.assistant');
- var targetRow = botRows.length >= 2 ? botRows[botRows.length - 2] : botRows[botRows.length - 1];
- if (targetRow) {
- setTimeout(function() {
- var rect = targetRow.getBoundingClientRect();
- var chatRect = chatArea.getBoundingClientRect();
- var newTop = chatArea.scrollTop + (rect.top - chatRect.top) - 12;
- chatArea.scrollTo({ top: Math.max(0, newTop), behavior: 'smooth' });
- }, 50);
- }
+ // No scroll here — renderMessage already positioned the view correctly
 }
 
 function renderMessage(role, content, extra) {
@@ -4041,14 +4033,16 @@ function makeAccordionItem(container, title, emoji, htmlContent) {
  body.innerHTML = htmlContent;
  header.addEventListener('click', function() {
  var isOpen = body.style.display === 'block';
- container.querySelectorAll('.ev-accordion-body').forEach(function(b) { b.style.display = 'none'; });
- container.querySelectorAll('.ev-accordion-header').forEach(function(h) { h.classList.remove('open'); });
- container.querySelectorAll('.ev-accordion-item').forEach(function(i) { i.classList.remove('is-open'); });
+ var bodies = container.querySelectorAll('.ev-accordion-body');
+ var headers = container.querySelectorAll('.ev-accordion-header');
+ var items = container.querySelectorAll('.ev-accordion-item');
+ for (var bi=0;bi<bodies.length;bi++) bodies[bi].style.display = 'none';
+ for (var hi=0;hi<headers.length;hi++) headers[hi].classList.remove('open');
+ for (var ii=0;ii<items.length;ii++) items[ii].classList.remove('is-open');
  if (!isOpen) {
- body.style.animation = 'none'; body.offsetHeight; body.style.animation = '';
  body.style.display = 'block';
  header.classList.add('open'); item.classList.add('is-open');
- item.scrollIntoView({ behavior: 'instant', block: 'start' });
+ setTimeout(function() { item.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50);
  }
  });
  item.appendChild(header); item.appendChild(body); container.appendChild(item);
@@ -5210,7 +5204,7 @@ function sendMessage() {
  row.appendChild(av2);
  row.appendChild(suggActions);
  chatArea.appendChild(row);
- scrollToBottom();
+ scrollToElement(row);
  }, 400);
  } else {
  // No partial matches at all
