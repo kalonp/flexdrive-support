@@ -822,7 +822,7 @@
  -webkit-overflow-scrolling: touch;
  }
  .modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
- .modal-title { font-size: 24px; font-weight: 700; color: var(--navy); }
+ .modal-title { font-size: 24px; font-weight: 700; color: #003B71; }
  .modal-subtitle { font-size: 15px; color: var(--gray); margin-top: 3px; }
  .modal-close {
  width: 34px; height: 34px; border: none;
@@ -832,7 +832,7 @@
  flex-shrink: 0; margin-top: 4px; touch-action: manipulation;
  }
  .modal-hours {
- background: #EEF3FA; border-left: 4px solid var(--navy);
+ background: #EEF3FA; border-left: 4px solid #003B71;
  border-radius: 0 12px 12px 0; padding: 12px 16px;
  font-size: 14px; color: #3A4A5C; margin: 14px 0; line-height: 1.6;
  }
@@ -858,11 +858,13 @@
  .modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
  .modal-submit {
  width: 100%; padding: 16px;
- background: #003B71; color: var(--white);
+ background-color: #003B71;
+ background-image: none;
+ color: var(--white);
  border: none; border-radius: 16px;
  font-family: var(--font); font-size: 18px; font-weight: 700;
  cursor: pointer; margin-top: 10px;
- box-shadow: 0 4px 16px rgba(0,59,113,0.35);
+ box-shadow: none;
  min-height: 56px; touch-action: manipulation;
  }
  .modal-submit:active { opacity: 0.88; transform: scale(0.99); }
@@ -1000,9 +1002,9 @@
  .ev-accordion-header.open { background: #003B71; color: #fff; }
  .ev-accordion-body { background: #161B22; color: #E6EDF3; }
  .modal-box { background: #161B22; }
- .modal-title { color: #58A6FF; }
+ .modal-title { color: #003B71; }
  .modal-subtitle { color: #8B949E; }
- .modal-hours { background: #1C2333; border-left-color: #58A6FF; color: #8B949E; }
+ .modal-hours { background: #1C2333; border-left-color: #003B71; color: #C0C8D4; }
  .modal-input, .modal-select, .modal-textarea { background: #0D1117; color: #E6EDF3; border-color: #30363D; }
  .modal-label { color: #8B949E; }
  .modal-close { background: #30363D; color: #E6EDF3; }
@@ -1012,6 +1014,7 @@
  .modal-success-text { color: #8B949E; }
  .location-prompt input { background: #161B22; color: #E6EDF3; border-color: #30363D; }
  .location-prompt input::placeholder { color: #8B949E; }
+ .modal-submit { background-color: #003B71; background-image: none; box-shadow: none; }
  .send-msg-btn { background: #1A3A6B; color: #E6EDF3; box-shadow: 0 2px 6px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(255,255,255,0.08); }
  .send-msg-btn:hover { background: #1E4280; }
  .expand-toggle-btn { background: #161B22; color: #8B949E; border-color: #30363D; }
@@ -1170,7 +1173,7 @@
  <div class="modal-field">
  <label class="modal-label">Attachment <span style="font-weight:400;text-transform:none;font-size:11px;color:#9BA8B8;">(optional)</span></label>
  <input type="file" id="cf-attachment" accept="image/*,.pdf" style="display:none;" onchange="handleAttachmentChange(this)" />
- <div id="attach-drop-zone" onclick="document.getElementById('cf-attachment').click()" style="border:2px dashed rgba(0,59,113,0.3);border-radius:14px;padding:20px 16px;text-align:center;cursor:pointer;background:linear-gradient(135deg,rgba(0,59,113,0.05) 0%,rgba(74,133,184,0.08) 100%);transition:border-color 0.15s,background 0.15s;touch-action:manipulation;">
+ <div id="attach-drop-zone" onclick="document.getElementById('cf-attachment').click()" style="border:2px dashed rgba(0,59,113,0.3);border-radius:14px;padding:20px 16px;text-align:center;cursor:pointer;background:rgba(0,59,113,0.04);transition:border-color 0.15s,background 0.15s;touch-action:manipulation;">
  <div style="font-size:32px;margin-bottom:8px;">&#128206;</div>
  <div style="font-size:15px;font-weight:600;color:#003B71;">Tap to attach a photo or PDF</div>
  <div style="font-size:12px;color:#9BA8B8;margin-top:4px;">JPG · PNG · PDF — max 5MB</div>
@@ -1907,7 +1910,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "EV / electric vehicle",
- keywords: ["where can i charge my electric car", "how do i plug in", "charging cord", "how do i charge the car", "charging the car", "charge the car", "ev", "electric", "charging", "charge", "battery", "plug in", "electric vehicle", "ev hub", "evgo", "electrify america", "charging station", "how to charge", "where to charge", "ev tips", "range", "charging discount", "charge cord", "charge card", "i have an electric car", "electric rental", "tesla", "chevy bolt", "nissan leaf", "prius", "hybrid", "where do i charge", "charging network", "fast charger", "dcfc", "level 2", "level 3", "how long to charge", "charging time", "range anxiety", "running out of charge", "low battery", "battery almost dead", "turtle mode", "ev won't charge", "charger not working", "charging issue", "ev problem", "ev not charging", "can't charge", "charging app", "ev discount", "charging cost", "how much to charge", "free charging", "discount charging"],
+ keywords: ["where can i charge my electric car", "how do i plug in", "charging cord", "how do i charge the car", "charging the car", "charge the car", "electric vehicle", "electric", "charging", "charge", "battery", "plug in", "electric vehicle", "ev hub", "evgo", "electrify america", "charging station", "how to charge", "where to charge", "ev tips", "range", "charging discount", "charge cord", "charge card", "i have an electric car", "electric rental", "tesla", "chevy bolt", "nissan leaf", "prius", "hybrid", "where do i charge", "charging network", "fast charger", "dcfc", "level 2", "level 3", "how long to charge", "charging time", "range anxiety", "running out of charge", "low battery", "battery almost dead", "turtle mode", "ev won't charge", "charger not working", "charging issue", "ev problem", "ev not charging", "can't charge", "charging app", "ev discount", "charging cost", "how much to charge", "free charging", "discount charging"],
  evAccordion: true,
  response: "Welcome to your EV rental! Tap any section below for details."
  },
@@ -3508,6 +3511,7 @@ function showSessionTimeoutPrompt() {
  document.querySelector('.input-bar').style.display = 'none';
  sendBtn.disabled = true;
  if (sessionTimeoutTimer) clearTimeout(sessionTimeoutTimer);
+ if (window._checkFocusInterval) { clearInterval(window._checkFocusInterval); window._checkFocusInterval = null; }
  showWelcome();
  });
 
@@ -4114,6 +4118,21 @@ function openContactModal(mode) {
  waitEl.textContent = wm; waitEl.style.display = 'block';
  } else { waitEl.style.display = 'none'; }
  }
+ // Swap title, hours border, submit button, and attachment zone based on mode
+ var accent = isTalk ? '#FF00BF' : '#003B71';
+ var accentFaint = isTalk ? 'rgba(255,0,191,0.06)' : 'rgba(0,59,113,0.05)';
+ var accentBorder = isTalk ? 'rgba(255,0,191,0.35)' : 'rgba(0,59,113,0.3)';
+ if (titleEl) titleEl.style.color = accent;
+ var hoursEl = document.querySelector('.modal-hours');
+ if (hoursEl) hoursEl.style.borderLeftColor = accent;
+ var submitBtn = document.getElementById('cf-submit');
+ if (submitBtn) submitBtn.style.backgroundColor = accent;
+ var dropZone = document.getElementById('attach-drop-zone');
+ if (dropZone) {
+ dropZone.style.borderColor = accentBorder;
+ dropZone.style.background = 'linear-gradient(135deg,' + accentFaint + ' 0%,' + accentFaint + ' 100%)';
+ }
+
  // Swap modal stripe based on mode
  var stripeEl = document.getElementById('modal-stripe');
  if (stripeEl) {
@@ -4196,6 +4215,17 @@ function openContactModal(mode) {
 
 function closeContactModal() {
  document.getElementById('contactModal').classList.remove('open');
+ // Reset form fields for clean state on reopen
+ ['cf-name','cf-email','cf-phone','cf-reason','cf-message'].forEach(function(id) {
+ var el = document.getElementById(id); if (el) el.value = '';
+ });
+ clearAttachment();
+ var successView = document.getElementById('modalSuccessView');
+ var formView = document.getElementById('modalFormView');
+ if (successView) successView.style.display = 'none';
+ if (formView) formView.style.display = '';
+ var submitBtn = document.getElementById('cf-submit');
+ if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send Message'; }
 }
 
 function buildTranscript() {
@@ -4386,7 +4416,7 @@ window.addEventListener('load', function() {
  // We re-focus only on desktop to avoid re-opening keyboard on mobile.
  var origIsTyping = false;
  if (!isMobile) {
- var checkFocusInterval = setInterval(function() {
+ window._checkFocusInterval = setInterval(function() {
  if (!isTyping && origIsTyping) {
  userInputEl.focus();
  }
