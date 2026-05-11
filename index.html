@@ -8,7 +8,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#00284F">
 <title>Flexdrive Support</title>
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,700;1,800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,700;1,800&display=swap"></noscript>
 <style>
  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -82,7 +85,7 @@
  position: absolute;
  bottom: 0; left: 0; right: 0;
  height: 4px;
- background: linear-gradient(90deg, #FF00BF 0%, #FF00BF 45%, #EE00B5 65%, #D400A8 82%, #CC0099 100%);
+ background: #FF00BF;
  }
  .header-left { display: flex; align-items: center; gap: 12px; }
  .msg-row.assistant + .msg-row.assistant .msg-avatar { visibility: hidden; }
@@ -139,7 +142,7 @@
  letter-spacing: 0.2px;
  }
  .status-dot {
- width: 7px; height: 7px; background: linear-gradient(90deg, #FF00BF 0%, #FF00BF 45%, #EE00B5 65%, #D400A8 82%, #CC0099 100%);
+ width: 7px; height: 7px; background: #FF00BF;
  border-radius: 50%; animation: pulse 2s ease-in-out infinite;
  }
  @keyframes pulse {
@@ -160,6 +163,8 @@
  flex: 1;
  overflow-y: scroll; /* scroll not auto — more consistent on iOS */
  overflow-x: hidden;
+ contain: layout paint;
+ transform: translateZ(0);
  padding: 16px 0 12px;
  display: flex;
  flex-direction: column;
@@ -316,7 +321,7 @@
  .read-more-btn { background: none; border: none; color: rgba(0,59,113,0.45); font-size: 12px; font-weight: 500; padding: 4px 0; cursor: pointer; margin-top: 4px; touch-action: manipulation; transition: color 0.15s; align-self: flex-start; width: fit-content; letter-spacing: 0.2px; text-decoration: underline; text-underline-offset: 2px; -webkit-tap-highlight-color: transparent; }
  .read-more-btn:active { color: rgba(0,59,113,0.7); }
  .msg-row.assistant .msg-bubble {
- background: linear-gradient(135deg, #003B71 0%, #003B71 50%, #1A5A96 72%, #2266A0 90%, #2E6EA8 100%);
+ background: #003B71;
  color: var(--white);
  border-bottom-left-radius: 6px;
  box-shadow: 0 0 0 1.5px rgba(0,59,113,0.25),
@@ -1134,6 +1139,17 @@
 </style>
 </head>
 <body>
+<style>
+.app-loader{position:fixed;inset:0;background:#003C72;display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.3s ease;}
+.app-loader.hidden{opacity:0;pointer-events:none;}
+.app-loader svg{animation:pulse 1.4s ease-in-out infinite;}
+@keyframes loaderFade{to{opacity:0;}}
+</style>
+<div class="app-loader" id="appLoader">
+<svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#FF00BF"/>
+</svg>
+</div>
 <div class="app">
 
  <!-- HEADER -->
@@ -5792,6 +5808,9 @@ window.addEventListener('load', function() {
  // Build keyword index for fast matching
  buildKeywordIndex();
  showWelcome();
+ // Hide loader
+ var loader = document.getElementById('appLoader');
+ if (loader) { loader.classList.add('hidden'); setTimeout(function(){ loader.style.display='none'; }, 350); }
 
  document.getElementById('contactModal').addEventListener('click', function(e) {
  if (e.target === this) closeContactModal();
