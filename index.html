@@ -2547,6 +2547,52 @@ var RELATED_TOPICS = {
  "Vehicle age / mileage eligibility": ["Eligibility / requirements to rent", "What is Flexdrive / Express Drive", "Swaps"],
 };
 
+// ── FOLLOW-UP QUESTIONS MAP ───────────────────────────────────────────────────
+// Natural question phrasing for each topic — used as suggested follow-ups
+var FOLLOWUP_QUESTIONS = {
+ "Accident / car was hit": ["What is my deductible after an accident?","Do I need CDW for accidents?","Can I rent again after an accident?"],
+ "Damage charges / not at fault": ["What if the other driver was at fault?","Does CDW cover my deductible?","How does subrogation work?"],
+ "CDW / protection plan": ["How do I add CDW?","What does CDW cover?","Is CDW worth it?"],
+ "PCDW / partial collision damage waiver": ["How is PCDW different from CDW?","How do I add PCDW?","What does PCDW not cover?"],
+ "Insurance coverage": ["What is covered during a Lyft ride?","What is Period 1 coverage?","Do I need CDW if I have personal insurance?"],
+ "Personal mileage dispute": ["How do I dispute my miles?","Why did my miles go up?","How do I change my mileage plan?"],
+ "Personal miles went up unexpectedly": ["Why did my miles go up?","How do I dispute wrong miles?","What is the Destination Filter logout issue?"],
+ "Change mileage plan": ["When does my mileage plan change take effect?","What are the overage rates?","How do I check my miles?"],
+ "Personal mileage overage rates": ["How do I change my mileage plan?","How do I dispute overage charges?","Where do I see my billing breakdown?"],
+ "Rental charge different / rate went up": ["Why was my card charged on Tuesday?","What is a billing week?","Can I set up a payment plan?"],
+ "Card charged unexpectedly": ["What is the billing cycle?","How do I pay my balance?","Why did my rate go up?"],
+ "Overdue balance / how to pay": ["Can I make partial payments?","What happens if I don't pay?","How do Lyft earnings offset my rental?"],
+ "Partial payments / repayment plan / Foundever": ["What is Foundever's phone number?","What happens to my vehicle if I can't pay?","When will my balance be cleared?"],
+ "Collections / sent to collections": ["How do I pay my balance now?","Can I set up a repayment plan?","Will this affect my ability to rent again?"],
+ "Deposit refund": ["How long until I get my deposit back?","Where does the refund go?","What if my card is closed?"],
+ "Return vehicle / end rental": ["What do I need to return the car?","Can I return after hours?","When does my contract officially close?"],
+ "Swaps": ["What is remarketing?","What if my car has a mechanical issue?","How do I schedule a swap appointment?"],
+ "Flat tire": ["Is my flat tire covered?","Who do I call for roadside?","How do I avoid being charged for a flat?"],
+ "Roadside assistance / Holman / towing / lockout": ["What is Holman's number?","Will I be charged for roadside?","What if I'm locked out?"],
+ "Windshield / glass damage": ["Does CDW cover glass damage?","Who do I call for windshield repair?","How much does glass damage cost without CDW?"],
+ "Dashboard maintenance light / check engine": ["Where should I take the car?","What lights are urgent?","Who do I call if the car is unsafe?"],
+ "Oil change / maintenance location": ["How do I find an approved vendor?","What do I say at the shop?","Is oil change covered?"],
+ "EV / electric vehicle": ["How do I set up EVgo discounts?","What is turtle mode?","What charge level do I need to return at?"],
+ "Inspections": ["What do I do with an inspection email?","Where do I get an inspection?","What happens if I miss my inspection?"],
+ "How to extend / renew rental": ["Does my rental auto-renew?","What are the renewal requirements?","How do I end my rental?"],
+ "Picking up my vehicle / reservation": ["What do I bring to pickup?","What is included in my rental?","How do I add CDW at pickup?"],
+ "What is included in my rental": ["Is CDW included?","Is fuel included?","Is maintenance included?"],
+ "Eligibility / requirements to rent": ["Can I use a prepaid card?","What is the age requirement?","Do I need a background check?"],
+ "Background check / re-screening": ["Who runs the background check?","What if my background check fails?","How long does it take?"],
+ "Express Pay / Instant Pay / cash out": ["How much does Express Pay cost?","Why can't I cash out?","How long does bank transfer take?"],
+ "Cannot cash out / missing earnings": ["Why are my earnings going to my balance?","What is Express Pay?","How do I see my billing history?"],
+ "Lyft deactivation": ["Do I have to return the car?","How do I appeal my deactivation?","What happens to my deposit?"],
+ "Moving to a new state / relocating": ["How do I change my Lyft region?","Do I need a new deposit?","Is Flexdrive in my new city?"],
+ "Prohibited uses": ["Can someone else drive my car?","Can I drive to another state?","What happens if I violate the rules?"],
+ "Cleanliness / car wash requirement": ["What are the cleaning fees?","What if the car was dirty at pickup?","Is a car wash covered?"],
+ "Vehicle not clean at pickup / pre-existing damage": ["How do I document pre-existing damage?","What if I don't report it before driving?","Who do I contact about pickup issues?"],
+ "Toll charge": ["Are tolls reimbursed during Lyft rides?","Why is my toll charge delayed?","How do I dispute a toll?"],
+ "Traffic / parking violation": ["Am I responsible for tickets?","Is there an admin fee for violations?","What about registration citations?"],
+ "Late return / failure to return vehicle": ["What is the repossession fee?","How do I avoid repossession?","What happens in Arizona if I don't return?"],
+ "Where is Flexdrive available": ["How do I start renting in a new market?","What are the eligibility requirements?","How do I change my Lyft region?"],
+ "Wrapped vehicle bonus (SFO)": ["How many rides do I need for the weekly bonus?","What if I didn't receive my bonus?","How do I report a missing bonus?"],
+};
+
 function getRelatedTopics(currentTopic) {
  var related = RELATED_TOPICS[currentTopic] || [];
  // Filter out topics already seen this session
@@ -2716,7 +2762,13 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  ? getRelatedTopics(lastMatch.topic)
  : ["I was in an accident", "Roadside / towing help", "Billing question"];
  if (related.length >= 2) {
+ // Use natural question phrasing if available for the last topic
+ var followUpQs = lastMatch && FOLLOWUP_QUESTIONS[lastMatch.topic];
+ if (followUpQs && followUpQs.length >= 2) {
+ actions = followUpQs.slice(0, 3);
+ } else {
  actions = related.map(function(t) { return topicToLabel[t] || t; });
+ }
  showSeeAll = true;
  }
  }
@@ -2724,13 +2776,16 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
 
  var quickActions = renderQuickActions(actions);
 
- // Add "Top topics" label for first view only
+ // Add label above quick actions
+ var rowLabel = document.createElement('div');
+ rowLabel.style.cssText = 'font-size:11px;font-weight:700;color:#7D868C;text-transform:uppercase;letter-spacing:0.8px;padding:0 2px;margin-bottom:2px;width:100%;';
  if (!isSubsequent) {
- var topLabel = document.createElement('div');
- topLabel.style.cssText = 'font-size:11px;font-weight:700;color:#7D868C;text-transform:uppercase;letter-spacing:0.8px;padding:0 2px;margin-bottom:2px;width:100%;';
- topLabel.textContent = 'Top topics';
- quickActions.insertBefore(topLabel, quickActions.firstChild);
+ rowLabel.textContent = 'Top topics';
+ } else {
+ var followUpQs2 = lastMatch && FOLLOWUP_QUESTIONS[lastMatch.topic];
+ rowLabel.textContent = followUpQs2 ? 'People also ask' : 'Related topics';
  }
+ quickActions.insertBefore(rowLabel, quickActions.firstChild);
 
  // Expand/collapse for subsequent responses — grouped by category
  if (showSeeAll) {
@@ -5254,6 +5309,73 @@ var CARD_ANSWERS = [
 
 ];
 
+// ── CONVERSATION CONTEXT RESOLVER ────────────────────────────────────────────
+// Detects follow-up questions and enriches them with context from lastMatch
+// so "how much does it cost?" after CDW becomes "how much does cdw cost?"
+
+var TOPIC_CONTEXT_KEYWORDS = {
+ 'Accident / car was hit': ['accident','crash','incident','damage','at fault'],
+ 'CDW / protection plan': ['cdw','protection','coverage','deductible','waiver'],
+ 'PCDW / partial collision damage waiver': ['pcdw','partial','low deductible'],
+ 'Insurance coverage': ['insurance','covered','liability','period'],
+ 'Personal mileage dispute': ['miles','mileage','personal miles','odometer'],
+ 'Personal miles went up unexpectedly': ['miles','mileage','went up'],
+ 'Change mileage plan': ['mileage plan','miles plan'],
+ 'Personal mileage overage rates': ['overage','overage rate','extra miles'],
+ 'Rental charge different / rate went up': ['bill','charge','rate','billing'],
+ 'Overdue balance / how to pay': ['balance','overdue','owe','pay'],
+ 'Partial payments / repayment plan / Foundever': ['payment plan','foundever','partial'],
+ 'Deposit refund': ['deposit','refund','security deposit'],
+ 'Return vehicle / end rental': ['return','give back','end rental','drop off'],
+ 'Swaps': ['swap','switch','different car','remarketing'],
+ 'EV / electric vehicle': ['ev','electric','charging','charge','battery'],
+ 'Roadside assistance / Holman / towing / lockout': ['holman','roadside','tow','breakdown','lockout'],
+ 'Flat tire': ['flat','tire','puncture'],
+ 'Windshield / glass damage': ['windshield','glass','chip','crack'],
+ 'Dashboard maintenance light / check engine': ['light','dashboard','warning','engine light'],
+ 'Oil change / maintenance location': ['oil change','maintenance','vendor','service'],
+ 'Inspections': ['inspection','inspect'],
+ 'How to extend / renew rental': ['extend','renew','keep','another week'],
+ 'Picking up my vehicle / reservation': ['pickup','pick up','reservation','first day'],
+ 'Eligibility / requirements to rent': ['eligibility','requirements','qualify'],
+ 'Express Pay / Instant Pay / cash out': ['express pay','cash out','instant pay','payout'],
+ 'Lyft deactivation': ['deactivation','deactivated','suspended'],
+ 'Moving to a new state / relocating': ['moving','relocate','new state','new city'],
+ 'Toll charge': ['toll','tolls'],
+ 'Traffic / parking violation': ['ticket','violation','citation','parking'],
+ 'Cleanliness / car wash requirement': ['clean','cleaning','wash','dirty'],
+ 'Prohibited uses': ['prohibited','not allowed','forbidden'],
+ 'Late return / failure to return vehicle': ['late','overdue','failure to return'],
+};
+
+// Pronouns and vague references that signal a follow-up
+var FOLLOWUP_SIGNALS = /^(it|this|that|the|those|them|they|its|how much|how long|how do i|when does|what about|and|but|also|so|ok|okay|got it|what if|can i|do i|is it|does it|will it|why|why does|why is|tell me more|more info|explain|what else|anything else|same for|what about for|for ev|for electric|for pdx|for portland|for la|for sfo|for san)/i;
+
+function resolveContext(text) {
+ if (!lastMatch) return text;
+
+ var lower = text.toLowerCase().trim();
+
+ // Short queries (under 5 words) or follow-up signal words
+ var wordCount = lower.split(/\s+/).length;
+ // Don't enrich if query has specific topic nouns — it's self-contained
+ var hasTopic = /return|deposit|refund|accident|crash|holman|roadside|tow|flat|windshield|oil change|maintenance|vendor|inspection|mileage|overage|billing|charge|cdw|insurance|swap|ev|electric|deactivat|relocat|moving|toll|ticket|violation|clean|dirty|pickup|eligib|express pay|pcdw/.test(lower);
+ var isFollowUp = !hasTopic && (wordCount <= 5 || FOLLOWUP_SIGNALS.test(lower));
+ if (!isFollowUp) return text;
+
+ // Get context keywords for last topic
+ var contextKws = TOPIC_CONTEXT_KEYWORDS[lastMatch.topic];
+ if (!contextKws) return text;
+
+ // Check if the query already contains topic keywords — if so, no enrichment needed
+ var alreadyHasContext = contextKws.some(function(kw) { return lower.includes(kw); });
+ if (alreadyHasContext) return text;
+
+ // Enrich the query by appending the most relevant context keyword
+ var enriched = text + ' ' + contextKws[0];
+ return enriched;
+}
+
 function findCardAnswer(text) {
  var lower = text.toLowerCase().trim();
  for (var i = 0; i < CARD_ANSWERS.length; i++) {
@@ -5268,7 +5390,88 @@ function findCardAnswer(text) {
 }
 
 
-// SEND & RESPOND 
+// SEND & RESPOND
+
+// ── RESPONSE OPENER VARIATION ────────────────────────────────────────────────
+// Replaces generic "Here is everything..." with varied, contextual openers
+// Rotates based on session count so consecutive responses feel different
+
+var openerCount = 0;
+
+function varyOpener(responseText, topic, query) {
+ openerCount++;
+ var lower = (query || '').toLowerCase();
+
+ // Openers for accordion topics — replace "Here is everything you need to know about X:"
+ var accordionMatch = responseText.match(/^Here is everything you need to know about ([^:]+):/);
+ if (accordionMatch) {
+ var subject = accordionMatch[1];
+ var accordionOpeners = [
+ 'Here is everything you need to know about ' + subject + ':',
+ 'Good question. Here\'s a full breakdown on ' + subject + ':',
+ 'Let me walk you through ' + subject + ':',
+ 'Here\'s what you need to know about ' + subject + ':',
+ 'Got it \u2014 here\'s the full picture on ' + subject + ':',
+ ];
+ var opener = accordionOpeners[openerCount % accordionOpeners.length];
+ return responseText.replace(accordionMatch[0], opener);
+ }
+
+ // Openers for plain text responses — prepend a short contextual lead-in
+ // Detect tone from query
+ if (/please|help|urgent|emergency|asap/.test(lower)) {
+ // Renter sounds stressed — acknowledge first
+ var urgentLeads = [
+ "On it — ",
+ "Here\'s what to do \u2014 ",
+ "Right away — ",
+ ];
+ return urgentLeads[openerCount % urgentLeads.length] + responseText;
+ }
+
+ if (/why|how come|what happened|explain/.test(lower)) {
+ // Renter wants an explanation
+ var explainLeads = [
+ "Good question — ",
+ "Here\'s why: ",
+ "Quick answer — ",
+ ];
+ return explainLeads[openerCount % explainLeads.length] + responseText;
+ }
+
+ if (/can i|do i|should i|am i|will i|is it/.test(lower)) {
+ // Renter asking a yes/no or eligibility question
+ var eligLeads = [
+ "",
+ "Short answer \u2014 ",
+ "",
+ ];
+ return eligLeads[openerCount % eligLeads.length] + responseText;
+ }
+
+ // Default — return as-is for plain text (already specific enough)
+ return responseText;
+}
+
+// Calculate a natural-feeling typing delay based on response complexity
+function calculateTypingDelay(text) {
+ var lower = text.toLowerCase();
+ // Urgent / emergency queries — fast (they need help NOW)
+ if (/accident|crash|stolen|fire|unsafe|emergency|urgent|911|broke down|tow|holman/.test(lower)) {
+ return 500 + Math.floor(Math.random() * 150);
+ }
+ // Short specific questions — fast (card answer, one-liner)
+ if (text.split(' ').length <= 5) {
+ return 600 + Math.floor(Math.random() * 200);
+ }
+ // Medium questions — natural pause
+ if (text.split(' ').length <= 10) {
+ return 800 + Math.floor(Math.random() * 300);
+ }
+ // Long / complex questions — longer think time
+ return 1000 + Math.floor(Math.random() * 400);
+}
+
 function sendMessage() {
  userInput.removeAttribute('readonly'); // ensure value is readable
  var text = userInput.value.trim();
@@ -5290,21 +5493,25 @@ function sendMessage() {
 
  renderTyping();
 
+ var typingDelay = calculateTypingDelay(text);
  setTimeout(function() {
  removeTyping();
 
+ // Resolve follow-up context — enrich short/pronoun queries with last topic
+ var resolvedText = resolveContext(text);
+
  // Card-level inline answer — check BEFORE topic-level match
- var cardAnswer = findCardAnswer(text);
+ var cardAnswer = findCardAnswer(resolvedText);
  if (cardAnswer) {
- removeTyping();
+ // Card answers are fast but not instant — short natural delay already elapsed
  renderMessage('assistant', cardAnswer);
  isTyping = false;
  setTimeout(function() { appendQuickActions(true, false); }, 400);
  return;
  }
 
- var match = findBestMatch(text);
- var wantsVendor = needsVendorLookup(text);
+ var match = findBestMatch(resolvedText);
+ var wantsVendor = needsVendorLookup(resolvedText);
  var wantsOffice = needsOfficeLookup(text);
  var wantsRepo = /repo|repossess|belongings|personal items|stuff.*towed|get my things/i.test(text);
 
@@ -5313,7 +5520,7 @@ function sendMessage() {
  // Track conversation history for context
  conversationHistory.push({ topic: match.topic, keywords: match.keywords });
  if (conversationHistory.length > 8) conversationHistory.shift();
- var responseText = match.response;
+ var responseText = varyOpener(match.response, match.topic, text);
 
  // Location-aware overage rate: prepend renter's specific rate if known
  if (match.regionAwareRate && userRegion) {
@@ -5504,8 +5711,70 @@ function sendMessage() {
  "Lyft deactivation": "Lyft deactivation", "Flat tire": "Flat tire",
  "Windshield / glass damage": "Windshield / glass damage",
  };
- var suggLabels = scored.map(function(s) { return topicToLabel2[s.entry.topic] || s.entry.topic; });
- renderMessage('assistant', "I couldn't find an exact match for that. Here are the closest topics — do any of these help?");
+ // Build contextual partial match message that acknowledges what the renter said
+ var lowerText = text.toLowerCase();
+
+ // Topic-to-description map for graceful partial match intros
+ var topicDescriptions = {
+ "Accident / car was hit": "what to do after an accident",
+ "Roadside assistance / Holman / towing / lockout": "roadside help and how to call Holman",
+ "Personal mileage dispute": "disputing incorrect miles",
+ "Personal miles went up unexpectedly": "why miles go up unexpectedly",
+ "Rental charge different / rate went up": "billing changes and unexpected charges",
+ "Card charged unexpectedly": "unexpected card charges",
+ "Overdue balance / how to pay": "paying an overdue balance",
+ "Partial payments / repayment plan / Foundever": "setting up a payment plan",
+ "CDW / protection plan": "CDW and protection coverage",
+ "Insurance coverage": "your insurance coverage by driving period",
+ "Deposit refund": "your deposit refund timeline",
+ "Return vehicle / end rental": "returning your vehicle",
+ "Swaps": "vehicle swaps and remarketing",
+ "Flat tire": "flat tire assistance",
+ "Windshield / glass damage": "windshield and glass damage",
+ "EV / electric vehicle": "EV charging and range",
+ "Oil change / maintenance location": "finding an approved maintenance vendor",
+ "Dashboard maintenance light / check engine": "dashboard warning lights",
+ "Inspections": "vehicle inspections",
+ "Picking up my vehicle / reservation": "picking up your vehicle",
+ "Lyft deactivation": "what happens if your Lyft account is deactivated",
+ "Moving to a new state / relocating": "moving to a new market",
+ "Overdue balance / how to pay": "paying your overdue balance",
+ "Express Pay / Instant Pay / cash out": "Express Pay and cashing out",
+ };
+
+ // Build graceful acknowledgment using the top match
+ var topMatch = scored[0].entry;
+ var topDesc = topicDescriptions[topMatch.topic] || topicToLabel2[topMatch.topic] || topMatch.topic;
+
+ var partialMsg;
+ var wordCount3 = text.trim().split(/\s+/).length;
+
+ if (wordCount3 >= 5) {
+ // Long query — sounds like a real question, acknowledge it directly
+ var starters = [
+ "It sounds like you have a question about " + topDesc + ". Here are the closest topics:",
+ "That looks like it might be about " + topDesc + ". Do any of these match what you need?",
+ "I found a few related topics — " + topDesc + " seems closest. Do any of these help?",
+ ];
+ partialMsg = starters[openerCount % starters.length];
+ } else {
+ // Short query — just bridge to the suggestions
+ var shortStarters = [
+ "Here are the closest topics I found for that:",
+ "I found a few related topics — do any of these help?",
+ "Not an exact match, but these are the closest:",
+ ];
+ partialMsg = shortStarters[openerCount % shortStarters.length];
+ }
+
+ // Use follow-up questions as button labels where available, otherwise topic labels
+ var suggLabels = scored.map(function(s) {
+ var qs = FOLLOWUP_QUESTIONS[s.entry.topic];
+ if (qs && qs.length > 0) return qs[0]; // First natural question for this topic
+ return topicToLabel2[s.entry.topic] || s.entry.topic;
+ });
+
+ renderMessage('assistant', partialMsg);
  setTimeout(function() {
  var suggActions = renderQuickActions(suggLabels);
  // Add "Try a different search" button
@@ -5530,16 +5799,33 @@ function sendMessage() {
  scrollToElement(row);
  }, 400);
  } else {
- // No partial matches at all
- renderMessage('assistant',
- "I couldn't find an exact match for that. Try rephrasing your question — or pick a topic from the list below.\n\nIf you can't find what you're looking for, tap \"Talk to Someone\" and our team will help."
- );
+ // No partial matches at all — extract any keywords and give contextual guidance
+ var lowerText2 = text.toLowerCase();
+ var noMatchMsg;
+
+ // Check for urgency signals
+ if (/help|urgent|emergency|asap|right now|immediately|please/.test(lowerText2)) {
+ noMatchMsg = "It sounds like you need assistance right away. Tap Talk to Someone below and our team will respond as soon as possible — or describe your issue in more detail and I'll do my best to find the right answer.";
+ }
+ // Check for frustration signals
+ else if (/not working|broken|wrong|bad|terrible|worst|problem|issue|frustrated/.test(lowerText2)) {
+ noMatchMsg = "I hear you — let me help get this sorted. Try describing the specific issue (for example: 'my mileage is wrong' or 'I was charged unexpectedly') and I'll find the right information. Or tap Talk to Someone and our team will review your account directly.";
+ }
+ // Check for question words — they typed a real question but we couldn't match it
+ else if (/^(what|how|when|where|why|can|do|does|is|am|will|should|could|would|who)/.test(lowerText2.trim())) {
+ noMatchMsg = "Good question — I don't have a specific answer for that yet. Try rephrasing with keywords like the topic ('CDW', 'deposit', 'mileage') or tap Talk to Someone and our team will help directly.";
+ }
+ // Default
+ else {
+ noMatchMsg = "I wasn't able to match that to a specific topic. Try using keywords like 'billing', 'return', 'CDW', or 'mileage' — or tap Talk to Someone below and our team will help.";
+ }
+ renderMessage('assistant', noMatchMsg);
  }
  logUnmatchedQuestion(text);
  }
 
  isTyping = false;
- }, 400 + Math.floor(Math.random() * 200));
+ }, typingDelay);
 }
 
 
