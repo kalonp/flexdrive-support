@@ -4938,6 +4938,10 @@ var CARD_ANSWERS = [
  a: "Flexdrive is available in 22 cities across 14 states plus D.C.: Phoenix, Los Angeles (2 locations), San Diego, San Francisco, Denver, Atlanta, Chicago, Baltimore, Boston, Charlotte, Cincinnati, Cleveland, Portland, Philadelphia, Pittsburgh, Austin, Dallas/Fort Worth, Houston, San Antonio, Virginia Beach, DC/Virginia, and Milwaukee." },
 
  // ── MAINTENANCE ───────────────────────────────────────────────────────────────
+ { k: ["is oil change covered","oil change covered","is oil change free","do i pay for oil change","who pays for oil change","is maintenance free","does flexdrive cover oil change","oil change cost","maintenance cost","how much is oil change","is tire rotation covered","are brakes covered","maintenance included rental"],
+ a: "Yes — oil changes, tire rotations, diagnostics, and general service are all covered at approved vendors. You pay nothing at the shop. Just tell them \"This is a Flexdrive vehicle\" when you arrive so billing goes to Flexdrive. Tap \"Find a maintenance vendor\" below to find your nearest approved shop.",
+ showVendorBtn: true },
+
  { k: ["approved vendor","flexdrive vendor list","where to get oil change","maintenance vendor near me","find approved vendor","which shops accept flexdrive"],
  a: "Tap 'Find a maintenance vendor' to see your market's approved vendor list. Always tell the shop 'This is a Flexdrive vehicle' when you arrive to ensure billing goes to Flexdrive, not you." },
 
@@ -5150,8 +5154,9 @@ var CARD_ANSWERS = [
  { k: ["oil change how often","when should i get oil change","oil change interval","oil change reminder","how many miles between oil change","oil change schedule"],
  a: "Most vehicles need an oil change every 5,000-7,500 miles. Your dashboard will show a maintenance reminder when it's due. Take the vehicle to an approved vendor and tell them 'This is a Flexdrive vehicle' — oil changes are covered under your rental." },
 
- { k: ["tire rotation flexdrive","brake inspection flexdrive","tire rotation covered","brakes covered","maintenance covered"],
- a: "Preventative maintenance including oil changes, tire rotations, diagnostics, and general service is covered at approved vendors. Always tell the shop 'This is a Flexdrive vehicle' to ensure billing goes to Flexdrive, not you." },
+ { k: ["is maintenance covered","is maintenance free","maintenance included","is maintenance included","tire rotation flexdrive","brake inspection flexdrive","tire rotation covered","brakes covered","maintenance covered"],
+ a: "Preventative maintenance including oil changes, tire rotations, diagnostics, and general service is covered at approved vendors. Always tell the shop 'This is a Flexdrive vehicle' to ensure billing goes to Flexdrive, not you.",
+ showVendorBtn: true },
 
  // ── MISC — feedback / contact / insurance card ───────────────
  { k: ["feedback","leave feedback","rate the chatbot","chatbot feedback","feedback button","how to give feedback"],
@@ -5314,6 +5319,13 @@ var CARD_ANSWERS = [
  { k: ["unable to get online","can't go online","can't get online","not able to go online","lyft won't let me online","blocked from going online","not online lyft","can't go online lyft","blocked from driving","unable to drive","can't start driving","app blocking me","offline lyft","why can't i go online","why am i offline","can't accept rides lyft","vehicle blocked","vehicle deactivated lyft"],
  a: "There are three common reasons you cannot go online:\n\n1. Outdated inspection — You may have received a \"Visit Your Rental Location\" email. Bring your vehicle to the Flexdrive office immediately (Mon–Fri 9AM–5PM). No appointment needed.\n\n2. Lyft deactivation — Your Lyft driver account may be suspended or deactivated. Check the Lyft Driver App for a notification and contact Lyft support through the app.\n\n3. Vehicle deactivated (Remarketing Day 38) — If your vehicle is past due for a remarketing swap, it may be blocked from going online. Contact your Flexdrive office immediately to reschedule." },
 
+ { k: ["how do i dispute my miles","dispute my mileage","how to dispute miles","mileage dispute process","wrong miles how to fix","contest my miles","challenge my miles","disagree with miles"],
+ a: "Tap Talk to Someone below and include: (1) the week you are disputing (Monday to Monday), (2) the mileage amount you believe is incorrect, and (3) any context — maintenance trip, deactivation period, Destination Filter issue. Our team responds within 1 business day." },
+
+ { k: ["how do i change my mileage plan","change mileage plan how","switch my mileage plan","how to change miles plan","upgrade mileage plan","downgrade mileage plan","change my miles allowance"],
+ a: "In the Lyft Driver App: Main Menu → Vehicles and Devices → Your Vehicles → See Details → Change mileage plan. Changes take effect Monday at 5:00 AM — not mid-week. More miles = higher weekly rate." },
+
+
 ];
 
 // ── CONVERSATION CONTEXT RESOLVER ────────────────────────────────────────────
@@ -5389,7 +5401,7 @@ function findCardAnswer(text) {
  var entry = CARD_ANSWERS[i];
  for (var j = 0; j < entry.k.length; j++) {
  if (lower.includes(entry.k[j])) {
- return entry.a;
+ return { a: entry.a, showVendorBtn: !!entry.showVendorBtn };
  }
  }
  }
@@ -5508,12 +5520,45 @@ function sendMessage() {
  var resolvedText = resolveContext(text);
 
  // Card-level inline answer — check BEFORE topic-level match
- var cardAnswer = findCardAnswer(resolvedText);
- if (cardAnswer) {
- // Card answers are fast but not instant — short natural delay already elapsed
- renderMessage('assistant', cardAnswer);
+ var cardResult = findCardAnswer(resolvedText);
+ if (cardResult) {
+ renderMessage('assistant', cardResult.a);
  isTyping = false;
+ // If answer has vendor button, append a Find vendor quick link
+ if (cardResult.showVendorBtn) {
+ setTimeout(function() {
+ var vendorBtn = document.createElement('button');
+ vendorBtn.className = 'quick-btn';
+ vendorBtn.style.cssText = 'background:var(--navy);color:#fff;border-color:var(--navy);font-weight:700;';
+ vendorBtn.textContent = 'Find a maintenance vendor';
+ vendorBtn.addEventListener('click', function() {
+ haptic();
+ trackQuickLinkClick('Find a maintenance vendor');
+ userInput.removeAttribute('readonly');
+ userInput.value = 'Find a maintenance vendor';
+ sendBtn.disabled = false;
+ sendMessage();
+ });
+ var row = document.createElement('div');
+ row.className = 'msg-row assistant';
+ var av = document.createElement('div');
+ av.className = 'msg-avatar';
+ setAvatarText(av);
+ var wrap = document.createElement('div');
+ wrap.className = 'quick-actions';
+ var label = document.createElement('div');
+ label.style.cssText = 'font-size:11px;font-weight:700;color:#7D868C;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;width:100%;';
+ label.textContent = 'Quick action';
+ wrap.appendChild(label);
+ wrap.appendChild(vendorBtn);
+ row.appendChild(av);
+ row.appendChild(wrap);
+ chatArea.appendChild(row);
+ scrollToElement(row);
+ }, 400);
+ } else {
  setTimeout(function() { appendQuickActions(true, false); }, 400);
+ }
  return;
  }
 
