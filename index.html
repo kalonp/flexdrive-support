@@ -296,7 +296,99 @@
  .msg-avatar svg { width: 22px; height: 30px; }
  .msg-row.assistant { justify-content: flex-start; align-items: flex-end; }
  .msg-row.user .msg-avatar { display: none; }
- .msg-row.user .msg-label {
+ .msg-row.user
+ /* ── TIMESTAMPS ────────────────────────── */
+ .msg-timestamp {
+ font-size: 10px;
+ color: #B8C4CE;
+ margin-top: 2px;
+ display: flex;
+ align-items: center;
+ gap: 3px;
+ letter-spacing: 0.2px;
+ }
+ .msg-row.user .msg-timestamp { justify-content: flex-end; padding-right: 4px; }
+ .msg-row.assistant .msg-timestamp { justify-content: flex-start; padding-left: 44px; }
+
+ /* ── DELIVERED CHECKMARKS ───────────────── */
+ .msg-check { font-size: 11px; color: #9BA8B8; transition: color 0.3s; }
+ .msg-check.delivered { color: #003B71; }
+
+ /* ── REACTION BUTTONS ───────────────────── */
+ .reaction-row {
+ display: flex;
+ gap: 6px;
+ padding-left: 44px;
+ margin-top: 2px;
+ opacity: 0;
+ transition: opacity 0.2s;
+ }
+ .msg-row.assistant:hover .reaction-row,
+ .msg-row.assistant:focus-within .reaction-row { opacity: 1; }
+ .reaction-btn {
+ background: none;
+ border: 0.5px solid #E2E8EF;
+ border-radius: 20px;
+ padding: 2px 8px;
+ font-size: 13px;
+ cursor: pointer;
+ color: #7D868C;
+ transition: background 0.15s, border-color 0.15s;
+ touch-action: manipulation;
+ -webkit-tap-highlight-color: transparent;
+ line-height: 1.6;
+ }
+ .reaction-btn:hover { background: #f0f5ff; border-color: #003B71; }
+ .reaction-btn.active-up { background: #e8f4e8; border-color: #2a7a2a; color: #2a7a2a; }
+ .reaction-btn.active-down { background: #fef0f0; border-color: #c0392b; color: #c0392b; }
+
+ /* ── SCROLL TO BOTTOM ───────────────────── */
+ #scrollToBottomBtn {
+ position: absolute;
+ bottom: 80px;
+ right: 16px;
+ width: 36px;
+ height: 36px;
+ border-radius: 50%;
+ background: #003B71;
+ border: none;
+ color: #fff;
+ font-size: 16px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ cursor: pointer;
+ opacity: 0;
+ pointer-events: none;
+ transition: opacity 0.2s;
+ z-index: 50;
+ box-shadow: 0 2px 8px rgba(0,59,113,0.35);
+ touch-action: manipulation;
+ -webkit-tap-highlight-color: transparent;
+ }
+ #scrollToBottomBtn.visible { opacity: 1; pointer-events: auto; }
+
+ /* ── INPUT HINT ──────────────────────────── */
+ #inputHint {
+ font-size: 11px;
+ color: #9BA8B8;
+ padding: 0 16px 4px;
+ height: 16px;
+ transition: opacity 0.3s;
+ opacity: 0;
+ }
+ #inputHint.visible { opacity: 1; }
+
+ /* ── SEND BTN RIPPLE ─────────────────────── */
+ @keyframes sendPop {
+ 0% { transform: scale(1); }
+ 40% { transform: scale(0.88); }
+ 80% { transform: scale(1.06); }
+ 100% { transform: scale(1); }
+ }
+ .send-btn.popping { animation: sendPop 0.25s cubic-bezier(0.34,1.4,0.64,1) forwards; }
+
+ .msg-label {
  width: 100%; text-align: right;
  font-size: 11px; color: #9BA8B8;
  font-weight: 500; margin-top: 4px; padding-right: 4px;
@@ -1169,7 +1261,12 @@
 
  <!-- CHAT -->
  <div class="chat-area" id="chatArea"></div>
+ <button id="scrollToBottomBtn" onclick="scrollToBottom()" aria-label="Scroll to latest message">
+ <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+ </button>
 
+ <!-- INPUT HINT -->
+ <div id="inputHint"></div>
  <!-- INPUT -->
  <div class="input-bar">
  <div class="input-bar-inner">
@@ -2429,6 +2526,10 @@ userInput.addEventListener('keydown', function(e) {
 });
 
 sendBtn.addEventListener('click', function() {
+ sendBtn.classList.remove('popping');
+ void sendBtn.offsetWidth;
+ sendBtn.classList.add('popping');
+ setTimeout(function(){ sendBtn.classList.remove('popping'); }, 280);
  sendMessage();
 });
 
@@ -2959,12 +3060,33 @@ function renderMessage(role, content, extra) {
  bubble.textContent = content;
  }
 
+ // Build timestamp
+ var ts = new Date();
+ var tsStr = ts.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
  if (role === 'user') {
  var label = document.createElement('div');
  label.className = 'msg-label';
  label.textContent = 'You';
  row.appendChild(bubble);
  row.appendChild(label);
+ // Timestamp + checkmark under user bubble
+ var userMeta = document.createElement('div');
+ userMeta.className = 'msg-timestamp';
+ var checkSpan = document.createElement('span');
+ checkSpan.className = 'msg-check';
+ checkSpan.innerHTML = '&#10003;';
+ checkSpan.id = 'check-' + Date.now();
+ userMeta.appendChild(document.createTextNode(tsStr + ' '));
+ userMeta.appendChild(checkSpan);
+ row._checkSpan = checkSpan;
+ // Store reference so bot reply can upgrade to double-check
+ if (!window._lastCheckSpan) window._lastCheckSpan = [];
+ window._lastCheckSpan.push(checkSpan);
+ var metaRow = document.createElement('div');
+ metaRow.style.cssText = 'display:flex;flex-direction:column;align-items:flex-end;width:100%;';
+ metaRow.appendChild(userMeta);
+ row.appendChild(metaRow);
  } else if (extra) {
  var wrapper = document.createElement('div');
  wrapper.style.display = 'flex';
@@ -3035,6 +3157,39 @@ function renderMessage(role, content, extra) {
  }
  }, 50);
  }
+ // Upgrade last user checkmark to double-check (delivered)
+ setTimeout(function() {
+ if (window._lastCheckSpan && window._lastCheckSpan.length > 0) {
+ var lastCheck = window._lastCheckSpan[window._lastCheckSpan.length - 1];
+ lastCheck.innerHTML = '&#10003;&#10003;';
+ lastCheck.classList.add('delivered');
+ }
+ }, 100);
+
+ // Feature 3: Reaction buttons (thumbs up/down) on bot responses
+ setTimeout(function() {
+ var allAssist = chatArea.querySelectorAll('.msg-row.assistant');
+ var targetRow2 = allAssist[allAssist.length - 1];
+ if (!targetRow2) return;
+ var reactionRow = document.createElement('div');
+ reactionRow.className = 'reaction-row';
+ var capturedContent = content;
+ ['👍','👎'].forEach(function(emoji) {
+ var btn = document.createElement('button');
+ btn.className = 'reaction-btn';
+ btn.textContent = emoji;
+ btn.addEventListener('click', function() {
+ if (btn.classList.contains('active-up') || btn.classList.contains('active-down')) return;
+ reactionRow.querySelectorAll('.reaction-btn').forEach(function(b){ b.style.opacity='0.4'; });
+ btn.style.opacity='1';
+ btn.classList.add(emoji === '👍' ? 'active-up' : 'active-down');
+ logReaction(emoji, capturedContent);
+ });
+ reactionRow.appendChild(btn);
+ });
+ targetRow2.appendChild(reactionRow);
+ }, 200);
+
  setTimeout(function() { appendQuickActions(!isFirst, suppressTalk); }, isFirst ? 1000 : 800);
  }
  return bubble;
@@ -6447,6 +6602,62 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment) {
 // ── HAPTIC FEEDBACK ──
 function haptic() {
  if (navigator.vibrate) navigator.vibrate(8);
+}
+
+// ── SCROLL TO BOTTOM BUTTON ──────────────────────────────────────────────────
+var scrollBtn = document.getElementById('scrollToBottomBtn');
+if (scrollBtn) {
+ document.getElementById('chatArea').addEventListener('scroll', function() {
+ var ca = document.getElementById('chatArea');
+ var distFromBottom = ca.scrollHeight - ca.scrollTop - ca.clientHeight;
+ if (distFromBottom > 200) {
+ scrollBtn.classList.add('visible');
+ } else {
+ scrollBtn.classList.remove('visible');
+ }
+ }, { passive: true });
+}
+
+// ── INPUT HINT ───────────────────────────────────────────────────────────────
+var inputHintEl = document.getElementById('inputHint');
+var hintTexts = [
+ 'Tip: be specific — try "my miles are wrong this week"',
+ 'Tip: tap Talk to Someone for urgent issues',
+ 'Tip: try keywords like "CDW", "deposit", or "billing"',
+ 'Tip: ask follow-up questions — I remember what you asked',
+];
+var hintTimer = null;
+var hintIndex = 0;
+if (inputHintEl) {
+ document.getElementById('userInput').addEventListener('focus', function() {
+ if (hintTimer) clearTimeout(hintTimer);
+ inputHintEl.textContent = hintTexts[hintIndex % hintTexts.length];
+ inputHintEl.classList.add('visible');
+ hintTimer = setTimeout(function() {
+ inputHintEl.classList.remove('visible');
+ hintIndex++;
+ }, 3500);
+ });
+ document.getElementById('userInput').addEventListener('blur', function() {
+ if (hintTimer) clearTimeout(hintTimer);
+ inputHintEl.classList.remove('visible');
+ });
+}
+
+// ── REACTION LOGGING ─────────────────────────────────────────────────────────
+function logReaction(emoji, responseText) {
+ var payload = {
+ type: 'reaction',
+ emoji: emoji,
+ market: userRegion || 'unknown',
+ response: (responseText || '').substring(0, 120),
+ time: new Date().toISOString(),
+ };
+ fetch(APPS_SCRIPT_URL, {
+ method: 'POST',
+ body: JSON.stringify(payload),
+ mode: 'no-cors'
+ }).catch(function() {});
 }
 
 window.addEventListener('load', function() {
