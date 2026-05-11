@@ -1834,7 +1834,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Oil change / maintenance location",
- keywords: ["car needs service", "where do i take the car", "need to get my tires done", "get my tires done", "oil change", "maintenance", "service", "where", "vendor", "shop", "mechanic", "diagnostics", "general maintenance", "approved vendor", "oil change due", "where do i go for service", "where can i get service", "approved shop", "service center", "where to take my car", "lube", "tune up", "brake", "brakes", "alignment", "rotate tires", "tire rotation", "service light", "service needed", "where to service", "get my car serviced", "maintenance shop", "auto shop", "goodyear", "meineke", "jiffy lube", "where should i go", "can i go anywhere", "nearest shop", "service location"],
+ keywords: ["car needs service", "where do i take the car", "need to get my tires done", "get my tires done", "oil change", "maintenance", "service", "vendor", "shop", "mechanic", "diagnostics", "general maintenance", "approved vendor", "oil change due", "where do i go for service", "where can i get service", "approved shop", "service center", "where to take my car", "lube", "tune up", "brake", "brakes", "alignment", "rotate tires", "tire rotation", "service light", "service needed", "where to service", "get my car serviced", "maintenance shop", "auto shop", "goodyear", "meineke", "jiffy lube", "where should i go", "can i go anywhere", "nearest shop", "service location"],
  response: "Please use only our approved service vendors for any maintenance needs - including oil changes, diagnostics, tires, and general service. You will not be reimbursed for work done at non-approved locations.\n\nIMPORTANT: Always tell the shop 'This is a Flexdrive vehicle' before booking your appointment. This ensures billing is routed correctly and you are not charged personally.\n\nWould you like me to help you find your nearest approved vendor? Just share your city or zip code."
  },
  {
@@ -2051,8 +2051,8 @@ var KNOWLEDGE_BASE = [
  {
  topic: "Where is Flexdrive available",
  keywords: ["where is flexdrive available?", "where available", "what cities", "locations", "states", "which cities", "is flexdrive in", "near me", "available cities", "how many locations", "flexdrive available", "where is flexdrive", "flexdrive locations", "flexdrive cities", "office locations", "all locations", "list of locations", "what states", "does flexdrive operate", "where does flexdrive operate", "flexdrive near me", "is there a flexdrive near me", "is flexdrive in my city", "flexdrive city list", "what markets", "which markets", "all markets", "flexdrive markets", "flexdrive offices", "where can i rent", "rental locations", "flexdrive map", "find a location"],
- marketsGrid: true,
- response: "Flexdrive is available in 22 cities across 14 states plus D.C. Here are all office locations:\n\nARIZONA\nPhoenix - 2540 E Magnolia Street, Phoenix, AZ 85034\n\nCALIFORNIA\nLos Angeles - 1754 N Main St, Los Angeles, CA 90031\nLos Angeles (Monrovia) - 1111 E Huntington Dr., Monrovia, CA 91016 (temporarily closed)\nSan Diego - 5816 Miramar Rd, San Diego, CA 92121\nSan Francisco - 312 8th St, San Francisco, CA 94103\n\nCOLORADO\nDenver - 4415 Ward Rd, Wheat Ridge, CO 80033\n\nGEORGIA\nAtlanta - 5575 Frontage Road, Forest Park, GA 30297\n\nILLINOIS\nChicago - 1020 N. Elston Ave, Chicago, IL 60642\n\nMARYLAND\nBaltimore - 5901 Reisterstown Rd, Baltimore, MD 21215\n\nMASSACHUSETTS\nBoston - 59 Tosca Dr, Stoughton, MA 02072\n\nNORTH CAROLINA\nCharlotte - 1039 Alleghany St., Charlotte, NC 28208\n\nOHIO\nCincinnati - 317 E. 9th Street, Cincinnati, OH 45202 (closes at 4 PM)\nCleveland - 15931 Lorain Ave, Cleveland, OH 44111\n\nOREGON\nPortland - 13779 SW Farmington Rd, Beaverton, OR 97005\n\nPENNSYLVANIA\nPhiladelphia - 3945 Frankford Ave, Philadelphia, PA 19124\nPittsburgh - 5913 Station Street, Pittsburgh, PA 15206\n\nTEXAS\nAustin - 7020 E Highway 290, Austin, TX 78723\nDallas/Fort Worth - 2214 Century City Blvd., Irving, TX 75062\nHouston - 2855 Mangum Rd., Suite B106, Houston, TX 77092\nSan Antonio - 12836 San Pedro Ave, San Antonio, TX 78216\n\nVIRGINIA\nVirginia Beach - 2886 Airline Blvd Suite B, Portsmouth, VA 23702\n\nWASHINGTON, D.C.\nDC/Virginia - 8201 Leesburg Pike, Vienna, VA 22182\n\nWISCONSIN\nMilwaukee - 550 W. Grange Ave., Milwaukee, WI 53207\n\nAll offices are open Monday-Friday, 9 AM-5 PM (except Cincinnati: 9 AM-4 PM). Appointments are not required but appreciated."
+ useLocationCards: true,
+ response: "Flexdrive is available in 22 cities across 14 states plus D.C.:"
  },
  {
  topic: "Rental agreement / contract / terms",
@@ -2573,7 +2573,12 @@ function getTopQuickLinks() {
  "Payment plan / overdue balance",
  "Where is Flexdrive available?",
  "Inspections",
- "My office"
+ "My office",
+ "Express Pay / cash out",
+ "Extend / renew rental",
+ "Eligibility requirements",
+ "Lyft deactivation",
+ "Picking up my vehicle"
  ];
  // Seed defaults if not yet set
  var DEFAULTS = ["I was in an accident", "Find a maintenance vendor", "Billing question"];
@@ -2619,7 +2624,12 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  "Payment plan / overdue balance",
  "Where is Flexdrive available?",
  "Inspections",
- "My office"
+ "My office",
+ "Express Pay / cash out",
+ "Extend / renew rental",
+ "Eligibility requirements",
+ "Lyft deactivation",
+ "Picking up my vehicle"
  ];
  // Use cached full grid if available and showing all actions
  var cachedFullGrid = window._cachedFullGrid;
@@ -2686,6 +2696,20 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  "Background check / re-screening": "Background check",
  "Vehicle age / mileage eligibility": "Vehicle eligibility",
  "Speak to a manager / escalation": "Speak to a manager",
+ "Late return / failure to return vehicle": "Late return",
+ "Toll charge": "Toll charge",
+ "Traffic / parking violation": "Traffic violation",
+ "Smoking in the vehicle": "Smoking in the vehicle",
+ "Pets in the vehicle": "Pets in the vehicle",
+ "Someone else driving the vehicle": "Someone else driving",
+ "Rental agreement / contract / terms": "Rental agreement",
+ "Vehicle repossessed / belongings": "Vehicle repossessed",
+ "Registration expired": "Registration expired",
+ "Lyft app issue / earnings problem": "Lyft app issue",
+ "What is Flexdrive / Express Drive": "What is Flexdrive?",
+ "Prohibited uses": "Prohibited uses",
+ "My office / office info": "My office",
+ "Where is Flexdrive available": "Where is Flexdrive available?",
  };
  if (isSubsequent) {
  var related = (lastMatch && RELATED_TOPICS[lastMatch.topic])
@@ -2712,13 +2736,15 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  if (showSeeAll) {
  var CATEGORIES = [
  { label: 'Urgent', topics: ['I was in an accident', 'Roadside / towing help', 'Speak to a manager'] },
- { label: 'My Vehicle', topics: ['Find a maintenance vendor', 'Dashboard warning light', 'Flat tire', 'EV vehicle / charging', 'Inspections', 'Swaps', 'Vehicle noise', 'Vehicle odor'] },
- { label: 'Billing', topics: ['Mileage dispute', 'Billing question', 'Payment plan / overdue balance', 'Card charged unexpectedly', 'Overage rates', 'Set up a payment plan', 'Rental cost / weekly rate', 'Missing earnings', 'Express Pay / cash out'] },
- { label: 'Protection', topics: ['CDW / protection plan', 'Insurance coverage', 'Damage charges', 'PCDW / partial protection'] },
- { label: 'Rental', topics: ['Return my vehicle', 'Deposit refund', 'Extend / renew rental', 'Minimum rental period', "I'm moving to a new state", 'Gas / fuel level at return', 'Cleanliness requirement', 'Pre-existing damage', 'Late return'] },
+ { label: 'My Vehicle', topics: ['Swaps', 'Inspections', 'EV vehicle / charging', "I'm moving to a new state"] },
+ { label: 'Billing', topics: ['Mileage dispute', 'Billing question', 'Payment plan / overdue balance', 'Express Pay / cash out'] },
+ { label: 'Protection', topics: ['CDW / protection plan', 'Insurance coverage'] },
+ { label: 'Rental', topics: ['Return my vehicle', 'Deposit refund', 'Extend / renew rental', 'Where is Flexdrive available?'] },
+ { label: 'My Account', topics: ['Picking up my vehicle', 'Eligibility requirements', 'Lyft deactivation', 'Inspections'] },
  { label: 'My Office', topics: ['My office', 'Office hours / location', 'Where is Flexdrive available?'] },
- { label: 'Other', topics: ['Trade dress / Lyft amp', 'Background check', 'Vehicle eligibility', 'Eligibility requirements', 'What is included in my rental', 'Picking up my vehicle'] },
  ];
+
+
 
  var remainingLabels = allActions.filter(function(a) { return actions.indexOf(a) === -1; });
 
@@ -4695,6 +4721,9 @@ var CARD_ANSWERS = [
  a: "Your card is charged on Tuesday if your Lyft earnings didn't fully cover the rental by Monday 4:59 AM. Check your billing history in the Lyft App: Main Menu → Account → Express Drive billing history." },
 
  // ── DEPOSIT ───────────────────────────────────────────────────────────────────
+ { k: ["where's my refund","wheres my refund","where is my refund","where is my deposit refund","my refund","where my refund"],
+ a: "Your deposit refund is sent within 3 weeks after your contract is officially closed. It goes to the original payment card on file. Allow 5-7 business days after Flexdrive issues it to appear on your statement." },
+
  { k: ["when do i get my deposit back","deposit timeline","how long for deposit","deposit refund timeline","3 weeks deposit"],
  a: "Within 3 weeks after your contract is officially closed. Any outstanding balance is deducted first, then the remainder is refunded to your original payment card." },
 
@@ -4943,6 +4972,16 @@ var CARD_ANSWERS = [
 
  { k: ["pcdw available","where is pcdw available","pcdw markets","partial collision waiver available markets"],
  a: "PCDW (Partial Collision Damage Waiver) is available in select markets only. Check the Lyft Driver App: Vehicles and Devices -> Your Vehicles -> See Details to see if it is available in your market." },
+
+
+ { k: ["my car is not working","car is not working","issue with my car","problem with my car","something wrong with my car","car won't move"],
+ a: "Call Holman at (833) 274-5938 — available 24/7. If the car is unsafe to drive, do not attempt to drive it to a shop. Holman will arrange a tow to the nearest approved Flexdrive service vendor." },
+
+ { k: ["my car is gone","car is gone","car missing","vehicle missing","car was taken"],
+ a: "If your vehicle was repossessed, contact your Flexdrive office immediately. A $500 recovery fee may apply. Flexdrive is not responsible for any belongings left inside. Outstanding rental charges remain your responsibility." },
+
+ { k: ["chang my car","change my car","change car","get a different car","swap my car","want to switch cars"],
+ a: "Flexdrive does not swap vehicles based on preference. Swaps are only considered for two reasons: (1) Remarketing — Flexdrive pulls your vehicle from the fleet, or (2) a verified mechanical issue confirmed by an approved vendor." },
 
 
 ];
