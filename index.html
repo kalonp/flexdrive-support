@@ -520,6 +520,12 @@
  0% { opacity: 0; }
  100% { opacity: 1; }
  }
+  @keyframes talkBtnEntrance {
+    0%   { opacity: 0; transform: translateY(10px) scale(0.92); }
+    60%  { opacity: 1; transform: translateY(-3px) scale(1.04); }
+    80%  { transform: translateY(1px) scale(0.98); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
  @keyframes btnPop {
  0% { opacity: 0; transform: scale(0.78) translateY(10px); }
  55% { opacity: 1; transform: scale(1.07) translateY(-2px); }
@@ -527,6 +533,7 @@
  100% { opacity: 1; transform: scale(1) translateY(0); }
  }
  .quick-btn:hover { background: #F0F4F8; border-color: #B8C8D8; }
+  .quick-btn.hot-topic::before { content: "\1F525\00A0"; font-size: 12px; }
  .quick-btn:active { background: var(--navy); color: var(--white); border-color: var(--navy); transform: scale(0.96); box-shadow: 0 1px 4px rgba(0,59,113,0.2); }
 
  /* RENTAL AGREEMENT BUTTON */
@@ -579,7 +586,7 @@
                 0 4px 16px rgba(255,0,191,0.2);
     min-height: 44px; touch-action: manipulation;
     opacity: 0;
-    animation: btnPop 0.3s cubic-bezier(0.34, 1.6, 0.64, 1) 0.15s forwards;
+    animation: talkBtnEntrance 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s both;
   }
   .talk-btn:active { filter: brightness(0.88); transform: scale(0.96); }
 
@@ -829,6 +836,8 @@
  animation: typingWave 1.4s ease-in-out infinite;
  }
  .typing-indicator span:nth-child(1) { background: var(--pink); animation-delay: 0s; }
+  .typing-thinking { font-size: 11px; color: rgba(255,255,255,0.45); margin-left: 2px; margin-top: 5px; font-style: italic; letter-spacing: 0.02em; animation: thinkingFade 0.4s ease-out both; }
+  @keyframes thinkingFade { 0% { opacity:0; transform:translateY(3px); } 100% { opacity:1; transform:translateY(0); } }
  .typing-indicator span:nth-child(2) { background: rgba(255,255,255,0.7); animation-delay: 0.22s; }
  .typing-indicator span:nth-child(3) { background: var(--pink); animation-delay: 0.44s; }
  @keyframes typingWave {
@@ -895,7 +904,7 @@
  transition: border-color 0.2s;
  -webkit-user-select: text;
  }
- .input-wrap textarea:focus { border-color: var(--pink); }
+  .input-wrap textarea:focus { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(255,0,191,0.15), 0 0 12px rgba(255,0,191,0.08); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
  .input-wrap textarea:disabled {
  background: rgba(255,255,255,0.05);
  color: rgba(255,255,255,0.25);
@@ -2699,6 +2708,42 @@ var RELATED_TOPICS = {
  "Express Pay / Instant Pay / cash out": ["Cannot cash out / missing earnings", "Billing week / when am I charged", "Overdue balance / how to pay"],
  "Background check / re-screening": ["Eligibility / requirements to rent", "Lyft deactivation", "Contact info / phone number / how to reach Flexdrive"],
  "Vehicle age / mileage eligibility": ["Eligibility / requirements to rent", "What is Flexdrive / Express Drive", "Swaps"],
+  "Billing week / when am I charged": ["Rental charge different / rate went up", "Card charged unexpectedly", "Overdue balance / how to pay"],
+  "CDW exclusions": ["CDW / protection plan", "Damage charges / not at fault", "Insurance coverage"],
+  "Camera / photo ticket": ["Traffic / parking violation", "Speeding ticket", "Parking ticket"],
+  "Cannot cash out / missing earnings": ["Express Pay / Instant Pay / cash out", "Overdue balance / how to pay", "Billing week / when am I charged"],
+  "Charged for maintenance at vendor": ["Oil change / maintenance location", "Dashboard maintenance light / check engine", "What is included in my rental"],
+  "Collections / sent to collections": ["Overdue balance / how to pay", "Partial payments / repayment plan / Foundever", "Vehicle repossessed / belongings"],
+  "Contact info / phone number / how to reach Flexdrive": ["Office hours / office location", "Speak to a manager / escalation", "What is Flexdrive / Express Drive"],
+  "Dashboard maintenance light / check engine": ["Oil change / maintenance location", "Roadside assistance / Holman / towing / lockout", "Swaps"],
+  "Eligibility / requirements to rent": ["What is Flexdrive / Express Drive", "Picking up my vehicle / reservation", "Background check / re-screening"],
+  "Gas / fuel level at return": ["Return vehicle / end rental", "Cleanliness / car wash requirement", "Deposit refund"],
+  "Get a copy of my ticket": ["Traffic / parking violation", "Camera / photo ticket", "Parking ticket"],
+  "Key lost / locked out": ["Roadside assistance / Holman / towing / lockout", "Contact info / phone number / how to reach Flexdrive", "Office hours / office location"],
+  "Late return / failure to return vehicle": ["Return vehicle / end rental", "Overdue balance / how to pay", "Vehicle repossessed / belongings"],
+  "Lyft app issue / earnings problem": ["Cannot cash out / missing earnings", "Express Pay / Instant Pay / cash out", "Lyft deactivation"],
+  "Minimum rental period": ["Return vehicle / end rental", "How to extend / renew rental", "Rental cost / weekly rate"],
+  "My office / office info": ["Office hours / office location", "Return vehicle / end rental", "Picking up my vehicle / reservation"],
+  "Need replacement vehicle": ["Swaps", "Dashboard maintenance light / check engine", "Roadside assistance / Holman / towing / lockout"],
+  "Office hours / office location": ["My office / office info", "Return vehicle / end rental", "Contact info / phone number / how to reach Flexdrive"],
+  "PCDW / partial collision damage waiver": ["CDW / protection plan", "Insurance coverage", "Damage charges / not at fault"],
+  "Parking ticket": ["Traffic / parking violation", "Camera / photo ticket", "Speeding ticket"],
+  "Pets in the vehicle": ["Prohibited uses", "Smoking in the vehicle", "Cleanliness / car wash requirement"],
+  "Prohibited uses": ["Someone else driving the vehicle", "Pets in the vehicle", "Smoking in the vehicle"],
+  "Registration expired": ["Traffic / parking violation", "Contact info / phone number / how to reach Flexdrive", "Office hours / office location"],
+  "Rental agreement / contract / terms": ["What is included in my rental", "CDW / protection plan", "Return vehicle / end rental"],
+  "Report damage on vehicle at pickup": ["Damage charges / not at fault", "CDW / protection plan", "Vehicle not clean at pickup / pre-existing damage"],
+  "Smoking in the vehicle": ["Prohibited uses", "Pets in the vehicle", "Cleanliness / car wash requirement"],
+  "Someone else driving the vehicle": ["Prohibited uses", "Insurance coverage", "CDW / protection plan"],
+  "Speak to a manager / escalation": ["Contact info / phone number / how to reach Flexdrive", "Office hours / office location", "What is Flexdrive / Express Drive"],
+  "Speeding ticket": ["Traffic / parking violation", "Camera / photo ticket", "Parking ticket"],
+  "Toll charge": ["Billing week / when am I charged", "Card charged unexpectedly", "Traffic / parking violation"],
+  "Traffic / parking violation": ["Speeding ticket", "Parking ticket", "Camera / photo ticket"],
+  "Vehicle repossessed / belongings": ["Overdue balance / how to pay", "Partial payments / repayment plan / Foundever", "Collections / sent to collections"],
+  "What is Flexdrive / Express Drive": ["Eligibility / requirements to rent", "Rental cost / weekly rate", "Where is Flexdrive available"],
+  "Where is Flexdrive available": ["What is Flexdrive / Express Drive", "Eligibility / requirements to rent", "Moving to a new state / relocating"],
+  "Windshield / glass damage": ["CDW / protection plan", "Roadside assistance / Holman / towing / lockout", "Damage charges / not at fault"],
+  "Wrapped vehicle bonus (SFO)": ["Express Pay / Instant Pay / cash out", "Cannot cash out / missing earnings", "Rental cost / weekly rate"],
 };
 
 // ── FOLLOW-UP QUESTIONS MAP ───────────────────────────────────────────────────
@@ -2764,6 +2809,18 @@ var FOLLOWUP_QUESTIONS = {
  "Mileage plan options / tiers": ["How do I change my mileage plan?","When does the plan change take effect?","What are the overage rates?"],
  "Rental cost / weekly rate": ["How do I see my exact weekly rate?","Why did my rate change?","How do Lyft earnings offset the cost?"],
 
+  "Camera / photo ticket": ["How do I get a copy of my ticket?","Will I be charged an admin fee?","What if I wasn't driving when the photo was taken?"],
+  "Gas / fuel level at return": ["What fuel level do I need to return at?","Will I be charged for a low tank?","What if the tank was low when I picked up?"],
+  "Get a copy of my ticket": ["Can you email me the ticket?","How do I come in to pick up my ticket?","What information do I need to request a copy?"],
+  "Lyft trade dress / amp / sticker": ["Where do I pick up trade dress?","What if my amp is missing?","Is trade dress required to drive?"],
+  "My office / office info": ["What are the office hours?","Do I need an appointment?","Can I return after hours?"],
+  "Parking ticket": ["Will Flexdrive pay my parking ticket?","How much is the admin fee?","How do I get a copy of my ticket?"],
+  "Pets in the vehicle": ["Are pets allowed in the car?","What is the cleaning fee for pets?","What counts as a prohibited use?"],
+  "Rental agreement / contract / terms": ["Where do I find my rental agreement?","What are the key rules in my contract?","What happens if I break the terms?"],
+  "Smoking in the vehicle": ["What is the smoking fee?","What if the car smelled like smoke when I got it?","What counts as a prohibited use?"],
+  "Speeding ticket": ["Will Flexdrive pay my speeding ticket?","How much is the admin fee?","How do I get a copy of my ticket?"],
+  "Vehicle makes noise / strange sound": ["Where should I take the car?","Is this covered by Flexdrive?","Should I stop driving if I hear a noise?"],
+  "Vehicle smells / odor complaint": ["How do I report a car that smells?","Can I swap for a different vehicle?","Who do I contact about a pickup issue?"],
 };
 
 function getRelatedTopics(currentTopic) {
@@ -2812,10 +2869,44 @@ function getTopQuickLinks() {
 }
 
 function trackQuickLinkClick(label) {
- var raw = sessionStorage.getItem('ql_counts');
- var counts = raw ? JSON.parse(raw) : {};
- counts[label] = (counts[label] || 0) + 1;
- sessionStorage.setItem('ql_counts', JSON.stringify(counts));
+  var raw = sessionStorage.getItem('ql_counts');
+  var counts = raw ? JSON.parse(raw) : {};
+  counts[label] = (counts[label] || 0) + 1;
+  sessionStorage.setItem('ql_counts', JSON.stringify(counts));
+
+  // Also track in localStorage for cross-session hot topic detection
+  try {
+    var lsRaw = localStorage.getItem('fd_ql_counts');
+    var lsCounts = lsRaw ? JSON.parse(lsRaw) : {};
+    lsCounts[label] = (lsCounts[label] || 0) + 1;
+    localStorage.setItem('fd_ql_counts', JSON.stringify(lsCounts));
+  } catch(e) {}
+}
+
+function getHotTopics() {
+  // Seed with known high-frequency topics as baseline
+  var SEED = {
+    "Billing question": 10,
+    "Find a maintenance vendor": 9,
+    "Mileage dispute": 8,
+    "I was in an accident": 7,
+    "Roadside / towing help": 6,
+    "CDW / protection plan": 5,
+    "Deposit refund": 4,
+    "Return my vehicle": 4
+  };
+  try {
+    var lsRaw = localStorage.getItem('fd_ql_counts');
+    var lsCounts = lsRaw ? JSON.parse(lsRaw) : {};
+    // Merge seed + real counts
+    Object.keys(SEED).forEach(function(k) {
+      lsCounts[k] = (lsCounts[k] || 0) + SEED[k];
+    });
+    // Return top 5 labels
+    return Object.keys(lsCounts).sort(function(a,b){ return lsCounts[b]-lsCounts[a]; }).slice(0,5);
+  } catch(e) {
+    return Object.keys(SEED).slice(0,5);
+  }
 }
 
 function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
@@ -3235,27 +3326,45 @@ function renderMessage(role, content, extra) {
  return bubble;
 }
 
-function renderTyping() {
- var row = document.createElement('div');
- row.className = 'msg-row assistant';
- row.id = 'typingRow';
+function renderTyping(thinkingText) {
+  var row = document.createElement('div');
+  row.className = 'msg-row assistant';
+  row.id = 'typingRow';
 
- var avatar = document.createElement('div');
- avatar.className = 'msg-avatar';
- setAvatarText(avatar);
+  var avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  setAvatarText(avatar);
 
- var bubbleWrap = document.createElement('div');
- bubbleWrap.className = 'typing-bubble-wrap';
+  var bubbleWrap = document.createElement('div');
+  bubbleWrap.className = 'typing-bubble-wrap';
 
- var indicator = document.createElement('div');
- indicator.className = 'typing-indicator';
- indicator.innerHTML = '<span></span><span></span><span></span>';
+  var indicator = document.createElement('div');
+  indicator.className = 'typing-indicator';
+  indicator.innerHTML = '<span></span><span></span><span></span>';
 
- bubbleWrap.appendChild(indicator);
- row.appendChild(avatar);
- row.appendChild(bubbleWrap);
- chatArea.appendChild(row);
- scrollToBottom();
+  // Randomise dot animation timing slightly each time — feels less mechanical
+  var _dots = indicator.querySelectorAll('span');
+  var _baseSpeed = 1.2 + Math.random() * 0.4; // 1.2s–1.6s cycle
+  var _gap = 0.18 + Math.random() * 0.08;     // 0.18s–0.26s between dots
+  _dots[0].style.animationDuration = _baseSpeed + 's';
+  _dots[1].style.animationDuration = (_baseSpeed + 0.05) + 's';
+  _dots[1].style.animationDelay = _gap + 's';
+  _dots[2].style.animationDuration = (_baseSpeed - 0.05) + 's';
+  _dots[2].style.animationDelay = (_gap * 2) + 's';
+
+  bubbleWrap.appendChild(indicator);
+
+  if (thinkingText) {
+    var label = document.createElement('div');
+    label.className = 'typing-thinking';
+    label.textContent = thinkingText;
+    bubbleWrap.appendChild(label);
+  }
+
+  row.appendChild(avatar);
+  row.appendChild(bubbleWrap);
+  chatArea.appendChild(row);
+  scrollToBottom();
 }
 
 function removeTyping() {
@@ -3310,24 +3419,26 @@ function renderVendorCards(vendors) {
 var sessionLog = [];
 
 function renderQuickActions(actions) {
- var container = document.createElement('div');
- container.className = 'quick-actions';
- actions.forEach(function(a) {
- var btn = document.createElement('button');
- btn.className = 'quick-btn';
- btn.textContent = a;
- btn.addEventListener('click', function() {
- haptic();
- trackQuickLinkClick(a);
- sessionLog.push({ role: 'user', text: a, time: new Date().toLocaleTimeString() });
- userInput.removeAttribute('readonly');
- userInput.value = a;
- sendBtn.disabled = false;
- sendMessage();
- });
- container.appendChild(btn);
- });
- return container;
+  var container = document.createElement('div');
+  container.className = 'quick-actions';
+  var hotTopics = getHotTopics();
+  actions.forEach(function(a) {
+    var btn = document.createElement('button');
+    btn.className = 'quick-btn';
+    if (hotTopics.indexOf(a) !== -1) btn.classList.add('hot-topic');
+    btn.textContent = a;
+    btn.addEventListener('click', function() {
+      haptic();
+      trackQuickLinkClick(a);
+      sessionLog.push({ role: 'user', text: a, time: new Date().toLocaleTimeString() });
+      userInput.removeAttribute('readonly');
+      userInput.value = a;
+      sendBtn.disabled = false;
+      sendMessage();
+    });
+    container.appendChild(btn);
+  });
+  return container;
 }
 
 function renderWrappedAccordion() {
@@ -4336,7 +4447,17 @@ function makeAccordionItem(container, title, emoji, htmlContent) {
  if (!isOpen) {
  body.style.display = 'block';
  header.classList.add('open'); item.classList.add('is-open');
- setTimeout(function() { item.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50);
+ setTimeout(function() {
+          // Scroll so the accordion body content is visible — not just the header
+          var chatArea = document.getElementById('chatArea');
+          if (!chatArea) { item.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); return; }
+          var itemRect = item.getBoundingClientRect();
+          var chatRect = chatArea.getBoundingClientRect();
+          var headerH = header.getBoundingClientRect().height;
+          // Target: header sits ~60px from top of chat area so content is immediately visible
+          var targetScroll = chatArea.scrollTop + (itemRect.top - chatRect.top) - 60;
+          chatArea.scrollTo({ top: targetScroll, behavior: 'smooth' });
+        }, 80);
  }
  });
  item.appendChild(header); item.appendChild(body); container.appendChild(item);
@@ -5925,34 +6046,90 @@ var TOPIC_CONTEXT_KEYWORDS = {
  'Cleanliness / car wash requirement': ['clean','cleaning','wash','dirty'],
  'Prohibited uses': ['prohibited','not allowed','forbidden'],
  'Late return / failure to return vehicle': ['late','overdue','failure to return'],
+  'Billing week / when am I charged': ['billing week','tuesday','charged','billing cycle'],
+  'CDW exclusions': ['cdw','excluded','void','not covered'],
+  'Camera / photo ticket': ['camera','photo','flash','red light','speed camera'],
+  'Cannot cash out / missing earnings': ['cash out','earnings','missing','payout','express pay'],
+  'Charged for maintenance at vendor': ['charged','vendor','shop','bill','receipt'],
+  'Collections / sent to collections': ['collections','debt','sent to collections'],
+  'Contact info / phone number / how to reach Flexdrive': ['contact','phone','email','reach','number'],
+  'Gas / fuel level at return': ['fuel','gas','tank','level'],
+  'Get a copy of my ticket': ['ticket','copy','citation'],
+  'Key lost / locked out': ['key','locked','lockout','keys'],
+  'Late return / failure to return vehicle': ['late return','overdue','failure to return','not returned'],
+  'Lyft app issue / earnings problem': ['lyft app','earnings','lyft issue'],
+  'Minimum rental period': ['minimum','7 days','week','return early'],
+  'My office / office info': ['office','location','address','beaverton','los angeles','san francisco'],
+  'Need replacement vehicle': ['replacement','different car','swap','new vehicle'],
+  'Office hours / office location': ['hours','open','office','address'],
+  'PCDW / partial collision damage waiver': ['pcdw','partial','low deductible'],
+  'Parking ticket': ['parking','ticket','citation','meter'],
+  'Pets in the vehicle': ['pet','dog','cat','animal'],
+  'Prohibited uses': ['prohibited','not allowed','rideshare','doordash'],
+  'Registration expired': ['registration','tags','expired'],
+  'Rental agreement / contract / terms': ['agreement','contract','terms'],
+  'Report damage on vehicle at pickup': ['damage','pickup','pre-existing','report'],
+  'Smoking in the vehicle': ['smoking','smoke','cigarette'],
+  'Someone else driving the vehicle': ['someone else','other driver','spouse','friend'],
+  'Speak to a manager / escalation': ['manager','supervisor','escalate','complaint'],
+  'Speeding ticket': ['speeding','speed','ticket','citation'],
+  'Vehicle repossessed / belongings': ['repossessed','repo','belongings','stuff'],
+  'What is Flexdrive / Express Drive': ['flexdrive','express drive','what is'],
+  'Where is Flexdrive available': ['available','cities','markets','locations'],
+  'Windshield / glass damage': ['windshield','glass','chip','crack','repair'],
+  'Wrapped vehicle bonus (SFO)': ['wrapped','wrap','bonus','sticker'],
+  'Background check / re-screening': ['background','screening','check'],
+  'Collections / sent to collections': ['collections','debt'],
+  'Lyft trade dress / amp / sticker': ['trade dress','amp','sticker','decal'],
+  'Vehicle age / mileage eligibility': ['vehicle age','mileage','eligibility','older'],
+  'Vehicle makes noise / strange sound': ['noise','sound','rattling','clunking'],
+  'Vehicle smells / odor complaint': ['smell','odor','smoke smell'],
+  'Rental cost / weekly rate': ['rate','cost','weekly','how much'],
+  'Mileage plan options / tiers': ['mileage plan','tier','plan options'],
 };
 
 // Pronouns and vague references that signal a follow-up
-var FOLLOWUP_SIGNALS = /^(it|this|that|the|those|them|they|its|how much|how long|how do i|when does|what about|and|but|also|so|ok|okay|got it|what if|can i|do i|is it|does it|will it|why|why does|why is|tell me more|more info|explain|what else|anything else|same for|what about for|for ev|for electric|for pdx|for portland|for la|for sfo|for san)/i;
+var FOLLOWUP_SIGNALS = /^(it|this|that|the|those|them|they|its|how much|how long|how do i|when does|what about|and|but|also|so|ok|okay|got it|what if|can i|do i|is it|does it|will it|why|why does|why is|tell me more|more info|explain|what else|anything else|same for|what about for|for ev|for electric|for pdx|for portland|for la|for sfo|for san|what.s the fee|what.s the cost|how does that work|how does it work|what happens then|what happens after|what if i|and what|what about my|how about|is there a fee|is there a charge|what is the fee|what is the cost|what.s next|then what|after that|how do i do that|can i do that|what do i do|what should i do|how soon|how quickly|when will|will i be|am i|does that|what if that)/i;
 
 function resolveContext(text) {
- if (!lastMatch) return text;
+  if (!lastMatch) return text;
 
- var lower = text.toLowerCase().trim();
+  var lower = text.toLowerCase().trim();
 
- // Short queries (under 5 words) or follow-up signal words
- var wordCount = lower.split(/\s+/).length;
- // Don't enrich if query has specific topic nouns — it's self-contained
- var hasTopic = /return|deposit|refund|accident|crash|holman|roadside|tow|flat|windshield|oil change|maintenance|vendor|inspection|mileage|overage|billing|charge|cdw|insurance|swap|ev|electric|deactivat|relocat|moving|toll|ticket|violation|clean|dirty|pickup|eligib|express pay|pcdw/.test(lower);
- var isFollowUp = !hasTopic && (wordCount <= 5 || FOLLOWUP_SIGNALS.test(lower));
- if (!isFollowUp) return text;
+  // Don't enrich if query has specific topic nouns — it's self-contained
+  var hasTopic = /return|deposit|refund|accident|crash|holman|roadside|tow|flat|windshield|oil change|maintenance|vendor|inspection|mileage|overage|billing|charge|cdw|insurance|swap|ev|electric|deactivat|relocat|moving|toll|ticket|violation|clean|dirty|pickup|eligib|express pay|pcdw/.test(lower);
+  if (hasTopic) return text;
 
- // Get context keywords for last topic
- var contextKws = TOPIC_CONTEXT_KEYWORDS[lastMatch.topic];
- if (!contextKws) return text;
+  var wordCount = lower.split(/\s+/).length;
+  var isFollowUp = wordCount <= 6 || FOLLOWUP_SIGNALS.test(lower);
+  if (!isFollowUp) return text;
 
- // Check if the query already contains topic keywords — if so, no enrichment needed
- var alreadyHasContext = contextKws.some(function(kw) { return lower.includes(kw); });
- if (alreadyHasContext) return text;
+  // Get context keywords for last topic
+  var contextKws = TOPIC_CONTEXT_KEYWORDS[lastMatch.topic];
+  if (!contextKws) return text;
 
- // Enrich the query by appending the most relevant context keyword
- var enriched = text + ' ' + contextKws[0];
- return enriched;
+  // Check if query already has context — no enrichment needed
+  var alreadyHasContext = contextKws.some(function(kw) { return lower.includes(kw); });
+  if (alreadyHasContext) return text;
+
+  // Map common vague question patterns to topic-specific follow-ups
+  var lastTopic = lastMatch.topic;
+  var vaguePatterns = [
+    { re: /how much|what.s the (fee|cost|charge|price)|is there a (fee|charge|cost)|what is the (fee|cost)/, append: contextKws[0] + ' fee cost how much' },
+    { re: /how long|when will|how soon|when does|when do i/, append: contextKws[0] + ' how long timeline' },
+    { re: /how do i|how can i|what do i do|what should i do|how do you|can i/, append: contextKws[0] + ' how to process steps' },
+    { re: /what happens|then what|after that|what.s next|what if/, append: contextKws[0] + ' what happens process' },
+    { re: /why|how come|reason/, append: contextKws[0] + ' why reason explanation' },
+  ];
+
+  for (var p = 0; p < vaguePatterns.length; p++) {
+    if (vaguePatterns[p].re.test(lower)) {
+      return text + ' ' + vaguePatterns[p].append;
+    }
+  }
+
+  // Default: append most relevant context keyword
+  return text + ' ' + contextKws[0];
 }
 
 function findCardAnswer(text) {
@@ -6034,21 +6211,39 @@ function varyOpener(responseText, topic, query) {
 
 // Calculate a natural-feeling typing delay based on response complexity
 function calculateTypingDelay(text) {
- var lower = text.toLowerCase();
- // Urgent / emergency queries — fast (they need help NOW)
- if (/accident|crash|stolen|fire|unsafe|emergency|urgent|911|broke down|tow|holman/.test(lower)) {
- return 500 + Math.floor(Math.random() * 150);
- }
- // Short specific questions — fast (card answer, one-liner)
- if (text.split(' ').length <= 5) {
- return 600 + Math.floor(Math.random() * 200);
- }
- // Medium questions — natural pause
- if (text.split(' ').length <= 10) {
- return 800 + Math.floor(Math.random() * 300);
- }
- // Long / complex questions — longer think time
- return 1000 + Math.floor(Math.random() * 400);
+  var lower = text.toLowerCase();
+  var jitter = Math.floor(Math.random() * 200) - 100; // ±100ms human variance
+
+  // Emergency — always near-instant, renter needs help NOW
+  if (/accident|crash|stolen|fire|unsafe|emergency|urgent|911|broke down|tow|holman/.test(lower)) {
+    return 450 + jitter;
+  }
+
+  // Pre-check response type to calibrate delay to answer complexity
+  var resolved = lower;
+  var card = findCardAnswer(resolved);
+  if (card) {
+    // Short card answer — near instant
+    return 500 + jitter;
+  }
+
+  var match = findBestMatch(resolved);
+  if (match) {
+    // Accordion = complex — Ari is "thinking"
+    var isAccordion = match.vehicleRulesAccordion || match.billingAccordion ||
+      match.protectionAccordion || match.mileageAccordion || match.depositAccordion ||
+      match.returnAccordion || match.roadsideAccordion || match.inspectionAccordion ||
+      match.rentalAccountAccordion || match.earningsAccordion || match.swapAccordion ||
+      match.wrappedAccordion || match.movingAccordion || match.marketsGrid;
+    if (isAccordion) {
+      return 1100 + Math.abs(jitter) * 2; // 900ms–1300ms — feels like real thinking
+    }
+    // Plain text match — natural pause
+    return 700 + jitter; // 600ms–800ms
+  }
+
+  // No match found — slight extra pause (Ari is searching)
+  return 900 + jitter;
 }
 
 function getAriGreeting() {
@@ -6084,7 +6279,30 @@ function sendMessage() {
  userInput.blur();
  if (isMobile) userInput.setAttribute('readonly', 'true');
 
- renderTyping();
+
+  // Pick a thinking phrase based on response complexity
+  var _tPhrases = {
+    emergency: ["On it right away…", "Looking that up now…", "Right on it…"],
+    accordion: ["Looking that up…", "Let me pull that up…", "One sec…", "Checking on that…", "Finding the details…"],
+    card:      ["", "", "On it…", ""],
+    plain:     ["", "One sec…", "", "Looking that up…", ""]
+  };
+  var _tLower = text.toLowerCase();
+  var _tType = "plain";
+  if (/accident|crash|stolen|fire|unsafe|emergency|urgent|911|broke down|tow|holman/.test(_tLower)) { _tType = "emergency"; }
+  else if (findCardAnswer(_tLower)) { _tType = "card"; }
+  else {
+    var _tMatch = findBestMatch(_tLower);
+    if (_tMatch && (_tMatch.vehicleRulesAccordion || _tMatch.billingAccordion || _tMatch.protectionAccordion ||
+      _tMatch.mileageAccordion || _tMatch.depositAccordion || _tMatch.returnAccordion ||
+      _tMatch.roadsideAccordion || _tMatch.inspectionAccordion || _tMatch.rentalAccountAccordion ||
+      _tMatch.earningsAccordion || _tMatch.swapAccordion || _tMatch.wrappedAccordion ||
+      _tMatch.movingAccordion || _tMatch.marketsGrid)) { _tType = "accordion"; }
+  }
+  var _tArr = _tPhrases[_tType];
+  var _tText = _tArr[Math.floor(Math.random() * _tArr.length)];
+  renderTyping(_tText);
+
 
  var typingDelay = calculateTypingDelay(text);
  setTimeout(function() {
@@ -6748,7 +6966,9 @@ function showWelcome() {
   var s1 = document.createElement('div');
   s1.className = 'welcome-section';
   s1.style.animationDelay = '0.3s';
-  s1.innerHTML = '<span style="font-size:17px;font-weight:700;color:var(--white);display:block;margin-bottom:2px;">Hi, I\'m Ari &#128075;</span><span style="font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:0.04em;text-transform:uppercase;display:block;margin-bottom:10px;">Automated Rental Information</span>I\'m your Flexdrive support assistant &mdash; Instant answers on mileage, billing, maintenance, protection plans, fees, state rules, and more.<br><br>Lyft app or earnings questions? Visit <a href=\"https://help.lyft.com\" target=\"_blank\" style=\"color:#FF00BF;\">help.lyft.com</a>.';
+  var _hr = new Date().getHours();
+  var _greet = _hr < 12 ? 'Good morning' : _hr < 17 ? 'Good afternoon' : 'Good evening';
+  s1.innerHTML = '<span style="font-size:17px;font-weight:700;color:var(--white);display:block;margin-bottom:2px;">' + _greet + ', I\'m Ari &#128075;</span><span style="font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:0.04em;text-transform:uppercase;display:block;margin-bottom:10px;">Automated Rental Information</span>I\'m your Flexdrive support assistant &mdash; Instant answers on mileage, billing, maintenance, protection plans, fees, state rules, and more.<br><br>Lyft app or earnings questions? Visit <a href=\"https://help.lyft.com\" target=\"_blank\" style=\"color:#FF00BF;\">help.lyft.com</a>.';
   bubble.appendChild(s1);
 
   var d2 = document.createElement('div');
