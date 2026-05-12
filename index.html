@@ -314,59 +314,7 @@
  .msg-check { font-size: 11px; color: #9BA8B8; transition: color 0.3s; }
  .msg-check.delivered { color: #003B71; }
 
- /* ── REACTION BUTTONS ───────────────────── */
- .reaction-row {
- display: flex;
- gap: 6px;
- padding-left: 44px;
- margin-top: 2px;
- opacity: 0;
- transition: opacity 0.2s;
- }
- .msg-row.assistant:hover .reaction-row,
- .msg-row.assistant:focus-within .reaction-row { opacity: 1; }
- .reaction-btn {
- background: none;
- border: 0.5px solid #E2E8EF;
- border-radius: 20px;
- padding: 2px 8px;
- font-size: 13px;
- cursor: pointer;
- color: #7D868C;
- transition: background 0.15s, border-color 0.15s;
- touch-action: manipulation;
- -webkit-tap-highlight-color: transparent;
- line-height: 1.6;
- }
- .reaction-btn:hover { background: #f0f5ff; border-color: #003B71; }
- .reaction-btn.active-up { background: #e8f4e8; border-color: #2a7a2a; color: #2a7a2a; }
- .reaction-btn.active-down { background: #fef0f0; border-color: #c0392b; color: #c0392b; }
-
- /* ── SCROLL TO BOTTOM ───────────────────── */
- #scrollToBottomBtn {
- position: absolute;
- bottom: 80px;
- right: 16px;
- width: 36px;
- height: 36px;
- border-radius: 50%;
- background: #003B71;
- border: none;
- color: #fff;
- font-size: 16px;
- display: flex;
- align-items: center;
- justify-content: center;
- cursor: pointer;
- opacity: 0;
- pointer-events: none;
- transition: opacity 0.2s;
- z-index: 50;
- box-shadow: 0 2px 8px rgba(0,59,113,0.35);
- touch-action: manipulation;
- -webkit-tap-highlight-color: transparent;
- }
- #scrollToBottomBtn.visible { opacity: 1; pointer-events: auto; }
+  #scrollToBottomBtn.visible { opacity: 1; pointer-events: auto; }
 
  /* ── INPUT HINT ──────────────────────────── */
  #inputHint {
@@ -640,7 +588,7 @@
  border-radius: 16px; overflow: hidden;
  box-shadow: 0 2px 8px rgba(0,59,113,0.10), 0 0 0 1.5px rgba(0,59,113,0.08);
  opacity: 0;
- animation: accordionItemIn 0.4s cubic-bezier(0.34, 1.5, 0.64, 1) forwards;
+ animation: accordionItemIn 0.22s ease-out forwards;
  }
  .location-state-card:nth-child(1) { animation-delay: 0.03s; }
  .location-state-card:nth-child(2) { animation-delay: 0.08s; }
@@ -694,7 +642,7 @@
  border: 2px solid var(--gray-border);
  border-radius: 16px; overflow: hidden; background: var(--white);
  opacity: 0;
- animation: accordionItemIn 0.4s cubic-bezier(0.34, 1.5, 0.64, 1) forwards;
+ animation: accordionItemIn 0.22s ease-out forwards;
  box-shadow: 0 2px 8px rgba(0,59,113,0.08), 0 0 0 0 rgba(255,0,191,0);
  transition: box-shadow 0.2s, border-color 0.2s;
  }
@@ -711,9 +659,8 @@
  .ev-accordion-item:nth-child(6) { animation-delay: 0.40s; }
  .ev-accordion-item:nth-child(7) { animation-delay: 0.47s; }
  @keyframes accordionItemIn {
- 0% { opacity: 0; transform: translateX(-10px) scale(0.97); }
- 60% { opacity: 1; }
- 100% { opacity: 1; transform: translateX(0) scale(1); }
+ 0% { opacity: 0; transform: translateY(6px); }
+ 100% { opacity: 1; transform: translateY(0); }
  }
 
  /* Open item gets green border glow */
@@ -725,10 +672,11 @@
 
  .ev-accordion-header {
  width: 100%; display: flex; align-items: center; justify-content: space-between;
- padding: 15px 16px; background: var(--white); border: none; cursor: pointer;
- font-family: var(--font); font-size: 15px; font-weight: 600; color: var(--navy);
- text-align: left; min-height: 52px; touch-action: manipulation;
- transition: background 0.2s, color 0.2s;
+ padding: 13px 14px; background: var(--white); border: none; cursor: pointer;
+ font-family: var(--font); font-size: 14px; font-weight: 600; color: var(--navy);
+ text-align: left; min-height: 48px; touch-action: manipulation;
+ -webkit-tap-highlight-color: transparent;
+ transition: background 0.15s, color 0.15s;
  }
  .ev-accordion-header.open { background: var(--navy); color: var(--white); }
 
@@ -742,11 +690,11 @@
  /* Body slides + fades in */
  .ev-accordion-body {
  display: none;
- padding: 14px 16px;
- font-size: 15px; line-height: 1.65; color: #2D3138;
+ padding: 12px 14px 16px;
+ font-size: 14px; line-height: 1.6; color: #2D3138;
  background: var(--white);
  border-top: 1px solid #E2E8EF;
- white-space: pre-wrap; word-wrap: break-word;
+ word-wrap: break-word; overflow-wrap: break-word;
  animation: bodyReveal 0.2s ease-out both;
  will-change: opacity;
  position: relative;
@@ -767,11 +715,12 @@
  font-size: 13px; font-weight: 700;
  display: flex; align-items: center; justify-content: center;
  }
- .ac-step-body { flex: 1; font-size: 14px; line-height: 1.55; color: #2D3138; padding-top: 4px; }
+ .ac-step-body { flex: 1; font-size: 13px; line-height: 1.55; color: #2D3138; padding-top: 4px; min-width: 0; word-wrap: break-word; }
  .ac-step-body strong { color: var(--navy); }
  .ac-callout {
- border-radius: 10px; padding: 10px 14px; margin: 10px 0;
- font-size: 13px; line-height: 1.55;
+ border-radius: 8px; padding: 9px 12px; margin: 8px 0;
+ font-size: 13px; line-height: 1.5;
+ word-wrap: break-word; overflow-wrap: break-word;
  }
  .ac-callout.urgent {
  background: #FFF3F3; border-left: 3px solid #D93025; color: #7A1A13;
@@ -806,9 +755,9 @@
  .ac-bullet-dot { flex-shrink: 0; margin-top: 5px; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.5; }
  .ac-gate { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
  .ac-gate-row {
- display: flex; gap: 10px; align-items: flex-start;
- background: #F6F9FC; border-radius: 8px; padding: 8px 12px;
- font-size: 13px; line-height: 1.5;
+ display: flex; gap: 8px; align-items: flex-start;
+ background: #F6F9FC; border-radius: 8px; padding: 7px 10px;
+ font-size: 13px; line-height: 1.5; word-wrap: break-word;
  }
  .ac-gate-icon { flex-shrink: 0; font-size: 15px; margin-top: 1px; }
  .ac-pill {
@@ -1226,6 +1175,18 @@
  .location-prompt { padding: 10px; gap: 6px; margin-top: 8px; }
  .location-prompt input { padding: 11px 14px; font-size: 16px; border-radius: 12px; }
  .location-prompt button { padding: 11px 14px; font-size: 15px; min-height: 44px; border-radius: 12px; }
+ }
+
+ /* ── iPHONE COMPACT OPTIMIZATIONS ───────── */
+ @media (max-width: 390px) {
+ .ev-accordion-header { font-size: 13px; padding: 11px 12px; min-height: 44px; }
+ .ev-accordion-body { font-size: 13px; padding: 10px 12px 14px; }
+ .ac-callout { padding: 8px 10px; font-size: 12px; }
+ .ac-gate-row { padding: 6px 9px; font-size: 12px; }
+ .ac-step-body { font-size: 12px; }
+ .ac-step-num { width: 24px; height: 24px; font-size: 12px; }
+ .msg-bubble { font-size: 15px; padding: 11px 14px; }
+ .ev-accordion { gap: 6px; }
  }
 
 </style>
@@ -3193,30 +3154,6 @@ function renderMessage(role, content, extra) {
  lastCheck.classList.add('delivered');
  }
  }, 100);
-
- // Feature 3: Reaction buttons (thumbs up/down) on bot responses
- setTimeout(function() {
- var allAssist = chatArea.querySelectorAll('.msg-row.assistant');
- var targetRow2 = allAssist[allAssist.length - 1];
- if (!targetRow2) return;
- var reactionRow = document.createElement('div');
- reactionRow.className = 'reaction-row';
- var capturedContent = content;
- ['👍','👎'].forEach(function(emoji) {
- var btn = document.createElement('button');
- btn.className = 'reaction-btn';
- btn.textContent = emoji;
- btn.addEventListener('click', function() {
- if (btn.classList.contains('active-up') || btn.classList.contains('active-down')) return;
- reactionRow.querySelectorAll('.reaction-btn').forEach(function(b){ b.style.opacity='0.4'; });
- btn.style.opacity='1';
- btn.classList.add(emoji === '👍' ? 'active-up' : 'active-down');
- logReaction(emoji, capturedContent);
- });
- reactionRow.appendChild(btn);
- });
- targetRow2.appendChild(reactionRow);
- }, 200);
 
  setTimeout(function() { appendQuickActions(!isFirst, suppressTalk); }, isFirst ? 1000 : 800);
  }
