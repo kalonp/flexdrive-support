@@ -279,6 +279,20 @@
  0% { opacity: 0; transform: translateY(6px) scale(0.97); }
  100% { opacity: 1; transform: translateY(0) scale(1); }
  }
+  @keyframes pinDrop {
+    0%   { opacity: 0; transform: translateY(-60px) scale(0.6); }
+    50%  { opacity: 1; transform: translateY(10px) scale(1.25); }
+    68%  { transform: translateY(-12px) scale(0.9); }
+    82%  { transform: translateY(6px) scale(1.1); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes bubblePopIn {
+    0%   { opacity: 0; transform: translateY(6px) scale(0.94); }
+    60%  { opacity: 1; transform: translateY(-2px) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .msg-avatar.pin-drop { animation: pinDrop 0.7s cubic-bezier(0.34, 1.6, 0.64, 1) both; }
+  .msg-bubble.bubble-pop { animation: bubblePopIn 0.4s cubic-bezier(0.34, 1.3, 0.64, 1) 0.18s both; }
  .msg-row.user { justify-content: flex-end; flex-wrap: wrap; }
  .msg-row.assistant { justify-content: flex-start; align-items: flex-end; }
 
@@ -3092,6 +3106,8 @@ function renderMessage(role, content, extra) {
  var bubble = document.createElement('div');
  bubble.className = 'msg-bubble';
  if (role === 'assistant') {
+    avatar.classList.add('pin-drop');
+    bubble.classList.add('bubble-pop');
  bubble.innerHTML = linkifyContent(content);
  } else {
  bubble.textContent = content;
