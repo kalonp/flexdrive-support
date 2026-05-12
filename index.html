@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
@@ -189,10 +189,10 @@
  animation: msgIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
  }
  .msg-row.assistant {
- animation: msgInLeft 0.4s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+ animation: msgInLeft 0.25s ease-out both;
  }
  .msg-row.user {
- animation: msgInRight 0.35s cubic-bezier(0.34, 1.5, 0.64, 1) both;
+ animation: msgInRight 0.25s ease-out both;
  }
  /* WELCOME SCREEN ANIMATIONS */
  @keyframes welcomePop {
@@ -214,7 +214,7 @@
  0 4px 14px rgba(0,59,113,0.2),
  0 1px 0 rgba(255,255,255,0.08) inset !important;
  padding: 22px 22px 20px !important;
- animation: welcomePop 0.6s cubic-bezier(0.34, 1.45, 0.64, 1) 0.08s both !important;
+ animation: welcomePop 0.35s cubic-bezier(0.34, 1.3, 0.64, 1) 0.05s both !important;
  }
  .welcome-bubble a {
  color: var(--pink) !important;
@@ -271,14 +271,12 @@
  100% { opacity: 1; transform: translateY(0) scale(1); }
  }
  @keyframes msgInLeft {
- 0% { opacity: 0; transform: translateX(-18px) translateY(6px) scale(0.96); }
- 55% { opacity: 1; transform: translateX(3px) translateY(-1px) scale(1.01); }
- 100% { opacity: 1; transform: translateX(0) translateY(0) scale(1); }
+ 0% { opacity: 0; transform: translateY(8px) scale(0.97); }
+ 100% { opacity: 1; transform: translateY(0) scale(1); }
  }
  @keyframes msgInRight {
- 0% { opacity: 0; transform: translateX(18px) translateY(6px) scale(0.96); }
- 55% { opacity: 1; transform: translateX(-3px) translateY(-1px) scale(1.01); }
- 100% { opacity: 1; transform: translateX(0) translateY(0) scale(1); }
+ 0% { opacity: 0; transform: translateY(6px) scale(0.97); }
+ 100% { opacity: 1; transform: translateY(0) scale(1); }
  }
  .msg-row.user { justify-content: flex-end; flex-wrap: wrap; }
  .msg-row.assistant { justify-content: flex-start; align-items: flex-end; }
@@ -871,6 +869,8 @@
  padding: 12px 14px;
  padding-bottom: calc(12px + env(safe-area-inset-bottom));
  border-top: 1px solid rgba(255,255,255,0.06);
+ position: relative;
+ z-index: 10;
  }
  .input-disclaimer {
  text-align: center; font-size: 11px;
@@ -7055,11 +7055,17 @@ window.addEventListener('load', function() {
  // Re-focus input after blur (only if user tapped input bar area, not elsewhere)
  // This keeps the cursor ready without forcing keyboard open
 
- // Visual Viewport API — shrinks app to fit above keyboard (iOS Safari + Chrome)
+ // Visual Viewport API — pins app to visual viewport so input bar stays above keyboard
  if (window.visualViewport) {
  function onViewportResize() {
  if (appEl) {
- appEl.style.height = window.visualViewport.height + 'px';
+ var vv = window.visualViewport;
+ // Pin the app container to exactly the visible area
+ appEl.style.height = Math.round(vv.height) + 'px';
+ appEl.style.position = 'fixed';
+ appEl.style.top = Math.round(vv.offsetTop) + 'px';
+ appEl.style.left = Math.round(vv.offsetLeft) + 'px';
+ appEl.style.width = Math.round(vv.width) + 'px';
  }
  // If we're in location entry mode, scroll focused input into view
  var focusedInput = document.querySelector('.location-prompt input:focus');
