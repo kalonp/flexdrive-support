@@ -7023,14 +7023,17 @@ function rotatePlaceholder() {
  var overlay = document.getElementById('placeholderOverlay');
  if (!span || !overlay) return;
  // Fade out
- span.style.transition = 'opacity 2s ease';
+ span.style.transition = 'opacity 1.5s ease';
  span.style.opacity = '0';
  setTimeout(function() {
+ // Swap text only after fully invisible
  placeholderIndex = (placeholderIndex + 1) % placeholderTexts.length;
  span.textContent = placeholderTexts[placeholderIndex];
- span.style.transition = 'opacity 2s ease';
+ // Force reflow so browser registers the text change before fading in
+ span.offsetHeight;
+ span.style.transition = 'opacity 1.5s ease';
  span.style.opacity = '1';
- }, 2000);
+ }, 1600);
 }
 
 function startPlaceholderRotation() {
