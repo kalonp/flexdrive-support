@@ -296,7 +296,6 @@
  .msg-avatar svg { width: 22px; height: 30px; }
  .msg-row.assistant { justify-content: flex-start; align-items: flex-end; }
  .msg-row.user .msg-avatar { display: none; }
- .msg-row.user
  /* ── TIMESTAMPS ────────────────────────── */
  .msg-timestamp {
  font-size: 10px;
@@ -314,7 +313,32 @@
  .msg-check { font-size: 11px; color: #9BA8B8; transition: color 0.3s; }
  .msg-check.delivered { color: #003B71; }
 
-  #scrollToBottomBtn.visible { opacity: 1; pointer-events: auto; }
+ /* ── SCROLL TO BOTTOM BUTTON ─────────────── */
+ #scrollToBottomBtn {
+ position: absolute;
+ bottom: 80px;
+ right: 16px;
+ width: 36px; height: 36px;
+ border-radius: 50%;
+ background: #003B71;
+ border: none;
+ color: #fff;
+ display: flex; align-items: center; justify-content: center;
+ cursor: pointer;
+ opacity: 0;
+ pointer-events: none;
+ transition: opacity 0.2s, transform 0.2s;
+ z-index: 50;
+ box-shadow: 0 2px 8px rgba(0,59,113,0.35);
+ touch-action: manipulation;
+ -webkit-tap-highlight-color: transparent;
+ transform: translateY(8px);
+ }
+ #scrollToBottomBtn.visible {
+ opacity: 1;
+ pointer-events: auto;
+ transform: translateY(0);
+ }
 
  /* ── INPUT HINT ──────────────────────────── */
  #inputHint {
@@ -2523,9 +2547,10 @@ function escapeHtml(text) {
 
 // Format Lyft App navigation paths for scannability
 function formatNavPath(text) {
- // Bold "X → Y → Z" navigation sequences that look like app paths
- return text.replace(/((?:Lyft\s+(?:Driver\s+)?App|Main Menu)[^.!?\n]*(?:→[^.!?\n]+){1,6})/g, function(match) {
- return '<span style="font-family:var(--font-mono,monospace);font-size:0.92em;background:rgba(0,59,113,0.08);border-radius:4px;padding:1px 5px;letter-spacing:0;">' + match + '</span>';
+ // Only format longer accordion content — skip short card answers (under 200 chars)
+ if (!text || text.length < 200) return text;
+ return text.replace(/((?:Lyft\s+(?:Driver\s+)?App|Main Menu)[^.!?<]{0,8}(?:→[^.!?<]{1,50}){1,5})/g, function(match) {
+ return '<span style="font-weight:600;color:#003B71;">' + match + '</span>';
  });
 }
 
