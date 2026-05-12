@@ -2612,17 +2612,7 @@ function escapeHtml(text) {
  return div.innerHTML;
 }
 
-// Format Lyft App navigation paths for scannability
-function formatNavPath(text) {
- // Only format longer accordion content — skip short card answers (under 200 chars)
- if (!text || text.length < 200) return text;
- return text.replace(/((?:Lyft\s+(?:Driver\s+)?App|Main Menu)[^.!?<]{0,8}(?:→[^.!?<]{1,50}){1,5})/g, function(match) {
- return '<span style="font-weight:600;color:#003B71;">' + match + '</span>';
- });
-}
-
 function linkifyContent(text) {
- text = formatNavPath(text);
  var html = escapeHtml(text);
  html = html.replace(/\n/g, '<br>');
 
@@ -5048,7 +5038,7 @@ var CARD_ANSWERS = [
  a: "Miles do not roll over. Unused miles are forfeited each Monday at 5:00 AM. Your first week is prorated based on your pickup day." },
 
  { k: ["why did my miles go up","miles went up while parked","miles jumped overnight","miles while offline","miles while not driving"],
- a: "Common causes: Destination Filter auto-logout after 30 minutes, consecutive missed rides logging you out, driving to/from maintenance (offline), or deactivation periods. Any movement while offline counts as personal miles." },
+ a: "Common causes: Destination Filter auto-logout after 30 minutes, consecutive missed rides logging you out, driving to/from maintenance (offline), or deactivation periods. Any movement while offline counts as personal miles." , topic: "Personal miles went up unexpectedly" },
 
  { k: ["destination filter logout","destination filter miles","destination filter 30 minutes"],
  a: "After 30 minutes on a Destination Filter you are automatically logged out of Driver Mode. Any movement after that counts as personal miles. Re-enable after 30 minutes if you need to keep driving." },
@@ -5057,7 +5047,7 @@ var CARD_ANSWERS = [
  a: "Tap Talk to Someone and include: the week you are disputing (Monday to Monday), the mileage amount you believe is incorrect, and any context such as a maintenance trip or deactivation period. We respond within 1 business day." },
 
  { k: ["how to change mileage plan","change miles plan","switch mileage plan","upgrade mileage","downgrade mileage","change my miles"],
- a: "In the Lyft Driver App: Main Menu → Vehicles and Devices → Your Vehicles → See Details → Change mileage plan. Changes take effect Monday at 5:00 AM — not mid-week." },
+ a: "In the Lyft Driver App: Main Menu → Vehicles and Devices → Your Vehicles → See Details → Change mileage plan. Changes take effect Monday at 5:00 AM — not mid-week." , topic: "Change mileage plan" },
 
  { k: ["overage rate","overage fee","cost per mile over","how much per mile over","overage charge","mileage overage cost"],
  a: "Overage fees are charged in 25-mile increments and vary by market. To find your exact rate: Lyft Driver App → Vehicles and Devices → Your Vehicles → See Details." },
@@ -5234,7 +5224,7 @@ var CARD_ANSWERS = [
  a: "Tolls incurred during a Lyft ride are reimbursed through your earnings. Tolls during personal driving (app off) are charged to you and added to your weekly rental costs. Charges often appear 2-3 weeks after the trip." },
 
   { k: ["parking ticket","traffic ticket","traffic violation","parking violation","citation flexdrive","got a ticket","i got a ticket","got a parking ticket","got a speeding ticket","i got a speeding ticket","i got a parking ticket","camera ticket","got a camera ticket"],
-    a: "Tickets and violations are paid automatically by Flexdrive, and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified.\n\nNeed a copy? Visit us in person Mon\u2013Fri 9AM\u20135PM, or send us a message and we'll email it to you.\n\nException: registration citations are Flexdrive's responsibility — bring those to the office.\n\nTap \"Send a Message\" below and select \"Traffic / parking ticket copy\" to request yours.", sendMsgBtn: true },
+    a: "Tickets and violations are paid automatically by Flexdrive, and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified.\n\nNeed a copy? Visit us in person Mon\u2013Fri 9AM\u20135PM, or send us a message and we'll email it to you.\n\nException: registration citations are Flexdrive's responsibility — bring those to the office.\n\nTap \"Send a Message\" below and select \"Traffic / parking ticket copy\" to request yours.", sendMsgBtn: true , topic: "Traffic / parking violation" },
 
  { k: ["late return fee","didn't return car","failure to return","overdue rental consequences","vehicle not returned"],
  a: "If you don't return the vehicle after your rental ends, Flexdrive may repossess it without notice. A $500 repossession fee may apply and you will be placed on the Do Not Rent list. In Arizona, failure to return within 72 hours is a Class 5 Felony." },
@@ -5638,10 +5628,10 @@ var CARD_ANSWERS = [
  a: "Three common causes: (1) Outdated inspection — come to the office Mon-Fri 9AM-5PM. (2) Lyft account deactivation — check the Driver App. (3) Day 38 remarketing — contact the office to reschedule your swap." },
 
  { k: ["how do i dispute my miles","dispute my mileage","how to dispute miles","mileage dispute process","wrong miles how to fix","contest my miles","challenge my miles","disagree with miles"],
- a: "Tap Talk to Someone and include: the week (Mon–Mon), the mileage you believe is wrong, and any context (maintenance trip, Destination Filter issue). We respond within 1 business day." },
+ a: "Tap Talk to Someone and include: the week (Mon–Mon), the mileage you believe is wrong, and any context (maintenance trip, Destination Filter issue). We respond within 1 business day." , topic: "Personal mileage dispute" },
 
  { k: ["how do i change my mileage plan","change mileage plan how","switch my mileage plan","how to change miles plan","upgrade mileage plan","downgrade mileage plan","change my miles allowance"],
- a: "In the Lyft Driver App: Main Menu → Vehicles and Devices → Your Vehicles → See Details → Change mileage plan. Changes take effect Monday at 5:00 AM — not mid-week. More miles = higher weekly rate." },
+ a: "In the Lyft Driver App: Main Menu → Vehicles and Devices → Your Vehicles → See Details → Change mileage plan. Changes take effect Monday at 5:00 AM — not mid-week. More miles = higher weekly rate." , topic: "Change mileage plan" },
 
 
  // ── FOLLOW-UP QUESTION DIRECT ANSWERS ────────────────────────────────────────
@@ -5685,7 +5675,7 @@ var CARD_ANSWERS = [
  a: "Common reasons: mileage plan change, CDW added, first week proration ended, overage charges, or delayed toll charges (2–3 week delay). Check: Lyft App → Account → Express Drive billing history." },
 
  { k: ["what happens if i don't pay","consequences of not paying","what if i can't pay","don't pay flexdrive"],
- a: "Your vehicle may be repossessed without notice. A $500 repossession fee applies. You are placed on the Do Not Rent list and the balance goes to collections. Pay now: Lyft App → Account → Pay and Tax Info → Pay Now." },
+ a: "Your vehicle may be repossessed without notice. A $500 repossession fee applies. You are placed on the Do Not Rent list and the balance goes to collections. Pay now: Lyft App → Account → Pay and Tax Info → Pay Now." , topic: "Overdue balance / how to pay" },
 
  { k: ["how do lyft earnings offset my rental","do earnings pay for rental","earnings cover rental","lyft earnings pay rent how"],
  a: "Your Lyft earnings accumulate throughout the week and automatically cover your rental cost. Any remaining balance after Monday 4:59 AM is charged to your card on Tuesday." },
@@ -5851,7 +5841,7 @@ var CARD_ANSWERS = [
 
  // Traffic violations
  { k: ["am i responsible for tickets","am i liable for tickets","traffic ticket my responsibility","parking ticket who pays"],
-      a: "Yes — you are responsible for all traffic, parking, and toll violations during your rental. Where possible you pay the authority directly. If Flexdrive is notified, we may pay on your behalf and add the amount plus an admin fee of up to $50 to your account." },
+      a: "Yes — you are responsible for all traffic, parking, and toll violations during your rental. Where possible you pay the authority directly. If Flexdrive is notified, we may pay on your behalf and add the amount plus an admin fee of up to $50 to your account." , topic: "Traffic / parking violation" },
 
  { k: ["is there an admin fee for violations","admin fee violations","violation admin fee how much","citation admin fee"],
       a: "Yes — an administrative processing fee of up to $50 per citation notification may be charged to your account, per your rental agreement. This is separate from the violation itself." },
@@ -6138,7 +6128,7 @@ function findCardAnswer(text) {
  var entry = CARD_ANSWERS[i];
  for (var j = 0; j < entry.k.length; j++) {
  if (lower.includes(entry.k[j])) {
- return { a: entry.a, showVendorBtn: !!entry.showVendorBtn, sendMsgBtn: !!entry.sendMsgBtn };
+ return { a: entry.a, showVendorBtn: !!entry.showVendorBtn, sendMsgBtn: !!entry.sendMsgBtn, topic: entry.topic || null };
  }
  }
  }
