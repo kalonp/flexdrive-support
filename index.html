@@ -309,8 +309,6 @@
  .msg-row.assistant .msg-timestamp { justify-content: flex-start; padding-left: 44px; }
 
  /* ── DELIVERED CHECKMARKS ───────────────── */
- .msg-check { font-size: 11px; color: #9BA8B8; transition: color 0.3s; }
- .msg-check.delivered { color: #003B71; }
 
  /* ── SCROLL TO BOTTOM BUTTON ─────────────── */
  #scrollToBottomBtn {
@@ -1198,7 +1196,6 @@
  .ac-gate-row { background: #1A2233; color: #C0C8D4; }
  .ac-section-label { color: #8B949E; }
  .ac-step-num { background: #003B71; color: #fff; }
- .msg-check.delivered { color: #58A6FF; }
  #scrollToBottomBtn { background: #1A3A6B; }
  }
 
@@ -2026,7 +2023,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Swaps",
- keywords: ["chang my car", "swap", "swaps", "switch", "different car", "new vehicle", "change vehicle", "trade", "different vehicle", "get a different car", "switch cars", "vehicle swap", "swap car", "can i swap", "other provider", "different provider", "hertz", "change my car", "change car", "switch my car", "trade in my car", "get a new vehicle", "i want a different vehicle", "upgrade my vehicle", "car has issues want new", "want a new car", "i want a new car", "i want new car", "want new car", "want a different car", "i don't want this car anymore", "don't want this car", "i don't like this car", "car upgrade", "upgrade my car", "can i get a different car", "switch vehicles", "trade my car", "get a new car", "want a suv", "want a sedan", "want electric", "want ev", "change cars", "get a different vehicle", "vehicle change", "car not working want different one", "mechanical issue want new car", "vehicle being replaced", "remarketing", "due for replacement", "remarketing notice", "swap appointment", "missed swap", "missed my swap", "day 38", "vehicle deactivated remarketing", "replacement vehicle notice", "swap appointment missed", "overdue for remarketing"],
+ keywords: ["chang my car", "swap", "swaps", "switch", "different car", "new vehicle", "change vehicle", "trade", "different vehicle", "get a different car", "switch cars", "vehicle swap", "swap car", "can i swap", "other provider", "different provider", "hertz", "change my car", "change car", "switch my car", "trade in my car", "get a new vehicle", "i want a different vehicle", "upgrade my vehicle", "car has issues want new", "want a new car", "i want a new car", "i want new car", "want new car", "want a different car", "i don't want this car anymore", "don't want this car", "i don't like this car", "car upgrade", "upgrade my car", "can i get a different car", "switch vehicles", "trade my car", "get a new car", "want a suv", "want a sedan", "want electric", "want ev", "change cars", "get a different vehicle", "vehicle change", "car not working want different one", "mechanical issue want new car", "vehicle being replaced", "remarketing", "due for replacement", "remarketing notice", "swap appointment", "missed swap", "missed my swap", "day 38", "vehicle deactivated remarketing", "replacement vehicle notice", "swap appointment missed", "overdue for remarketing", "change out my car", "can i change out my car", "swap out my car", "can i swap out my car"],
  swapAccordion: true,
  response: "Here is everything you need to know about vehicle swaps and remarketing:"
  },
@@ -2503,6 +2500,8 @@ function setAvatarText(el) {
 var messages = [];
 var isTyping = false;
 var userRegion = null;
+  _ariGreeted = false;
+var _ariGreeted = false;
 var awaitingLocation = true;
 var lastMatch = null;
 var conversationHistory = []; // tracks {topic, keywords} of matched entries this session
@@ -3111,16 +3110,9 @@ function renderMessage(role, content, extra) {
  // Timestamp + checkmark under user bubble
  var userMeta = document.createElement('div');
  userMeta.className = 'msg-timestamp';
- var checkSpan = document.createElement('span');
- checkSpan.className = 'msg-check';
- checkSpan.innerHTML = '&#10003;';
- checkSpan.id = 'check-' + Date.now();
- userMeta.appendChild(document.createTextNode(tsStr + ' '));
  userMeta.appendChild(checkSpan);
  row._checkSpan = checkSpan;
  // Store reference so bot reply can upgrade to double-check
- if (!window._lastCheckSpan) window._lastCheckSpan = [];
- window._lastCheckSpan.push(checkSpan);
  var metaRow = document.createElement('div');
  metaRow.style.cssText = 'display:flex;flex-direction:column;align-items:flex-end;width:100%;';
  metaRow.appendChild(userMeta);
@@ -3202,14 +3194,6 @@ function renderMessage(role, content, extra) {
  }
  }, 50);
  }
- // Upgrade last user checkmark to double-check (delivered)
- setTimeout(function() {
- if (window._lastCheckSpan && window._lastCheckSpan.length > 0) {
- var lastCheck = window._lastCheckSpan[window._lastCheckSpan.length - 1];
- lastCheck.innerHTML = '&#10003;&#10003;';
- lastCheck.classList.add('delivered');
- }
- }, 100);
 
  setTimeout(function() { appendQuickActions(!isFirst, suppressTalk); }, isFirst ? 1000 : 800);
  }
@@ -6030,6 +6014,17 @@ function calculateTypingDelay(text) {
  return 1000 + Math.floor(Math.random() * 400);
 }
 
+function getAriGreeting() {
+  if (_ariGreeted) return '';
+  _ariGreeted = true;
+  var greetings = [
+    'Thanks for your message — here\'s what I found:\n\n',
+    'Thanks for reaching out! Let me help with that.\n\n',
+    'Got it, thanks for sharing that.\n\n'
+  ];
+  return greetings[Math.floor(Math.random() * greetings.length)];
+}
+
 function sendMessage() {
  userInput.removeAttribute('readonly'); // ensure value is readable
  var text = userInput.value.trim();
@@ -6064,7 +6059,7 @@ function sendMessage() {
  // Card-level inline answer — check BEFORE topic-level match
  var cardResult = findCardAnswer(resolvedText);
  if (cardResult) {
- renderMessage('assistant', cardResult.a);
+ renderMessage('assistant', getAriGreeting() + cardResult.a);
  isTyping = false;
  // If answer has vendor button, append a Find vendor quick link
  if (cardResult.showVendorBtn) {
@@ -6176,7 +6171,7 @@ function sendMessage() {
  return { name: r.name, type: 'Vehicle Recovery', address: r.address, phone: r.phone, note: r.note };
  })
  );
- renderMessage('assistant', responseText, recoveryCards);
+ renderMessage('assistant', getAriGreeting() + responseText, recoveryCards);
  } else if (match.useLocationCards) {
  var locationCards = renderLocationCards();
  // Append directly without an empty bubble
@@ -6231,7 +6226,7 @@ function sendMessage() {
  var inspectionAccordion = renderInspectionAccordion();
  renderMessage('assistant', responseText, inspectionAccordion);
  } else if (match.needsRelocationRegion) {
- renderMessage('assistant', responseText);
+ renderMessage('assistant', getAriGreeting() + responseText);
  setTimeout(function() {
  var relocBtns = renderRelocationButtons();
  var row = document.createElement('div');
@@ -6262,19 +6257,19 @@ function sendMessage() {
  renderMessage('assistant', 'For approved vendors in the ' + vRegion.regionName + ' area, please check the Lyft Driver App: Vehicles and Devices >Schedule Preventive Maintenance, or refer to the vendor list in your welcome email.\n\nIMPORTANT: Always tell the shop "This is a Flexdrive vehicle" before any work is done.');
  }
  } else if (wantsVendor && !userRegion) {
- renderMessage('assistant', responseText);
+ renderMessage('assistant', getAriGreeting() + responseText);
  setTimeout(function() {
  var locPrompt = renderLocationPrompt(function(loc) { handleVendorInput(loc); });
  appendLocationRow('Please share your city or zip code so I can find your nearest approved vendors:', locPrompt);
  }, 400);
  } else if (match.needsRegion && !userRegion && match.topic !== 'Return vehicle / end rental' && match.topic !== 'Accident / car was hit') {
- renderMessage('assistant', responseText);
+ renderMessage('assistant', getAriGreeting() + responseText);
  setTimeout(function() {
  var locPrompt = renderLocationPrompt(function(loc) { handleLocationInput(loc); });
  appendLocationRow('Please share your city or zip code so I can give you the right information for your region:', locPrompt);
  }, 400);
  } else {
- renderMessage('assistant', responseText);
+ renderMessage('assistant', getAriGreeting() + responseText);
  }
  } else if (wantsVendor || wantsOffice) {
  var msg2 = wantsVendor
