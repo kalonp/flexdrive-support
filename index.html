@@ -1891,7 +1891,7 @@ function resolveRegion(input) {
 var KNOWLEDGE_BASE = [
  {
  topic: "Personal mileage dispute",
- keywords: ["miles don't add up", "how do i dispute my miles", "dispute my miles", "my miles are wrong", "miles are wrong", "i didn't drive that much", "mileage", "personal miles", "online", "driving for lyft", "miles wrong", "incorrect miles", "miles while driving", "overage charge", "charged for miles", "mileage dispute", "dispute miles", "miles don't look right", "miles look off", "miles seem wrong", "why am i being charged for miles", "i was online", "i had a passenger", "i was giving rides", "lyft was on", "app was on", "i was driving lyft", "wrong mileage", "miles added up wrong", "mileage error", "miles went up while driving", "personal miles while on a trip", "miles counted wrong", "i didn't use those miles", "i was working", "dispute my mileage", "miles are off"],
+ keywords: ["miles don't add up", "how do i dispute my miles", "dispute my miles", "my miles are wrong", "miles are wrong", "i didn't drive that much", "mileage", "personal miles", "online", "driving for lyft", "miles wrong", "incorrect miles", "miles while driving", "overage charge", "charged for miles", "mileage dispute", "dispute miles", "miles don't look right", "miles look off", "miles seem wrong", "why am i being charged for miles", "i was online", "i had a passenger", "i was giving rides", "lyft was on", "app was on", "i was driving lyft", "wrong mileage", "miles added up wrong", "mileage error", "miles went up while driving", "personal miles while on a trip", "miles counted wrong", "i didn't use those miles", "i was working", "dispute my mileage", "miles are off", "miles being counted offline", "miles counted while offline", "counted while offline", "miles going up while offline", "offline but miles going up", "miles increase offline", "being counted offline"],
  showTalkBtn: true,
  mileageAccordion: true,
  response: "Here is everything you need to know about your personal mileage:"
@@ -6624,6 +6624,9 @@ function sendMessage() {
  "Overdue balance / how to pay": "paying your overdue balance",
  "Express Pay / Instant Pay / cash out": "Express Pay and cashing out",
  };
+
+  // Set lastMatch so related topics reflect partial match topic, not previous message
+  lastMatch = scored[0].entry;
 
  // Build graceful acknowledgment using the top match
  var topMatch = scored[0].entry;
