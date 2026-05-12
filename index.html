@@ -3107,12 +3107,10 @@ function renderMessage(role, content, extra) {
  label.textContent = 'You';
  row.appendChild(bubble);
  row.appendChild(label);
- // Timestamp + checkmark under user bubble
+    // Timestamp under user bubble
  var userMeta = document.createElement('div');
  userMeta.className = 'msg-timestamp';
- userMeta.appendChild(checkSpan);
- row._checkSpan = checkSpan;
- // Store reference so bot reply can upgrade to double-check
+    userMeta.appendChild(document.createTextNode(tsStr));
  var metaRow = document.createElement('div');
  metaRow.style.cssText = 'display:flex;flex-direction:column;align-items:flex-end;width:100%;';
  metaRow.appendChild(userMeta);
@@ -6479,13 +6477,30 @@ function handleLocationInput(locationText) {
  officeText = "Your Flexdrive office: " + regionData.office.address + "\nHours: " + regionData.office.hours;
  }
 
- renderMessage('assistant',
- "Got it — you're in the " + regionData.regionName + " region.\n\n" + officeText +
- (regionData.hasTolls ? "\nTolls: Toll charges may apply to your account." : "\nTolls: No tolls in this region.") +
- "\n\nWhat can I help you with today?"
- );
+    var regionTaglines = {
+      PDX: "Rain or shine in the Rose City — we've got you covered.",
+      SAN: "America's Finest City drivers — we've got you covered.",
+      SFO: "Bay Area drivers — we've got you covered.",
+      LAX: "City of Angels drivers — we've got you covered."
+    };
+    var tagline = regionTaglines[region] || "";
 
- // Log session start for deflection rate tracking
+    var officeBlock;
+    if (region === 'LAX') {
+      officeBlock = "Your Flexdrive offices:\n\u2022 Los Angeles: 1754 N Main St, Los Angeles, CA 90031\n\u2022 Monrovia: 1111 E Huntington Dr., Monrovia, CA 91016 (temporarily closed)\nHours: Monday–Friday, 9:00 AM – 5:00 PM";
+    } else {
+      officeBlock = "Your Flexdrive office: " + regionData.office.address + "\nHours: " + regionData.office.hours;
+    }
+
+    var tollLine = regionData.hasTolls ? "Toll charges may apply to your account." : "No tolls in this region.";
+
+    var regionMsg = tagline + "\n\n" +
+      officeBlock + "\n\n" +
+      "Tolls: " + tollLine + "\n\n" +
+      "What can I help you with today?";
+
+    renderMessage('assistant', regionMsg);
+
  logSession(region, regionData.regionName);
 
  // Unlock textarea (no focus — avoids keyboard jumping on mobile)
