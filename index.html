@@ -184,9 +184,9 @@
  /* MESSAGE ROWS */
  .msg-row {
  display: flex;
- gap: 10px;
+ gap: 8px;
  width: 100%;
- padding: 2px 14px;
+ padding: 2px 8px;
  }
  .msg-row.assistant {
  }
@@ -372,7 +372,7 @@
  border-radius: 20px;
  font-size: 16px;
  line-height: 1.6;
- max-width: calc(100% - 54px);
+ max-width: calc(100% - 46px);
  white-space: pre-wrap;
  word-wrap: break-word;
  word-break: break-word;
@@ -4663,15 +4663,15 @@ function renderInspectionAccordion() {
  officeInfo = '<div class="ac-callout info"><strong>Your Flexdrive Office</strong>' + off.address + '<br>' + off.hours + '</div>';
  }
 
- makeAccordionItem(c, '"Visit Your Rental Location" Email', '', [
- '<div class="ac-callout warn"><strong>Action Required</strong>Your vehicle needs to be brought in for an inspection. This is a Lyft platform requirement — failure to complete it will affect your ability to drive.</div>',
- officeInfo || '<div class="ac-callout info"><strong>Office Hours</strong>Monday–Friday, 9:00 AM – 5:00 PM. Appointments are not required but appreciated.</div>',
- '<div class="ac-section-label">What to Do</div>',
- '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body"><strong>Bring your vehicle to the Flexdrive office</strong> as soon as possible.</div></div>',
- '<div class="ac-step"><div class="ac-step-num">2</div><div class="ac-step-body"><strong>Complete any outstanding maintenance</strong> before arriving if possible.</div></div>',
- '<div class="ac-step"><div class="ac-step-num">3</div><div class="ac-step-body"><strong>An Operations Associate will complete the inspection</strong> at the office. No appointment needed.</div></div>',
- '<div class="ac-callout info"><strong>Questions?</strong>Tap Send a Message below and our team will assist you.</div>'
- ].join(''));
+    makeAccordionItem(c, '"Visit Your Rental Location" Email', '', [
+      '<div class="ac-callout info"><strong>Keep Driving</strong>Continue driving your vehicle as normal — the inspection message should clear on its own.</div>',
+      officeInfo || '<div class="ac-callout info"><strong>Office Hours</strong>Monday–Friday, 9:00 AM – 5:00 PM. No appointment needed.</div>',
+      '<div class="ac-section-label">If the Message Persists</div>',
+      '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body">Bring your vehicle to the Flexdrive office — a Flexdrive associate will take a look</div></div>',
+      '<div class="ac-step"><div class="ac-step-num">2</div><div class="ac-step-body">Complete any outstanding maintenance before arriving if possible</div></div>',
+      '<div class="ac-step"><div class="ac-step-num">3</div><div class="ac-step-body">No appointment needed — Mon–Fri 9AM–5PM</div></div>',
+      '<div class="ac-callout info"><strong>Questions?</strong>Tap Send a Message below and our team will assist you.</div>'
+    ].join(''));
 
  makeAccordionItem(c, 'Annual Lyft Vehicle Inspection', '', [
  '<div class="ac-callout info"><strong>Lyft Requires an Annual Inspection</strong>You will receive a notification in the Lyft Driver App when your inspection is due.</div>',
@@ -5059,7 +5059,7 @@ var CARD_ANSWERS = [
 
  // ── INSPECTIONS ───────────────────────────────────────────────────────────────
  { k: ["visit your rental location email","inspection email what to do","got inspection email","visit rental location","inspection notice email"],
- a: "Bring your vehicle to the Flexdrive office as soon as possible. Complete any outstanding maintenance before arriving. An Operations Associate will complete the inspection — no appointment needed. Monday–Friday 9:00 AM – 5:00 PM." },
+    a: "Continue driving your vehicle as normal — the inspection message should clear on its own. If the message persists or you continue to receive these emails, bring your vehicle in and a Flexdrive associate will take a look. No appointment needed, Mon–Fri 9AM–5PM." },
 
  { k: ["annual lyft inspection","lyft annual inspection","annual vehicle inspection","yearly inspection lyft","inspection due lyft"],
  a: "Open the Lyft Driver App to find an approved inspection location near you. Bring your Flexdrive rental — no payment needed. Results submit to Lyft automatically. Failing to complete by the due date may result in Lyft deactivation." },
@@ -5633,7 +5633,7 @@ var CARD_ANSWERS = [
 
  // Inspections
  { k: ["what do i do with an inspection email","inspection email what to do","got inspection email what now","visit rental location email"],
- a: "Bring your vehicle to the Flexdrive office immediately — Mon–Fri 9AM–5PM, no appointment needed. Complete any outstanding maintenance before arriving." },
+    a: "Continue driving your vehicle as normal — the inspection message should clear on its own. If the message persists or you continue to receive these emails, bring your vehicle in and a Flexdrive associate will take a look. No appointment needed, Mon–Fri 9AM–5PM." },
 
     { k: ["where do i get an inspection","where to get inspection","inspection location","get vehicle inspection where"],
       a: "Here are the approved maintenance vendors for your area:", showVendorBtn: true },
