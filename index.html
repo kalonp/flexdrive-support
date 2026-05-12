@@ -1377,9 +1377,10 @@
  <option value="">-- Select a reason --</option>
  <option value="Picking up my vehicle">Picking up my vehicle</option>
  <option value="Dropping off / returning my vehicle">Dropping off / returning my vehicle</option>
- <option value="Inspection">Inspection</option>
+ <option value="Inspection photo">Inspection photo</option>
  <option value="Accident re-rental request">Accident re-rental request</option>
- <option value="Other">Other</option>
+            <option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>
+            <option value="Other">Other</option>
  </select>
  </div>
  </div>
@@ -2006,10 +2007,32 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Traffic / parking violation",
- keywords: ["ticket", "violation", "parking", "citation", "fine", "speeding", "red light", "traffic ticket", "got a ticket", "parking ticket", "speeding ticket", "traffic violation", "camera ticket", "red light camera", "school zone ticket", "got pulled over", "police stopped me", "cop stopped me", "citation notice", "flexdrive sent me a ticket", "ticket on the car", "ticket notification", "admin fee", "processing fee", "violation fee", "fix a ticket", "expired registration ticket", "meter ticket"],
+ keywords: ["ticket", "violation", "parking", "citation", "fine", "speeding", "red light", "traffic ticket", "got a ticket", "parking ticket", "speeding ticket", "traffic violation", "camera ticket", "red light camera", "school zone ticket", "camera flashed me", "camera flash", "photo ticket", "photo enforcement", "i got flashed", "speed camera", "traffic camera", "camera got me", "photo violation", "i wasn't doing anything wrong", "i didn't do anything wrong", "got pulled over", "police stopped me", "cop stopped me", "citation notice", "flexdrive sent me a ticket", "ticket on the car", "ticket notification", "admin fee", "processing fee", "violation fee", "fix a ticket", "expired registration ticket", "meter ticket"],
  vehicleRulesAccordion: true,
+    sendMsgBtn: true,
  response: "Here is what happens with traffic and parking violations:"
  },
+  {
+    topic: "Camera / photo ticket",
+    keywords: ["camera flashed me", "camera flash", "photo ticket", "photo enforcement", "i got flashed", "speed camera", "traffic camera", "camera got me", "photo violation", "red light camera ticket", "school zone camera", "i wasn't doing anything wrong", "i didn't do anything wrong", "camera took my picture", "flash from camera"],
+    response: "If a traffic camera captured your vehicle, here's what happens:\n\nFlexdrive receives the ticket, pays it automatically, and charges the amount plus an administrative fee of up to $50 to your account. You will be notified when this happens.\n\nNeed a copy of the ticket?\n\u2022 Visit us in person Mon\u2013Fri 9AM\u20135PM\n\u2022 Or tap \"Send a Message\" below — select \"Traffic / parking ticket copy\" and we'll email it to you.\n\nNote: Camera tickets come to Flexdrive first since the plate is registered to us, not you."
+  },
+  {
+    topic: "Get a copy of my ticket",
+    keywords: ["can i get a copy of my ticket", "send me my ticket", "copy of ticket", "ticket copy", "see my citation", "copy of citation", "email my ticket", "i need my ticket", "get my ticket", "show me my ticket", "ticket documentation", "proof of ticket"],
+    sendMsgBtn: true,
+    response: "We can send you a copy of your citation by email, or you can pick one up in person at the office Mon–Fri 9AM–5PM.\n\nTap \"Send a Message\" below and include your name and vehicle plate or rental dates and we'll get it to you."
+  },
+  {
+    topic: "Speeding ticket",
+    keywords: ["speeding ticket", "i got a speeding ticket", "speed ticket", "caught speeding", "speeding violation", "i was speeding", "speed trap", "got pulled over for speeding", "speeding fine", "speed camera ticket", "school zone speeding", "speeding notice from flexdrive"],
+    response: "Speeding tickets are your responsibility under your rental agreement.\n\nIf you were pulled over: pay the issuing authority directly and report it to Lyft as soon as possible.\n\nIf Flexdrive is notified: the fine is paid automatically and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified. Flexdrive may also be required to pass your details to the police for speeding notices.\n\nNeed a copy? Visit us Mon\u2013Fri 9AM\u20135PM or tap \"Send a Message\" below and select \"Traffic / parking ticket copy.\")"
+  },
+  {
+    topic: "Parking ticket",
+    keywords: ["parking ticket", "i got a parking ticket", "parking violation", "parking fine", "parked illegally", "parking citation", "meter expired", "meter ticket", "no parking ticket", "street cleaning ticket", "towed", "car towed", "vehicle towed", "got towed", "tow fee", "impound", "car impounded"],
+    response: "Parking violations are your responsibility under your rental agreement.\n\nIf the ticket comes directly to you: pay the issuing authority directly and report it to Lyft as soon as possible.\n\nIf Flexdrive is notified: the fine is paid automatically and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified.\n\nNeed a copy? Visit us Mon\u2013Fri 9AM\u20135PM or tap \"Send a Message\" below and select \"Traffic / parking ticket copy.\"\n\nIf your vehicle was towed: contact the towing authority directly — towing and impound fees are your responsibility."
+  },
  {
  topic: "Picking up my vehicle / reservation",
  keywords: ["picking up", "pick up", "pickup", "picking up my car", "picking up my vehicle", "picking up my reservation", "pick up my car", "pick up my vehicle", "getting my car", "getting my vehicle", "first day", "start my rental", "starting my rental", "when do i pick up", "where do i pick up", "how do i pick up", "picking up today", "picking up tomorrow", "i have a reservation", "my reservation", "coming to pick up", "on my way", "heading to the office", "arriving today", "new rental", "starting today"],
@@ -3592,15 +3615,17 @@ function renderVehicleRulesAccordion() {
  '<div class="ac-callout info"><strong>Believe a Toll Was Incorrectly Charged?</strong>Provide the date and approximate time of the charge and we will review it. Tap Talk to Someone below.</div>'
  ].join(''));
 
- makeAccordionItem(c, 'Traffic & Parking Violations', '', [
- '<div class="ac-callout warn"><strong>Violations Are Your Responsibility</strong>All traffic and parking violations received while in possession of your Flexdrive rental are your responsibility to resolve.</div>',
- '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">1</div><div>You will receive a notification from Flexdrive with the citation details when we are notified</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">2</div><div>Resolve all violations directly with the issuing city or authority</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">$</div><div>An administrative processing fee of up to $50 may be applied per violation notification we receive</div></div>',
- '</div>',
- '<div class="ac-callout info"><strong>Expired Registration Citation?</strong>If you received a citation for expired registration, that is a Flexdrive issue — not your responsibility. Contact us or visit the office and bring the citation documentation. You should not be held responsible for this.</div>'
- ].join(''));
+    makeAccordionItem(c, 'Traffic & Parking Violations', '', [
+      '<div class="ac-callout warn"><strong>Violations Are Your Responsibility</strong>All traffic and parking violations incurred during your rental are your financial responsibility, including fines, late fees, and any processing penalties.</div>',
+      '<div class="ac-gate">',
+      '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">1</div><div>Flexdrive receives the violation notice and pays it automatically on your behalf</div></div>',
+      '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">2</div><div>The violation amount is charged to your account in your current or next weekly rental payment</div></div>',
+      '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">$</div><div>An administrative processing fee of up to $50 is added per violation notification</div></div>',
+      '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">!</div><div>Once paid, the ticket is closed with the court and cannot be reopened or disputed</div></div>',
+      '</div>',
+      '<div class="ac-callout info"><strong>Need a Copy?</strong>Visit the office Mon–Fri 9AM–5PM or send us a message and we\'ll email it. Select \'Traffic / parking ticket copy\' when prompted.</div>',
+      '<div class="ac-callout info"><strong>Expired Registration Citation?</strong>That is a Flexdrive issue — not your responsibility. Contact us or visit the office and bring the citation.</div>'
+    ].join(''));
 
  makeAccordionItem(c, 'Late Return / Failure to Return', '', [
  '<div class="ac-callout urgent"><strong>Serious Consequences Apply</strong>If your rental is not renewed and you do not return the vehicle, late fees and repossession may occur without notice.</div>',
@@ -5087,8 +5112,8 @@ var CARD_ANSWERS = [
  { k: ["toll charge personal","personal toll","tolls who pays","am i charged for tolls","toll fee flexdrive"],
  a: "Tolls incurred during a Lyft ride are reimbursed through your earnings. Tolls during personal driving (app off) are charged to you and added to your weekly rental costs. Charges often appear 2-3 weeks after the trip." },
 
- { k: ["parking ticket","traffic ticket","traffic violation","parking violation","citation flexdrive","got a ticket"],
- a: "Your responsibility to resolve directly with the issuing authority. A $50 admin fee may apply per citation we receive. Exception: registration citations are Flexdrive's — bring those to the office." },
+  { k: ["parking ticket","traffic ticket","traffic violation","parking violation","citation flexdrive","got a ticket","i got a ticket","got a parking ticket","got a speeding ticket","i got a speeding ticket","i got a parking ticket","camera ticket","got a camera ticket"],
+    a: "Tickets and violations are paid automatically by Flexdrive, and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified.\n\nNeed a copy? Visit us in person Mon\u2013Fri 9AM\u20135PM, or send us a message and we'll email it to you.\n\nException: registration citations are Flexdrive's responsibility — bring those to the office.\n\nTap \"Send a Message\" below and select \"Traffic / parking ticket copy\" to request yours.", sendMsgBtn: true },
 
  { k: ["late return fee","didn't return car","failure to return","overdue rental consequences","vehicle not returned"],
  a: "If you don't return the vehicle after your rental ends, Flexdrive may repossess it without notice. A $500 repossession fee may apply and you will be placed on the Do Not Rent list. In Arizona, failure to return within 72 hours is a Class 5 Felony." },
@@ -5705,10 +5730,10 @@ var CARD_ANSWERS = [
 
  // Traffic violations
  { k: ["am i responsible for tickets","am i liable for tickets","traffic ticket my responsibility","parking ticket who pays"],
- a: "Yes — all traffic and parking violations are your responsibility to resolve with the issuing authority. A $50 admin fee may apply per violation we receive." },
+      a: "Yes — you are responsible for all traffic, parking, and toll violations during your rental. Where possible you pay the authority directly. If Flexdrive is notified, we may pay on your behalf and add the amount plus an admin fee of up to $50 to your account." },
 
  { k: ["is there an admin fee for violations","admin fee violations","violation admin fee how much","citation admin fee"],
- a: "Yes — a $50 administrative processing fee may apply per citation notification Flexdrive receives, on top of your responsibility to pay the violation itself." },
+      a: "Yes — an administrative processing fee of up to $50 per citation notification may be charged to your account, per your rental agreement. This is separate from the violation itself." },
 
  { k: ["what about registration citations","registration citation","registration ticket who pays","registration violation"],
  a: "Registration citations are Flexdrive's responsibility — not yours. Bring the citation to the office immediately and it will be handled." },
@@ -5936,7 +5961,7 @@ function findCardAnswer(text) {
  var entry = CARD_ANSWERS[i];
  for (var j = 0; j < entry.k.length; j++) {
  if (lower.includes(entry.k[j])) {
- return { a: entry.a, showVendorBtn: !!entry.showVendorBtn };
+ return { a: entry.a, showVendorBtn: !!entry.showVendorBtn, sendMsgBtn: !!entry.sendMsgBtn };
  }
  }
  }
@@ -6071,6 +6096,7 @@ function sendMessage() {
  // Card-level inline answer — check BEFORE topic-level match
  var cardResult = findCardAnswer(resolvedText);
  if (cardResult) {
+      lastMatch = cardResult;
  renderMessage('assistant', getAriGreeting() + cardResult.a);
  isTyping = false;
  // If answer has vendor button, append a Find vendor quick link
@@ -6105,11 +6131,36 @@ function sendMessage() {
  chatArea.appendChild(row);
  scrollToElement(row);
  }, 400);
- } else {
- setTimeout(function() { appendQuickActions(true, false); }, 400);
- }
- return;
- }
+      } else {
+        lastMatch = cardResult;
+        if (cardResult.sendMsgBtn) {
+          setTimeout(function() {
+            var prevRows = chatArea.querySelectorAll('.msg-row.assistant');
+            prevRows.forEach(function(r) { if (r.querySelector('.quick-actions')) r.parentNode.removeChild(r); });
+            var smRow = document.createElement('div');
+            smRow.className = 'msg-row assistant';
+            var smAv = document.createElement('div');
+            smAv.className = 'msg-avatar';
+            setAvatarText(smAv);
+            var smWrap = document.createElement('div');
+            smWrap.className = 'quick-actions';
+            var smBtn = document.createElement('button');
+            chatArea.querySelectorAll('.talk-btn').forEach(function(b) { if (b.closest('.quick-actions')) b.parentNode.removeChild(b); });
+            smBtn.className = 'send-msg-btn';
+            smBtn.innerHTML = 'Send a Message';
+            smBtn.addEventListener('click', function() { openContactModal('send'); });
+            smWrap.appendChild(smBtn);
+            smRow.appendChild(smAv);
+            smRow.appendChild(smWrap);
+            chatArea.appendChild(smRow);
+            scrollToElement(smRow);
+          }, 450);
+        } else {
+          setTimeout(function() { appendQuickActions(true, false); }, 400);
+        }
+      }
+      return;
+    }
 
  var match = findBestMatch(resolvedText);
  var wantsVendor = needsVendorLookup(resolvedText);
@@ -6829,13 +6880,15 @@ function openContactModal(mode) {
  '<option value="Vehicle swap or replacement">Vehicle swap or replacement</option>' +
  '<option value="Deposit refund">Deposit refund</option>' +
  '<option value="CDW / protection plan">CDW / protection plan</option>' +
- '<option value="Inspection">Inspection</option>' +
+ '<option value="Inspection photo">Inspection photo</option>' +
+'<option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>' +
  '<option value="Lyft deactivation">Lyft deactivation</option>' +
  '<option value="Other">Other</option>'
  : '<option value="">-- Select a reason --</option>' +
  '<option value="Picking up my vehicle">Picking up my vehicle</option>' +
  '<option value="Dropping off / returning my vehicle">Dropping off / returning my vehicle</option>' +
- '<option value="Inspection">Inspection</option>' +
+ '<option value="Inspection photo">Inspection photo</option>' +
+'<option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>' +
  '<option value="Accident re-rental request">Accident re-rental request</option>' +
  '<option value="Other">Other</option>';
  }
