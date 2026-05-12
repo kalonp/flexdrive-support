@@ -338,16 +338,6 @@
  transform: translateY(0);
  }
 
- /* ── INPUT HINT ──────────────────────────── */
- #inputHint {
- font-size: 11px;
- color: #9BA8B8;
- padding: 0 16px 4px;
- height: 16px;
- transition: opacity 0.3s;
- opacity: 0;
- }
- #inputHint.visible { opacity: 1; }
 
  /* ── SEND BTN RIPPLE ─────────────────────── */
  @keyframes sendPop {
@@ -899,7 +889,28 @@
  color: rgba(255,255,255,0.25);
  border-color: rgba(255,255,255,0.06);
  }
- .input-wrap textarea::placeholder { color: #9AABB8; }
+ .input-wrap textarea::placeholder { color: transparent; }
+ .input-wrap { position: relative; flex: 1; }
+ #placeholderOverlay {
+ position: absolute;
+ top: 0; left: 0; right: 0; bottom: 0;
+ padding: 10px 16px;
+ font-family: var(--font);
+ font-size: 16px;
+ line-height: 1.4;
+ color: #9AABB8;
+ pointer-events: none;
+ display: flex;
+ align-items: center;
+ overflow: hidden;
+ white-space: nowrap;
+ border-radius: 22px;
+ }
+ #placeholderOverlay span {
+ transition: opacity 0.8s ease;
+ opacity: 1;
+ }
+ #placeholderOverlay span.fading { opacity: 0; }
  .send-btn {
  width: 44px; height: 44px;
  border-radius: 50%; border: none;
@@ -1250,13 +1261,12 @@
  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
  </button>
 
- <!-- INPUT HINT -->
- <div id="inputHint"></div>
  <!-- INPUT -->
  <div class="input-bar">
  <div class="input-bar-inner">
  <div class="input-wrap">
- <textarea id="userInput" rows="1" placeholder="Ask a question..." readonly></textarea>
+ <textarea id="userInput" rows="1" placeholder=" " readonly></textarea>
+ <div id="placeholderOverlay"><span id="placeholderSpan">Ask a question...</span></div>
  </div>
  <button class="send-btn" id="sendBtn" disabled>
  <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -6015,6 +6025,9 @@ function sendMessage() {
  userInput.style.height = 'auto';
  sendBtn.disabled = true;
  isTyping = true;
+ // Show overlay again after send
+ var _ov = document.getElementById('placeholderOverlay');
+ if (_ov) { _ov.style.display = 'flex'; }
 
  // Blur to dismiss keyboard and reset zoom on mobile
  userInput.blur();
@@ -6987,30 +7000,71 @@ if (scrollBtn) {
 }
 
 // ── INPUT HINT ───────────────────────────────────────────────────────────────
-var inputHintEl = document.getElementById('inputHint');
-var hintTexts = [
- 'Tip: be specific — try "my miles are wrong this week"',
- 'Tip: tap Talk to Someone for urgent issues',
- 'Tip: try keywords like "CDW", "deposit", or "billing"',
- 'Tip: ask follow-up questions — I remember what you asked',
+// ── ROTATING PLACEHOLDER OVERLAY ─────────────────────────────────────────────
+var placeholderTexts = [
+ 'Ask a question...',
+ 'Try: "How do I dispute my miles?"',
+ 'Try: "What does CDW cover?"',
+ 'Try: "When do I get my deposit back?"',
+ 'Try: "My car has broken down"',
+ 'Try: "How do I return my vehicle?"',
+ 'Try: "Why did my miles go up?"',
+ 'Try: "Holman number"',
+ 'Try: "Is oil change covered?"',
+ 'Try: "What is the billing week?"',
 ];
-var hintTimer = null;
-var hintIndex = 0;
-if (inputHintEl) {
- document.getElementById('userInput').addEventListener('focus', function() {
- if (hintTimer) clearTimeout(hintTimer);
- inputHintEl.textContent = hintTexts[hintIndex % hintTexts.length];
- inputHintEl.classList.add('visible');
- hintTimer = setTimeout(function() {
- inputHintEl.classList.remove('visible');
- hintIndex++;
- }, 3500);
- });
- document.getElementById('userInput').addEventListener('blur', function() {
- if (hintTimer) clearTimeout(hintTimer);
- inputHintEl.classList.remove('visible');
- });
+var placeholderIndex = 0;
+var placeholderTimer = null;
+var userIsTyping = false;
+
+function rotatePlaceholder() {
+ if (userIsTyping) return;
+ var span = document.getElementById('placeholderSpan');
+ var overlay = document.getElementById('placeholderOverlay');
+ if (!span || !overlay) return;
+ // Fade out
+ span.style.transition = 'opacity 2s ease';
+ span.style.opacity = '0';
+ setTimeout(function() {
+ placeholderIndex = (placeholderIndex + 1) % placeholderTexts.length;
+ span.textContent = placeholderTexts[placeholderIndex];
+ span.style.transition = 'opacity 2s ease';
+ span.style.opacity = '1';
+ }, 2000);
 }
+
+function startPlaceholderRotation() {
+ if (placeholderTimer) clearInterval(placeholderTimer);
+ placeholderTimer = setInterval(rotatePlaceholder, 6000);
+}
+
+// Show/hide overlay based on whether user has typed
+function updateOverlayVisibility() {
+ var overlay = document.getElementById('placeholderOverlay');
+ var el = document.getElementById('userInput');
+ if (!overlay || !el) return;
+ overlay.style.display = (el.value.length > 0 || document.activeElement === el) ? 'none' : 'flex';
+}
+
+// Start rotation after welcome message loads
+setTimeout(startPlaceholderRotation, 2000);
+
+// Pause rotation while typing, hide overlay
+document.getElementById('userInput').addEventListener('input', function() {
+ userIsTyping = this.value.length > 0;
+ updateOverlayVisibility();
+ if (!userIsTyping && document.activeElement !== this) {
+ startPlaceholderRotation();
+ }
+});
+document.getElementById('userInput').addEventListener('focus', function() {
+ updateOverlayVisibility();
+});
+document.getElementById('userInput').addEventListener('blur', function() {
+ userIsTyping = false;
+ updateOverlayVisibility();
+ setTimeout(startPlaceholderRotation, 1000);
+});
 
 // ── REACTION LOGGING ─────────────────────────────────────────────────────────
 function logReaction(emoji, responseText) {
