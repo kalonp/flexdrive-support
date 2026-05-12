@@ -69,7 +69,7 @@
 
  /* HEADER */
  .header {
- background: linear-gradient(90deg, #003B71 0%, #003B71 55%, #1A5A96 75%, #1E5F98 90%, #2266A0 100%);
+ background: #003C72;
  padding: 0 18px 0 10px;
  padding-top: env(safe-area-inset-top);
  height: calc(64px + env(safe-area-inset-top));
@@ -204,7 +204,7 @@
  to { opacity: 1; transform: translateY(0); }
  }
  .welcome-bubble {
- background: linear-gradient(135deg, #003B71 0%, #003B71 50%, #1A5A96 72%, #2266A0 90%, #2E6EA8 100%) !important;
+ background: linear-gradient(135deg, #003C72 0%, #003C72 75%, #1E5A8A 90%, #2E6E9E 100%) !important;
  border: 1.5px solid rgba(255,255,255,0.12) !important;
  color: var(--white) !important;
  border-radius: 20px 20px 20px 4px !important;
@@ -296,15 +296,15 @@
 
  /* Avatar */
  .msg-avatar {
-    width: 28px; height: 28px;
+    width: 34px; height: 34px;
  border-radius: 0;
  flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
  background: transparent;
     margin-bottom: 4px;
  }
-    .msg-avatar img { width: 28px; height: auto; object-fit: contain; }
-    .msg-avatar svg { width: 28px; height: 28px; }
+    .msg-avatar img { width: 34px; height: auto; object-fit: contain; }
+    .msg-avatar svg { width: 34px; height: 34px; }
  .msg-row.assistant { justify-content: flex-start; align-items: flex-end; }
  .msg-row.user .msg-avatar { display: none; }
  /* ── TIMESTAMPS ────────────────────────── */
@@ -385,7 +385,7 @@
  .read-more-btn { background: none; border: none; color: rgba(0,59,113,0.45); font-size: 12px; font-weight: 500; padding: 4px 0; cursor: pointer; margin-top: 4px; touch-action: manipulation; transition: color 0.15s; align-self: flex-start; width: fit-content; letter-spacing: 0.2px; text-decoration: underline; text-underline-offset: 2px; -webkit-tap-highlight-color: transparent; }
  .read-more-btn:active { color: rgba(0,59,113,0.7); }
  .msg-row.assistant .msg-bubble {
- background: #003B71;
+ background: linear-gradient(135deg, #003C72 0%, #003C72 75%, #1E5A8A 90%, #2E6E9E 100%);
  color: var(--white);
  border-bottom-left-radius: 6px;
  box-shadow: 0 0 0 1.5px rgba(0,59,113,0.25),
@@ -746,7 +746,7 @@
  font-size: 13px; font-weight: 700;
  display: flex; align-items: center; justify-content: center;
  }
- .ac-step-body { flex: 1; font-size: 13px; line-height: 1.55; color: #2D3138; padding-top: 4px; min-width: 0; word-wrap: break-word; }
+ .ac-step-body { flex: 1; font-size: 15px; line-height: 1.55; color: #2D3138; padding-top: 4px; min-width: 0; word-wrap: break-word; }
  .ac-step-body strong { color: var(--navy); }
  .ac-callout {
  border-radius: 8px; padding: 9px 12px; margin: 8px 0;
@@ -772,7 +772,7 @@
  }
  .ac-compare { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
  .ac-compare-card {
- border-radius: 10px; padding: 10px 14px; font-size: 13px; line-height: 1.6;
+ border-radius: 10px; padding: 10px 14px; font-size: 15px; line-height: 1.6;
  }
  .ac-compare-card.no-cdw { background: #FFF3F3; border: 1.5px solid #F4BABA; }
  .ac-compare-card.with-cdw { background: #EDFAF1; border: 1.5px solid #A3D9B4; }
@@ -822,7 +822,7 @@
 
  /* TYPING */
  .typing-bubble-wrap {
- background: linear-gradient(135deg, #003B71 0%, #003B71 50%, #1A5A96 72%, #2266A0 90%, #2E6EA8 100%);
+ background: #003C72;
  border-radius: 18px 18px 18px 4px;
  padding: 14px 18px;
  box-shadow: 0 0 0 1.5px rgba(0,59,113,0.25), 0 4px 14px rgba(0,59,113,0.2);
@@ -1244,11 +1244,11 @@
 
  /* ── iPHONE COMPACT OPTIMIZATIONS ───────── */
  @media (max-width: 390px) {
- .ev-accordion-header { font-size: 13px; padding: 11px 12px; min-height: 44px; }
- .ev-accordion-body { font-size: 13px; padding: 10px 12px 14px; }
- .ac-callout { padding: 8px 10px; font-size: 12px; }
- .ac-gate-row { padding: 6px 9px; font-size: 12px; }
- .ac-step-body { font-size: 12px; }
+ .ev-accordion-header { font-size: 15px; padding: 11px 12px; min-height: 44px; }
+ .ev-accordion-body { font-size: 15px; padding: 10px 12px 14px; }
+ .ac-callout { padding: 8px 10px; font-size: 14px; }
+ .ac-gate-row { padding: 6px 9px; font-size: 14px; }
+ .ac-step-body { font-size: 15px; }
  .ac-step-num { width: 24px; height: 24px; font-size: 12px; }
  .msg-bubble { font-size: 15px; padding: 11px 14px; }
  .ev-accordion { gap: 6px; }
