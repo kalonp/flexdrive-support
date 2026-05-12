@@ -2071,6 +2071,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Office hours / office location",
+ myOfficeCard: true,
  keywords: ["where is the office", "when is the office open", "when does the office open", "hours", "office hours", "when are you open", "office location", "where is the office", "address", "visit", "come in", "walk in", "open", "what time do you open", "what time do you close", "when do you close", "office address", "flexdrive office", "nearest office", "where are you located", "office near me", "find the office", "come to the office", "in person", "drop in", "office info", "office near me", "can i come in", "when should i come in", "appointment", "do i need an appointment", "walk in ok", "office open today", "saturday hours", "sunday hours", "weekend hours", "closed today"],
  needsRegion: true,
  response: "Our offices are open Monday-Friday, 9:00 AM - 5:00 PM. Appointments are not required but are appreciated.\n\nWould you like me to find your nearest office? Just share your city or zip code."
@@ -2126,8 +2127,9 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "My office / office info",
- keywords: ["my office", "office address", "where is the office", "office location", "flexdrive office", "where do i go", "office hours", "when is the office open", "what time does the office open", "office phone", "is the office open", "where is my flexdrive", "office near me"],
+ keywords: ["my office", "my flexdrive office", "office address", "where is the office", "office location", "flexdrive office", "where do i go", "office hours", "when is the office open", "what time does the office open", "office phone", "is the office open", "where is my flexdrive", "office near me", "what is my office", "find my office", "what is my office address"],
  needsRegion: true,
+ myOfficeCard: true,
  response: "Here is your Flexdrive office information:"
  },
  {
@@ -4821,7 +4823,7 @@ var CARD_ANSWERS = [
  a: "Up to $1,000 per incident for the deductible and up to $1,000 for glass damage, regardless of fault. With CDW, the deductible is waived." },
 
  // ── ROADSIDE ──────────────────────────────────────────────────────────────────
- { k: ["holman number","holman phone","call holman","holman roadside number","holman contact","roadside number","towing number"],
+ { k: ["holman number","holmans number","holman's number","whats holmans number","what's holman's number","holman phone","call holman","holman roadside number","holman contact","roadside number","towing number"],
  a: "Call Holman 24/7 at (833) 274-5938 for any roadside emergency — breakdown, flat tire, lockout, or tow. Do not call Allstate — Holman is your provider." },
 
  { k: ["will i be charged for roadside","roadside fee","tow charge","towing fee","is roadside free","cost of roadside"],
@@ -5471,6 +5473,365 @@ var CARD_ANSWERS = [
  a: "In the Lyft Driver App: Main Menu → Vehicles and Devices → Your Vehicles → See Details → Change mileage plan. Changes take effect Monday at 5:00 AM — not mid-week. More miles = higher weekly rate." },
 
 
+ // ── FOLLOW-UP QUESTION DIRECT ANSWERS ────────────────────────────────────────
+
+ // Accident
+ { k: ["what is my deductible after an accident","deductible after accident","how much is deductible accident"],
+ a: "Up to $1,000 per incident. With CDW: deductible waived. With PCDW: reduced to $500. Glass damage is separate — up to $1,000 additional without CDW." },
+
+ { k: ["can i rent again after an accident","rent again after accident","how long dnr after accident","when can i rent again after accident"],
+ a: "You are placed on DNR immediately after any accident regardless of fault. You can re-rent once fault is determined, all fees are paid, and your account is in good standing. This typically takes several months." },
+
+ { k: ["what if the other driver was at fault","other driver at fault","not my fault accident","other driver caused accident"],
+ a: "You are still responsible for charges until fault is determined. If the other driver is found at fault, Flexdrive may pursue subrogation — if successful, applicable charges are refunded to you. This can take several months." },
+
+ { k: ["does cdw cover my deductible","does cdw waive deductible","cdw cover deductible","cdw deductible waiver"],
+ a: "Yes — CDW fully waives the $1,000 deductible. It also covers glass damage and flat tires. CDW cannot be added retroactively after an incident." },
+
+ // PCDW
+ { k: ["how is pcdw different from cdw","pcdw vs cdw","difference pcdw cdw","pcdw compared to cdw"],
+ a: "PCDW reduces your deductible from $1,000 to $500. CDW waives it entirely ($0). PCDW does not cover glass damage or flat tires. CDW does. PCDW is available in select markets only." },
+
+ { k: ["what does pcdw not cover","pcdw exclusions","pcdw limitations","pcdw not cover"],
+ a: "PCDW does not cover glass damage, flat tires, or towing. It only reduces your deductible to $500. For full coverage including glass and tires, you need CDW." },
+
+ // Insurance
+ { k: ["what is covered during a lyft ride","covered on a lyft ride","insurance during ride","period 2 period 3 coverage"],
+ a: "Periods 2 & 3 (ride accepted through drop-off): up to $1,000,000 liability, physical damage covered with $1,000 deductible (waived with CDW). $125,000 in Maryland." },
+
+ // Mileage
+ { k: ["how do i dispute wrong miles","dispute wrong mileage","incorrect miles dispute","my miles are wrong dispute"],
+ a: "Tap Talk to Someone and include: the week (Mon–Mon), the mileage you believe is wrong, and any context (maintenance trip, Destination Filter issue). We respond within 1 business day." },
+
+ { k: ["when does mileage plan change take effect","when does plan change apply","mileage plan change when","plan change effective date"],
+ a: "Mileage plan changes take effect Monday at 5:00 AM — not mid-week. Change it before Monday to have it apply to the new week." },
+
+ // Billing
+ { k: ["can i set up a payment plan","payment plan how to","set up repayment plan","arrange payment plan"],
+ a: "Call Foundever at (972) 936-8999, Mon–Sat 7AM–9PM CST. Repayment plans are available after the vehicle is returned. While still renting, Foundever can accept partial payments." },
+
+ { k: ["why did my rate go up","why did my bill go up","rental rate increased","rate went up why"],
+ a: "Common reasons: mileage plan change, CDW added, first week proration ended, overage charges, or delayed toll charges (2–3 week delay). Check: Lyft App → Account → Express Drive billing history." },
+
+ { k: ["what happens if i don't pay","consequences of not paying","what if i can't pay","don't pay flexdrive"],
+ a: "Your vehicle may be repossessed without notice. A $500 repossession fee applies. You are placed on the Do Not Rent list and the balance goes to collections. Pay now: Lyft App → Account → Pay and Tax Info → Pay Now." },
+
+ { k: ["how do lyft earnings offset my rental","do earnings pay for rental","earnings cover rental","lyft earnings pay rent how"],
+ a: "Your Lyft earnings accumulate throughout the week and automatically cover your rental cost. Any remaining balance after Monday 4:59 AM is charged to your card on Tuesday." },
+
+ { k: ["what happens to my vehicle if i can't pay","repossession if i can't pay","vehicle repossessed can't pay"],
+ a: "Flexdrive may repossess the vehicle without notice. A $500 fee applies. Contact Foundever immediately at (972) 936-8999 to arrange a payment plan before it reaches that point." },
+
+ { k: ["when will my balance be cleared","how long to clear balance","balance cleared when","how long pay off balance"],
+ a: "Once you pay via Lyft App → Account → Pay and Tax Info → Pay Now, your balance clears immediately. Bank processing may take 1–2 business days to reflect." },
+
+ { k: ["will this affect my ability to rent again","collections affect renting","can i rent after collections","rent again after debt"],
+ a: "Yes — an unpaid balance or active collection account will prevent you from renting again. Clear the balance first, then contact your Flexdrive office to discuss reinstating your account." },
+
+ // Deposit
+ { k: ["how long until i get my deposit back","when deposit returned","how long deposit refund","deposit refund how long"],
+ a: "Within 3 weeks of contract close, then 5–7 business days for your bank to post it. Still missing after 30 days? Tap Talk to Someone." },
+
+ { k: ["where does the refund go","where is deposit refunded","where does deposit go","refund to which card"],
+ a: "To the original card on file at pickup — always. Updating your payment method in the Lyft App does not redirect the deposit." },
+
+ // Return
+ { k: ["can i return after hours","after hours return how","return outside office hours","return when office closed"],
+ a: "Yes — use the overnight drop box to the right of the mailbox at the office. Your contract closes the next business day and charges continue until then." },
+
+ { k: ["when does my contract officially close","contract close date","when does rental officially end","contract closed when"],
+ a: "Your contract closes when a Flexdrive associate processes your return during business hours (Mon–Fri 9AM–5PM). After-hours drop-box returns close the next business day." },
+
+ // Swaps
+ { k: ["what if my car has a mechanical issue","mechanical issue swap","car mechanical problem","swap for mechanical"],
+ a: "Take it to an approved vendor first — tell them it is a Flexdrive vehicle. They confirm the issue to Flexdrive directly. We then determine if a swap is warranted." },
+
+ { k: ["how do i schedule a swap appointment","schedule swap","book swap appointment","swap appointment how"],
+ a: "Contact your Flexdrive office by tapping Talk to Someone or visiting in person. Bring the vehicle Mon–Fri 9AM–5PM. Repeatedly missing appointments can result in DNR status." },
+
+ // Flat tire / Roadside
+ { k: ["who do i call for roadside","roadside who to call","who handles roadside","roadside help who"],
+ a: "Call Holman at (833) 274-5938 — available 24/7. Do NOT call Allstate or a third-party tow service." },
+
+ { k: ["how do i avoid being charged for a flat","flat tire charge avoid","no charge flat tire","flat tire free"],
+ a: "With CDW: flat tire service is fully covered. Without CDW: normal wear flats are generally covered. Road hazard or curb strike damage may result in a charge. TPMS sensor fees are never charged." },
+
+ // Windshield
+ { k: ["does cdw cover glass damage","cdw glass damage","glass damage cdw","windshield covered cdw"],
+ a: "Yes — CDW covers glass damage up to $1,000. Without CDW you are responsible for up to $1,000 for glass, separate from the deductible." },
+
+ { k: ["who do i call for windshield repair","windshield repair who","cracked windshield who to call","glass repair call"],
+ a: "Call Holman at (833) 274-5938 — do not take it to a glass shop on your own. Holman arranges approved glass repair." },
+
+ { k: ["how much does glass damage cost without cdw","glass damage cost","windshield cost no cdw","glass repair cost"],
+ a: "Up to $1,000 for glass damage without CDW — on top of any deductible for the same incident. Total potential exposure: $2,000." },
+
+ // Dashboard
+ { k: ["where should i take the car","where to take car warning light","where to go dashboard light","take car where"],
+ a: "To an approved maintenance vendor — tell them 'This is a Flexdrive vehicle.' Find your nearest vendor by tapping 'Find a maintenance vendor.'" },
+
+ { k: ["what lights are urgent","which warning lights urgent","urgent warning lights","serious dashboard lights"],
+ a: "Urgent: oil pressure, engine temperature, brake, battery, airbag, and ABS lights. These require immediate attention — do not continue driving. Call Holman at (833) 274-5938 if unsafe." },
+
+ // Maintenance
+ { k: ["what do i say at the shop","what to tell vendor","what to say maintenance shop","tell shop what"],
+ a: "Always say 'This is a Flexdrive vehicle' when you arrive — in person or in the appointment notes. This routes billing to Flexdrive, not you." },
+
+ // EV
+ { k: ["what charge level do i need to return at","return ev charge level","ev return percentage","return at what percent"],
+ a: "Return at 80% or above. Fees: 20–80% = $30, below 20% = up to $70 (CA/CO/MD: $30 + $40 admin). Can't reach 80%? Let the office know when you arrive." },
+
+ // Inspections
+ { k: ["what do i do with an inspection email","inspection email what to do","got inspection email what now","visit rental location email"],
+ a: "Bring your vehicle to the Flexdrive office immediately — Mon–Fri 9AM–5PM, no appointment needed. Complete any outstanding maintenance before arriving." },
+
+ { k: ["where do i get an inspection","where to get inspection","inspection location","get vehicle inspection where"],
+ a: "Open the Lyft Driver App to find an approved inspection location near you. Bring your Flexdrive rental — no payment needed. Results submit to Lyft automatically." },
+
+ { k: ["what happens if i miss my inspection","miss inspection consequences","late inspection what happens","inspection deadline missed"],
+ a: "Failing to complete by the due date may result in Lyft deactivation — which requires you to return your Flexdrive rental. Come to the office immediately." },
+
+ // Renew / Extend
+ { k: ["does my rental auto-renew","does rental renew automatically","auto renewal rental","rental renew itself"],
+ a: "Yes — your rental renews every Monday automatically as long as your account is in good standing (no overdue balance, 20+ rides/week, maintenance current)." },
+
+ { k: ["what are the renewal requirements","requirements to keep renting","renewal conditions","auto renewal conditions"],
+ a: "Payment current, 20+ rides per week, maintenance up to date, and your Lyft account active and in good standing." },
+
+ { k: ["how do i end my rental","end my rental how","how to stop renting","cancel my rental"],
+ a: "Lyft App → Vehicle tab → Schedule a return. Office hours: Mon–Fri 9AM–5PM. After-hours: use the overnight drop box — contract closes the next business day." },
+
+ // Pickup
+ { k: ["what do i bring to pickup","bring to pickup what","pickup what to bring","documents needed pickup"],
+ a: "Valid U.S. driver's license, the payment card used for your deposit (must be in your name), and your Lyft Driver App open and ready." },
+
+ { k: ["what is included in my rental","what comes with rental","rental includes what","what does rental include"],
+ a: "Vehicle, insurance, maintenance at approved vendors, and 24/7 Holman roadside. Not included: gas, tolls, violations, CDW, or overages." },
+
+ { k: ["is fuel included","is gas included","does rental include gas","fuel covered rental"],
+ a: "No — fuel and charging costs are your responsibility. Return the vehicle at the same fuel/charge level as pickup or fees apply." },
+
+ // Eligibility
+ { k: ["what is the age requirement","age requirement flexdrive","minimum age flexdrive","how old to rent"],
+ a: "You must be at least 25 years old to rent a Flexdrive vehicle." },
+
+ { k: ["do i need a background check","background check required","is background check needed","background check flexdrive"],
+ a: "Yes — Lyft runs a background check as part of the driver approval process. It is separate from Flexdrive but required before you can rent." },
+
+ { k: ["who runs the background check","who does background check","which company background check","background check company"],
+ a: "Lyft runs and manages the background check — not Flexdrive. For status or disputes, contact Lyft support through the Driver App or visit help.lyft.com." },
+
+ { k: ["what if my background check fails","background check failed","failed background check","background check rejected"],
+ a: "Contact Lyft support to dispute or appeal through the Driver App or help.lyft.com. Flexdrive cannot override Lyft's background check decisions." },
+
+ // Express Pay
+ { k: ["how long does bank transfer take","bank transfer time","ach transfer how long","standard transfer time"],
+ a: "Free bank transfers (ACH) take 1–5 business days. For instant transfer, use Express Pay (small fee applies — shown before you confirm)." },
+
+ { k: ["why are my earnings going to my balance","earnings applied to balance","earnings not available why","earnings offset balance"],
+ a: "Your Lyft earnings cover your weekly rental first. Any outstanding balance from a prior week means all earnings go toward clearing that first." },
+
+ { k: ["what is express pay","express pay explained","how does express pay work","express pay what is it"],
+ a: "Express Pay lets you transfer earnings to a debit card instantly for a small fee (~$0.50–$1.50). Standard bank transfer is free but takes 1–5 business days." },
+
+ // Deactivation
+ { k: ["do i have to return the car lyft deactivated","must i return car if deactivated","return car after deactivation","deactivated must return car"],
+ a: "Yes — if your Lyft account is deactivated you must return the Flexdrive rental. Outstanding charges remain your responsibility until the vehicle is back." },
+
+ { k: ["how do i appeal my deactivation","appeal lyft deactivation","dispute deactivation lyft","lyft deactivation appeal"],
+ a: "Contact Lyft support through the Driver App or visit help.lyft.com. Flexdrive cannot restore your Lyft account — the appeal is handled entirely by Lyft." },
+
+ // Moving
+ { k: ["how do i change my lyft region","change lyft region how","lyft region change process","update lyft region"],
+ a: "Lyft App → Main Menu → Get Help → Help Center → Account and earnings → Request a region change. Takes a few business days. Return your current vehicle before relocating." },
+
+ { k: ["do i need a new deposit new city","new deposit new market","deposit when moving markets","deposit transfer new city"],
+ a: "Yes — a new security deposit is required for each new market. Your previous deposit is refunded separately within 3 weeks of returning your current vehicle." },
+
+ { k: ["is flexdrive in my new city","flexdrive available my city","new city flexdrive","flexdrive in new location"],
+ a: "Flexdrive operates in 22 cities. Tap 'Where is Flexdrive available?' to see the full list with addresses, or ask me your new city." },
+
+ // Prohibited uses
+ { k: ["what happens if i violate the rules","consequences of prohibited use","violate rental rules consequences","break rental rules what happens"],
+ a: "Violations void your CDW/insurance coverage, may result in immediate DNR status, and you are liable for all damages. Severe violations (DUI, criminal activity) may result in legal action." },
+
+ // Cleanliness
+ { k: ["what if the car was dirty at pickup","dirty car at pickup what to do","car dirty when i got it","vehicle dirty pickup"],
+ a: "Report it to the office immediately before driving off and take photos. If not documented before you leave, cleaning fees at return may be charged to you." },
+
+ { k: ["how do i document pre-existing damage","document damage at pickup","photograph damage pickup","pre existing damage how to document"],
+ a: "Do a full walk-around and take photos/video before driving off. Show any issues to a Flexdrive associate and ensure they are noted on your rental agreement before you leave." },
+
+ { k: ["what if i don't report it before driving","didn't report damage before driving","forget to report damage pickup","damage not reported at pickup"],
+ a: "If unreported damage is found at return, it may be attributed to you. Always document before leaving the lot — this is your protection." },
+
+ { k: ["who do i contact about pickup issues","pickup issue contact","problem at pickup who to contact","issue at pickup who"],
+ a: "Speak to a Flexdrive associate at the office immediately. If you have already left, tap Talk to Someone below and describe the issue with photos if possible." },
+
+ // Tolls
+ { k: ["are tolls reimbursed during lyft rides","tolls during lyft rides covered","lyft ride tolls reimbursed","toll reimbursement rides"],
+ a: "Yes — tolls during a Lyft ride are reimbursed through your Lyft earnings. Only tolls during personal driving (app off) are charged to you." },
+
+ { k: ["why is my toll charge delayed","toll charge delayed why","toll shows up late","toll 2 weeks later"],
+ a: "Toll charges typically appear 2–3 weeks after the trip due to processing delays from the toll authority. This is normal — not an error." },
+
+ { k: ["how do i dispute a toll","dispute toll charge","toll charge wrong how to dispute","toll dispute process"],
+ a: "Tap Talk to Someone and include the date of the trip, the toll amount, and whether your app was on or off. We review and respond within 1 business day." },
+
+ // Traffic violations
+ { k: ["am i responsible for tickets","am i liable for tickets","traffic ticket my responsibility","parking ticket who pays"],
+ a: "Yes — all traffic and parking violations are your responsibility to resolve with the issuing authority. A $50 admin fee may apply per violation we receive." },
+
+ { k: ["is there an admin fee for violations","admin fee violations","violation admin fee how much","citation admin fee"],
+ a: "Yes — a $50 administrative processing fee may apply per citation notification Flexdrive receives, on top of your responsibility to pay the violation itself." },
+
+ { k: ["what about registration citations","registration citation","registration ticket who pays","registration violation"],
+ a: "Registration citations are Flexdrive's responsibility — not yours. Bring the citation to the office immediately and it will be handled." },
+
+ // Late return
+ { k: ["what is the repossession fee","repossession fee how much","repo fee flexdrive","cost of repossession"],
+ a: "A $500 repossession fee applies if the vehicle is repossessed. This is in addition to any outstanding rental balance." },
+
+ { k: ["how do i avoid repossession","avoid repossession","prevent repossession","stop repossession"],
+ a: "Pay your balance immediately (Lyft App → Account → Pay and Tax Info → Pay Now) and return the vehicle or contact Foundever at (972) 936-8999 to arrange a plan." },
+
+ { k: ["what happens in arizona if i don't return","arizona felony return","arizona 72 hours return","az return law"],
+ a: "In Arizona, failure to return a rental vehicle within 72 hours of the due date is a Class 5 Felony under A.R.S. 13-1806. Return the vehicle and contact the office immediately." },
+
+ // Wrapped vehicle bonus
+ { k: ["what if i didn't receive my bonus","missing wrapped bonus","wrapped bonus not received","didn't get bonus wrapped car"],
+ a: "Tap Talk to Someone and include your name and the specific week in question. Our team will review your ride count and apply the bonus if you qualified. No office visit needed." },
+
+ { k: ["how do i report a missing bonus","report missing wrapped bonus","missing wrapped vehicle bonus","bonus not applied"],
+ a: "Tap Talk to Someone — include your name and the week (Mon–Mon). We will confirm your ride count and resolve it within 1 business day." },
+
+ // Vehicle repossessed
+ { k: ["what happens to my belongings after repossession","belongings after repo","stuff in repossessed car","personal items after repossession"],
+ a: "Flexdrive is not responsible for any belongings left in the vehicle after repossession. All items will be disposed of. Retrieve everything before a potential repossession." },
+
+ { k: ["how do i pay to get my vehicle back","pay to get car back after repo","recover repossessed vehicle","get car back after repossession"],
+ a: "Repossessed vehicles are not returned. Pay your outstanding balance to clear your account: Lyft App → Account → Pay and Tax Info → Pay Now. Then contact your office to discuss renting again." },
+
+ // Registration
+ { k: ["is registration flexdrive's responsibility","registration flexdrive responsible","flexdrive handles registration","who is responsible for registration"],
+ a: "Yes — Flexdrive is responsible for vehicle registration. If you receive a registration citation, bring it to the office immediately. You will not be held responsible." },
+
+ { k: ["what do i do with a registration citation","registration citation what to do","got registration ticket","registration violation received"],
+ a: "Bring it to the Flexdrive office immediately. Registration citations are Flexdrive's responsibility — do not pay it yourself." },
+
+ // CDW exclusions
+ { k: ["does dui void cdw","dui and cdw","cdw voided by dui","drunk driving cdw"],
+ a: "Yes — DUI voids your CDW and all insurance coverage. You are fully liable for all damages. This applies to any criminal activity, racing, or unauthorized driver use." },
+
+ // Speak to a manager
+ { k: ["how long does the team take to respond","response time flexdrive","how fast do you respond","when will you respond"],
+ a: "Our team responds within 1 business day. For urgent issues, include 'URGENT' at the start of your message and describe the situation in detail." },
+
+ { k: ["can i visit the office in person","visit office in person","come to office","go to office in person"],
+ a: "Yes — the office is open Monday–Friday 9:00 AM–5:00 PM. No appointment needed for most visits. For returns and inspections, arriving earlier in the day is recommended." },
+
+ { k: ["what information should i include in my message","what to include message","message flexdrive what to include","what details to send"],
+ a: "Include: your full name, the issue or question, any relevant dates or amounts, and photos if applicable. The more specific you are, the faster we can resolve it." },
+
+
+ // ── REMAINING FOLLOW-UP COVERAGE ─────────────────────────────────────────────
+ { k: ["when does my mileage plan change take effect","when does plan change take effect","mileage plan change effective","plan change effective"],
+ a: "Mileage plan changes take effect Monday at 5:00 AM — not mid-week. Make the change before Monday to apply to the next week." },
+
+ { k: ["how long does it take","how long does background check take","background check timeline","how long background check"],
+ a: "Lyft's background check typically takes 3–5 business days. Check the Lyft Driver App for your current status." },
+
+ { k: ["do i have to return the car","must i return the car","return car required","do i need to return vehicle"],
+ a: "If your Lyft account is deactivated or your rental ends, yes — you must return the vehicle. Outstanding charges continue until it is back at the office." },
+
+ { k: ["what happens to my deposit deactivation","deposit if deactivated","deactivation deposit refund","what about deposit lyft deactivated"],
+ a: "Your deposit is refunded within 3 weeks of contract close, minus any outstanding balance. Deactivation does not forfeit your deposit." },
+
+ { k: ["do i need a new deposit","need new deposit","new deposit required","deposit for new rental"],
+ a: "Yes — a new security deposit is required for each new rental or new market. Previous deposits are refunded separately." },
+
+ { k: ["how do i start renting in a new market","start renting new market","rent in new city how","new city flexdrive how to start"],
+ a: "Get your Lyft region change approved, clear any outstanding balance, then contact that market's Flexdrive office. A new deposit is required." },
+
+ { k: ["what are the eligibility requirements","eligibility requirements flexdrive","requirements to rent flexdrive","what do i need to qualify"],
+ a: "Must be 25+, valid U.S. license, active Lyft account, pass a background check, no prepaid cards, and pay a security deposit." },
+
+ { k: ["does flexdrive have a phone number","flexdrive phone number","call flexdrive","flexdrive phone support"],
+ a: "Flexdrive offices do not provide phone support. All communication is by email or in person. Tap Talk to Someone to reach your local team." },
+
+ { k: ["what are office hours","office open hours","when is office open","flexdrive hours"],
+ a: "Monday–Friday, 9:00 AM–5:00 PM. Cincinnati: 9:00 AM–4:00 PM. No weekend or after-hours service. After-hours key drop is available." },
+
+ { k: ["how quickly does the team respond","response time team","how fast team responds","when will team respond"],
+ a: "Our team responds within 1 business day. For urgent issues, include 'URGENT' at the start of your message." },
+
+ { k: ["why are my earnings different than expected","earnings wrong amount","earnings not what i expected","lyft earnings different"],
+ a: "Lyft earnings are managed by the Lyft platform — not Flexdrive. For earnings discrepancies, contact Lyft support through the Driver App or visit help.lyft.com." },
+
+ { k: ["how much does flexdrive cost","flexdrive weekly cost","how much is flexdrive per week","flexdrive price"],
+ a: "Weekly rates vary by market and mileage plan. To see your exact rate: Lyft Driver App → Vehicles and Devices → Your Vehicles → See Details." },
+
+ { k: ["do i need an appointment","appointment required","is appointment needed","need appointment flexdrive"],
+ a: "Appointments are not required but appreciated for returns and inspections. Walk-ins are welcome Mon–Fri 9AM–5PM." },
+
+ { k: ["what is the office address","office address","flexdrive address","where is flexdrive located"],
+ a: "Your office address depends on your market. Tap 'My office' or share your city and I will look it up for you." },
+
+ { k: ["what happens if i return early","return before 7 days","early return consequences","return before minimum period"],
+ a: "The minimum rental period is 7 days. Returning before 7 days may result in early termination charges. After 7 days, you can return any business day." },
+
+ { k: ["does the rental auto-renew","does it auto renew","rental renew automatically","auto renew rental"],
+ a: "Yes — your rental renews automatically every Monday as long as payment is current, you complete 20+ rides/week, and your Lyft account is active." },
+
+ { k: ["what happens if i have an outstanding balance","outstanding balance what happens","overdue balance consequences","balance owed consequences"],
+ a: "Your rental may be repossessed. Pay immediately: Lyft App → Account → Pay and Tax Info → Pay Now. Or call Foundever at (972) 936-8999." },
+
+ { k: ["will i be charged for a lockout","lockout fee","lockout charge","is lockout free"],
+ a: "Legitimate lockouts are covered at no charge through Holman at (833) 274-5938. Do not call a third-party locksmith — those costs will not be reimbursed." },
+
+ { k: ["how do i get a replacement key","replacement key fob","key replacement how","get new key fob"],
+ a: "Call Holman at (833) 274-5938 to document the issue first, then visit the Flexdrive office. A $300 key fob replacement fee may apply." },
+
+ { k: ["can i get reimbursed for maintenance i paid for","reimbursed for maintenance","paid for maintenance reimbursement","out of pocket maintenance reimbursed"],
+ a: "If you were charged at an approved vendor, bring your receipt to the office or tap Talk to Someone. We will review the charge. Non-approved location costs cannot be reimbursed." },
+
+ { k: ["what do i do with a receipt from a vendor","vendor receipt what to do","receipt from shop","maintenance receipt"],
+ a: "Keep it and bring it to the Flexdrive office or attach it when you tap Talk to Someone. If charged incorrectly at an approved vendor, we will review and resolve." },
+
+ { k: ["what if i forget to report it before driving","didn't report damage forgot","forgot to report pre existing damage","forgot document damage"],
+ a: "If damage is found at return that was not reported at pickup, it may be attributed to you. Contact the office as soon as possible with photos to dispute." },
+
+ { k: ["who do i tell at the office about damage","who to report damage to at office","report damage who at office","office contact for damage"],
+ a: "Speak to any Flexdrive associate when you arrive. Ask them to note it on your rental agreement before you drive off the lot." },
+
+ { k: ["how long does a vehicle swap take","swap timeline","how long for swap","vehicle swap how long"],
+ a: "Remarketing swaps are typically processed same-day if you arrive during business hours. Mechanical issue swaps depend on vendor confirmation — usually 1–3 business days." },
+
+ { k: ["do i need a new deposit for a swap","deposit during swap","deposit for replacement vehicle","swap deposit"],
+ a: "No — your deposit stays on file during a remarketing swap as long as your account is in good standing. No new deposit is required." },
+
+ { k: ["what qualifies for a vehicle replacement","qualify for replacement vehicle","replacement vehicle criteria","when do i get a replacement"],
+ a: "Two reasons: (1) Remarketing — Flexdrive pulls your vehicle from the fleet, or (2) a verified serious mechanical issue confirmed by an approved vendor." },
+
+ { k: ["how old can the vehicle be","vehicle age limit","oldest vehicle flexdrive","vehicle age requirement"],
+ a: "Flexdrive manages vehicle age and eligibility — you will be notified when your vehicle is due for remarketing (replacement). Check the Lyft Driver App for any notices." },
+
+ { k: ["what happens when my vehicle is too old","vehicle age out","vehicle remarketed too old","vehicle replaced why"],
+ a: "Flexdrive initiates remarketing — you receive a notice (Day 10), a warning (Day 24), and vehicle deactivation (Day 38) if not swapped. Come in as soon as you receive the first notice." },
+
+ { k: ["will i get notified about remarketing","remarketing notification","how will i know about remarketing","remarketing notice how"],
+ a: "Yes — you receive email and in-app notifications starting at Day 10. Check your Lyft Driver App and email regularly. Day 38 deactivation applies regardless of whether you saw the notice." },
+
+ { k: ["when does the plan change take effect","plan change when effective","change plan when does it apply","mileage plan when applied"],
+ a: "Monday at 5:00 AM. Any plan change made during the week applies to the following Monday." },
+
+ { k: ["how do lyft earnings offset the cost","earnings offset rental cost","lyft earnings cover rental cost","earnings go toward rental"],
+ a: "Your Lyft earnings accumulate throughout the week and automatically cover your rental. Any remaining balance after Monday 4:59 AM is charged to your card on Tuesday." },
+
+
+ { k: ["what happens to my deposit","deposit if i return","deposit when i return","what about my deposit when returning"],
+ a: "Your deposit is refunded within 3 weeks of contract close, minus any outstanding balance. It goes to the original card on file at pickup." },
+
 ];
 
 // ── CONVERSATION CONTEXT RESOLVER ────────────────────────────────────────────
@@ -5734,6 +6095,19 @@ function sendMessage() {
 
  if ((wantsOffice || match.needsRegion) && userRegion && VENDORS[userRegion] && !wantsVendor) {
  var office = VENDORS[userRegion].office;
+
+ // My office quick answer — inline card for known region
+ if (match.myOfficeCard && office) {
+ var regionData = VENDORS[userRegion];
+ var officeMsg = 'Your Flexdrive office:\n' + office.address + '\nHours: ' + office.hours;
+ if (userRegion === 'PDX') officeMsg += '\nNo tolls in this region.';
+ removeTyping();
+ renderMessage('assistant', officeMsg);
+ isTyping = false;
+ setTimeout(function() { appendQuickActions(true, false); }, 400);
+ return;
+ }
+
  if (match.topic === 'Return vehicle / end rental') {
  if (userRegion === 'LAX') {
  responseText = responseText.replace('\n- Minimum rental period is 7 days', '');
