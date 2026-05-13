@@ -533,7 +533,6 @@
  100% { opacity: 1; transform: scale(1) translateY(0); }
  }
  .quick-btn:hover { background: #F0F4F8; border-color: #B8C8D8; }
-  .quick-btn.hot-topic::before { content: "\1F525\00A0"; font-size: 12px; }
  .quick-btn:active { background: var(--navy); color: var(--white); border-color: var(--navy); transform: scale(0.96); box-shadow: 0 1px 4px rgba(0,59,113,0.2); }
 
  /* RENTAL AGREEMENT BUTTON */
@@ -589,6 +588,16 @@
     animation: talkBtnEntrance 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s both;
   }
   .talk-btn:active { filter: brightness(0.88); transform: scale(0.96); }
+  .emergency-banner {
+    display: flex; align-items: center; gap: 10px;
+    background: #D93025; color: #fff;
+    padding: 10px 14px; border-radius: 12px;
+    margin: 4px 8px 0; font-size: 14px; font-weight: 600;
+    animation: fadeSlideUp 0.3s ease-out both;
+    box-shadow: 0 2px 8px rgba(217,48,37,0.35);
+  }
+  .emergency-banner a { color: #fff; text-decoration: underline; font-weight: 700; }
+  .emergency-banner-icon { font-size: 18px; flex-shrink: 0; }
 
  /* SEND A MESSAGE BUTTON */
  .send-msg-btn {
@@ -1935,6 +1944,12 @@ var KNOWLEDGE_BASE = [
  keywords: ["nail in my tire", "nail in tire", "nail in tire nail", "tire blew out", "flat tire", "tire flat", "blowout", "tire blew", "tire puncture", "got a flat", "flat", "tire popped", "tire went flat", "ran over nail", "screw in tire", "sidewall damage", "tire damage", "tire blown", "rim damage", "tire leak", "slow leak", "losing air", "tire losing air", "low tire", "deflated tire", "tire problem"],
  response: "If you have a flat tire, please call Holman at (833) 274-5938. They will tow the vehicle to the nearest approved vendor location for service. This is covered under your roadside assistance.\n\nDo not attempt to drive on a flat tire, and do not take the vehicle to a non-approved shop - you will not be reimbursed for service at unapproved locations.\n\nIf you have CDW (Collision Damage Waiver) protection, flat tire service is covered under your plan."
  },
+  {
+    topic: "Car won't start",
+    keywords: ["my car won't start", "car won't start", "car not starting", "car doesn't start", "car wont start", "car not turning on", "won't turn on", "car is dead", "car died", "engine won't start", "car not responding", "push to start not working", "car clicks but won't start", "car just clicks", "nothing happens when i start", "car making clicking noise", "car not starting at all", "vehicle won't start", "can't start my car", "turn key nothing happens"],
+    roadsideAccordion: true,
+    response: "Call Holman immediately at (833) 274-5938 \u2014 available 24/7. They will diagnose and arrange service.\n\nWhile you wait:\n\u2022 Stay with the vehicle if safe\n\u2022 Turn on hazard lights\n\u2022 Do NOT attempt to jump-start or push-start the vehicle yourself\n\u2022 Do NOT call Allstate \u2014 Holman is your roadside provider"
+  },
  {
  topic: "Roadside assistance / Holman / towing / lockout",
  keywords: ["my car has broken down", "car broken down", "broken down", "my car is not working", "car is not working", "issue with my car", "problem with my car", "something wrong with my car", "car won't move", "my car broke down", "car broke down", "stuck on the road", "locked out of my car", "keys locked in car", "i need a tow", "roadside", "tow", "towing", "lockout", "locked out", "keys locked", "stranded", "broke down", "breakdown", "won't start", "dead battery", "holman", "emergency", "windshield", "roadside help", "need a tow", "car won't move", "stuck", "car died", "stalled", "car stopped working", "broke down on the road", "tow truck", "need tow truck", "help on the road", "car trouble", "car emergency", "need roadside", "stranded on the side of the road", "locked my keys in", "locked keys in car", "keys in car", "can't get in my car", "car not starting", "jump start", "jump", "dead", "battery dead", "battery died", "tow charge", "charged for tow", "roadside charge", "roadside fee", "holman charge", "flat tire", "chip", "cracked windshield", "glass repair", "allstate roadside", "do i pay for roadside", "is roadside free", "roadside abuse", "fuel delivery", "ran out of gas", "out of gas", "car is on fire", "car on fire", "my car is burning", "burning", "fire", "smoke coming from car", "car smoking", "engine on fire", "vehicle on fire", "flames"],
@@ -1973,6 +1988,11 @@ var KNOWLEDGE_BASE = [
  vehicleRulesAccordion: true,
  response: "Here is how toll charges work on your Flexdrive rental:"
  },
+  {
+    topic: "I got pulled over",
+    keywords: ["i got pulled over", "got pulled over", "police pulled me over", "cop pulled me over", "officer pulled me over", "police stopped me", "cop stopped me", "getting pulled over", "being pulled over", "pulled over right now", "officer is stopping me", "police behind me", "cop behind me", "lights flashing behind me", "police lights", "getting a ticket", "officer wants my documents", "officer asking for registration", "what do i show the officer", "what do i say to the cop", "what to do if pulled over", "i see police lights"],
+    response: "Stay calm. Here is what to do:\n\n\u2022 Pull over safely to the right and turn off the engine\n\u2022 Keep your hands visible on the steering wheel\n\u2022 When asked, provide your driver's license, and tell the officer this is a Flexdrive rental vehicle\n\u2022 The vehicle registration and insurance documents are in the glovebox\n\nAfter the stop:\n\u2022 If you received a ticket, Flexdrive will handle payment and charge your account plus an admin fee of up to $50\n\u2022 Report it to Lyft as soon as possible\n\u2022 Need a copy of the ticket? Tap Send a Message below"
+  },
  {
  topic: "Traffic / parking violation",
  keywords: ["ticket", "violation", "parking", "citation", "fine", "speeding", "red light", "traffic ticket", "got a ticket", "parking ticket", "speeding ticket", "traffic violation", "camera ticket", "red light camera", "school zone ticket", "camera flashed me", "camera flash", "photo ticket", "photo enforcement", "i got flashed", "speed camera", "traffic camera", "camera got me", "photo violation", "i wasn't doing anything wrong", "i didn't do anything wrong", "got pulled over", "police stopped me", "cop stopped me", "citation notice", "flexdrive sent me a ticket", "ticket on the car", "ticket notification", "admin fee", "processing fee", "violation fee", "fix a ticket", "expired registration ticket", "meter ticket"],
@@ -2083,8 +2103,8 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Lyft app issue / earnings problem",
- keywords: ["lyft app", "app issue", "can't go online", "app not working", "earnings wrong", "ride issue", "passenger", "rating", "lyft support", "lyft problem", "app crashing", "app glitch", "app bug", "app error", "lyft not working", "driver app broken", "can't accept rides", "rides not coming", "no requests", "app won't open", "lyft account problem", "low rating", "rating dropped", "bad review", "passenger report", "lyft bonus", "quest bonus", "streak bonus", "ride bonus", "lyft pay issue", "lyft earnings", "streak"],
- response: "For questions related to the Lyft app, ride issues, earnings, going online, or your driver account, please contact Lyft support directly through the Lyft Driver App or visit help.lyft.com.\n\nOur team handles Flexdrive rental-specific questions including:\n- Vehicle maintenance and service\n- Billing and rental charges\n- Vehicle issues and swaps\n- Your rental account and protection plan\n\nFor anything related to the Lyft platform (rides, passengers, earnings, deactivation), the Lyft support team will be able to assist you."
+    keywords: ["lyft app", "app issue", "can't go online", "app not working", "app stopped working", "lyft app stopped working", "lyft not working", "can't get online", "app won't load", "app keeps crashing", "app is down", "lyft is down", "app not opening", "lyft app won't open", "can't accept rides", "rides not coming", "no ride requests", "app glitch", "app error", "app bug", "driver app broken", "app freezing", "app frozen", "stuck on loading", "loading screen", "earnings wrong", "lyft earnings", "ride issue", "passenger", "rating", "lyft support", "lyft problem", "lyft account problem", "low rating", "rating dropped", "bad review", "passenger report", "lyft bonus", "quest bonus", "streak bonus", "lyft pay issue", "streak", "can't connect", "connection error"],
+    response: "Sorry to hear that — app issues are frustrating when you need to work.\n\nTry these steps:\n\u2022 Force close the Lyft app and reopen it\n\u2022 Check your internet connection\n\u2022 Toggle airplane mode on for 5 seconds, then off\n\u2022 Restart your phone\n\u2022 Make sure the Lyft Driver App is up to date\n\nStill not working? Contact Lyft support directly:\n\u2022 In-app: Menu \u2192 Help \u2192 Call Support\n\u2022 Or visit help.lyft.com\n\nFlexdrive handles your rental, vehicle, and billing. For app, ride, earnings, or Lyft account issues, Lyft support is the right contact and available 24/7."
  },
  {
  topic: "What is Flexdrive / Express Drive",
@@ -2632,6 +2652,7 @@ var RELATED_TOPICS = {
  "Partial payments / repayment plan / Foundever": ["Overdue balance / how to pay", "Card charged unexpectedly", "Collections / sent to collections"],
  "Oil change / maintenance location": ["Dashboard maintenance light / check engine", "Charged for maintenance at vendor", "Flat tire"],
  "Flat tire": ["Roadside assistance / Holman / towing / lockout", "CDW / protection plan", "Oil change / maintenance location"],
+  "Car won't start": ["Roadside assistance / Holman / towing / lockout", "Key lost / locked out", "Dashboard maintenance light / check engine"],
  "Roadside assistance / Holman / towing / lockout": ["Flat tire", "Accident / car was hit", "Windshield / glass damage"],
  "Accident / car was hit": ["Damage charges / not at fault", "CDW / protection plan", "Roadside assistance / Holman / towing / lockout"],
  "Damage charges / not at fault": ["CDW / protection plan", "Accident / car was hit", "Insurance coverage"],
@@ -2641,6 +2662,7 @@ var RELATED_TOPICS = {
  "Deposit refund": ["Return vehicle / end rental", "Overdue balance / how to pay", "Card charged unexpectedly"],
  "Swaps": ["Return vehicle / end rental", "Need replacement vehicle", "Dashboard maintenance light / check engine"],
  "Lyft deactivation": ["Return vehicle / end rental", "Overdue balance / how to pay", "Contact info / phone number / how to reach Flexdrive"],
+  "EV low charge / turtle mode": ["EV / electric vehicle", "Roadside assistance / Holman / towing / lockout", "Dashboard maintenance light / check engine"],
  "EV / electric vehicle": ["Oil change / maintenance location", "Roadside assistance / Holman / towing / lockout", "Gas / fuel level at return"],
  "Inspections": ["Oil change / maintenance location", "Dashboard maintenance light / check engine", "Swaps"],
  "Picking up my vehicle / reservation": ["What is included in my rental", "CDW / protection plan", "Oil change / maintenance location"],
@@ -2687,6 +2709,7 @@ var RELATED_TOPICS = {
   "Speak to a manager / escalation": ["Contact info / phone number / how to reach Flexdrive", "Office hours / office location", "What is Flexdrive / Express Drive"],
   "Speeding ticket": ["Traffic / parking violation", "Camera / photo ticket", "Parking ticket"],
   "Toll charge": ["Billing week / when am I charged", "Card charged unexpectedly", "Traffic / parking violation"],
+  "I got pulled over": ["Traffic / parking violation", "Speeding ticket", "Get a copy of my ticket"],
   "Traffic / parking violation": ["Speeding ticket", "Parking ticket", "Camera / photo ticket"],
   "Vehicle repossessed / belongings": ["Overdue balance / how to pay", "Partial payments / repayment plan / Foundever", "Collections / sent to collections"],
   "What is Flexdrive / Express Drive": ["Eligibility / requirements to rent", "Rental cost / weekly rate", "Where is Flexdrive available"],
@@ -2720,6 +2743,7 @@ var FOLLOWUP_QUESTIONS = {
  "Windshield / glass damage": ["Does CDW cover glass damage?","Who do I call for windshield repair?","How much does glass damage cost without CDW?"],
  "Dashboard maintenance light / check engine": ["Where should I take the car?","What lights are urgent?","Who do I call if the car is unsafe?"],
  "Oil change / maintenance location": ["How do I find an approved vendor?","What do I say at the shop?","Is oil change covered?"],
+  "EV low charge / turtle mode": ["Can I still drive in turtle mode?","Will I be charged for the tow if I run out?","How do I find the nearest charger?"],
  "EV / electric vehicle": ["How do I set up EVgo discounts?","What is turtle mode?","What charge level do I need to return at?"],
  "Inspections": ["What do I do with an inspection email?","Where do I get an inspection?","What happens if I miss my inspection?"],
  "How to extend / renew rental": ["Does my rental auto-renew?","What are the renewal requirements?","How do I end my rental?"],
@@ -2767,6 +2791,7 @@ var FOLLOWUP_QUESTIONS = {
   "Pets in the vehicle": ["Are pets allowed in the car?","What is the cleaning fee for pets?","What counts as a prohibited use?"],
   "Rental agreement / contract / terms": ["Where do I find my rental agreement?","What are the key rules in my contract?","What happens if I break the terms?"],
   "Smoking in the vehicle": ["What is the smoking fee?","What if the car smelled like smoke when I got it?","What counts as a prohibited use?"],
+  "I got pulled over": ["Do I need to report this to Lyft?","What documents do I show the officer?","Will I be charged a fee for the ticket?"],
   "Speeding ticket": ["Will Flexdrive pay my speeding ticket?","How much is the admin fee?","How do I get a copy of my ticket?"],
   "Vehicle makes noise / strange sound": ["Where should I take the car?","Is this covered by Flexdrive?","Should I stop driving if I hear a noise?"],
   "Vehicle smells / odor complaint": ["How do I report a car that smells?","Can I swap for a different vehicle?","Who do I contact about a pickup issue?"],
@@ -4318,7 +4343,7 @@ function renderEVAccordion() {
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#E6930A;font-weight:700;">!</div><div><strong>12V Battery Drain</strong> — if the car will not start or shows electrical issues. Can happen if left in Accessory Mode. Call Holman.</div></div>',
  '</div>',
  '<div class="ac-holman"><span class="ac-holman-icon" style="font-size:16px;font-weight:700;">24/7</span><div><div style="font-weight:700;margin-bottom:2px;">Holman Roadside</div><a href="tel:8332745938">(833) 274-5938</a><div style="font-size:12px;opacity:0.8;margin-top:2px;">Towing charges may apply for non-emergency situations</div></div></div>'
- ].join(''));
+ ].join(''), true);
 
  // ── 6. CHARGING SUPPORT ───────────────────────────────────────
  makeAccordionItem(c, 'Charging Station Support', '', [
@@ -4353,16 +4378,16 @@ function renderEVAccordion() {
  return c;
 }
 
-function makeAccordionItem(container, title, emoji, htmlContent) {
- var item = document.createElement('div');
- item.className = 'ev-accordion-item';
- var header = document.createElement('button');
- header.className = 'ev-accordion-header';
- header.innerHTML = emoji + ' ' + title + '<span class="ev-accordion-icon">&#9660;</span>';
- var body = document.createElement('div');
- body.className = 'ev-accordion-body';
- body.style.whiteSpace = 'normal';
- body.innerHTML = htmlContent;
+function makeAccordionItem(container, title, emoji, htmlContent, autoOpen) {
+  var item = document.createElement('div');
+  item.className = 'ev-accordion-item';
+  var header = document.createElement('button');
+  header.className = 'ev-accordion-header';
+  header.innerHTML = emoji + ' ' + title + '<span class="ev-accordion-icon">&#9660;</span>';
+  var body = document.createElement('div');
+  body.className = 'ev-accordion-body';
+  body.style.whiteSpace = 'normal';
+  body.innerHTML = htmlContent;
  header.addEventListener('click', function() {
  var isOpen = body.style.display === 'block';
  var bodies = container.querySelectorAll('.ev-accordion-body');
@@ -4387,7 +4412,13 @@ function makeAccordionItem(container, title, emoji, htmlContent) {
         }, 80);
  }
  });
- item.appendChild(header); item.appendChild(body); container.appendChild(item);
+  // Auto-open if requested
+  if (autoOpen) {
+    body.style.display = 'block';
+    header.classList.add('open');
+    item.classList.add('is-open');
+  }
+  item.appendChild(header); item.appendChild(body); container.appendChild(item);
 }
 
 function renderAccidentAccordion() {
@@ -4405,7 +4436,7 @@ function renderAccidentAccordion() {
  '<div class="ac-holman"><span class="ac-holman-icon"></span><div><div style="font-weight:700;margin-bottom:2px;">Holman Roadside — 24/7</div><a href="tel:8332745938">(833) 274-5938</a><div style="font-size:12px;opacity:0.8;margin-top:2px;">Do NOT have it towed to a random shop</div></div></div>',
  '<div class="ac-step"><div class="ac-step-num">5</div><div class="ac-step-body"><strong>Car IS drivable?</strong><br>Bring it to your Flexdrive office as soon as possible for inspection.</div></div>',
  '<div class="ac-callout warn"><strong>Important Reminders</strong>• You will be placed on the Do Not Rent list immediately after reporting — regardless of fault.<br>• Rental charges continue until the vehicle is returned to the office. Return it quickly.</div>'
- ].join(''));
+ ].join(''), true);
 
  // 2. DAMAGE CHARGES & DEDUCTIBLE 
  makeAccordionItem(c, 'Damage Charges & Deductible', '', [
@@ -4593,7 +4624,7 @@ function renderRoadsideAccordion() {
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>If on a highway, move away from traffic</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">-</div><div>Do not attempt to repair the vehicle yourself</div></div>',
  '</div>'
- ].join(''));
+ ].join(''), true);
 
  // ── 2. FLAT TIRE ──────────────────────────────────────────────
  makeAccordionItem(c, 'Flat Tire', '', [
@@ -5353,6 +5384,8 @@ var CARD_ANSWERS = [
  { k: ["ev wont charge","ev not charging","ev charging not working","plugged in not charging","charger not working ev","ev not taking charge"],
  a: "Try a different charging station first. If the EV still won't charge, the 12V auxiliary battery (separate from the main drive battery) may be drained — this can prevent charging. Call Holman at (833) 274-5938 or take to an approved vendor." },
 
+  { k: ["running out of charge","almost out of charge","low battery ev","ev battery dying","ev battery low","battery almost dead ev","running low on battery","ev running out","almost dead","charge almost gone","nearly out of charge","ev low charge","about to run out","turtle mode","power limited","power limited warning","turtle icon","ev turtle","car slowing down ev","ev losing power","need to charge now","ev emergency","can't make it to charger"],
+    a: "Find the nearest charger immediately.\n\nUse the Lyft Driver App: Menu \u2192 Electric Vehicle Hub \u2192 Charging Stations.\n\nIf you cannot make it to a charger:\n\u2022 Pull over safely\n\u2022 Call Holman at (833) 274-5938 for a tow\n\u2022 Do NOT run the battery completely to zero\n\u2022 Do NOT drive in turtle mode for extended distances\n\nNote: If you ran the battery out without a mechanical reason, a towing charge may apply." },
  { k: ["12v battery ev","ev auxiliary battery","12v dead ev","ev wont unlock","ev electrical issue","ev wont start","auxiliary battery"],
  a: "EVs have a 12V auxiliary battery separate from the main drive battery. If your EV won't start, won't unlock remotely, or shows electrical issues even with a full main battery, the 12V may be dead. Call Holman at (833) 274-5938." },
 
@@ -6182,10 +6215,39 @@ function getAriGreeting() {
   return greetings[Math.floor(Math.random() * greetings.length)];
 }
 
+var EMERGENCY_REGEX = /\b(pulled over|police lights|cop pulled|turtle mode|running out of charge|out of charge|power limited|accident|crash|hit.*car|car.*hit|broke down|breakdown|won.t start|wont start|flat tire|locked out|lockout|tow|towing|on fire|car.*fire|stolen|unsafe|emergency|911|need help now|car.*won.t|engine.*smoke|smoke.*engine|car.*dead|dead.*battery)\b/i;
+var _emergencyBannerEl = null;
+
+function showEmergencyBanner() {
+  if (_emergencyBannerEl) return;
+  var banner = document.createElement('div');
+  banner.className = 'emergency-banner';
+  banner.innerHTML = '&#128680; Roadside emergency? Call <a href="tel:8332745938">(833) 274-5938</a> &mdash; Holman 24/7';
+  var ca = document.getElementById('chatArea');
+  if (ca) ca.insertBefore(banner, ca.firstChild);
+  _emergencyBannerEl = banner;
+  setTimeout(function() { hideEmergencyBanner(); }, 90000);
+}
+
+function hideEmergencyBanner() {
+  if (_emergencyBannerEl) {
+    _emergencyBannerEl.style.opacity = '0';
+    _emergencyBannerEl.style.transition = 'opacity 0.4s';
+    setTimeout(function() {
+      if (_emergencyBannerEl && _emergencyBannerEl.parentNode) _emergencyBannerEl.parentNode.removeChild(_emergencyBannerEl);
+      _emergencyBannerEl = null;
+    }, 400);
+  }
+}
+
 function sendMessage() {
  userInput.removeAttribute('readonly'); // ensure value is readable
  var text = userInput.value.trim();
  if (!text || isTyping || awaitingLocation) return;
+
+  // Emergency shortcut — show Holman banner instantly before typing delay
+  if (EMERGENCY_REGEX.test(text)) showEmergencyBanner();
+
 
  renderMessage('user', text);
  messages.push({ role: 'user', content: text });
@@ -7204,16 +7266,18 @@ if (scrollBtn) {
 // ── INPUT HINT ───────────────────────────────────────────────────────────────
 // ── ROTATING PLACEHOLDER OVERLAY ─────────────────────────────────────────────
 var placeholderTexts = [
- 'Ask a question...',
- 'Try: "How do I dispute my miles?"',
- 'Try: "What does CDW cover?"',
- 'Try: "When do I get my deposit back?"',
- 'Try: "My car has broken down"',
- 'Try: "How do I return my vehicle?"',
- 'Try: "Why did my miles go up?"',
- 'Try: "Holman number"',
- 'Try: "Is oil change covered?"',
- 'Try: "What is the billing week?"',
+  'Ask a question...',
+  'Try: "My car broke down"',
+  'Try: "I was in an accident"',
+  'Try: "Holman number"',
+  'Try: "I got a ticket"',
+  'Try: "How do I return my vehicle?"',
+  'Try: "Is oil change covered?"',
+  'Try: "What does CDW cover?"',
+  'Try: "My check engine light is on"',
+  'Try: "When do I get my deposit back?"',
+  'Try: "How do I change my mileage plan?"',
+  'Try: "I got a parking ticket"',
 ];
 var placeholderIndex = 0;
 var placeholderTimer = null;
