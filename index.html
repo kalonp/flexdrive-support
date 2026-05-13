@@ -3482,7 +3482,7 @@ function renderMarketsGrid() {
 
  markets.forEach(function(m) {
  var stateBlock = document.createElement('div');
- stateBlock.style.cssText = 'margin-bottom:10px;';
+ stateBlock.style.cssText = 'margin-bottom:6px;';
 
  var stateLabel = document.createElement('div');
  stateLabel.className = 'ac-section-label';
@@ -3495,7 +3495,7 @@ function renderMarketsGrid() {
 
  m.cities.forEach(function(city) {
  var pill = document.createElement('div');
- pill.style.cssText = 'background:#EEF3FA;border:1.5px solid #D0DCF0;border-radius:20px;padding:4px 12px;font-size:13px;color:#003B71;font-weight:600;';
+ pill.style.cssText = 'background:#EEF3FA;border:1.5px solid #D0DCF0;border-radius:14px;padding:2px 8px;font-size:12px;color:#003B71;font-weight:600;';
  pill.textContent = city;
  cityRow.appendChild(pill);
  });
@@ -6357,15 +6357,8 @@ function sendMessage() {
  renderMessage('assistant', getAriGreeting() + responseText, recoveryCards);
  } else if (match.useLocationCards) {
  var locationCards = renderLocationCards();
- // Append directly without an empty bubble
- var locRow = document.createElement('div');
- locRow.className = 'msg-row assistant';
- locRow.style.flexDirection = 'column';
- locRow.style.alignItems = 'stretch';
- locRow.appendChild(locationCards);
- chatArea.appendChild(locRow);
- scrollToElement(locRow);
-      setTimeout(function() { appendQuickActions(true, false); }, 600);
+ renderMessage('assistant', 'Here is your nearest Flexdrive office:', locationCards);
+ setTimeout(function() { appendQuickActions(true, false); }, 600);
  } else if (match.roadsideAccordion) {
  var roadsideAccordion = renderRoadsideAccordion();
  renderMessage('assistant', responseText, roadsideAccordion);
