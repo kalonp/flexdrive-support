@@ -3832,28 +3832,6 @@ function renderProtectionAccordion() {
  ].join(''));
 
  // ── 5. INSURANCE COVERAGE BY PERIOD ──────────────────────────
- makeAccordionItem(c, 'Insurance Coverage by Driving Period', '', [
- '<div class="ac-callout info"><strong>Coverage Varies by What You Are Doing</strong>Your Flexdrive rental includes insurance that adjusts based on whether your app is off, waiting for a ride, or on a trip.</div>',
- '<div class="ac-section-label">Period 0 — App Off (Personal Driving)</div>',
- '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Physical damage: Flexdrive may provide coverage regardless of fault. $1,000 deductible applies.</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Liability: Flexdrive may cover bodily injury and property damage to third parties. Limits vary by state.</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Uninsured/Underinsured Motorist: Coverage may apply. See your rental agreement.</div></div>',
- '</div>',
- '<div class="ac-callout warn"><strong>Personal Insurance May Be Primary (Period 0)</strong>Depending on your state, your personal insurance may apply first:<br>Excess (after personal insurance): AZ, CO, GA, NC, OH, OR, RI, TN, TX, WA, WI<br>Secondary: CA<br>Primary (Flexdrive primary): DC, MA, MD, MI, VA<br>50/50 split: PA</div>',
- '<div class="ac-section-label">Period 1 — App On, Waiting for a Ride</div>',
- '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Physical damage: Covered regardless of fault. $1,000 deductible.</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Liability: Bodily injury and property damage to third parties covered. Limits vary by state.</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Uninsured/Underinsured Motorist: May apply.</div></div>',
- '</div>',
- '<div class="ac-section-label">Period 2 & 3 — Ride Accepted Through Drop-Off</div>',
- '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Physical damage: Covered regardless of fault. $1,000 deductible.</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Liability: Up to $1,000,000 per accident for bodily injury and property damage. (Maryland: $125,000 per state requirement)</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Uninsured/Underinsured Motorist: May apply.</div></div>',
- '</div>'
- ].join(''));
 
  return c;
 }
@@ -3983,7 +3961,7 @@ function renderReturnAccordion() {
  makeAccordionItem(c, 'Timing & After-Hours Returns', '', [
  '<div class="ac-callout warn"><strong>Weekend / After-Hours Returns</strong>Your rental contract will not close until the next business day. You will be charged through that date.</div>',
  '<div class="ac-section-label">After-Hours Drop Box</div>',
- '<div class="ac-callout info"><strong>Key Drop Location</strong>Our overnight drop box is located to the right of the mailbox at the office. Use this for after-hours key drop-offs — but note your contract does not close until the next business day.</div>',
+ '<div class="ac-callout info"><strong>Key Drop Location</strong>Use the overnight drop box at the office for after-hours key drop-offs — but note your contract does not close until the next business day.</div>',
  '<div class="ac-section-label">Business Hours</div>',
  '<div class="ac-gate">',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">M–F</div><div>9:00 AM – 5:00 PM</div></div>',
@@ -5066,7 +5044,7 @@ var CARD_ANSWERS = [
  a: "Return the vehicle with: interior vacuumed and wiped down, exterior washed, fuel or charge at the same level as pickup, and all keys/accessories. Fees apply if cleaning or fueling requirements are not met." },
 
  { k: ["after hours return","night return","weekend return","return on weekend","return after 5pm","drop box return"],
- a: "You can use the overnight drop box to the right of the mailbox at the office. Your rental contract will NOT close until the next business day and charges continue through that date." },
+ a: "You can use the overnight drop box at the office. Your rental contract will NOT close until the next business day and charges continue through that date." },
 
  { k: ["minimum rental period","minimum rental","7 day minimum","early return","can i return early","return before 7 days"],
  a: "The minimum rental period is 7 days. Your rental auto-renews each week as long as you meet requirements. To return, schedule in the Lyft Driver App: Vehicle tab → Schedule a return." },
@@ -5353,13 +5331,13 @@ var CARD_ANSWERS = [
 
  // ── RETURN — keys / after hours / late ───────────────────────
  { k: ["return the keys","where to drop keys","key drop return","where is key drop","where to leave keys"],
- a: "During business hours: check in with a Flexdrive associate. After hours: use the overnight drop box to the right of the mailbox at the office. Your contract closes the next business day." },
+ a: "During business hours: check in with a Flexdrive associate. After hours: use the overnight drop box at the office. Your contract closes the next business day." },
 
  { k: ["what if i return late","consequences of late return","returned late","overdue vehicle","vehicle not returned on time"],
  a: "Flexdrive may repossess the vehicle without notice if not returned after your rental ends. A $500 repossession fee may apply and you will be placed on the Do Not Rent list. In Arizona, failure to return within 72 hours is a Class 5 Felony." },
 
  { k: ["after hours key drop","key drop after hours","overnight drop box","night drop","drop box location","where is the drop box"],
- a: "The overnight drop box is located to the right of the mailbox at your Flexdrive office. Drop your keys after hours — but note your rental contract does not close until the next business day and charges continue until then." },
+ a: "The overnight drop box is at your Flexdrive office. Drop your keys after hours — but note your rental contract does not close until the next business day and charges continue until then." },
 
  // ── CDW — PCDW add/remove ─────────────────────────────────────
  { k: ["add pcdw","get pcdw","pcdw how to add","low deductible how to add","sign up for pcdw","enroll pcdw"],
@@ -5504,7 +5482,7 @@ var CARD_ANSWERS = [
 
  // ── CDW — worth it / no CDW consequences ──────────────────────
  { k: ["cdw worth it","is cdw worth it","should i get cdw","do i need cdw","is cdw necessary"],
- a: "Without CDW: up to $2,000 per incident. With CDW: $0. Cannot be added after an incident — decide before you drive." },
+    a: "Without CDW: up to $1,000 per incident (plus tax/fees). With CDW: $0 deductible. With PCDW: reduced deductible.\n\nCDW cannot be added after an incident — decide before you drive. Visit the office in person to add CDW to your rental.", topic: "CDW / protection plan" },
 
  { k: ["what happens without cdw","no cdw accident","accident without cdw","no protection plan accident"],
  a: "Without CDW: you are responsible for up to $1,000 for the deductible and up to $1,000 for glass damage — regardless of who was at fault. Both charges can apply to the same incident, up to $2,000 total." },
@@ -5655,7 +5633,7 @@ var CARD_ANSWERS = [
 
  // Return
  { k: ["can i return after hours","after hours return how","return outside office hours","return when office closed"],
- a: "Yes — use the overnight drop box to the right of the mailbox at the office. Your contract closes the next business day and charges continue until then." },
+ a: "Yes — use the overnight drop box at the office. Your contract closes the next business day and charges continue until then." },
 
  { k: ["when does my contract officially close","contract close date","when does rental officially end","contract closed when"],
  a: "Your contract closes when a Flexdrive associate processes your return during business hours (Mon–Fri 9AM–5PM). After-hours drop-box returns close the next business day." },
@@ -6266,37 +6244,14 @@ function sendMessage() {
  isTyping = false;
  // If answer has vendor button, append a Find vendor quick link
  if (cardResult.showVendorBtn) {
- setTimeout(function() {
- var vendorBtn = document.createElement('button');
- vendorBtn.className = 'quick-btn';
- vendorBtn.style.cssText = 'background:var(--navy);color:#fff;border-color:var(--navy);font-weight:700;';
- vendorBtn.textContent = 'Find a maintenance vendor';
- vendorBtn.addEventListener('click', function() {
- haptic();
- trackQuickLinkClick('Find a maintenance vendor');
- userInput.removeAttribute('readonly');
- userInput.value = 'Find a maintenance vendor';
- sendBtn.disabled = false;
- sendMessage();
- });
- var row = document.createElement('div');
- row.className = 'msg-row assistant';
- var av = document.createElement('div');
- av.className = 'msg-avatar';
- setAvatarText(av);
- var wrap = document.createElement('div');
- wrap.className = 'quick-actions';
- var label = document.createElement('div');
- label.style.cssText = 'font-size:11px;font-weight:700;color:#7D868C;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;width:100%;';
- label.textContent = 'Quick action';
- wrap.appendChild(label);
- wrap.appendChild(vendorBtn);
- row.appendChild(av);
- row.appendChild(wrap);
- chatArea.appendChild(row);
- scrollToElement(row);
- }, 400);
-      } else {
+   if (userRegion && VENDORS[userRegion] && VENDORS[userRegion].vendors.length > 0) {
+     var vRegion = VENDORS[userRegion];
+     var vendorCards = renderVendorCards(vRegion.vendors);
+     setTimeout(function() { renderMessage('assistant', 'Here are the approved vendors in the ' + vRegion.regionName + ' area:', vendorCards); }, 400);
+   } else {
+     lastMatch = cardResult;
+     setTimeout(function() { appendQuickActions(true, false); }, 400);
+   }
         lastMatch = cardResult;
         if (cardResult.sendMsgBtn) {
           setTimeout(function() {
@@ -6370,11 +6325,11 @@ function sendMessage() {
  if (match.topic === 'Return vehicle / end rental') {
  if (userRegion === 'LAX') {
  responseText = responseText.replace('\n- Minimum rental period is 7 days', '');
- responseText = responseText.replace('\n- For after-hours returns, our overnight drop box is located to the right of the mailbox at the office', '\n- After-hours and weekend returns are not available at the LAX office. Returns must be completed during business hours: Monday-Friday, 9:00 AM - 5:00 PM');
+ responseText = responseText.replace('\n- For after-hours returns, use the overnight drop box at the office', '\n- After-hours and weekend returns are not available at the LAX office. Returns must be completed during business hours: Monday-Friday, 9:00 AM - 5:00 PM');
  responseText = responseText.replace('\n- Weekend/after-hours returns: your rental contract will not close until the next business day and you will be charged through that date', '\n- Weekend/after-hours returns: your rental contract will not close until the next business day and you will be charged through that date\n- Your final rental week is prorated — you are only charged for the days remaining when you return');
  responseText += '\n\nReturn your vehicle to the Los Angeles office:\n- Los Angeles: 1754 N Main St, Los Angeles, CA 90031\nHours: Monday-Friday, 9:00 AM - 5:00 PM\n(Monrovia location is temporarily closed)';
  } else if (userRegion === 'SFO') {
- responseText = responseText.replace('\n- For after-hours returns, our overnight drop box is located to the right of the mailbox at the office', '');
+ responseText = responseText.replace('\n- For after-hours returns, use the overnight drop box at the office', '');
  responseText += '\n\nIMPORTANT: After-hours and weekend returns are NOT available at the SFO office. You must return your vehicle during business hours: Monday-Friday, 9:00 AM - 5:00 PM.';
  responseText += '\n\nYour Flexdrive Office:\n' + office.name + '\n' + office.address + '\n' + office.hours;
  } else {
@@ -6410,6 +6365,7 @@ function sendMessage() {
  locRow.appendChild(locationCards);
  chatArea.appendChild(locRow);
  scrollToElement(locRow);
+      setTimeout(function() { appendQuickActions(true, false); }, 600);
  } else if (match.roadsideAccordion) {
  var roadsideAccordion = renderRoadsideAccordion();
  renderMessage('assistant', responseText, roadsideAccordion);
