@@ -7642,20 +7642,31 @@ function stopObserver() {
 
 function activateLanguage(lang) {
   stopObserver();
-  // Clear ALL cached translations to prevent bleed between languages
+
+  // Clear cached translations to prevent bleed between languages
   var keys = [];
-  for (var i = 0; i < sessionStorage.length; i++) {
-    keys.push(sessionStorage.key(i));
-  }
-  keys.forEach(function(k) {
-    if (k && k.indexOf('fd_') === 0) sessionStorage.removeItem(k);
-  });
+  for (var i = 0; i < sessionStorage.length; i++) { keys.push(sessionStorage.key(i)); }
+  keys.forEach(function(k) { if (k && k.indexOf('fd_') === 0) sessionStorage.removeItem(k); });
+
   if (!lang) {
+    // Switching back to English — restore original text via page reload only if needed
+    // For simplicity reload to English so no stale translations linger
+    sessionStorage.removeItem('fd_lang');
+    currentLang = null;
     location.reload();
     return;
   }
+
+  // Store selection and translate in place — no reload, conversation stays intact
   sessionStorage.setItem('fd_lang', lang);
-  location.reload();
+  currentLang = lang;
+  updateBtnLabel();
+
+  // Translate everything currently visible
+  translateFullPage(lang);
+
+  // Watch for new messages and translate them as they appear
+  startObserver(lang);
 }
 
 function updateBtnLabel(override) {
