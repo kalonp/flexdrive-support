@@ -7566,7 +7566,20 @@ function applyMapToNodes(nodes, map) {
   nodes.forEach(function(node) {
     var key = node.nodeValue.trim();
     if (map[key]) {
-      try { node.nodeValue = map[key]; } catch(e) {}
+      try {
+        // Store original text before first translation
+        if (!node._fdOrig) node._fdOrig = node.nodeValue;
+        node.nodeValue = map[key];
+      } catch(e) {}
+    }
+  });
+}
+
+function restoreOriginalNodes(root) {
+  // Walk all text nodes and restore originals if stored
+  getTextNodesIn(root).forEach(function(node) {
+    if (node._fdOrig) {
+      try { node.nodeValue = node._fdOrig; node._fdOrig = null; } catch(e) {}
     }
   });
 }
@@ -7649,11 +7662,13 @@ function activateLanguage(lang) {
   keys.forEach(function(k) { if (k && k.indexOf('fd_') === 0) sessionStorage.removeItem(k); });
 
   if (!lang) {
-    // Switching back to English — restore original text via page reload only if needed
-    // For simplicity reload to English so no stale translations linger
+    // Switching back to English — restore original stored text in place
     sessionStorage.removeItem('fd_lang');
     currentLang = null;
-    location.reload();
+    updateBtnLabel();
+    var roots = [document.getElementById('chatArea'), document.getElementById('app')];
+    document.querySelectorAll('.quick-btn, .talk-btn, .input-disclaimer, .find-location-btn').forEach(function(el) { roots.push(el); });
+    roots.forEach(function(root) { if (root) restoreOriginalNodes(root); });
     return;
   }
 
