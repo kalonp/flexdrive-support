@@ -1345,7 +1345,7 @@
  </div>
  <div class="modal-hours">
  <strong>Mon–Fri, 9:00 AM – 5:00 PM</strong><br>
- This form notifies your local office. If your message doesn't require a response, you may not hear back from us. For urgent issues, contact Lyft support through the Driver App.<br>
+ This form notifies your local office. For urgent issues, contact Lyft support through the Driver App.<br>
  <span id="modalWaitTime" style="display:none;margin-top:6px;font-weight:600;color:#003B71;font-size:13px;"></span>
  </div>
  <div class="modal-row">
@@ -1354,12 +1354,12 @@
  <input class="modal-input" id="cf-name" type="text" placeholder="Your name" />
  </div>
  <div class="modal-field">
- <label class="modal-label" for="cf-phone">Phone (optional)</label>
+ <label class="modal-label" for="cf-phone">Phone *</label>
  <input class="modal-input" id="cf-phone" type="tel" placeholder="(555) 000-0000" />
  </div>
  </div>
  <div class="modal-field">
- <label class="modal-label" for="cf-email">Email Address *</label>
+ <label class="modal-label" for="cf-email" id="cf-email-label">Email Address <span id="cf-email-required" style="display:none;">*</span> <span id="cf-email-optional" style="font-weight:400;text-transform:none;font-size:11px;color:#9BA8B8;">(optional)</span></label>
  <input class="modal-input" id="cf-email" type="email" placeholder="your@email.com" />
  </div>
  <div class="modal-field">
@@ -1367,14 +1367,24 @@
  <div class="modal-select-wrap">
  <select class="modal-select" id="cf-reason">
  <option value="">-- Select a reason --</option>
- <option value="Picking up my vehicle">Picking up my vehicle</option>
- <option value="Dropping off / returning my vehicle">Dropping off / returning my vehicle</option>
+ <option value="Pick-up">Pick-up</option>
+ <option value="Drop-off">Drop-off</option>
  <option value="Inspection photo">Inspection photo</option>
  <option value="Accident re-rental request">Accident re-rental request</option>
             <option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>
             <option value="Other">Other</option>
  </select>
  </div>
+ </div>
+ <div class="modal-field">
+  <label class="modal-label" for="cf-response-pref">Would you like a response? *</label>
+  <div class="modal-select-wrap">
+  <select class="modal-select" id="cf-response-pref" onchange="handleResponsePrefChange(this.value)">
+   <option value="">-- Select --</option>
+   <option value="yes">Yes, email me back</option>
+   <option value="no">No response needed</option>
+  </select>
+  </div>
  </div>
  <div class="modal-field">
  <label class="modal-label" for="cf-message">Message *</label>
@@ -3179,8 +3189,10 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  if (lastMatch && lastMatch.sendMsgBtn && !lastMatch.showTalkBtn) {
  var sendMsgBtn = document.createElement('button');
  sendMsgBtn.className = 'send-msg-btn';
- sendMsgBtn.innerHTML = 'Send a Message';
- sendMsgBtn.addEventListener('click', function() { openContactModal('send'); });
+ sendMsgBtn.innerHTML = 'Talk to Someone';
+      sendMsgBtn.style.background = '#FF00BF';
+      sendMsgBtn.style.color = '#fff';
+ sendMsgBtn.addEventListener('click', function() { openContactModal('talk'); });
  quickActions.appendChild(sendMsgBtn);
  }
 
@@ -6345,8 +6357,10 @@ function sendMessage() {
             var smBtn = document.createElement('button');
             chatArea.querySelectorAll('.talk-btn').forEach(function(b) { if (b.closest('.quick-actions')) b.parentNode.removeChild(b); });
             smBtn.className = 'send-msg-btn';
-            smBtn.innerHTML = 'Send a Message';
-            smBtn.addEventListener('click', function() { openContactModal('send'); });
+            smBtn.innerHTML = 'Talk to Someone';
+            smBtn.style.background = '#FF00BF';
+            smBtn.style.color = '#fff';
+            smBtn.addEventListener('click', function() { openContactModal('talk'); });
             smWrap.appendChild(smBtn);
             smRow.appendChild(smAv);
             smRow.appendChild(smWrap);
@@ -6995,12 +7009,29 @@ function showWelcome() {
 // CONTACT FORM 
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyDGHsVfVnieQhX9B2gi0qCNq96EBRG8zjJC0tB_tFpG3PP32BUm8rS5NHskp8OvL0rbw/exec';
 
+function handleResponsePrefChange(val) {
+  var reqSpan = document.getElementById('cf-email-required');
+  var optSpan = document.getElementById('cf-email-optional');
+  var emailInput = document.getElementById('cf-email');
+  if (val === 'yes') {
+    if (reqSpan) reqSpan.style.display = 'inline';
+    if (optSpan) optSpan.style.display = 'none';
+    if (emailInput) emailInput.setAttribute('required', 'required');
+  } else {
+    if (reqSpan) reqSpan.style.display = 'none';
+    if (optSpan) optSpan.style.display = 'inline';
+    if (emailInput) emailInput.removeAttribute('required');
+  }
+}
+
 function openContactModal(mode) {
  document.getElementById('cf-name').value = '';
  document.getElementById('cf-email').value = '';
  document.getElementById('cf-phone').value = '';
  document.getElementById('cf-reason').value = '';
  document.getElementById('cf-message').value = '';
+  var rp = document.getElementById('cf-response-pref');
+  if (rp) { rp.value = ''; handleResponsePrefChange(''); }
  var isTalk = (mode === 'talk');
  var titleEl = document.getElementById('modalTitle');
  var subtitleEl = document.getElementById('modalSubtitle');
@@ -7062,33 +7093,21 @@ function openContactModal(mode) {
  submitBtn.style.boxShadow = isTalk ? '0 4px 16px rgba(255,0,191,0.35)' : '0 4px 16px rgba(0,59,113,0.35)';
  }
 
- // Swap reason dropdown based on mode
- var reasonSelect = document.getElementById('cf-reason');
- if (reasonSelect) {
- reasonSelect.innerHTML = isTalk
- ? '<option value="">-- Select a reason --</option>' +
- '<option value="Mileage dispute">Mileage dispute</option>' +
- '<option value="Billing question">Billing question</option>' +
- '<option value="Overdue balance / payment plan">Overdue balance / payment plan</option>' +
- '<option value="Vehicle maintenance or service">Vehicle maintenance or service</option>' +
- '<option value="Accident or damage">Accident or damage</option>' +
-'<option value="Accident re-rental request">Accident re-rental request</option>' +
- '<option value="Vehicle return">Vehicle return</option>' +
- '<option value="Vehicle swap or replacement">Vehicle swap or replacement</option>' +
- '<option value="Deposit refund">Deposit refund</option>' +
- '<option value="CDW / protection plan">CDW / protection plan</option>' +
- '<option value="Inspection photo">Inspection photo</option>' +
-'<option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>' +
- '<option value="Lyft deactivation">Lyft deactivation</option>' +
- '<option value="Other">Other</option>'
- : '<option value="">-- Select a reason --</option>' +
- '<option value="Picking up my vehicle">Picking up my vehicle</option>' +
- '<option value="Dropping off / returning my vehicle">Dropping off / returning my vehicle</option>' +
- '<option value="Inspection photo">Inspection photo</option>' +
-'<option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>' +
- '<option value="Accident re-rental request">Accident re-rental request</option>' +
- '<option value="Other">Other</option>';
- }
+  // Single unified reason list
+  var reasonSelect = document.getElementById('cf-reason');
+  if (reasonSelect) {
+    reasonSelect.innerHTML =
+      '<option value="">-- Select a reason --</option>' +
+      '<option value="Pick-up">Pick-up</option>' +
+      '<option value="Drop-off">Drop-off</option>' +
+      '<option value="Inspection photo">Inspection photo</option>' +
+      '<option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>' +
+      '<option value="Accident re-rental request">Accident re-rental request</option>' +
+      '<option value="Mileage dispute">Mileage dispute</option>' +
+      '<option value="Billing question">Billing question</option>' +
+      '<option value="Deposit refund">Deposit refund</option>' +
+      '<option value="Other">Other</option>';
+  }
  document.getElementById('modalFormView').style.display = 'block';
  document.getElementById('modalSuccessView').style.display = 'none';
  document.getElementById('contactModal').classList.add('open');
@@ -7155,14 +7174,19 @@ function submitContactForm() {
  var fileInput = document.getElementById('cf-attachment');
  var file = fileInput && fileInput.files && fileInput.files[0];
 
- if (!name || !email || !reason || !message) {
- alert('Please fill in all required fields.');
- return;
- }
- if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
- alert('Please enter a valid email address.');
- return;
- }
+ var responsePref = document.getElementById('cf-response-pref') ? document.getElementById('cf-response-pref').value : '';
+  if (!name || !phone || !reason || !message || !responsePref) {
+    alert('Please fill in all required fields.');
+    return;
+  }
+  if (responsePref === 'yes' && !email) {
+    alert('Please enter your email address so we can respond to you.');
+    return;
+  }
+  if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    alert('Please enter a valid email address.');
+    return;
+  }
  if (file && file.size > 5 * 1024 * 1024) {
  alert('Attachment must be under 5MB.');
  return;
@@ -7183,15 +7207,15 @@ function submitContactForm() {
  name: file.name,
  type: file.type,
  data: base64Data
- });
+ }, responsePref);
  };
  reader.readAsDataURL(file);
  return;
  }
- doSubmit(name, email, phone, reason, message, regionName, null);
+ doSubmit(name, email, phone, reason, message, regionName, null, responsePref);
 }
 
-function doSubmit(name, email, phone, reason, message, regionName, attachment) {
+function doSubmit(name, email, phone, reason, message, regionName, attachment, responsePref) {
  var btn = document.getElementById('cf-submit');
 
  // Build compact chatbot topic summary — just the topics driver asked about
@@ -7210,9 +7234,10 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment) {
 
  var payload = {
  action: 'contact',
+ responsePref: responsePref || 'not specified',
  name: name,
  email: email,
- phone: phone || 'Not provided',
+ phone: phone,
  message: '[' + reason + ']\n\n' + message,
  chatTranscript: chatTranscript,
  region: userRegion || 'UNKNOWN',
@@ -7235,7 +7260,13 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment) {
  var rName = userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'your regional';
  var successEl = document.getElementById('modalSuccessText');
  if (successEl) {
-   successEl.innerHTML = 'Your message has been sent to the ' + rName + ' office.<br><br>Office hours: Mon\u2013Fri, 9:00 AM \u2013 5:00 PM';
+  if (successEl) {
+    if (responsePref === 'yes') {
+      successEl.innerHTML = 'Your message has been sent. We will email you back during office hours.<br><br><strong>Mon–Fri, 9:00 AM – 5:00 PM</strong>';
+    } else {
+      successEl.innerHTML = 'Your message has been logged. No reply will be sent.<br><br><strong>Mon–Fri, 9:00 AM – 5:00 PM</strong>';
+    }
+  }
  }
  document.getElementById('modalFormView').style.display = 'none';
  document.getElementById('modalSuccessView').style.display = 'block';
