@@ -589,6 +589,26 @@
     animation: talkBtnEntrance 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s both;
   }
   .talk-btn:active { filter: brightness(0.88); transform: scale(0.96); }
+  .did-help-row {
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    animation: fadeIn 0.3s ease both;
+  }
+  .did-help-label {
+    font-size: 12px; color: #7D868C; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    width: 100%; margin-bottom: 2px;
+  }
+  .did-help-btn {
+    border: 1.5px solid #D0DCF0; border-radius: 20px;
+    background: #fff; color: #003C72; font-size: 13px;
+    font-weight: 600; padding: 7px 16px; cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .did-help-btn:hover { border-color: #003C72; background: #EEF3FA; }
+  .did-help-btn.yes { border-color: #003C72; }
+  .did-help-btn.no { border-color: #FF00BF; color: #FF00BF; }
+  .did-help-btn.no:hover { background: #FFF0FA; }
   .emergency-banner {
     display: flex; align-items: center; gap: 10px;
     background: #D93025; color: #fff;
@@ -1676,6 +1696,13 @@ const VENDORS = {
  ], recovery: [], hasTolls: false,
  stateNotes: "Flexdrive may deduct unpaid parking ticket costs directly from your Lyft driver earnings plus an admin fee of up to $30. CDW exclusions include reckless misconduct, DUI, racing, felony/misdemeanor, carrying persons for hire, use outside US/Canada."
  },
+ ORF: {
+  regionName: "Norfolk, VA", state: "Virginia",
+  office: { name: "Virginia Beach Flexdrive", address: "2886 Airline Blvd Suite B, Portsmouth, VA 23702", hours: "Monday-Friday, 9:00 AM - 5:00 PM", phone: null },
+  vendors: [],
+  recovery: [], hasTolls: false,
+  stateNotes: ""
+ },
  PHL: {
  regionName: "Philadelphia, PA", state: "Pennsylvania",
  office: { name: "Flexdrive Philadelphia Office", address: "3945 Frankford Ave, Philadelphia, PA 19124", hours: "Monday-Friday, 9:00 AM - 5:00 PM", phone: null },
@@ -1797,6 +1824,7 @@ const ZIP_TO_REGION = {
  "53": "MKE",
  "19": "PHL",
  "85": "PHX",
+   "23": "ORF",
  "15": "PIT",
  "92": "SAN",
  "94": "SFO", "95": "SFO", "96": "SFO",
@@ -1874,6 +1902,8 @@ const CITY_TO_REGION = {
  "sun city": "PHX", "anthem": "PHX", "cave creek": "PHX", "carefree": "PHX",
  "litchfield park": "PHX", "tolleson": "PHX", "el mirage": "PHX", "youngtown": "PHX",
  "washington": "DC", "washington dc": "DC", "washington d.c.": "DC", "dc": "DC",
+   "norfolk": "ORF", "virginia beach": "ORF", "portsmouth": "ORF", "chesapeake": "ORF",
+   "hampton": "ORF", "newport news": "ORF", "suffolk": "ORF", "orf": "ORF",
  "northern virginia": "DC", "nova": "DC", "vienna": "DC"
 };
 
@@ -2552,7 +2582,8 @@ const REGION_OVERAGE_RATES = {
  LAX: { rate: "$20.00", confirmed: true },
  DAL: { rate: "$20.00", confirmed: true },
  FTW: { rate: "$20.00", confirmed: true },
- PIT: { rate: "$20.00", confirmed: true },
+ ORF: { rate: "$19.00", confirmed: true },
+  PIT: { rate: "$20.00", confirmed: true },
  DEN: { rate: "$21.00", confirmed: true }
 };
 
@@ -3190,26 +3221,75 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  quickActions.appendChild(wrappedBtn);
  }
 
- if (isSubsequentCall && !suppressTalkBtn) {
- var talkBtn = document.createElement('button');
- talkBtn.className = 'talk-btn quick-btn';
- talkBtn.style.animationDelay = '0.3s';
- talkBtn.style.background = '#FF00BF';
- talkBtn.style.color = 'var(--white)';
- 
- talkBtn.innerHTML = 'Talk to Someone';
- talkBtn.addEventListener('click', function() { openContactModal('talk'); });
- quickActions.appendChild(talkBtn);
+ if (!suppressTalkBtn) {
+  // "Did this help?" gate — Talk to Someone only appears if they say No
+  var helpRow = document.createElement('div');
+  helpRow.className = 'did-help-row';
+  var helpLabel = document.createElement('div');
+  helpLabel.className = 'did-help-label';
+  helpLabel.textContent = 'Did this answer your question?';
+  var yesBtn = document.createElement('button');
+  yesBtn.className = 'did-help-btn yes';
+  yesBtn.innerHTML = '&#10003; Yes, thanks';
+  var noBtn = document.createElement('button');
+  noBtn.className = 'did-help-btn no';
+  noBtn.innerHTML = 'No, I still need help';
+  yesBtn.addEventListener('click', function() {
+    haptic();
+    helpRow.innerHTML = '<div style="font-size:13px;color:#7D868C;padding:4px 0;">Glad I could help! Feel free to ask anything else.</div>';
+  });
+  noBtn.addEventListener('click', function() {
+    haptic();
+    helpRow.innerHTML = '';
+    var talkBtn = document.createElement('button');
+    talkBtn.className = 'talk-btn quick-btn';
+    talkBtn.style.background = '#FF00BF';
+    talkBtn.style.color = 'var(--white)';
+    talkBtn.innerHTML = 'Talk to Someone';
+    talkBtn.style.animation = 'talkBtnEntrance 0.4s cubic-bezier(0.34,1.4,0.64,1) both';
+    talkBtn.addEventListener('click', function() { openContactModal('talk'); });
+    quickActions.appendChild(talkBtn);
+    scrollToElement(talkBtn);
+  });
+  helpRow.appendChild(helpLabel);
+  helpRow.appendChild(yesBtn);
+  helpRow.appendChild(noBtn);
+  quickActions.appendChild(helpRow);
  }
-
  if (lastMatch && lastMatch.sendMsgBtn && !lastMatch.showTalkBtn) {
- var sendMsgBtn = document.createElement('button');
- sendMsgBtn.className = 'send-msg-btn';
- sendMsgBtn.innerHTML = 'Talk to Someone';
-      sendMsgBtn.style.background = '#FF00BF';
-      sendMsgBtn.style.color = '#fff';
- sendMsgBtn.addEventListener('click', function() { openContactModal('talk'); });
- quickActions.appendChild(sendMsgBtn);
+  // Use the same Did this help gate for sendMsgBtn path
+  var helpRow2 = document.createElement('div');
+  helpRow2.className = 'did-help-row';
+  var helpLabel2 = document.createElement('div');
+  helpLabel2.className = 'did-help-label';
+  helpLabel2.textContent = 'Did this answer your question?';
+  var yesBtn2 = document.createElement('button');
+  yesBtn2.className = 'did-help-btn yes';
+  yesBtn2.innerHTML = '&#10003; Yes, thanks';
+  var noBtn2 = document.createElement('button');
+  noBtn2.className = 'did-help-btn no';
+  noBtn2.innerHTML = 'No, I still need help';
+  yesBtn2.addEventListener('click', function() {
+    haptic();
+    helpRow2.innerHTML = '<div style="font-size:13px;color:#7D868C;padding:4px 0;">Glad I could help! Feel free to ask anything else.</div>';
+  });
+  noBtn2.addEventListener('click', function() {
+    haptic();
+    helpRow2.innerHTML = '';
+    var smBtn = document.createElement('button');
+    smBtn.className = 'talk-btn quick-btn';
+    smBtn.style.background = '#FF00BF';
+    smBtn.style.color = 'var(--white)';
+    smBtn.innerHTML = 'Talk to Someone';
+    smBtn.style.animation = 'talkBtnEntrance 0.4s cubic-bezier(0.34,1.4,0.64,1) both';
+    smBtn.addEventListener('click', function() { openContactModal('talk'); });
+    quickActions.appendChild(smBtn);
+    scrollToElement(smBtn);
+  });
+  helpRow2.appendChild(helpLabel2);
+  helpRow2.appendChild(yesBtn2);
+  helpRow2.appendChild(noBtn2);
+  quickActions.appendChild(helpRow2);
  }
 
  var row = document.createElement('div');
@@ -3339,7 +3419,7 @@ function renderMessage(role, content, extra) {
  }, 50);
  }
 
- setTimeout(function() { appendQuickActions(!isFirst, suppressTalk); }, isFirst ? 1000 : 800);
+ setTimeout(function() { appendQuickActions(!isFirst, suppressTalk || isFirst); }, isFirst ? 1000 : 800);
  }
  return bubble;
 }
@@ -5223,10 +5303,12 @@ var CARD_ANSWERS = [
  a: "Once your Lyft account is restored and in good standing, contact our office to discuss availability for a new rental." },
 
  // ── VEHICLE RULES ─────────────────────────────────────────────────────────────
- { k: ["cleaning fee","dirty car fee","clean car fee","what is cleaning fee","vehicle cleaning charge"],
- a: "Vehicle Cleaning: $50. Excessive pet hair: $300. Smoke odor: $300. Full detail: $150. Fees are charged when the vehicle is not returned in reasonable condition." },
+ { k: ["cleaning fee","dirty car fee","clean car fee","what is cleaning fee","vehicle cleaning charge","why do i have a cleaning charge","cleaning charge on my account","got charged for cleaning","why was i charged for cleaning","cleaning fee on my bill","got a cleaning fee","cleaning charge dispute","was charged cleaning fee"],
+   a: "Cleaning charges are applied at contract close based on the condition of the vehicle at return.\n\nStandard cleaning: $50\nExcessive pet hair: $300\nSmoke/vaping odor: $300\nFull detail required: $150\n\nHow to avoid it: Return the vehicle clean — wipe down surfaces, remove trash, and vacuum if needed.\n\nIf you believe the charge was applied in error, tap Talk to Someone below and our team will review it." },
 
- { k: ["smoke fee","smoking fee","smoking charge","smoke removal fee","cigarette smell fee"],
+ { k: ["i dispute this charge","i disagree with this charge","this charge is wrong","charge is incorrect","billing dispute","dispute a charge","charge on my account i don\'t recognize","wrong amount on my account","charge i don\'t understand","i didn\'t authorize this charge","billing error","error on my bill","my bill is incorrect","charge looks wrong","incorrect billing","overcharged dispute","dispute my bill"],
+    a: "Before escalating, let\'s verify the charge together.\n\nStep 1: Open the Lyft Driver App\nMain Menu \u2192 Account \u2192 Express Drive billing history\nThis shows every charge, credit, and payment for the current and past billing weeks.\n\nStep 2: Check what the charge is for\n\u2022 Weekly rental fee\n\u2022 Mileage overage\n\u2022 Cleaning or damage fee\n\u2022 Toll charges\n\u2022 Roadside / tow fee\n\nStep 3: Still disagree?\nTap Talk to Someone below — our team will review the charge with you." },
+{ k: ["smoke fee","smoking fee","smoking charge","smoke removal fee","cigarette smell fee"],
  a: "A $300 smoke removal fee is charged if smoking is detected. Smoking — including vaping and e-cigarettes — is never permitted in a Flexdrive rental vehicle, even with windows down." },
 
  { k: ["pet fee","pet hair fee","dog in car fee","animals in car charge","excessive pet cleaning"],
@@ -6772,9 +6854,29 @@ function handleLocationInput(locationText) {
 
     var regionTaglines = {
       PDX: "Rain or shine in the Rose City — we've got you covered.",
-      SAN: "America's Finest City drivers — we've got you covered.",
-      SFO: "Bay Area drivers — we've got you covered.",
-      LAX: "City of Angels drivers — we've got you covered."
+      SAN: "Sun, surf, and support — America's Finest City drivers, we've got you covered.",
+      SFO: "From the Bay to the valley — we've got you covered.",
+      LAX: "From the 405 to the PCH — City of Angels drivers, we've got you covered.",
+      PHX: "Desert heat, city hustle — Phoenix drivers, we've got you covered.",
+      ATL: "Hotlanta drivers — we've got you covered in the ATL.",
+      AUS: "Keep Austin driving — we've got you covered.",
+      BAL: "Charm City drivers — we've got you covered in Baltimore.",
+      BOS: "From the Pike to the T — Boston drivers, we've got you covered.",
+      CLT: "Queen City drivers — we've got you covered in Charlotte.",
+      CHI: "From the Loop to the lakefront — Chicago drivers, we've got you covered.",
+      CIN: "Cincy drivers — we've got you covered in the 513.",
+      CLE: "Believeland drivers — we've got you covered in Cleveland.",
+      DAL: "Big D drivers — we've got you covered in Dallas.",
+      DEN: "Mile High drivers — we've got you covered in Denver.",
+      FTW: "Cowtown drivers — we've got you covered in Fort Worth.",
+      HOU: "Space City drivers — we've got you covered in Houston.",
+      MKE: "Brew City drivers — we've got you covered in Milwaukee.",
+      PHL: "From South Street to the Main Line — Philadelphia drivers, we've got you covered.",
+      PHX: "Desert heat, city hustle — Phoenix drivers, we've got you covered.",
+      PIT: "Steel City drivers — we've got you covered in Pittsburgh.",
+      SAT: "San Antonio drivers — we've got you covered in the Alamo City.",
+      DC: "From the Beltway to the Mall — DC Metro drivers, we've got you covered.",
+      ORF: "From the Chesapeake to the coast — Hampton Roads drivers, we've got you covered."
     };
     var tagline = regionTaglines[region] || "";
 
