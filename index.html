@@ -7354,13 +7354,31 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment, r
  ? '\n\n--- CHATBOT CONVERSATION ---\n' + chatTranscriptLines.slice(-3).join('\n\n')
  : '';
 
+ // Build structured email body
+ var divider = '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501';
+ var responseLabel = responsePref === 'yes' ? '\ud83d\udcec RESPONSE: YES \u2014 please email back' : '\ud83d\udcec RESPONSE: NO \u2014 no reply needed';
+ var structuredMessage = responseLabel + '\n\n' +
+   divider + '\n' +
+   'CONTACT DETAILS\n' +
+   divider + '\n' +
+   'Name:    ' + name + '\n' +
+   'Phone:   ' + phone + '\n' +
+   (email ? 'Email:   ' + email + '\n' : '') +
+   'Region:  ' + regionName + ' (' + (userRegion || 'UNKNOWN') + ')' + '\n' +
+   'Time:    ' + new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }) + '\n\n' +
+   divider + '\n' +
+   'REASON:  ' + reason + '\n' +
+   divider + '\n' +
+   message +
+   (chatTranscript ? '\n\n' + divider + '\n' + 'TOPICS DISCUSSED IN CHATBOT\n' + divider + chatTranscript : '');
+
  var payload = {
  action: 'contact',
  responsePref: responsePref || 'not specified',
  name: name,
  email: email,
  phone: phone,
- message: '📬 RESPONSE REQUESTED: ' + (responsePref === 'yes' ? 'YES — please email back' : 'NO — no reply needed') + '\n\n[' + reason + ']\n\n' + message,
+ message: structuredMessage,
  chatTranscript: chatTranscript,
  region: userRegion || 'UNKNOWN',
  regionName: regionName,
