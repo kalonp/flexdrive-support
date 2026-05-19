@@ -7360,7 +7360,7 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment, r
  name: name,
  email: email,
  phone: phone,
- message: '[' + reason + ']\n\n' + message,
+ message: '📬 RESPONSE REQUESTED: ' + (responsePref === 'yes' ? 'YES — please email back' : 'NO — no reply needed') + '\n\n[' + reason + ']\n\n' + message,
  chatTranscript: chatTranscript,
  region: userRegion || 'UNKNOWN',
  regionName: regionName,
