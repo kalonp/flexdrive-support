@@ -7356,7 +7356,7 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment, r
 
  // Build structured email body
  var divider = '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501';
- var responseLabel = responsePref === 'yes' ? '\ud83d\udcec RESPONSE: YES \u2014 please email back' : '\ud83d\udcec RESPONSE: NO \u2014 no reply needed';
+ var responseLabel = responsePref === 'yes' ? '[REPLY REQUESTED: YES - please email back]' : '[REPLY REQUESTED: NO - no reply needed]';
  var structuredMessage = responseLabel + '\n\n' +
    divider + '\n' +
    'CONTACT DETAILS\n' +
@@ -7378,6 +7378,8 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment, r
  name: name,
  email: email,
  phone: phone,
+ reason: reason,
+ messageOnly: message,
  message: structuredMessage,
  chatTranscript: chatTranscript,
  region: userRegion || 'UNKNOWN',
