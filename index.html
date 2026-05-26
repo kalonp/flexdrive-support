@@ -3365,10 +3365,16 @@ function renderMessage(role, content, extra) {
 
  chatArea.appendChild(row);
  if (extra) {
-   // Instant scroll to row — no animation, no jitter, fires after paint
+   // contain:layout on chatArea means getBoundingClientRect is most reliable
+   // Fire after 2 frames — enough for layout without causing jitter
    requestAnimationFrame(function() {
      requestAnimationFrame(function() {
-       chatArea.scrollTop = row.offsetTop - chatArea.offsetTop;
+       var tRect = row.getBoundingClientRect();
+       var cRect = chatArea.getBoundingClientRect();
+       // cRect.top is where chatArea starts in the viewport
+       // tRect.top is where the row starts in the viewport
+       // Difference = how far to scroll
+       chatArea.scrollTop = chatArea.scrollTop + (tRect.top - cRect.top);
      });
    });
  } else {
