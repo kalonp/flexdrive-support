@@ -3365,11 +3365,12 @@ function renderMessage(role, content, extra) {
 
  chatArea.appendChild(row);
  if (extra) {
-   // Use offsetTop — position relative to chatArea scroll parent, not viewport
-   // This is immune to scroll drift and doesn't need getBoundingClientRect
-   setTimeout(function() {
-     chatArea.scrollTop = row.offsetTop;
-   }, 600);
+   // Instant scroll to row — no animation, no jitter, fires after paint
+   requestAnimationFrame(function() {
+     requestAnimationFrame(function() {
+       chatArea.scrollTop = row.offsetTop - chatArea.offsetTop;
+     });
+   });
  } else {
    setTimeout(function() {
      var _target = row.querySelector('.msg-bubble') || row;
