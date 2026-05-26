@@ -3364,20 +3364,19 @@ function renderMessage(role, content, extra) {
  }
 
  chatArea.appendChild(row);
- // If response has extra content (accordion/vendor cards), scroll to show top of bubble
  if (extra) {
-   var _bubble = row.querySelector('.msg-bubble');
-   if (_bubble) {
-     setTimeout(function() {
-       var bRect = _bubble.getBoundingClientRect();
-       var cRect = chatArea.getBoundingClientRect();
-       chatArea.scrollTo({ top: chatArea.scrollTop + (bRect.top - cRect.top) - 8, behavior: 'smooth' });
-     }, 130);
-   } else {
-     scrollToElement(row);
-   }
+   // Use offsetTop — position relative to chatArea scroll parent, not viewport
+   // This is immune to scroll drift and doesn't need getBoundingClientRect
+   setTimeout(function() {
+     chatArea.scrollTop = row.offsetTop;
+   }, 600);
  } else {
-   scrollToElement(row);
+   setTimeout(function() {
+     var _target = row.querySelector('.msg-bubble') || row;
+     var tRect = _target.getBoundingClientRect();
+     var cRect = chatArea.getBoundingClientRect();
+     chatArea.scrollTo({ top: chatArea.scrollTop + (tRect.top - cRect.top) - 8, behavior: 'smooth' });
+   }, 80);
  }
  if (role === 'assistant') {
  sessionLog.push({ role: 'bot', text: content, time: new Date().toLocaleTimeString() });
