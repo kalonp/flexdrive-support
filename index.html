@@ -7076,7 +7076,7 @@ var HOLIDAYS_2026 = [
   { month: 11, day: 25, key: 'christmas',    closed: true  },
   { month: 0,  day: 1,  key: 'newyear2027',  closed: true, year: 2027 },
 ];
-var HOLIDAY_FORM_MSG = {
+var HOLIDAY_CLOSED_MSG = {
   newyear:      "Our offices are closed today for New Year's Day.",
   mlk:          "Our offices are closed today in observance of Martin Luther King Jr. Day.",
   presidents:   "Our offices are closed today in observance of Presidents' Day.",
@@ -7087,18 +7087,6 @@ var HOLIDAY_FORM_MSG = {
   thanksgiving: "Our offices are closed today for Thanksgiving.",
   christmas:    "Our offices are closed today for Christmas.",
   newyear2027:  "Our offices are closed today for New Year's Day.",
-};
-var HOLIDAY_WELCOME_MSG = {
-  newyear:      "Happy New Year! \uD83C\uDF89 Wishing you an amazing year ahead. I'm here if you need me \u2014",
-  mlk:          "Today we honor the life and legacy of Dr. Martin Luther King Jr. \u270A His courage and vision continue to inspire. I'm here if you need anything \u2014",
-  presidents:   "Our offices are closed today in observance of Presidents' Day. I'm still here to help \u2014",
-  memorial:     "Happy Memorial Day \uD83C\uDF96\uFE0F Today I want to take a moment to honor the brave men and women who gave everything in service to this country. Their sacrifice means the world. I'm still here if you need anything \u2014",
-  juneteenth:   "Happy Juneteenth! \u270A Today we celebrate freedom, resilience, and the long road forward. I'm here if you need me \u2014",
-  july4:        "Happy Fourth of July! \uD83C\uDF86 Hope you're enjoying the day. I'm still here if you need anything \u2014",
-  labor:        "Happy Labor Day! \uD83D\uDC77 Today is for every worker who keeps this country moving \u2014 including you. I'm here if you need me \u2014",
-  thanksgiving: "Happy Thanksgiving! \uD83E\uDD83 Grateful for every driver in this community \u2014 thank you for all you do. I'm here if you need anything \u2014",
-  christmas:    "Wishing you a warm and peaceful Christmas! \uD83C\uDF84 I'm still here if you need me \u2014",
-  newyear2027:  "Happy New Year! \uD83C\uDF89 Wishing you an amazing year ahead. I'm here if you need me \u2014",
 };
 function getTodayHoliday() {
   var now = new Date();
@@ -7149,9 +7137,9 @@ function showWelcome() {
   var _greet = _hr < 12 ? 'Good morning' : _hr < 17 ? 'Good afternoon' : 'Good evening';
     var _todayHol = getTodayHoliday();
   var _holidayBanner = '';
-  if (_todayHol && _todayHol.closed && HOLIDAY_WELCOME_MSG[_todayHol.key]) {
+  if (_todayHol && _todayHol.closed && HOLIDAY_CLOSED_MSG[_todayHol.key]) {
     var _nextBiz = getNextBusinessDay();
-    _holidayBanner = '<div style="background:rgba(255,255,255,0.12);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.95);">' + HOLIDAY_WELCOME_MSG[_todayHol.key] + ' the team will be back ' + _nextBiz + ' at 9:00 AM.</div>';
+    _holidayBanner = '<div style="background:rgba(255,255,255,0.12);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.95);">' + HOLIDAY_CLOSED_MSG[_todayHol.key] + ' We\'ll be back ' + _nextBiz + ' at 9:00 AM.</div>';
   }
   s1.innerHTML = '<span style="font-size:17px;font-weight:700;color:var(--white);display:block;margin-bottom:2px;">' + _greet + ', I\'m Ari &#128075;</span><span style="font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:0.04em;text-transform:uppercase;display:block;margin-bottom:10px;">Automated Rental Information</span>' + _holidayBanner + 'I\'m your Flexdrive support assistant &mdash; Instant answers on mileage, billing, maintenance, protection plans, fees, state rules, and more.<br><br>Lyft app or earnings questions? Visit <a href=\"https://help.lyft.com\" target=\"_blank\" style=\"color:#FF00BF;\">help.lyft.com</a>.';
   bubble.appendChild(s1);
@@ -7237,9 +7225,9 @@ function openContactModal(mode) {
  var now = new Date(); var day = now.getDay(); var hour = now.getHours();
  var _hol = getTodayHoliday();
  var wm;
- if (_hol && _hol.closed && HOLIDAY_FORM_MSG[_hol.key]) {
+ if (_hol && _hol.closed && HOLIDAY_CLOSED_MSG[_hol.key]) {
    var _nb = getNextBusinessDay();
-   wm = '⏱ ' + HOLIDAY_FORM_MSG[_hol.key] + ' We\'ll be back ' + _nb + ' at 9:00 AM.';
+   wm = '⏱ ' + HOLIDAY_CLOSED_MSG[_hol.key] + ' We\'ll be back ' + _nb + ' at 9:00 AM.';
  } else {
    wm = day === 0 || day === 6 ? '⏱ Weekend — we\'ll respond first thing Monday morning.'
    : hour < 9 ? '⏱ Before hours — we\'ll respond when we open at 9:00 AM.'
