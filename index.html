@@ -1574,9 +1574,8 @@ const VENDORS = {
  regionName: "Cincinnati, OH", state: "Ohio",
  office: { name: "Flexdrive Cincinnati Office", address: "317 E. 9th Street, Cincinnati, OH 45202", hours: "Monday-Friday, 9:00 AM - 4:00 PM", phone: null },
  vendors: [
- { name: "Goodyear - Greenwood, IN", type: "Maintenance", address: "1298 North Madison Avenue, Greenwood IN 46142", phone: "(317) 881-5066", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
- { name: "Goodyear - Cincinnati (E 9th St)", type: "Maintenance", address: "317 East Ninth Street, Cincinnati OH 45202", phone: "(513) 241-5700", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
- { name: "Goodyear - West Chester", type: "Maintenance", address: "8067 Beckett Center Drive, West Chester OH 45069", phone: "(513) 860-0123", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" }
+ { name: "Goodyear - Cincinnati (Downtown)", type: "Oil Change / Diagnostics / Tires / Maintenance", address: "317 East Ninth Street, Cincinnati OH 45202", phone: "(513) 241-5700", note: "Mon-Fri: 7:30 AM - 6:00 PM | Sat-Sun: Closed", bookingUrl: "https://www.goodyearautoservice.com/en_US/location/Cincinnati-OH-45202-US-000906249" },
+ { name: "Goodyear - West Chester", type: "Oil Change / Diagnostics / Tires / Maintenance", address: "8067 Beckett Center Drive, West Chester OH 45069", phone: "(513) 860-0123", note: "Mon-Fri: 8:00 AM - 6:00 PM | Sat-Sun: 8:00 AM - 6:00 PM", bookingUrl: "https://www.goodyearautoservice.com/en-US/shop/OH/Cincinnati" }
  ], recovery: [], hasTolls: true,
  stateNotes: "Standard CDW terms apply. $1,000 deductible (or $500 with PCDW, $0 with CDW)."
  },
@@ -2647,7 +2646,8 @@ function scrollToElement(el) {
  try {
  var elRect = el.getBoundingClientRect();
  var chatRect = chatArea.getBoundingClientRect();
- var newScrollTop = chatArea.scrollTop + (elRect.top - chatRect.top) - 12;
+ // Always scroll so the TOP of the new message is visible (8px padding)
+ var newScrollTop = chatArea.scrollTop + (elRect.top - chatRect.top) - 8;
  setTimeout(function() {
  chatArea.scrollTo({ top: newScrollTop, behavior: 'smooth' });
  }, 120);
@@ -3364,7 +3364,21 @@ function renderMessage(role, content, extra) {
  }
 
  chatArea.appendChild(row);
- scrollToElement(row);
+ // If response has extra content (accordion/vendor cards), scroll to show top of bubble
+ if (extra) {
+   var _bubble = row.querySelector('.msg-bubble');
+   if (_bubble) {
+     setTimeout(function() {
+       var bRect = _bubble.getBoundingClientRect();
+       var cRect = chatArea.getBoundingClientRect();
+       chatArea.scrollTo({ top: chatArea.scrollTop + (bRect.top - cRect.top) - 8, behavior: 'smooth' });
+     }, 130);
+   } else {
+     scrollToElement(row);
+   }
+ } else {
+   scrollToElement(row);
+ }
  if (role === 'assistant') {
  sessionLog.push({ role: 'bot', text: content, time: new Date().toLocaleTimeString() });
  var isFirst = sessionLog.filter(function(e) { return e.role === 'bot'; }).length === 1;
