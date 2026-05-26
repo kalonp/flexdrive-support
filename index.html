@@ -1437,14 +1437,23 @@
  <div class="modal-field">
  <label class="modal-label" for="cf-reason">Reason for Contact *</label>
  <div class="modal-select-wrap">
- <select class="modal-select" id="cf-reason">
+ <select class="modal-select" id="cf-reason" onchange="handleReasonChange(this.value)">
  <option value="">-- Select a reason --</option>
  <option value="Pick-up">Pick-up</option>
  <option value="Drop-off">Drop-off</option>
- <option value="Inspection photo">Inspection photo</option>
+ <option value="Inspection photo">Inspection photo &#128248;</option>
  <option value="Accident re-rental request">Accident re-rental request</option>
-            <option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>
-            <option value="Other">Other</option>
+ <option value="Pre-existing damage report">Pre-existing damage report &#128248;</option>
+ <option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>
+ <option value="Mileage dispute">Mileage dispute</option>
+ <option value="Billing question">Billing question</option>
+ <option value="Cleaning charge dispute">Cleaning charge dispute</option>
+ <option value="Deposit refund">Deposit refund</option>
+ <option value="Vehicle swap / replacement request">Vehicle swap / replacement request</option>
+ <option value="CDW / protection plan question">CDW / protection plan question</option>
+ <option value="EV / charging issue">EV / charging issue</option>
+ <option value="Background check / deactivation">Background check / deactivation</option>
+ <option value="Other">Other</option>
  </select>
  </div>
  </div>
@@ -1462,21 +1471,24 @@
  <label class="modal-label" for="cf-message">Message *</label>
  <textarea class="modal-textarea" id="cf-message" placeholder="Describe your issue in detail..."></textarea>
  </div>
- <div class="modal-field">
- <label class="modal-label">Attachment <span style="font-weight:400;text-transform:none;font-size:11px;color:#9BA8B8;">(optional)</span></label>
+ <div class="modal-field" id="attach-field">
+ <label class="modal-label" id="attach-label">Attachment <span id="attach-required-badge" style="font-weight:600;text-transform:none;font-size:11px;color:#D93025;display:none;">* Required</span><span id="attach-optional-badge" style="font-weight:400;text-transform:none;font-size:11px;color:#9BA8B8;">(optional)</span></label>
+ <div id="attach-prompt" style="display:none;font-size:13px;color:#003B71;background:rgba(0,59,113,0.06);border-radius:10px;padding:10px 12px;margin-bottom:10px;line-height:1.5;"></div>
  <input type="file" id="cf-attachment" accept="image/*,.pdf" style="display:none;" onchange="handleAttachmentChange(this)" />
- <div id="attach-drop-zone" onclick="document.getElementById('cf-attachment').click()" style="border:2px dashed rgba(0,59,113,0.3);border-radius:14px;padding:20px 16px;text-align:center;cursor:pointer;background:rgba(0,59,113,0.04);transition:border-color 0.15s,background 0.15s;touch-action:manipulation;">
- <div style="font-size:32px;margin-bottom:8px;">&#128206;</div>
- <div style="font-size:15px;font-weight:600;color:#003B71;">Tap to attach a photo or PDF</div>
- <div style="font-size:12px;color:#9BA8B8;margin-top:4px;">JPG · PNG · PDF — max 5MB</div>
+ <div id="attach-drop-zone" onclick="document.getElementById('cf-attachment').click()" style="border:2px dashed rgba(0,59,113,0.25);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;background:rgba(0,59,113,0.03);transition:border-color 0.15s,background 0.15s;touch-action:manipulation;">
+   <div style="font-size:26px;flex-shrink:0;">&#128247;</div>
+   <div>
+     <div id="attach-zone-label" style="font-size:14px;font-weight:600;color:#003B71;">Tap to attach a photo or PDF</div>
+     <div style="font-size:12px;color:#9BA8B8;margin-top:2px;">JPG · PNG · PDF — max 5MB</div>
+   </div>
  </div>
  <div id="attach-preview" style="display:none;margin-top:10px;padding:12px 14px;background:#EEF4FB;border-radius:12px;align-items:center;gap:12px;">
- <div style="font-size:28px;" id="attach-icon">&#128206;</div>
- <div style="flex:1;min-width:0;">
- <div id="attach-filename" style="font-size:13px;font-weight:600;color:#003B71;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
- <div id="attach-filesize" style="font-size:11px;color:#7D868C;margin-top:2px;"></div>
- </div>
- <button type="button" onclick="clearAttachment()" style="background:rgba(0,0,0,0.06);border:none;border-radius:50%;width:28px;height:28px;font-size:14px;color:#7D868C;cursor:pointer;touch-action:manipulation;flex-shrink:0;">&#10005;</button>
+   <div style="font-size:26px;" id="attach-icon">&#128247;</div>
+   <div style="flex:1;min-width:0;">
+     <div id="attach-filename" style="font-size:13px;font-weight:600;color:#003B71;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+     <div id="attach-filesize" style="font-size:11px;color:#7D868C;margin-top:2px;"></div>
+   </div>
+   <button type="button" onclick="clearAttachment()" style="background:rgba(0,0,0,0.06);border:none;border-radius:50%;width:28px;height:28px;font-size:14px;color:#7D868C;cursor:pointer;touch-action:manipulation;flex-shrink:0;">&#10005;</button>
  </div>
  </div>
  <button class="modal-submit" id="cf-submit" onclick="submitContactForm()">Send Message</button>
@@ -7544,6 +7556,60 @@ function buildTranscript() {
  return lines.join('\n');
 }
 
+// Reason-to-attachment config
+var ATTACH_CONFIG = {
+  'Inspection photo':              { required: true,  prompt: 'Please attach your inspection photo. Our team cannot process this request without it.', label: 'Attach inspection photo' },
+  'Accident re-rental request':    { required: true,  prompt: 'Please attach a screenshot of your not-at-fault email or accident documentation. Our team will review your account and get back to you about re-renting eligibility.', label: 'Attach accident documentation' },
+  'Pre-existing damage report':    { required: true,  prompt: 'Please attach photos of the damage. This is required to document the issue on your rental agreement.', label: 'Attach damage photos' },
+  'Traffic / parking ticket copy': { required: false, prompt: 'Attach a photo of your ticket if you have it — not required, just helpful for your records.', label: 'Attach ticket photo (optional)' },
+  'Pick-up':                       { required: false, prompt: 'Include any photos of vehicle condition at pick-up if relevant.', label: 'Attach photo (optional)' },
+  'Drop-off':                      { required: false, prompt: 'Include any photos of vehicle condition at drop-off if relevant.', label: 'Attach photo (optional)' },
+  'Mileage dispute':               { required: false, prompt: 'A screenshot of your Driver App ride history helps our team verify your online vs offline time.', label: 'Attach screenshot (optional)' },
+  'Billing question':              { required: false, prompt: 'A screenshot of the charge in your Driver App helps us locate it faster.', label: 'Attach screenshot (optional)' },
+  'Cleaning charge dispute':       { required: false, prompt: 'Photos of the vehicle at return are helpful if you have them.', label: 'Attach photo (optional)' },
+  'Vehicle swap / replacement request': { required: false, prompt: 'Attach any vendor documentation if the vehicle has already been inspected.', label: 'Attach documentation (optional)' },
+  'EV / charging issue':           { required: false, prompt: 'A photo of your dashboard warning light or charge screen helps us diagnose the issue.', label: 'Attach photo (optional)' },
+  'Background check / deactivation': { required: false, prompt: 'Attach any relevant documentation from Lyft if available.', label: 'Attach documentation (optional)' },
+};
+
+function handleReasonChange(reason) {
+  var cfg = ATTACH_CONFIG[reason];
+  var promptEl = document.getElementById('attach-prompt');
+  var requiredBadge = document.getElementById('attach-required-badge');
+  var optionalBadge = document.getElementById('attach-optional-badge');
+  var zoneLabelEl = document.getElementById('attach-zone-label');
+  var dropZone = document.getElementById('attach-drop-zone');
+
+  if (cfg) {
+    // Show prompt
+    promptEl.textContent = cfg.prompt;
+    promptEl.style.display = 'block';
+    // Update label
+    if (zoneLabelEl) zoneLabelEl.textContent = cfg.label;
+    // Required vs optional badge
+    if (cfg.required) {
+      requiredBadge.style.display = 'inline';
+      optionalBadge.style.display = 'none';
+      dropZone.style.borderColor = '#D93025';
+      dropZone.style.background = 'rgba(217,48,37,0.04)';
+    } else {
+      requiredBadge.style.display = 'none';
+      optionalBadge.style.display = 'inline';
+      dropZone.style.borderColor = 'rgba(0,59,113,0.25)';
+      dropZone.style.background = 'rgba(0,59,113,0.03)';
+    }
+  } else {
+    // No config — reset to default
+    promptEl.style.display = 'none';
+    promptEl.textContent = '';
+    if (zoneLabelEl) zoneLabelEl.textContent = 'Tap to attach a photo or PDF';
+    requiredBadge.style.display = 'none';
+    optionalBadge.style.display = 'inline';
+    dropZone.style.borderColor = 'rgba(0,59,113,0.25)';
+    dropZone.style.background = 'rgba(0,59,113,0.03)';
+  }
+}
+
 function submitContactForm() {
  var name = document.getElementById('cf-name').value.trim();
  var email = document.getElementById('cf-email').value.trim();
@@ -7556,6 +7622,13 @@ function submitContactForm() {
  var responsePref = document.getElementById('cf-response-pref') ? document.getElementById('cf-response-pref').value : '';
   if (!name || !phone || !reason || !message || !responsePref) {
     alert('Please fill in all required fields.');
+    return;
+  }
+  // Check required attachment
+  var attachCfg = ATTACH_CONFIG[reason];
+  if (attachCfg && attachCfg.required && (!file)) {
+    alert('Please attach a photo or document — it is required for this type of request.');
+    document.getElementById('attach-drop-zone').style.borderColor = '#D93025';
     return;
   }
   if (responsePref === 'yes' && !email) {
