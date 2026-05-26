@@ -778,20 +778,26 @@
 
  /* Body slides + fades in */
  .ev-accordion-body {
- display: none;
- padding: 12px 14px 16px;
- font-size: 14px; line-height: 1.6; color: #2D3138;
- background: var(--white);
- border-top: 1px solid #E2E8EF;
- word-wrap: break-word; overflow-wrap: break-word;
- animation: bodyReveal 0.2s ease-out both;
- will-change: opacity;
- position: relative;
+   max-height: 0;
+   overflow: hidden;
+   padding: 0 14px;
+   font-size: 14px; line-height: 1.6; color: #2D3138;
+   background: var(--white);
+   border-top: 0px solid #E2E8EF;
+   word-wrap: break-word; overflow-wrap: break-word;
+   position: relative;
+   /* Smooth expand/collapse */
+   transition: max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+               padding 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+               opacity 0.25s ease,
+               border-top-width 0.32s ease;
+   opacity: 0;
  }
-
- @keyframes bodyReveal {
- 0% { opacity: 0; }
- 100% { opacity: 1; }
+ .ev-accordion-body.is-open {
+   max-height: 2000px;
+   padding: 12px 14px 16px;
+   border-top-width: 1px;
+   opacity: 1;
  }
  .ev-accordion-body a { color: var(--navy); text-decoration: underline; word-break: break-all; }
 
@@ -880,28 +886,41 @@
 
  /* TYPING */
  .typing-bubble-wrap {
- background: #003C72;
- border-radius: 18px 18px 18px 4px;
- padding: 14px 18px;
- box-shadow: 0 0 0 1.5px rgba(0,59,113,0.25), 0 4px 14px rgba(0,59,113,0.2);
- display: inline-flex; align-items: center; justify-content: center;
- min-height: 48px;
- overflow: visible;
+   background: #003C72;
+   border-radius: 18px 18px 18px 4px;
+   padding: 12px 16px;
+   box-shadow: 0 0 0 1.5px rgba(0,59,113,0.25), 0 4px 14px rgba(0,59,113,0.2);
+   display: inline-flex; flex-direction: column; gap: 6px;
+   min-height: 48px; min-width: 80px;
+   animation: typingBubbleIn 0.25s cubic-bezier(0.34,1.56,0.64,1) both;
  }
- .typing-indicator { display: flex; gap: 8px; align-items: center; height: 20px; }
+ @keyframes typingBubbleIn {
+   from { opacity: 0; transform: translateY(6px) scale(0.96); }
+   to   { opacity: 1; transform: translateY(0) scale(1); }
+ }
+ .typing-label {
+   font-size: 11px; color: rgba(255,255,255,0.5);
+   letter-spacing: 0.04em; text-transform: uppercase;
+   animation: thinkingFade 0.3s ease-out both;
+ }
+ .typing-indicator { display: flex; gap: 7px; align-items: center; height: 18px; }
  .typing-indicator span {
- width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
- animation: typingWave 1.4s ease-in-out infinite;
+   width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+   animation: typingWave 1.3s ease-in-out infinite;
  }
- .typing-indicator span:nth-child(1) { background: var(--pink); animation-delay: 0s; }
-  .typing-thinking { font-size: 11px; color: rgba(255,255,255,0.45); margin-left: 2px; margin-top: 5px; font-style: italic; letter-spacing: 0.02em; animation: thinkingFade 0.4s ease-out both; }
-  @keyframes thinkingFade { 0% { opacity:0; transform:translateY(3px); } 100% { opacity:1; transform:translateY(0); } }
- .typing-indicator span:nth-child(2) { background: rgba(255,255,255,0.7); animation-delay: 0.22s; }
- .typing-indicator span:nth-child(3) { background: var(--pink); animation-delay: 0.44s; }
+ .typing-indicator span:nth-child(1) { background: #FF00BF; animation-delay: 0s; }
+ .typing-indicator span:nth-child(2) { background: rgba(255,255,255,0.75); animation-delay: 0.2s; }
+ .typing-indicator span:nth-child(3) { background: #FF00BF; animation-delay: 0.4s; }
  @keyframes typingWave {
- 0%, 60%, 100% { transform: translateY(0) scale(1); opacity: 0.55; }
- 30% { transform: translateY(-5px) scale(1.15); opacity: 1; }
+   0%, 60%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
+   30% { transform: translateY(-6px) scale(1.2); opacity: 1; }
  }
+ .typing-thinking {
+   font-size: 12px; color: rgba(255,255,255,0.6);
+   font-style: italic; letter-spacing: 0.01em;
+   animation: thinkingFade 0.4s ease-out 0.1s both;
+ }
+ @keyframes thinkingFade { 0% { opacity:0; transform:translateY(3px); } 100% { opacity:1; transform:translateY(0); } }
 
  /* QUICK ACTIONS EXPAND/COLLAPSE */
  .quick-actions-hidden {
@@ -1952,7 +1971,7 @@ function resolveRegion(input) {
 var KNOWLEDGE_BASE = [
  {
  topic: "Personal mileage dispute",
- keywords: ["miles don't add up", "how do i dispute my miles", "dispute my miles", "my miles are wrong", "miles are wrong", "i didn't drive that much", "mileage", "personal miles", "online", "driving for lyft", "miles wrong", "incorrect miles", "miles while driving", "overage charge", "charged for miles", "mileage dispute", "dispute miles", "miles don't look right", "miles look off", "miles seem wrong", "why am i being charged for miles", "i was online", "i had a passenger", "i was giving rides", "lyft was on", "app was on", "i was driving lyft", "wrong mileage", "miles added up wrong", "mileage error", "miles went up while driving", "personal miles while on a trip", "miles counted wrong", "i didn't use those miles", "i was working", "dispute my mileage", "miles are off", "miles being counted offline", "miles counted while offline", "counted while offline", "miles going up while offline", "offline but miles going up", "miles increase offline", "being counted offline"],
+ keywords: ["miles don't add up", "how do i dispute my miles", "dispute my miles", "my miles are wrong", "miles are wrong", "i didn't drive that much", "mileage", "personal miles", "online", "driving for lyft", "miles wrong", "incorrect miles", "miles while driving", "overage charge", "charged for miles", "mileage dispute", "dispute miles", "miles don't look right", "miles look off", "miles seem wrong", "why am i being charged for miles", "i was online", "i had a passenger", "i was giving rides", "lyft was on", "app was on", "i was driving lyft", "wrong mileage", "miles added up wrong", "mileage error", "miles went up while driving", "personal miles while on a trip", "miles counted wrong", "i didn't use those miles", "i was working", "dispute my mileage", "miles are off", "miles being counted offline", "miles counted while offline", "counted while offline", "miles going up while offline", "offline but miles going up", "miles increase offline", "being counted offline", "destination filter", "destination filter expired", "destination filter logout", "filter expired miles", "filter auto logout", "logged out destination filter", "miles after filter expired", "filter ran out", "filter turned off", "destination filter turned off"],
  showTalkBtn: true,
  mileageAccordion: true,
  response: "Here is everything you need to know about your personal mileage:"
@@ -3493,6 +3512,12 @@ function renderTyping(thinkingText) {
   _dots[2].style.animationDuration = (_baseSpeed - 0.05) + 's';
   _dots[2].style.animationDelay = (_gap * 2) + 's';
 
+  // "Ari is typing" label at top
+  var ariLabel = document.createElement('div');
+  ariLabel.className = 'typing-label';
+  ariLabel.textContent = 'Ari is typing';
+  bubbleWrap.appendChild(ariLabel);
+
   bubbleWrap.appendChild(indicator);
 
   if (thinkingText) {
@@ -4044,9 +4069,22 @@ function renderMileageAccordion() {
  '<div class="ac-callout info"><strong>How to Check Your Current Usage</strong>Swipe up on the Driver App main screen when not in Driver Mode to see your personal mileage balance.</div>'
  ].join(''));
 
- // ── 2. WHY MILES GO UP FASTER THAN EXPECTED ───────────────────
- makeAccordionItem(c, 'Why Miles Go Up Faster Than Expected', '', [
- '<div class="ac-callout warn"><strong>These Are the Most Common Causes</strong>Most mileage disputes come down to one of these situations.</div>',
+ // ── 2. DESTINATION FILTER — #1 CAUSE ──────────────────────
+ makeAccordionItem(c, 'Destination Filter Auto-Logout — #1 Cause', '', [
+   '<div class="ac-callout urgent"><strong>Most Common Dispute Cause</strong>After 30 minutes on a Destination Filter, Lyft auto-logs you out of Driver Mode. Every mile you drive after that counts as personal miles — even if you think the app is still on.</div>',
+   '<div class="ac-section-label">What Happens Step by Step</div>',
+   '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body"><strong>You enable a Destination Filter</strong><br>You are in Driver Mode giving rides toward a specific destination. Everything looks normal.</div></div>',
+   '<div class="ac-step"><div class="ac-step-num">2</div><div class="ac-step-body"><strong>30 minutes pass — Lyft silently logs you out</strong><br>The filter expires and the app exits Driver Mode. <strong>You may not receive a notification.</strong></div></div>',
+   '<div class="ac-step"><div class="ac-step-num">3</div><div class="ac-step-body"><strong>You keep driving</strong><br>The app is now offline. Every mile counts as personal miles, even if you intended to be working.</div></div>',
+   '<div class="ac-step"><div class="ac-step-num">4</div><div class="ac-step-body"><strong>Miles accumulate fast</strong><br>A 45-minute drive home after a filter expires can add 20–30+ personal miles without you realizing it.</div></div>',
+   '<div class="ac-section-label">How to Prevent This</div>',
+   '<div class="ac-gate"><div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Always check for the green Online indicator before driving</div></div><div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Manually re-enable Driver Mode after each Destination Filter expires</div></div><div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Set a 25-minute phone reminder when you start a Destination Filter</div></div><div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Check your mileage balance daily: swipe up on the Driver App main screen when offline</div></div></div>',
+   '<div class="ac-callout warn"><strong>Already Have Extra Miles From This?</strong>Use the How to Dispute section below. Include the date and note that a Destination Filter was active.</div>'
+ ].join(''));
+
+ // ── 3. OTHER REASONS MILES GO UP FASTER ─────────────────
+ makeAccordionItem(c, 'Other Reasons Miles Go Up Faster', '', [
+   '<div class="ac-callout warn"><strong>Additional Common Causes</strong>Most mileage disputes come down to one of these situations.</div>',
  '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body"><strong>Destination Filter auto-logout</strong><br>After 30 minutes on a destination filter, you are auto-logged out of Driver Mode. Any movement after that counts as personal miles.</div></div>',
  '<div class="ac-step"><div class="ac-step-num">2</div><div class="ac-step-body"><strong>Consecutive missed rides</strong><br>If you decline or miss too many rides, the app may log you out automatically.</div></div>',
  '<div class="ac-step"><div class="ac-step-num">3</div><div class="ac-step-body"><strong>Driving to/from maintenance</strong><br>Trips to and from approved vendors count as personal miles since you are offline.</div></div>',
@@ -4061,8 +4099,10 @@ function renderMileageAccordion() {
  '<div class="ac-gate">',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">1</div><div>The week you are disputing (Monday to Monday)</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">2</div><div>The mileage amount you believe is incorrect</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">3</div><div>Any relevant context — maintenance trip, deactivation period, destination filter issue, etc.</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">3</div><div>What you were doing — Destination Filter active? Maintenance trip? App went offline unexpectedly?</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">4</div><div>Screenshots of your Driver App ride history if available — shows online vs offline time</div></div>',
  '</div>',
+ '<div class="ac-callout warn"><strong>Important</strong>Mileage disputes are reviewed against your Driver App data. If a Destination Filter expired and you continued driving offline, those miles are typically not reversible. Include as much detail as possible.</div>',
  '<div class="ac-callout success"><strong>Response Time</strong>Our team will review your account and get back to you within 1 business day.</div>'
  ].join(''));
 
@@ -4571,15 +4611,15 @@ function makeAccordionItem(container, title, emoji, htmlContent, autoOpen) {
   body.style.whiteSpace = 'normal';
   body.innerHTML = htmlContent;
  header.addEventListener('click', function() {
- var isOpen = body.style.display === 'block';
+ var isOpen = body.classList.contains('is-open');
  var bodies = container.querySelectorAll('.ev-accordion-body');
  var headers = container.querySelectorAll('.ev-accordion-header');
  var items = container.querySelectorAll('.ev-accordion-item');
- for (var bi=0;bi<bodies.length;bi++) bodies[bi].style.display = 'none';
+ for (var bi=0;bi<bodies.length;bi++) bodies[bi].classList.remove('is-open');
  for (var hi=0;hi<headers.length;hi++) headers[hi].classList.remove('open');
  for (var ii=0;ii<items.length;ii++) items[ii].classList.remove('is-open');
  if (!isOpen) {
- body.style.display = 'block';
+ body.classList.add('is-open');
  header.classList.add('open'); item.classList.add('is-open');
  setTimeout(function() {
           // Scroll so the accordion body content is visible — not just the header
@@ -4594,9 +4634,9 @@ function makeAccordionItem(container, title, emoji, htmlContent, autoOpen) {
         }, 80);
  }
  });
-  // Auto-open if requested
+  // Auto-open if requested — add class so transition works
   if (autoOpen) {
-    body.style.display = 'block';
+    body.classList.add('is-open');
     header.classList.add('open');
     item.classList.add('is-open');
   }
@@ -5185,7 +5225,9 @@ var CARD_ANSWERS = [
  a: "Period 0 (app off): Flexdrive may provide coverage regardless of fault with a $1,000 deductible. Depending on your state, your personal insurance may be primary. States vary — check your rental agreement." },
 
  // ── MILEAGE ───────────────────────────────────────────────────────────────────
- { k: ["how are miles tracked","how does mileage work","how personal miles work","when do miles count","what counts as personal miles"],
+ { k: ["destination filter expired","destination filter miles","filter logged me out","destination filter auto logout","30 minutes destination filter","filter turned off miles","why did destination filter stop","destination filter logout miles"],
+ a: "After 30 minutes on a Destination Filter, Lyft automatically logs you out of Driver Mode. Every mile you drive after that counts as personal miles — even if you think the app is still on.\n\nTo prevent this:\n- Set a 25-minute reminder when you start a filter\n- Always check for the green Online indicator before driving\n- Manually re-enable Driver Mode after the filter expires\n\nIf this caused unexpected personal miles, tap Talk to Someone and include the date and that a Destination Filter was active. Our team will review your account.", topic: "Personal mileage / overage", sendMsgBtn: true },
+{ k: ["how are miles tracked","how does mileage work","how personal miles work","when do miles count","what counts as personal miles"],
  a: "Personal miles are tracked every time the vehicle moves and your Lyft Driver App is NOT in Driver Mode. Miles driven while online giving rides do not count toward your personal mileage." },
 
  { k: ["miles roll over","do miles roll over","unused miles","miles expire","miles reset"],
@@ -6278,6 +6320,59 @@ function resolveContext(text) {
   return text + ' ' + contextKws[0];
 }
 
+
+function findFuzzySuggestions(userText) {
+  // Returns up to 3 closest topic matches even when full match fails
+  // Uses partial keyword scoring — any single keyword overlap qualifies
+  var lower = userText.toLowerCase();
+  var scores = {};
+  var topicNames = {};
+
+  if (KEYWORD_INDEX) {
+    // Score each KB entry by partial word overlap
+    var words = lower.split(/\s+/).filter(function(w) { return w.length > 2; });
+    words.forEach(function(word) {
+      Object.keys(KEYWORD_INDEX).forEach(function(kw) {
+        if (kw.includes(word) || word.includes(kw)) {
+          KEYWORD_INDEX[kw].forEach(function(idx) {
+            scores[idx] = (scores[idx] || 0) + 1;
+          });
+        }
+      });
+    });
+  }
+
+  // Also scan KNOWLEDGE_BASE topics directly for partial matches
+  KNOWLEDGE_BASE.forEach(function(entry, idx) {
+    if (!entry.topic) return;
+    if (entry.regionExclude && userRegion && entry.regionExclude.indexOf(userRegion) !== -1) return;
+    var topicLower = entry.topic.toLowerCase();
+    var words2 = lower.split(/\s+/).filter(function(w) { return w.length > 2; });
+    words2.forEach(function(word) {
+      if (topicLower.includes(word)) {
+        scores[idx] = (scores[idx] || 0) + 2;
+      }
+    });
+    topicNames[idx] = entry.topic;
+  });
+
+  // Sort by score, dedupe by topic, return top 3
+  var ranked = Object.keys(scores)
+    .filter(function(idx) { return scores[idx] > 0 && KNOWLEDGE_BASE[parseInt(idx)] && KNOWLEDGE_BASE[parseInt(idx)].topic; })
+    .sort(function(a, b) { return scores[b] - scores[a]; });
+
+  var seen = {};
+  var results = [];
+  for (var i = 0; i < ranked.length && results.length < 3; i++) {
+    var entry = KNOWLEDGE_BASE[parseInt(ranked[i])];
+    if (entry && entry.topic && !seen[entry.topic]) {
+      seen[entry.topic] = true;
+      results.push(entry.topic);
+    }
+  }
+  return results;
+}
+
 function findCardAnswer(text) {
  var lower = text.toLowerCase().trim();
  for (var i = 0; i < CARD_ANSWERS.length; i++) {
@@ -6465,14 +6560,16 @@ function sendMessage() {
 
   // Pick a thinking phrase based on response complexity
   var _tPhrases = {
-    emergency: ["On it right away…", "Looking that up now…", "Right on it…"],
-    accordion: ["Looking that up…", "Let me pull that up…", "One sec…", "Checking on that…", "Finding the details…"],
-    card:      ["", "", "On it…", ""],
-    plain:     ["", "One sec…", "", "Looking that up…", ""]
+    emergency: ["On it right away…", "Right on it…", "Looking that up now…"],
+    accordion:  ["Let me pull that up…", "One sec…", "Checking on that…", "Finding the details…", "Looking that up…"],
+    vendor:     ["Finding vendors near you…", "Looking up your options…", "One sec…"],
+    card:       ["", "On it…", "", "Got it…", ""],
+    plain:      ["", "One sec…", "", "Let me check…", "", "Looking that up…", ""]
   };
   var _tLower = text.toLowerCase();
   var _tType = "plain";
   if (/accident|crash|stolen|fire|unsafe|emergency|urgent|911|broke down|tow|holman/.test(_tLower)) { _tType = "emergency"; }
+  else if (/vendor|maintenance|oil change|shop|tire|mechanic/.test(_tLower)) { _tType = "vendor"; }
   else if (findCardAnswer(_tLower)) { _tType = "card"; }
   else {
     var _tMatch = findBestMatch(_tLower);
@@ -6864,7 +6961,29 @@ function sendMessage() {
  else {
  noMatchMsg = "I wasn't able to match that to a specific topic. Try using keywords like 'billing', 'return', 'CDW', or 'mileage' — or tap Talk to Someone below and our team will help.";
  }
- renderMessage('assistant', noMatchMsg);
+ // Find fuzzy suggestions
+  var _suggestions = findFuzzySuggestions(resolvedText);
+
+  if (_suggestions.length > 0) {
+    var _suggestWrap = document.createElement('div');
+    _suggestWrap.style.cssText = 'margin-top:10px;display:flex;flex-direction:column;gap:8px;';
+    var _didYouMean = document.createElement('div');
+    _didYouMean.style.cssText = 'font-size:12px;color:#8B9BAD;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-bottom:2px;';
+    _didYouMean.textContent = 'Did you mean?';
+    _suggestWrap.appendChild(_didYouMean);
+    _suggestions.forEach(function(topic) {
+      var btn = document.createElement('button');
+      btn.style.cssText = 'background:#fff;border:1.5px solid #003C72;border-radius:22px;padding:9px 16px;font-size:14px;color:#003C72;font-weight:600;cursor:pointer;text-align:left;transition:all 0.15s;width:100%;';
+      btn.textContent = topic;
+      btn.onmouseenter = function() { btn.style.background = '#003C72'; btn.style.color = '#fff'; };
+      btn.onmouseleave = function() { btn.style.background = '#fff'; btn.style.color = '#003C72'; };
+      btn.onclick = function() { userInput.value = topic; sendMessage(); };
+      _suggestWrap.appendChild(btn);
+    });
+    renderMessage('assistant', noMatchMsg, _suggestWrap);
+  } else {
+    renderMessage('assistant', noMatchMsg);
+  }
  }
  logUnmatchedQuestion(text);
  }
