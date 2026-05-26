@@ -3365,20 +3365,20 @@ function renderMessage(role, content, extra) {
 
  chatArea.appendChild(row);
  if (extra) {
-   // Two-phase scroll for accordion responses:
-   // Phase 1 (rAF): snap to approximate position immediately
-   // Phase 2 (250ms): re-snap after auto-open accordion finishes expanding
+   // Snap to row top, then freeze scroll briefly so accordion expansion can't push it away
    requestAnimationFrame(function() {
      requestAnimationFrame(function() {
        var tRect = row.getBoundingClientRect();
        var cRect = chatArea.getBoundingClientRect();
-       chatArea.scrollTop = chatArea.scrollTop + (tRect.top - cRect.top);
-       // Phase 2: re-apply after accordion animation completes
+       var targetScroll = chatArea.scrollTop + (tRect.top - cRect.top);
+       chatArea.scrollTop = targetScroll;
+       // Hold scroll position for 400ms while accordion finishes opening
+       var _scrollLock = setInterval(function() {
+         chatArea.scrollTop = targetScroll;
+       }, 16);
        setTimeout(function() {
-         var tRect2 = row.getBoundingClientRect();
-         var cRect2 = chatArea.getBoundingClientRect();
-         chatArea.scrollTop = chatArea.scrollTop + (tRect2.top - cRect2.top);
-       }, 250);
+         clearInterval(_scrollLock);
+       }, 400);
      });
    });
  } else {
