@@ -1269,44 +1269,98 @@
  body { background: #0D1117; }
  .app { background: #0D1117; }
  .chat-area { background: #0D1117; }
- .msg-row.assistant .msg-bubble { background: #1A3050; box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 4px 14px rgba(0,0,0,0.4); }
+
+ /* Message bubbles — fix blue-on-blue text */
+ .msg-row.assistant .msg-bubble { background: #1A3050; color: #E6EDF3; box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 4px 14px rgba(0,0,0,0.4); }
+ .msg-row.assistant .msg-bubble strong { color: #A8C8F0; }
+ .msg-row.assistant .msg-bubble a { color: #58A6FF; }
  .msg-row.user .msg-bubble { background: #1E2A3B; color: #E6EDF3; box-shadow: 0 2px 6px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06); }
+ .msg-label-ari { color: #6A7A8A; }
+
+ /* Quick action buttons */
  .quick-btn { background: #161B22; color: #E6EDF3; border-color: #30363D; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
  .quick-btn:hover { background: #1E2A3B; border-color: #4A6080; color: #E6EDF3; }
  .quick-btn:active { background: #003B71; color: #fff; border-color: #003B71; }
+ .expand-toggle-btn { background: #161B22; color: #8B949E; border-color: #30363D; }
+ .expand-toggle-btn:hover { border-color: #4A6080; color: #E6EDF3; }
+
+ /* Vendor cards */
  .vendor-card { background: #161B22; border-color: #30363D; }
  .vendor-card-name { color: #58A6FF; }
+ .vendor-card-type { color: #6A7A8A; }
  .vendor-card-detail { color: #8B949E; }
+ .vendor-card-phone { color: #58A6FF; }
+
+ /* Relocation / market buttons */
+ .reloc-btn { background: #161B22; border-color: #30363D; color: #E6EDF3; }
+ .reloc-btn .reloc-state { color: #6A7A8A; }
+
+ /* Accordion */
  .ev-accordion-item { background: #161B22; border-color: #30363D; }
  .ev-accordion-header { background: #161B22; color: #E6EDF3; }
  .ev-accordion-header.open { background: #003B71; color: #fff; }
  .ev-accordion-body { background: #161B22; color: #E6EDF3; }
+ .ac-section-label { color: #8B949E; }
+ .ac-gate-row { background: #1A2233; color: #C0C8D4; }
+ .ac-gate-row strong { color: #D0DCE8; }
+ .ac-step-num { background: #003B71; color: #fff; }
+ .ac-step-body { color: #C0C8D4; }
+ .ac-step-body strong { color: #A8C8F0; }
+ .ac-holman { background: #1A3A6B; color: #E6EDF3; }
+ .ac-holman div { color: #E6EDF3; }
+ .ac-compare-card.no-cdw { background: #2A1515; border-color: #6A2A2A; color: #E6A0A0; }
+ .ac-compare-card.no-cdw .ac-compare-title { color: #E07070; }
+ .ac-compare-card.with-cdw { background: #0E2018; border-color: #1A5A30; color: #90D4A8; }
+ .ac-compare-card.with-cdw .ac-compare-title { color: #60C080; }
+ .ac-bullet { color: #C0C8D4; }
+ .ac-pill.not-fault { background: #0E2018; color: #60C080; }
+ .ac-pill.at-fault { background: #2A1515; color: #E07070; }
+ .ac-callout.urgent { background: #3A1A1A; border-left-color: #E05A50; color: #F4B0A8; }
+ .ac-callout.urgent strong { color: #F4C0B8; }
+ .ac-callout.info { background: #0D1B2A; border-left-color: #2A5070; color: #C0D0E0; }
+ .ac-callout.info strong { color: #D0E4F0; }
+ .ac-callout.warn { background: #2A1A0A; border-left-color: #C0782A; color: #E0C090; }
+ .ac-callout.warn strong { color: #F0D0A0; }
+ .ac-callout.success { background: #0E2A18; border-left-color: #2AAA50; color: #80D4A0; }
+ .ac-callout.success strong { color: #A0E4B8; }
+ .ac-callout.danger { background: #2A0A0A; border-left-color: #C03030; color: #E09090; }
+
+ /* Contact modal */
  .modal-box { background: #161B22; }
- .modal-title { color: #003B71; }
+ .modal-title { color: #E6EDF3; }
  .modal-subtitle { color: #8B949E; }
  .modal-hours { background: #1C2333; border-left-color: #003B71; color: #C0C8D4; }
  .modal-input, .modal-select, .modal-textarea { background: #0D1117; color: #E6EDF3; border-color: #30363D; }
- .modal-label { color: #8B949E; }
+ .modal-label { color: #C0C8D4; }
  .modal-close { background: #30363D; color: #E6EDF3; }
+ .modal-success-title { color: #58A6FF; }
+ .modal-success-text { color: #8B949E; }
+
+ /* Input bar */
  .input-wrap textarea { background: #161B22; color: #E6EDF3; border-color: #30363D; }
  .input-wrap textarea::placeholder { color: transparent; }
  #placeholderOverlay { color: rgba(255,255,255,0.5); font-size: 14px; }
- .modal-success-title { color: #58A6FF; }
- .modal-success-text { color: #8B949E; }
- .location-prompt input { background: #161B22; color: #E6EDF3; border-color: #30363D; }
+
+ /* Location prompt */
+ .location-prompt { background: #161B22; }
+ .location-prompt input { background: #0D1117; color: #E6EDF3; border-color: #30363D; }
  .location-prompt input::placeholder { color: #8B949E; }
+
+ /* Send / Talk buttons */
  .modal-submit { background-color: #003B71; background-image: none; box-shadow: none; }
  .send-msg-btn { background: #1A3A6B; color: #E6EDF3; box-shadow: 0 2px 6px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(255,255,255,0.08); }
  .send-msg-btn:hover { background: #1E4280; }
- .expand-toggle-btn { background: #161B22; color: #8B949E; border-color: #30363D; }
- .expand-toggle-btn:hover { border-color: #4A6080; color: #E6EDF3; }
- .ac-callout.info { background: #0D1B2A; border-left-color: #2A5070; color: #C0D0E0; }
- .ac-callout.warn { background: #2A1A0A; border-left-color: #C0782A; color: #E0C090; }
- .ac-callout.danger { background: #2A0A0A; border-left-color: #C03030; color: #E09090; }
- .ac-gate-row { background: #1A2233; color: #C0C8D4; }
- .ac-section-label { color: #8B949E; }
- .ac-step-num { background: #003B71; color: #fff; }
+
+ /* Language menu */
+ #lang-menu { background: #161B22; box-shadow: 0 -4px 24px rgba(0,0,0,0.5); }
+ .lang-header { color: #6A7A8A; border-bottom-color: #30363D; }
+ .lang-item { color: #E6EDF3; border-bottom-color: #30363D; }
+ .lang-item:hover, .lang-item:active { background: #1E2A3B; }
+ .lang-item.active { background: #1A3050; color: #58A6FF; font-weight: 700; }
+
+ /* Misc */
  #scrollToBottomBtn { background: #1A3A6B; }
+ .msg-bubble.truncated::after { background: linear-gradient(transparent, #1A3050); }
  }
 
  /* MOBILE OPTIMIZATIONS */
@@ -2700,21 +2754,16 @@ function scrollToBottom() {
  });
 }
 
-// Scroll so the new bot message appears at the top — works on iOS Safari + Android Chrome
+// Scroll so the new bot message appears at the top of the chat area
 function scrollToElement(el) {
- try {
- var elRect = el.getBoundingClientRect();
- var chatRect = chatArea.getBoundingClientRect();
- // Always scroll so the TOP of the new message is visible (8px padding)
- var newScrollTop = chatArea.scrollTop + (elRect.top - chatRect.top) - 8;
- setTimeout(function() {
- chatArea.scrollTo({ top: newScrollTop, behavior: 'smooth' });
- }, 120);
- } catch(e) {
- chatArea.scrollTop = chatArea.scrollHeight;
- }
+  try {
+    // offsetTop is layout-stable; getBoundingClientRect can be stale before paint
+    var targetTop = el.offsetTop - 8;
+    chatArea.scrollTo({ top: targetTop, behavior: 'smooth' });
+  } catch(e) {
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }
 }
-
 // RENDERING 
 function escapeHtml(text) {
  var div = document.createElement('div');
@@ -3351,15 +3400,19 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
   quickActions.appendChild(helpRow2);
  }
 
- var row = document.createElement('div');
- row.className = 'msg-row assistant';
- var av = document.createElement('div');
- av.className = 'msg-avatar';
- setAvatarText(av);
- row.appendChild(av);
- row.appendChild(quickActions);
- chatArea.appendChild(row);
- // No scroll here — renderMessage already positioned the view correctly
+ // Delay quick actions so they appear quietly at the bottom
+ // after the main response has already scrolled into view
+ setTimeout(function() {
+   var row = document.createElement('div');
+   row.className = 'msg-row assistant';
+   var av = document.createElement('div');
+   av.className = 'msg-avatar';
+   setAvatarText(av);
+   row.appendChild(av);
+   row.appendChild(quickActions);
+   chatArea.appendChild(row);
+   // No scroll — quick actions appear silently at the bottom
+ }, 600);
 }
 
 function renderMessage(role, content, extra) {
@@ -3428,16 +3481,15 @@ function renderMessage(role, content, extra) {
    // It accounts for contain:layout and doesn't drift with accordion expansion
    requestAnimationFrame(function() {
      requestAnimationFrame(function() {
-       row.scrollIntoView({ block: 'start' });
+       scrollToElement(row);
      });
    });
  } else {
-   setTimeout(function() {
-     var _target = row.querySelector('.msg-bubble') || row;
-     var tRect = _target.getBoundingClientRect();
-     var cRect = chatArea.getBoundingClientRect();
-     chatArea.scrollTo({ top: chatArea.scrollTop + (tRect.top - cRect.top) - 8, behavior: 'smooth' });
-   }, 80);
+   requestAnimationFrame(function() {
+     requestAnimationFrame(function() {
+       scrollToElement(row);
+     });
+   });
  }
  if (role === 'assistant') {
  sessionLog.push({ role: 'bot', text: content, time: new Date().toLocaleTimeString() });
@@ -4716,6 +4768,7 @@ function renderAccidentAccordion() {
 
  // 4. CAN I RENT AGAIN? 
  makeAccordionItem(c, 'Can I Rent Again?', '', [
+ '<div class="ac-callout urgent"><strong>No Same-Day Re-Rental</strong>You cannot rent a vehicle the same day as an accident — regardless of fault, even with CDW.</div>',
  '<div class="ac-callout urgent"><strong>Immediate DNR</strong>You are placed on the Do Not Rent list after any accident — regardless of fault. This applies across ALL Lyft Express Drive providers.</div>',
  '<div class="ac-callout warn"><strong>Timeline</strong>Fault determination can take several months or more. You cannot re-rent until it is resolved and all requirements below are met.</div>',
  '<div class="ac-section-label">You are NOT eligible if:</div>',
@@ -4738,7 +4791,8 @@ function renderAccidentAccordion() {
  '<div class="ac-gate-row"><div class="ac-gate-icon"></div><div>All Not at Fault requirements above must still be met</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon"></div><div>Re-rental only considered if damage was caused by a natural event and deemed unavoidable</div></div>',
  '</div>',
- '<div class="ac-callout info"><strong>To Start the Process</strong>Send a screenshot of your not-at-fault determination email via the Send a Message button below \u2014 select <em>Accident re-rental request</em> and attach the screenshot.</div>'
+ '<div class="ac-callout info"><strong>To Start the Process</strong>Send a screenshot of your not-at-fault determination email via the button below — select <em>Accident re-rental request</em> and attach the screenshot.</div>',
+ '<button class="talk-btn-inline" onclick="openContactModal(\'talk\')">Talk to Someone</button>'
  ].join(''));
 
  // 5. RENTAL CHARGES DURING REPAIR 
