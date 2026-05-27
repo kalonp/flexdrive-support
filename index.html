@@ -2335,12 +2335,12 @@ var KNOWLEDGE_BASE = [
  topic: "Speak to a manager / escalation",
  keywords: ["manager", "speak to manager", "talk to manager", "supervisor", "escalate", "escalation", "i want to complain", "file a complaint", "complaint", "corporate", "regional manager", "i want to speak to someone", "i need to speak to someone", "i want to talk to someone", "need to speak to a person", "speak to a human", "talk to a real person", "real person", "i want to speak to a manager", "can i speak to a manager", "get me a manager", "who do i complain to", "who is in charge", "who runs this", "customer complaint", "unhappy", "dissatisfied", "not happy", "very upset", "extremely upset", "this is unacceptable"],
  showTalkBtn: true,
- response: "We hear you and want to make sure your concern is addressed properly.\n\nFlexdrive offices do not provide phone support — all escalations are handled by email or in person. The best ways to get your concern in front of our team:\n\n1. Use the Talk to Someone button below to send us a message directly. Include as much detail as possible and our team will respond within 1 business day.\n\n2. Reply to your most recent email thread with our team.\n\n3. Visit your Flexdrive office in person during business hours: Monday\u2013Friday, 9:00 AM \u2013 5:00 PM. Appointments are not required.\n\nWe take all feedback seriously and will make sure the right person sees your message."
+ response: "Flexdrive offices do not provide phone support — all communication is by email or in person. Here's how to reach us:\n\n1. Tap 'Still need help?' at the bottom, then 'Talk to Someone' to send us a message. Include as much detail as possible and our team will respond within 1 business day.\n\n2. Reply to your most recent email thread with our team.\n\n3. Visit your Flexdrive office in person Monday\u2013Friday, 9:00 AM \u2013 5:00 PM. No appointment needed.\n\nWe take all feedback seriously and will make sure the right person sees your message."
  },
  {
  topic: "Contact info / phone number / how to reach Flexdrive",
  keywords: ["contact", "phone", "call", "reach", "number", "phone number", "how to reach", "email", "talk to someone", "human", "real person", "speak to someone", "agent", "support", "help", "customer service", "customer support", "flexdrive support", "contact flexdrive", "how do i contact", "reach a person", "get help", "i need help", "need to talk", "need to speak", "contact us", "talk to an agent", "live support", "chat with someone", "associate", "can i call", "flexdrive phone number", "flexdrive email", "hello", "hey", "is anyone there", "is anyone available", "there is anyone available", "anyone here", "is someone there", "anyone available", "is this real", "is this a bot", "am i talking to a person"],
- response: "The best ways to reach us are:\n\n1. Chat with us here in Flexdrive Support\n2. Reply to your most recent email thread with our team\n3. Visit our office in person during business hours (Monday-Friday, 9:00 AM - 5:00 PM). Appointments are not required but appreciated.\n\nPlease note that Flexdrive offices do not provide phone support. Email and in-person are our communication channels.\n\nFor Lyft app or platform-related questions (ride issues, earnings, deactivation), please visit help.lyft.com or contact support through the Lyft Driver App."
+ response: "The best ways to reach us:\n\n1. Tap 'Still need help?' below, then 'Talk to Someone' — we respond within 1 business day.\n2. Reply to your most recent email thread with our team.\n3. Visit your Flexdrive office in person Monday–Friday, 9:00 AM – 5:00 PM. No appointment needed.\n\nFlexdrive offices do not provide phone support — email and in-person only.\n\nFor Lyft app questions (ride issues, earnings, deactivation), visit help.lyft.com or contact support through the Lyft Driver App."
  },
  {
  topic: "Someone else driving the vehicle",
@@ -5006,6 +5006,7 @@ function renderRoadsideAccordion() {
  // ── 3. LOCKOUT ────────────────────────────────────────────────
  makeAccordionItem(c, 'Lockout \u2014 Keys Locked Inside', '', [
  '<div class="ac-holman"><span class="ac-holman-icon" style="font-size:16px;font-weight:700;">24/7</span><div><div style="font-weight:700;margin-bottom:2px;">Call Holman</div><a href="tel:8332745938">(833) 274-5938</a><div style="font-size:12px;opacity:0.8;margin-top:2px;">Holman will dispatch a lockout service</div></div></div>',
+ '<div class="ac-callout warn"><strong>Lockout charges may apply</strong>Lockout service is free for covered roadside situations. If the lockout is deemed non-emergency or you have had multiple lockout calls, a fee may be charged to your account.</div>',
  '<div class="ac-callout urgent"><strong>Do Not Call a Third-Party Locksmith</strong>These costs will not be reimbursed and may violate your rental agreement.</div>',
  '<div class="ac-section-label">If a Replacement Key Fob Is Needed</div>',
  '<div class="ac-gate">',
@@ -5753,7 +5754,7 @@ var CARD_ANSWERS = [
  // ── MISC — feedback / contact / insurance card ───────────────
  
  { k: ["how to contact flexdrive","how to reach flexdrive office","contact flexdrive","flexdrive phone number","flexdrive email","reach flexdrive","flexdrive contact info"],
- a: "Flexdrive offices do not provide phone support — all communication is by email or in person. To reach your local team: tap Talk to Someone below, reply to your most recent email thread, or visit the office Monday–Friday 9:00 AM – 5:00 PM." },
+ a: "Flexdrive offices do not provide phone support — all communication is by email or in person. To reach your local team: tap 'Still need help?' below then 'Talk to Someone', reply to your most recent email thread, or visit the office Monday–Friday 9:00 AM – 5:00 PM." },
 
  { k: ["proof of insurance","insurance card","show insurance document","insurance certificate","need insurance document","insurance paper","where is insurance card"],
  a: "Your proof of insurance is available in the Lyft Driver App: Main Menu → Vehicles and Devices → Your Vehicles → See Details → Insurance Information. You can screenshot or download it from there." },
