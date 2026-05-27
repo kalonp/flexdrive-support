@@ -627,15 +627,23 @@
     border-radius: 50%;
     background: #FF00BF;
     border: none;
-    cursor: pointer;
+    cursor: grab;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center; gap: 1px;
     box-shadow: 0 4px 16px rgba(255,0,191,0.45), 0 2px 6px rgba(0,0,0,0.15);
     -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
+    touch-action: none;
     opacity: 0;
     transform: scale(0.5) translateX(20px);
     transition: opacity 0.0s, transform 0.0s;
+    user-select: none;
+  }
+  .holman-fab.dragging {
+    cursor: grabbing;
+    box-shadow: 0 8px 24px rgba(255,0,191,0.55), 0 4px 12px rgba(0,0,0,0.25);
+    transform: scale(1.08) !important;
+    animation: none !important;
+    transition: box-shadow 0.15s, transform 0.15s;
   }
   .holman-fab.visible {
     animation: holmanFabIn 0.45s cubic-bezier(0.34, 1.6, 0.64, 1) forwards;
@@ -1697,7 +1705,7 @@ const VENDORS = {
  { name: "Goodyear - Baltimore (Fort Ave)", type: "Maintenance", address: "917 E Fort Ave, Baltimore MD 21230", phone: "(410) 576-9077", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
  { name: "Goodyear - Ellicott City", type: "Maintenance", address: "9180 Baltimore National Pike, Ellicott City MD 21042", phone: "(410) 461-1467", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" }
  ], recovery: [], hasTolls: true,
- stateNotes: "IMPORTANT: Maximum rental period is 112 days. Period 2 liability insurance is $125,000 (lower than the standard $1,000,000)."
+ stateNotes: "IMPORTANT: Maximum rental period is 112 days."
  },
  BOS: {
  regionName: "Boston, MA", state: "Massachusetts",
@@ -2393,7 +2401,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Insurance coverage",
- keywords: ["is my car insured", "am i insured", "what happens if i crash", "insurance coverage", "insurance", "coverage", "liability", "covered", "am I insured", "what insurance", "period 0", "period 1", "period 2", "period 3", "am i covered", "do i have insurance", "insurance questions", "what coverage do i have", "liability coverage", "bodily injury", "property damage", "uninsured motorist", "underinsured", "personal insurance", "primary insurance", "secondary insurance", "insurance periods", "lyft insurance", "flexdrive insurance", "proof of insurance", "insurance card", "insurance document", "show insurance", "insurance for lyft", "period 1 coverage", "period 2 coverage", "period 3 coverage", "offline coverage", "online coverage", "while driving coverage"],
+ keywords: ["is my car insured", "am i insured", "what happens if i crash", "insurance coverage", "insurance", "coverage", "liability", "covered", "am I insured", "what insurance", "am i covered", "do i have insurance", "insurance questions", "what coverage do i have", "liability coverage", "bodily injury", "property damage", "uninsured motorist", "underinsured", "personal insurance", "primary insurance", "secondary insurance", "lyft insurance", "flexdrive insurance", "proof of insurance", "insurance card", "insurance document", "show insurance", "insurance for lyft"],
  protectionAccordion: true,
  response: "Here is everything you need to know about protection plans and insurance coverage:"
  },
@@ -2669,7 +2677,7 @@ const STATE_LYFT_REQUIREMENTS = {
  "TWO Lyft emblems required at all times in driver mode — one front windshield, one rear (CPUC requirement). Airport pickups at LAX also require an additional airport placard.",
  "Vehicle inspection required before approval and every 12 months. Inspections cost ~$20-$30 and are not covered by Lyft.",
  "California requires at least 1 year of licensed driving experience.",
- "California AB 2293: Lyft provides PRIMARY liability coverage during Period 1 (app on, no ride accepted), unlike most other states where it is secondary.",
+ 
  "Driver hour restrictions apply — check the Lyft Driver app for current California limits.",
  "Contact Lyft support with your info to transfer your driver account to California."
  ]
@@ -2727,7 +2735,7 @@ const STATE_LYFT_REQUIREMENTS = {
  "TWO Lyft emblems required at all times in driver mode (CPUC requirement).",
  "Vehicle inspection required before approval and every 12 months. Cost ~$20-$30, not covered by Lyft.",
  "California requires at least 1 year of licensed driving experience.",
- "California AB 2293: Lyft provides PRIMARY liability coverage during Period 1.",
+ 
  "Contact Lyft support with your info to transfer your driver account to California."
  ]
  },
@@ -2738,7 +2746,7 @@ const STATE_LYFT_REQUIREMENTS = {
  "TWO Lyft emblems required at all times in driver mode (CPUC requirement). SFO airport pickups also require an airport placard.",
  "Vehicle inspection required before approval and every 12 months. Cost ~$20-$30, not covered by Lyft.",
  "California requires at least 1 year of licensed driving experience.",
- "California AB 2293: Lyft provides PRIMARY liability coverage during Period 1.",
+ 
  "Contact Lyft support with your info to transfer your driver account to California."
  ]
  },
@@ -2987,7 +2995,7 @@ var FOLLOWUP_QUESTIONS = {
  "Damage charges / not at fault": ["What if the other driver was at fault?","Does CDW cover my deductible?","How does subrogation work?"],
  "CDW / protection plan": ["How do I add CDW?","What does CDW cover?","Is CDW worth it?"],
  "PCDW / partial collision damage waiver": ["How is PCDW different from CDW?","How do I add PCDW?","What does PCDW not cover?"],
- "Insurance coverage": ["What is covered during a Lyft ride?","What is Period 1 coverage?","Do I need CDW if I have personal insurance?"],
+ "Insurance coverage": ["Do I need CDW if I have personal insurance?","What happens if I get in an accident?","What is CDW?"],
  "Personal mileage dispute": ["How do I dispute my miles?","Why did my miles go up?","How do I change my mileage plan?"],
  "Personal miles went up unexpectedly": ["Why did my miles go up?","How do I dispute wrong miles?","What is the Destination Filter logout issue?"],
  "Change mileage plan": ["When does my mileage plan change take effect?","What are the overage rates?","How do I check my miles?"],
@@ -5301,14 +5309,10 @@ var CARD_ANSWERS = [
  { k: ["what is pcdw","pcdw coverage","partial collision waiver","low deductible plan","pcdw vs cdw"],
  a: "PCDW (Partial Collision Damage Waiver) reduces your deductible from $1,000 to $500. It does not cover glass damage or flat tires. Available in select markets only." },
 
- { k: ["insurance period 1","period 1 coverage","app on no ride","waiting for ride coverage"],
- a: "Period 1 (app on, waiting for a ride): physical damage covered regardless of fault with $1,000 deductible, liability coverage for third parties. Limits vary by state." },
 
- { k: ["insurance period 2","insurance period 3","period 2 coverage","period 3 coverage","ride in progress coverage","on a trip coverage"],
- a: "Periods 2 & 3 (ride accepted through drop-off): physical damage covered, liability up to $1,000,000 per accident ($125,000 in Maryland). $1,000 deductible applies unless you have CDW." },
 
- { k: ["personal insurance","period 0","app off coverage","personal driving coverage","offline coverage"],
- a: "Period 0 (app off): Flexdrive may provide coverage regardless of fault with a $1,000 deductible. Depending on your state, your personal insurance may be primary. States vary — check your rental agreement." },
+
+
 
  // ── MILEAGE ───────────────────────────────────────────────────────────────────
  { k: ["destination filter expired","destination filter miles","filter logged me out","destination filter auto logout","30 minutes destination filter","filter turned off miles","why did destination filter stop","destination filter logout miles"],
@@ -5595,7 +5599,7 @@ var CARD_ANSWERS = [
  a: "California market: renters are responsible for ALL collision damage regardless of cause. GPS tracking may be activated 72 hours after a missed return date." },
 
  { k: ["maryland insurance","maryland liability","md coverage","md liability limit","maryland 125000"],
- a: "Maryland market: Period 2 & 3 liability is $125,000 per accident. CDW is optional and is NOT insurance. Maximum rental period is 112 days." },
+ a: "Maryland market: CDW is optional and is NOT insurance. Maximum rental period is 112 days." },
 
  { k: ["massachusetts personal insurance","ma personal coverage","boston personal insurance","ma cdw"],
  a: "Massachusetts market: If you have collision coverage on your personal vehicle, it covers the rental car and CDW may not be needed. CDW is optional and is NOT insurance." },
@@ -5944,8 +5948,7 @@ var CARD_ANSWERS = [
  a: "PCDW does not cover glass damage, flat tires, or towing. It only reduces your deductible to $500. For full coverage including glass and tires, you need CDW." },
 
  // Insurance
- { k: ["what is covered during a lyft ride","covered on a lyft ride","insurance during ride","period 2 period 3 coverage"],
- a: "Periods 2 & 3 (ride accepted through drop-off): up to $1,000,000 liability, physical damage covered with $1,000 deductible (waived with CDW). $125,000 in Maryland." },
+
 
  // Mileage
  { k: ["how do i dispute wrong miles","dispute wrong mileage","incorrect miles dispute","my miles are wrong dispute"],
@@ -6628,11 +6631,96 @@ function showEmergencyBanner() {
   requestAnimationFrame(function() {
     fab.classList.add('visible');
   });
-  // FAB tap — toggle tooltip
+  // Drag logic — touch and mouse
+  var _drag = { active: false, startX: 0, startY: 0, origLeft: 0, origTop: 0, moved: false };
+
+  function _onDragStart(clientX, clientY) {
+    var rect = fab.getBoundingClientRect();
+    _drag.active = true;
+    _drag.moved = false;
+    _drag.startX = clientX;
+    _drag.startY = clientY;
+    _drag.origLeft = rect.left;
+    _drag.origTop = rect.top;
+    fab.classList.add('dragging');
+    fab.classList.remove('visible');
+    fab.style.animation = 'none';
+    fab.style.opacity = '1';
+    fab.style.transform = 'scale(1.08)';
+    fab.style.left = rect.left + 'px';
+    fab.style.top = rect.top + 'px';
+    fab.style.right = 'auto';
+    fab.style.bottom = 'auto';
+    if (_holmanTooltipVisible) {
+      _holmanTooltipVisible = false;
+      tip.classList.remove('visible');
+    }
+  }
+
+  function _onDragMove(clientX, clientY) {
+    if (!_drag.active) return;
+    var dx = clientX - _drag.startX;
+    var dy = clientY - _drag.startY;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) _drag.moved = true;
+    var newLeft = Math.max(8, Math.min(window.innerWidth - 66, _drag.origLeft + dx));
+    var newTop  = Math.max(8, Math.min(window.innerHeight - 66, _drag.origTop + dy));
+    fab.style.left = newLeft + 'px';
+    fab.style.top  = newTop + 'px';
+    // Reposition tooltip relative to fab
+    _repositionTooltip();
+  }
+
+  function _onDragEnd() {
+    if (!_drag.active) return;
+    _drag.active = false;
+    fab.classList.remove('dragging');
+    fab.style.transform = 'scale(1)';
+    resetHolmanAutoDismiss();
+  }
+
+  function _repositionTooltip() {
+    var fr = fab.getBoundingClientRect();
+    var tipW = tip.offsetWidth || 200;
+    var tipH = tip.offsetHeight || 80;
+    var left = fr.left + fr.width / 2 - tipW / 2;
+    left = Math.max(8, Math.min(window.innerWidth - tipW - 8, left));
+    var top = fr.bottom + 8;
+    if (top + tipH > window.innerHeight - 8) top = fr.top - tipH - 8;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.right = 'auto';
+  }
+
+  // Touch events
+  fab.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      _onDragStart(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
+  document.addEventListener('touchmove', function(e) {
+    if (_drag.active) {
+      _onDragMove(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
+  document.addEventListener('touchend', function() { _onDragEnd(); });
+
+  // Mouse events
+  fab.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    _onDragStart(e.clientX, e.clientY);
+  });
+  document.addEventListener('mousemove', function(e) {
+    if (_drag.active) _onDragMove(e.clientX, e.clientY);
+  });
+  document.addEventListener('mouseup', function() { _onDragEnd(); });
+
+  // FAB tap — toggle tooltip (only if not dragged)
   fab.addEventListener('click', function(e) {
     e.stopPropagation();
+    if (_drag.moved) { _drag.moved = false; return; }
     _holmanTooltipVisible = !_holmanTooltipVisible;
     tip.classList.toggle('visible', _holmanTooltipVisible);
+    if (_holmanTooltipVisible) _repositionTooltip();
   });
   // Tooltip close X — full dismiss
   document.getElementById('holmanDismiss').addEventListener('click', function(e) {
