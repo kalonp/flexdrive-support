@@ -601,63 +601,119 @@
   }
   .talk-btn:active { filter: brightness(0.88); transform: scale(0.96); }
   .did-help-row {
-    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
-    animation: fadeIn 0.3s ease both;
+    display: flex; align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    margin-top: 4px;
   }
-  .did-help-label {
-    font-size: 12px; color: #7D868C; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.5px;
-    width: 100%; margin-bottom: 2px;
-  }
-  .did-help-btn {
-    border: 1.5px solid #D0DCF0; border-radius: 20px;
-    background: #fff; color: #003C72; font-size: 13px;
-    font-weight: 600; padding: 7px 16px; cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
+  .did-help-row.visible { opacity: 1; }
+  .did-help-link {
+    font-size: 13px; color: #9BA8B8; font-weight: 500;
+    cursor: pointer; background: none; border: none;
+    padding: 4px 0; text-decoration: none;
+    transition: color 0.15s;
     -webkit-tap-highlight-color: transparent;
+    font-family: var(--font);
   }
-  .did-help-btn:hover { border-color: #003C72; background: #EEF3FA; }
-  .did-help-btn.yes { border-color: #003C72; }
-  .did-help-btn.no { border-color: #FF00BF; color: #FF00BF; }
-  .did-help-btn.no:hover { background: #FFF0FA; }
+  .did-help-link:hover, .did-help-link:active { color: #FF00BF; }
   /* EMERGENCY FLOATING PILL */
-  .emergency-pill {
+  /* HOLMAN FLOATING BUTTON */
+  .holman-fab {
     position: fixed;
-    bottom: 72px; /* sits just above input bar */
-    left: 0; right: 0;
-    z-index: 9999;
-    margin: 0 10px;
-    background: #D93025;
+    top: calc(72px + env(safe-area-inset-top));
+    right: 14px;
+    z-index: 9998;
+    width: 58px; height: 58px;
+    border-radius: 50%;
+    background: #FF00BF;
+    border: none;
+    cursor: pointer;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 1px;
+    box-shadow: 0 4px 16px rgba(255,0,191,0.45), 0 2px 6px rgba(0,0,0,0.15);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    opacity: 0;
+    transform: scale(0.5) translateX(20px);
+    transition: opacity 0.0s, transform 0.0s;
+  }
+  .holman-fab.visible {
+    animation: holmanFabIn 0.45s cubic-bezier(0.34, 1.6, 0.64, 1) forwards;
+  }
+  .holman-fab.hiding {
+    animation: holmanFabOut 0.25s ease-in forwards;
+  }
+  @keyframes holmanFabIn {
+    0%   { opacity: 0; transform: scale(0.5) translateX(20px); }
+    60%  { opacity: 1; transform: scale(1.08) translateX(-2px); }
+    100% { opacity: 1; transform: scale(1) translateX(0); }
+  }
+  @keyframes holmanFabOut {
+    0%   { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.7) translateX(16px); }
+  }
+  .holman-fab-icon {
     color: #fff;
-    border-radius: 14px;
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    box-shadow: 0 4px 16px rgba(217,48,37,0.45);
-    animation: emergencySlideUp 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
-    cursor: default;
-  }
-  @keyframes emergencySlideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to   { transform: translateY(0);    opacity: 1; }
-  }
-  .emergency-pill-icon { font-size: 20px; flex-shrink: 0; }
-  .emergency-pill-text { flex: 1; line-height: 1.4; }
-  .emergency-pill-text a { color: #fff; font-weight: 800; font-size: 16px; text-decoration: none; display: block; }
-  .emergency-pill-text span { font-size: 12px; opacity: 0.85; font-weight: 400; }
-  .emergency-pill-dismiss {
-    background: rgba(255,255,255,0.2);
-    border: none; border-radius: 50%;
-    width: 28px; height: 28px;
-    color: #fff; font-size: 16px; font-weight: 700;
-    cursor: pointer; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
     line-height: 1;
   }
-  .emergency-pill-dismiss:hover { background: rgba(255,255,255,0.35); }
+  .holman-fab-label {
+    font-size: 9px; font-weight: 800;
+    color: #fff; letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  /* HOLMAN TOOLTIP */
+  .holman-tooltip {
+    position: fixed;
+    top: calc(138px + env(safe-area-inset-top));
+    right: 14px;
+    z-index: 9997;
+    background: #fff;
+    border-radius: 14px;
+    padding: 12px 14px;
+    min-width: 190px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.14), 0 0 0 1.5px rgba(0,59,113,0.08);
+    opacity: 0;
+    transform: scale(0.85) translateY(-8px);
+    transform-origin: top right;
+    pointer-events: none;
+    transition: opacity 0.22s cubic-bezier(0.34,1.3,0.64,1), transform 0.22s cubic-bezier(0.34,1.3,0.64,1);
+  }
+  .holman-tooltip.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+  }
+  .holman-tooltip-name {
+    font-size: 12px; font-weight: 700; color: #003C72;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .holman-tooltip-num {
+    font-size: 18px; font-weight: 800;
+    color: #FF00BF; text-decoration: none;
+    display: block; line-height: 1.2;
+  }
+  .holman-tooltip-sub {
+    font-size: 11px; color: #7D868C;
+    margin-top: 3px;
+  }
+  .holman-tooltip-close {
+    position: absolute; top: 8px; right: 8px;
+    background: #F0F4F8; border: none; border-radius: 50%;
+    width: 22px; height: 22px;
+    color: #7D868C; font-size: 13px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    line-height: 1; padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .holman-tooltip-close:hover { background: #E0E8F0; color: #003C72; }
+  @media (prefers-color-scheme: dark) {
+    .holman-tooltip { background: #1A2535; box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(255,255,255,0.07); }
+    .holman-tooltip-name { color: #A8C8F0; }
+    .holman-tooltip-sub { color: #6A7A8A; }
+    .holman-tooltip-close { background: #0D1117; color: #8B949E; }
+    .holman-tooltip-close:hover { background: #1E2A3B; color: #E6EDF3; }
+  }
 
  /* SEND A MESSAGE BUTTON */
  .send-msg-btn {
@@ -1507,10 +1563,10 @@
  <option value="">-- Select a reason --</option>
  <option value="Pick-up">Pick-up</option>
  <option value="Drop-off">Drop-off</option>
- <option value="Inspection photo">Inspection photo &#128248;</option>
- <option value="Accident re-rental request">Accident re-rental request</option>
- <option value="Pre-existing damage report">Pre-existing damage report &#128248;</option>
- <option value="Traffic / parking ticket copy">Traffic / parking ticket copy &#128248;</option>
+ <option value="Inspection photo">Inspection photo 📷</option>
+ <option value="Accident re-rental request">Accident re-rental request 📷</option>
+ <option value="Pre-existing damage report">Pre-existing damage report 📷</option>
+ <option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>
  <option value="Mileage dispute">Mileage dispute</option>
  <option value="Billing question">Billing question</option>
  <option value="Cleaning charge dispute">Cleaning charge dispute</option>
@@ -1537,14 +1593,14 @@
  <label class="modal-label" for="cf-message">Message *</label>
  <textarea class="modal-textarea" id="cf-message" placeholder="Describe your issue in detail..."></textarea>
  </div>
- <div class="modal-field" id="attach-field">
+ <div class="modal-field" id="attach-field" style="display:none;">
  <label class="modal-label" id="attach-label">Attachment <span id="attach-required-badge" style="font-weight:600;text-transform:none;font-size:11px;color:#D93025;display:none;">* Required</span><span id="attach-optional-badge" style="font-weight:400;text-transform:none;font-size:11px;color:#9BA8B8;">(optional)</span></label>
  <div id="attach-prompt" style="display:none;font-size:13px;color:#003B71;background:rgba(0,59,113,0.06);border-radius:10px;padding:10px 12px;margin-bottom:10px;line-height:1.5;"></div>
  <input type="file" id="cf-attachment" accept="image/*,.pdf" style="display:none;" onchange="handleAttachmentChange(this)" />
  <div id="attach-drop-zone" onclick="document.getElementById('cf-attachment').click()" style="border:2px dashed rgba(0,59,113,0.25);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;background:rgba(0,59,113,0.03);transition:border-color 0.15s,background 0.15s;touch-action:manipulation;">
-   <div style="font-size:26px;flex-shrink:0;">&#128247;</div>
+   <div style="flex-shrink:0;width:28px;height:28px;"><svg viewBox="0 0 24 24" fill="none" stroke="#FF00BF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
    <div>
-     <div id="attach-zone-label" style="font-size:14px;font-weight:600;color:#003B71;">Tap to attach a photo or PDF</div>
+     <div id="attach-zone-label" style="font-size:14px;font-weight:600;color:#003B71;">Tap to attach</div>
      <div style="font-size:12px;color:#9BA8B8;margin-top:2px;">JPG · PNG · PDF — max 5MB</div>
    </div>
  </div>
@@ -2232,7 +2288,7 @@ var KNOWLEDGE_BASE = [
  keywords: ["my car is gone", "car is gone", "repossessed", "repo", "towed", "belongings", "stuff", "taken", "recovered", "personal items", "get my things", "car was taken", "car got repo'd", "they took my car", "flexdrive took my car", "vehicle was repossessed", "car picked up", "my stuff is in the car", "get my belongings", "get my stuff", "retrieve my things", "items left in car", "left stuff in car", "car was taken away", "what happened to my things", "where is my car", "car gone", "vehicle gone", "recovery yard", "impound"],
  needsRegion: true,
  showTalkBtn: true,
- response: "We understand this is a stressful situation. Your vehicle was recovered due to outstanding charges and/or non-compliance with the rental program requirements.\n\nTo retrieve your personal belongings from the vehicle, please contact the recovery location where the vehicle was taken as soon as possible. If your vehicle has already been returned to our office, you may pick up your belongings during business hours (Monday-Friday, 9:00 AM - 5:00 PM).\n\nWARNING: Lyft/Flexdrive is not responsible for any belongings left in the vehicle after return or repossession. ALL BELONGINGS LEFT IN THE VEHICLE WILL BE DISPOSED OF UPON RETURN OF THE VEHICLE. Please act quickly.\n\nPlease note that any outstanding balance on your account remains your responsibility.\n\nWould you like help finding your recovery location? Please share your city or zip code."
+ response: "We understand this is a stressful situation. Your vehicle was recovered due to outstanding charges and/or non-compliance with the rental program requirements.\n\nWARNING: Belongings left in the vehicle are disposed of by the tow/recovery yard — Flexdrive does not have access to your items once the vehicle leaves your possession. Contact the recovery yard directly as soon as possible — do not delay.\n\nFlexdrive is not responsible for any belongings left in the vehicle after repossession.\n\nPlease note that any outstanding balance on your account remains your responsibility.\n\nWould you like help finding your recovery location? Please share your city or zip code."
  },
  {
  topic: "Swaps",
@@ -3337,7 +3393,7 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  toggleBtn.style.borderColor = '';
  toggleBtn.style.color = '';
  }
- setTimeout(scrollToBottom, 50);
+   // No scroll on expand/collapse — stay where the user is
  });
  quickActions.appendChild(toggleBtn);
  }
@@ -3356,74 +3412,62 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  }
 
  if (!suppressTalkBtn) {
-  // "Did this help?" gate — Talk to Someone only appears if they say No
   var helpRow = document.createElement('div');
   helpRow.className = 'did-help-row';
-  var helpLabel = document.createElement('div');
-  helpLabel.className = 'did-help-label';
-  helpLabel.textContent = 'Did this answer your question?';
-  var yesBtn = document.createElement('button');
-  yesBtn.className = 'did-help-btn yes';
-  yesBtn.innerHTML = '&#10003; Yes, thanks';
-  var noBtn = document.createElement('button');
-  noBtn.className = 'did-help-btn no';
-  noBtn.innerHTML = 'No, I still need help';
-  yesBtn.addEventListener('click', function() {
+  var helpLink = document.createElement('button');
+  helpLink.className = 'did-help-link';
+  helpLink.textContent = 'Still need help?';
+  helpLink.addEventListener('click', function() {
     haptic();
-    helpRow.innerHTML = '<div style="font-size:13px;color:#7D868C;padding:4px 0;">Glad I could help! Feel free to ask anything else.</div>';
-  });
-  noBtn.addEventListener('click', function() {
-    haptic();
-    helpRow.innerHTML = '';
+    helpRow.style.display = 'none';
     var talkBtn = document.createElement('button');
     talkBtn.className = 'talk-btn quick-btn';
     talkBtn.style.background = '#FF00BF';
     talkBtn.style.color = 'var(--white)';
     talkBtn.innerHTML = 'Talk to Someone';
-    talkBtn.style.animation = 'talkBtnEntrance 0.4s cubic-bezier(0.34,1.4,0.64,1) both';
+    talkBtn.style.animation = 'talkBtnEntrance 0.38s cubic-bezier(0.34,1.4,0.64,1) both';
     talkBtn.addEventListener('click', function() { openContactModal('talk'); });
     quickActions.appendChild(talkBtn);
-    scrollToElement(talkBtn);
+    requestAnimationFrame(function() {
+      var btnBottom = talkBtn.offsetTop + talkBtn.offsetHeight + 16;
+      var viewBottom = chatArea.scrollTop + chatArea.clientHeight;
+      if (btnBottom > viewBottom) {
+        chatArea.scrollTo({ top: chatArea.scrollTop + (btnBottom - viewBottom), behavior: 'smooth' });
+      }
+    });
   });
-  helpRow.appendChild(helpLabel);
-  helpRow.appendChild(yesBtn);
-  helpRow.appendChild(noBtn);
+  helpRow.appendChild(helpLink);
   quickActions.appendChild(helpRow);
+  setTimeout(function() { helpRow.classList.add('visible'); }, 1500);
  }
  if (lastMatch && lastMatch.sendMsgBtn && !lastMatch.showTalkBtn) {
-  // Use the same Did this help gate for sendMsgBtn path
   var helpRow2 = document.createElement('div');
   helpRow2.className = 'did-help-row';
-  var helpLabel2 = document.createElement('div');
-  helpLabel2.className = 'did-help-label';
-  helpLabel2.textContent = 'Did this answer your question?';
-  var yesBtn2 = document.createElement('button');
-  yesBtn2.className = 'did-help-btn yes';
-  yesBtn2.innerHTML = '&#10003; Yes, thanks';
-  var noBtn2 = document.createElement('button');
-  noBtn2.className = 'did-help-btn no';
-  noBtn2.innerHTML = 'No, I still need help';
-  yesBtn2.addEventListener('click', function() {
+  var helpLink2 = document.createElement('button');
+  helpLink2.className = 'did-help-link';
+  helpLink2.textContent = 'Still need help?';
+  helpLink2.addEventListener('click', function() {
     haptic();
-    helpRow2.innerHTML = '<div style="font-size:13px;color:#7D868C;padding:4px 0;">Glad I could help! Feel free to ask anything else.</div>';
-  });
-  noBtn2.addEventListener('click', function() {
-    haptic();
-    helpRow2.innerHTML = '';
+    helpRow2.style.display = 'none';
     var smBtn = document.createElement('button');
     smBtn.className = 'talk-btn quick-btn';
     smBtn.style.background = '#FF00BF';
     smBtn.style.color = 'var(--white)';
     smBtn.innerHTML = 'Talk to Someone';
-    smBtn.style.animation = 'talkBtnEntrance 0.4s cubic-bezier(0.34,1.4,0.64,1) both';
+    smBtn.style.animation = 'talkBtnEntrance 0.38s cubic-bezier(0.34,1.4,0.64,1) both';
     smBtn.addEventListener('click', function() { openContactModal('talk'); });
     quickActions.appendChild(smBtn);
-    scrollToElement(smBtn);
+    requestAnimationFrame(function() {
+      var btnBottom = smBtn.offsetTop + smBtn.offsetHeight + 16;
+      var viewBottom = chatArea.scrollTop + chatArea.clientHeight;
+      if (btnBottom > viewBottom) {
+        chatArea.scrollTo({ top: chatArea.scrollTop + (btnBottom - viewBottom), behavior: 'smooth' });
+      }
+    });
   });
-  helpRow2.appendChild(helpLabel2);
-  helpRow2.appendChild(yesBtn2);
-  helpRow2.appendChild(noBtn2);
+  helpRow2.appendChild(helpLink2);
   quickActions.appendChild(helpRow2);
+  setTimeout(function() { helpRow2.classList.add('visible'); }, 1500);
  }
 
  // Delay quick actions so they appear quietly at the bottom
@@ -3449,7 +3493,7 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  }, 350);
 }
 
-function renderMessage(role, content, extra) {
+function renderMessage(role, content, extra, noScroll) {
  var row = document.createElement('div');
  row.className = 'msg-row ' + role;
 
@@ -3510,20 +3554,14 @@ function renderMessage(role, content, extra) {
  }
 
  chatArea.appendChild(row);
- if (extra) {
-   // scrollIntoView with block:start is the most reliable cross-browser/mobile approach
-   // It accounts for contain:layout and doesn't drift with accordion expansion
-   requestAnimationFrame(function() {
+ if (!noScroll) {
+   if (extra) {
+     setTimeout(function() { scrollToElement(row); }, 80);
+   } else {
      requestAnimationFrame(function() {
-       scrollToElement(row);
+       requestAnimationFrame(function() { scrollToElement(row); });
      });
-   });
- } else {
-   requestAnimationFrame(function() {
-     requestAnimationFrame(function() {
-       scrollToElement(row);
-     });
-   });
+   }
  }
  if (role === 'assistant') {
  sessionLog.push({ role: 'bot', text: content, time: new Date().toLocaleTimeString() });
@@ -3579,8 +3617,10 @@ function renderMessage(role, content, extra) {
  }, 50);
  }
 
- setTimeout(function() { appendQuickActions(!isFirst, suppressTalk || isFirst); }, isFirst ? 600 : 350);
-  setTimeout(flashScrollBtn, 1500);
+  if (!noScroll) {
+   setTimeout(function() { appendQuickActions(!isFirst, suppressTalk || isFirst); }, isFirst ? 600 : 350);
+   setTimeout(flashScrollBtn, 1500);
+  }
  }
  return bubble;
 }
@@ -3629,7 +3669,7 @@ function renderTyping(thinkingText) {
   row.appendChild(avatar);
   row.appendChild(bubbleWrap);
   chatArea.appendChild(row);
-  scrollToBottom();
+  // No auto-scroll — let the response handler decide scroll behavior
 }
 
 function removeTyping() {
@@ -5152,70 +5192,13 @@ function needsOfficeLookup(text) {
  return /office|address|where.*located|visit|location|come in|drop off|walk.in|bring.*receipt|bring.*vehicle|bring.*car|in.person/i.test(text);
 }
 
-// SESSION TIMEOUT 
+// SESSION TIMEOUT — prompt removed, timer kept for logging only
 function resetSessionTimeout() {
  if (sessionTimeoutTimer) clearTimeout(sessionTimeoutTimer);
- if (awaitingLocation) return; // Don't run timeout during onboarding
- sessionTimeoutTimer = setTimeout(showSessionTimeoutPrompt, SESSION_TIMEOUT_MS);
 }
 
 function showSessionTimeoutPrompt() {
- if (isTyping) { resetSessionTimeout(); return; }
-
- var row = document.createElement('div');
- row.className = 'msg-row assistant';
- row.id = 'timeoutPromptRow';
-
- var av = document.createElement('div');
- av.className = 'msg-avatar';
- setAvatarText(av);
-
- var wrapper = document.createElement('div');
- wrapper.style.cssText = 'display:flex;flex-direction:column;flex:1;min-width:0;gap:10px;';
-
- var bubble = document.createElement('div');
- bubble.className = 'msg-bubble';
- bubble.textContent = 'Still there? Your session will reset in 60 seconds due to inactivity.';
-
- var btnRow = document.createElement('div');
- btnRow.className = 'quick-actions';
-
- var yesBtn = document.createElement('button');
- yesBtn.className = 'quick-btn';
- yesBtn.textContent = ' Yes, I\'m still here';
- yesBtn.addEventListener('click', function() {
- var promptRow = document.getElementById('timeoutPromptRow');
- if (promptRow) promptRow.remove();
- resetSessionTimeout();
- });
-
- var restartBtn = document.createElement('button');
- restartBtn.className = 'quick-btn';
- restartBtn.textContent = '↺ Start over';
- restartBtn.addEventListener('click', function() {
- // Clear chat and restart
- chatArea.innerHTML = '';
- messages = [];
- sessionLog = [];
- userRegion = null;
- awaitingLocation = true;
- userInput.disabled = true;
- userInput.placeholder = 'Enter City or Zip Code...';
- document.querySelector('.input-bar').style.display = 'none';
- sendBtn.disabled = true;
- if (sessionTimeoutTimer) clearTimeout(sessionTimeoutTimer);
- if (window._checkFocusInterval) { clearInterval(window._checkFocusInterval); window._checkFocusInterval = null; }
- showWelcome();
- });
-
- btnRow.appendChild(yesBtn);
- btnRow.appendChild(restartBtn);
- wrapper.appendChild(bubble);
- wrapper.appendChild(btnRow);
- row.appendChild(av);
- row.appendChild(wrapper);
- chatArea.appendChild(row);
- scrollToBottom();
+ // No-op — session timeout prompt disabled
 }
 
 // ─── LOG SESSION START ───
@@ -6602,34 +6585,84 @@ function getAriGreeting() {
 var EMERGENCY_REGEX = /\b(pulled over|police lights|cop pulled|turtle mode|running out of charge|out of charge|power limited|accident|crash|hit.*car|car.*hit|broke down|breakdown|won.t start|wont start|won.t move|wont move|flat tire|locked out|lockout|tow|towing|on fire|car.*fire|stolen|unsafe|emergency|911|need help now|car.*won.t|engine.*smoke|smoke.*engine|car.*dead|dead.*battery|stuck on.*highway|stuck.*road|not drivable|undrivable|vehicle.*unsafe|airbag|deployed|collision|rear.ended|side.swiped|totaled|hydroplaned|spun out|hit a deer|hit.*median|hit.*guardrail|hit.*pole|car.*stopped working|car.*shutting off|car.*shut off|overheating|engine.*light|check engine|oil.*light|battery.*light|smoke.*hood|hood.*smoke)\b/i;
 var _emergencyBannerEl = null;
 
+var _holmanTooltipVisible = false;
+var _holmanAutoDismissTimer = null;
+
 function showEmergencyBanner() {
-  // Remove existing pill if showing, then re-show (re-fires for repeat keywords)
-  hideEmergencyBanner();
-  var pill = document.createElement('div');
-  pill.className = 'emergency-pill';
-  pill.innerHTML =
-    '<div class="emergency-pill-icon">\uD83D\uDEA8</div>' +
-    '<div class="emergency-pill-text">' +
-      '<a href="tel:8332745938">(833) 274-5938 — Holman Roadside</a>' +
-      '<span>Available 24/7 &bull; Free for covered breakdowns</span>' +
-    '</div>' +
-    '<button class="emergency-pill-dismiss" onclick="hideEmergencyBanner()" aria-label="Dismiss">&times;</button>';
-  document.body.appendChild(pill);
-  _emergencyBannerEl = pill;
-  // Auto-dismiss after 60 seconds
-  setTimeout(function() { hideEmergencyBanner(); }, 60000);
+  // If FAB already exists, just re-trigger entrance
+  var existing = document.getElementById('holmanFab');
+  if (existing) {
+    existing.classList.remove('hiding');
+    existing.classList.remove('visible');
+    void existing.offsetWidth;
+    existing.classList.add('visible');
+    resetHolmanAutoDismiss();
+    return;
+  }
+  // Build FAB
+  var fab = document.createElement('button');
+  fab.id = 'holmanFab';
+  fab.className = 'holman-fab';
+  fab.setAttribute('aria-label', 'Holman Roadside 24/7');
+  fab.innerHTML =
+    '<div class="holman-fab-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12 19.79 19.79 0 0 1 1.15 3.38 2 2 0 0 1 3.13 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg></div>' +
+    '<div class="holman-fab-label">24/7</div>';
+  // Build tooltip
+  var tip = document.createElement('div');
+  tip.id = 'holmanTooltip';
+  tip.className = 'holman-tooltip';
+  tip.innerHTML =
+    '<button class="holman-tooltip-close" id="holmanDismiss" aria-label="Dismiss">&times;</button>' +
+    '<div class="holman-tooltip-name">Holman Roadside</div>' +
+    '<a class="holman-tooltip-num" href="tel:8332745938">(833) 274-5938</a>' +
+    '<div class="holman-tooltip-sub">24/7 &bull; Free for covered breakdowns</div>';
+  document.body.appendChild(fab);
+  document.body.appendChild(tip);
+  _emergencyBannerEl = fab;
+  // Animate in
+  requestAnimationFrame(function() {
+    fab.classList.add('visible');
+  });
+  // FAB tap — toggle tooltip
+  fab.addEventListener('click', function(e) {
+    e.stopPropagation();
+    _holmanTooltipVisible = !_holmanTooltipVisible;
+    tip.classList.toggle('visible', _holmanTooltipVisible);
+  });
+  // Tooltip close X — full dismiss
+  document.getElementById('holmanDismiss').addEventListener('click', function(e) {
+    e.stopPropagation();
+    hideEmergencyBanner();
+  });
+  // Tap outside tooltip closes it (but keeps FAB)
+  document.addEventListener('click', function holmanOutside(e) {
+    if (_holmanTooltipVisible && !tip.contains(e.target) && e.target !== fab) {
+      _holmanTooltipVisible = false;
+      tip.classList.remove('visible');
+    }
+    if (!document.getElementById('holmanFab')) {
+      document.removeEventListener('click', holmanOutside);
+    }
+  });
+  resetHolmanAutoDismiss();
+}
+
+function resetHolmanAutoDismiss() {
+  if (_holmanAutoDismissTimer) clearTimeout(_holmanAutoDismissTimer);
+  _holmanAutoDismissTimer = setTimeout(function() { hideEmergencyBanner(); }, 60000);
 }
 
 function hideEmergencyBanner() {
-  if (_emergencyBannerEl) {
-    _emergencyBannerEl.style.opacity = '0';
-    _emergencyBannerEl.style.transition = 'opacity 0.35s';
-    var _el = _emergencyBannerEl;
-    _emergencyBannerEl = null;
-    setTimeout(function() {
-      if (_el && _el.parentNode) _el.parentNode.removeChild(_el);
-    }, 350);
+  if (_holmanAutoDismissTimer) { clearTimeout(_holmanAutoDismissTimer); _holmanAutoDismissTimer = null; }
+  _holmanTooltipVisible = false;
+  var tip = document.getElementById('holmanTooltip');
+  if (tip) { tip.classList.remove('visible'); setTimeout(function() { if (tip.parentNode) tip.parentNode.removeChild(tip); }, 250); }
+  var fab = document.getElementById('holmanFab');
+  if (fab) {
+    fab.classList.add('hiding');
+    setTimeout(function() { if (fab.parentNode) fab.parentNode.removeChild(fab); }, 260);
   }
+  _emergencyBannerEl = null;
 }
 
 function sendMessage() {
@@ -6703,7 +6736,7 @@ function sendMessage() {
    if (userRegion && VENDORS[userRegion] && VENDORS[userRegion].vendors.length > 0) {
      var vRegion = VENDORS[userRegion];
      var vendorCards = renderVendorCards(vRegion.vendors);
-     setTimeout(function() { renderMessage('assistant', 'Here are the approved vendors in the ' + vRegion.regionName + ' area:', vendorCards); }, 400);
+     setTimeout(function() { renderMessage('assistant', 'Here are the approved vendors in the ' + vRegion.regionName + ' area:', vendorCards, true); }, 400);
    } else {
      lastMatch = cardResult;
      setTimeout(function() { appendQuickActions(true, false); }, 300);
@@ -6812,10 +6845,10 @@ function sendMessage() {
  return { name: r.name, type: 'Vehicle Recovery', address: r.address, phone: r.phone, note: r.note };
  })
  );
- renderMessage('assistant', getAriGreeting() + responseText, recoveryCards);
+ renderMessage('assistant', getAriGreeting() + responseText, recoveryCards, true);
  } else if (match.useLocationCards) {
  var locationCards = renderLocationCards();
- renderMessage('assistant', 'Here is your nearest Flexdrive office:', locationCards);
+ renderMessage('assistant', 'Here is your nearest Flexdrive office:', locationCards, true);
  setTimeout(function() { appendQuickActions(true, false); }, 600);
  } else if (match.roadsideAccordion) {
  var roadsideAccordion = renderRoadsideAccordion();
@@ -6826,7 +6859,7 @@ function sendMessage() {
  renderMessage('assistant', 'Here is everything you need to know about moving to a new state:', renderMovingAccordion());
  } else if (match.marketsGrid) {
  var gridEl = renderMarketsGrid();
- renderMessage('assistant', responseText, gridEl);
+ renderMessage('assistant', responseText, gridEl, true);
  } else if (match.rentalAccountAccordion) {
  renderMessage('assistant', 'Here is everything you need to know about your rental account:', renderRentalAccountAccordion());
  } else if (match.earningsAccordion) {
@@ -6887,7 +6920,7 @@ function sendMessage() {
  var vRegion = VENDORS[userRegion];
  if (vRegion.vendors.length >0) {
  var vendorCards = renderVendorCards(vRegion.vendors);
- renderMessage('assistant', 'Here are the approved vendors in the ' + vRegion.regionName + ' area:', vendorCards);
+ renderMessage('assistant', 'Here are the approved vendors in the ' + vRegion.regionName + ' area:', vendorCards, true);
  } else {
  renderMessage('assistant', 'For approved vendors in the ' + vRegion.regionName + ' area, please check the Lyft Driver App: Vehicles and Devices >Schedule Preventive Maintenance, or refer to the vendor list in your welcome email.\n\nIMPORTANT: Always tell the shop "This is a Flexdrive vehicle" before any work is done.');
  }
@@ -7114,7 +7147,7 @@ function appendLocationRow(msgText, locPrompt) {
  row.appendChild(topRow);
  row.appendChild(locPrompt);
  chatArea.appendChild(row);
- scrollToBottom();
+  scrollToElement(row);
 }
 
 function handleLocationInput(locationText) {
@@ -7239,7 +7272,7 @@ function handleVendorInput(locationText) {
  var regionData = VENDORS[region];
  if (regionData.vendors.length >0) {
  var vendorCards = renderVendorCards(regionData.vendors);
- renderMessage('assistant', 'Here are the approved vendors in the ' + regionData.regionName + ' area:', vendorCards);
+ renderMessage('assistant', 'Here are the approved vendors in the ' + regionData.regionName + ' area:', vendorCards, true);
  } else {
  renderMessage('assistant', 'For approved vendors in the ' + regionData.regionName + ' area, please check the Lyft Driver App: Vehicles and Devices >Schedule Preventive Maintenance, or refer to the vendor list in your welcome email.\n\nIMPORTANT: Always tell the shop "This is a Flexdrive vehicle" before any work is done.');
  }
@@ -7502,6 +7535,7 @@ function openContactModal(mode) {
  document.getElementById('cf-phone').value = '';
  document.getElementById('cf-reason').value = '';
  document.getElementById('cf-message').value = '';
+ handleReasonChange(''); // reset attachment field to hidden
   var rp = document.getElementById('cf-response-pref');
   if (rp) { rp.value = ''; handleResponsePrefChange(''); }
  var isTalk = (mode === 'talk');
@@ -7579,10 +7613,10 @@ function openContactModal(mode) {
       '<option value="">-- Select a reason --</option>' +
       '<option value="Pick-up">Pick-up</option>' +
       '<option value="Drop-off">Drop-off</option>' +
-      '<option value="Inspection photo">Inspection photo &#128248;</option>' +
-      '<option value="Accident re-rental request">Accident re-rental request</option>' +
-      '<option value="Pre-existing damage report">Pre-existing damage report &#128248;</option>' +
-      '<option value="Traffic / parking ticket copy">Traffic / parking ticket copy &#128248;</option>' +
+      '<option value="Inspection photo">Inspection photo 📷</option>' +
+      '<option value="Accident re-rental request">Accident re-rental request 📷</option>' +
+      '<option value="Pre-existing damage report">Pre-existing damage report 📷</option>' +
+      '<option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>' +
       '<option value="Mileage dispute">Mileage dispute</option>' +
       '<option value="Billing question">Billing question</option>' +
       '<option value="Cleaning charge dispute">Cleaning charge dispute</option>' +
@@ -7597,27 +7631,6 @@ function openContactModal(mode) {
  document.getElementById('modalSuccessView').style.display = 'none';
  document.body.style.overflow = 'hidden';
  document.getElementById('contactModal').classList.add('open');
-
- // Auto-show hint when accident re-rental selected
- var reasonSel = document.getElementById('cf-reason');
- if (reasonSel) {
- reasonSel.addEventListener('change', function() {
- var isReRental = this.value === 'Accident re-rental request';
- var hint = document.getElementById('rerental-hint');
- if (isReRental && !hint) {
- hint = document.createElement('div');
- hint.id = 'rerental-hint';
- hint.style.cssText = 'background:rgba(0,59,113,0.07);border-left:3px solid #003B71;border-radius:0 10px 10px 0;padding:10px 12px;font-size:13px;color:#003B71;margin-bottom:8px;line-height:1.5;';
- hint.innerHTML = '<strong>Please attach a screenshot of your not-at-fault email.</strong> Our team will review your account and get back to you about re-renting eligibility.';
- var dropZone = document.getElementById('attach-drop-zone');
- if (dropZone && dropZone.parentElement) {
- dropZone.parentElement.insertBefore(hint, dropZone);
- }
- } else if (hint) {
- hint.style.display = isReRental ? 'block' : 'none';
- }
- });
- }
 }
 
 function closeContactModal() {
@@ -7676,6 +7689,8 @@ function handleReasonChange(reason) {
   var dropZone = document.getElementById('attach-drop-zone');
 
   if (cfg) {
+    // Show the whole attachment field
+    document.getElementById('attach-field').style.display = 'block';
     // Show prompt
     promptEl.textContent = cfg.prompt;
     promptEl.style.display = 'block';
@@ -7694,7 +7709,8 @@ function handleReasonChange(reason) {
       dropZone.style.background = 'rgba(0,59,113,0.03)';
     }
   } else {
-    // No config — reset to default
+    // No config — hide attachment section entirely
+    document.getElementById('attach-field').style.display = 'none';
     promptEl.style.display = 'none';
     promptEl.textContent = '';
     if (zoneLabelEl) zoneLabelEl.textContent = 'Tap to attach a photo or PDF';
