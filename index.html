@@ -2277,7 +2277,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Return vehicle / end rental",
- keywords: ["return my vehicle", "return my car", "end my rental", "give back the car", "giving back the car", "end rental", "turning in my car", "cancel my rental", "stop my rental", "quit the rental", "give back the car", "drop off the car", "done with the car", "end rental", "give back", "drop off", "stop renting", "cancel rental", "bring back", "turn in", "how do i return", "return my car", "give the car back", "i'm done renting", "want to stop", "want to quit", "done with the car", "done driving", "quitting express drive", "no longer need the car", "returning my vehicle", "return appointment", "drop off the car", "when can i return", "return process", "vehicle return", "car return", "returning the rental", "after hours return", "drop box", "night return", "weekend return"],
+ keywords: ["return my vehicle", "return my car", "end my rental", "give back the car", "giving back the car", "end rental", "turning in my car", "cancel my rental", "stop my rental", "quit the rental", "give back the car", "drop off the car", "done with the car", "end rental", "give back", "drop off", "stop renting", "cancel rental", "bring back", "turn in", "how do i return", "return my car", "give the car back", "i'm done renting", "want to stop", "want to quit", "done with the car", "done driving", "quitting express drive", "no longer need the car", "returning my vehicle", "return appointment", "drop off the car", "when can i return", "return process", "vehicle return", "car return", "returning the rental", "after hours return", "drop box", "night return", "weekend return", "return by midnight", "return at midnight", "return tonight", "return after hours", "return time", "what time can i return", "what time do you close", "return after 5", "return late", "late drop off", "can i return at night", "return any time", "24 hour return", "return anytime"],
  needsRegion: true,
  sendMsgBtn: true,
  returnAccordion: true,
@@ -5221,6 +5221,7 @@ function logSession(region, regionName) {
 
 // ─── LOG UNMATCHED QUESTIONS ───
 function logUnmatchedQuestion(question) {
+ if (!question || question.trim().length < 3) return; // skip empty or trivial inputs
  var payload = {
  action: 'unmatched',
  question: question,
@@ -5681,6 +5682,9 @@ var CARD_ANSWERS = [
 
  { k: ["what if i return late","consequences of late return","returned late","overdue vehicle","vehicle not returned on time"],
  a: "Flexdrive may repossess the vehicle without notice if not returned after your rental ends. A $500 repossession fee may apply and you will be placed on the Do Not Rent list. In Arizona, failure to return within 72 hours is a Class 5 Felony." },
+
+ { k: ["return by midnight","return at midnight","return tonight","can i return at night","return after hours","return late","late drop off","return any time","24 hour return","return anytime","what time can i return","return after 5","can i return after closing"],
+ a: "Yes — you can return the vehicle any time using the overnight drop box at the office. Drop your keys and the vehicle is considered returned, but your rental contract will not officially close until the next business day and charges continue through that date." },
 
  { k: ["after hours key drop","key drop after hours","overnight drop box","night drop","drop box location","where is the drop box"],
  a: "The overnight drop box is at your Flexdrive office. Drop your keys after hours — but note your rental contract does not close until the next business day and charges continue until then." },
@@ -7118,7 +7122,10 @@ function sendMessage() {
     renderMessage('assistant', noMatchMsg);
   }
  }
- logUnmatchedQuestion(text);
+ // Don't log zip codes or location strings as unmatched questions
+ if (text && !resolveRegion(text)) {
+   logUnmatchedQuestion(text);
+ }
  }
 
  isTyping = false;
