@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#003C72"><meta name="theme-color" content="#003C72" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0D1117" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0F406A"><meta name="theme-color" content="#0F406A" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0D1117" media="(prefers-color-scheme: dark)">
 <title>Flexdrive Support</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,10 +16,10 @@
  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
  :root {
- --navy: #003B71;
+ --navy: #0F406A;
  --navy-deep: #002A5C;
  --navy-mid: #004e96;
- --pink: #FF00BF;
+ --pink: #CF0090;
  --pink-dark: #CC009A;
  --purple: #5E0D8B;
  --magenta: #DA3AB3;
@@ -69,7 +69,7 @@
 
  /* HEADER */
  .header {
- background: #003C72;
+ background: #0F406A;
  padding: 0 18px 0 10px;
  padding-top: env(safe-area-inset-top);
  height: calc(64px + env(safe-area-inset-top));
@@ -86,7 +86,7 @@
  position: absolute;
  bottom: 0; left: 0; right: 0;
  height: 4px;
- background: #FF00BF;
+ background: #CF0090;
  }
  .header-left { display: flex; align-items: center; gap: 12px; }
   .header-renter-support { color: rgba(255,255,255,0.7); font-size: 11px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -144,7 +144,7 @@
  letter-spacing: 0.2px;
  }
  .status-dot {
- width: 7px; height: 7px; background: #FF00BF;
+ width: 7px; height: 7px; background: #CF0090;
  border-radius: 50%; animation: pulse 2s ease-in-out infinite;
  }
  @keyframes pulse {
@@ -205,7 +205,7 @@
  to { opacity: 1; transform: translateY(0); }
  }
  .welcome-bubble {
- background: linear-gradient(135deg, #003C72 0%, #003C72 75%, #1E5A8A 90%, #2E6E9E 100%) !important;
+ background: linear-gradient(135deg, #0F406A 0%, #0F406A 75%, #1E5A8A 90%, #2E6E9E 100%) !important;
  border: 1.5px solid rgba(255,255,255,0.12) !important;
  color: var(--white) !important;
  border-radius: 20px 20px 20px 4px !important;
@@ -330,7 +330,7 @@
  right: 16px;
  width: 36px; height: 36px;
  border-radius: 50%;
- background: #003B71;
+ background: #0F406A;
  border: none;
  color: #fff;
  display: flex; align-items: center; justify-content: center;
@@ -397,7 +397,7 @@
  .read-more-btn { background: none; border: none; color: rgba(0,59,113,0.45); font-size: 12px; font-weight: 500; padding: 4px 0; cursor: pointer; margin-top: 4px; touch-action: manipulation; transition: color 0.15s; align-self: flex-start; width: fit-content; letter-spacing: 0.2px; text-decoration: underline; text-underline-offset: 2px; -webkit-tap-highlight-color: transparent; }
  .read-more-btn:active { color: rgba(0,59,113,0.7); }
  .msg-row.assistant .msg-bubble {
- background: linear-gradient(135deg, #003C72 0%, #003C72 75%, #1E5A8A 90%, #2E6E9E 100%);
+ background: linear-gradient(135deg, #0F406A 0%, #0F406A 75%, #1E5A8A 90%, #2E6E9E 100%);
  color: var(--white);
  border-bottom-left-radius: 6px;
  box-shadow: 0 0 0 1.5px rgba(0,59,113,0.25),
@@ -570,7 +570,7 @@
  width: 100%;
  margin-top: 16px;
  padding: 13px 20px;
- background: #FF00BF;
+ background: #CF0090;
  color: var(--white);
  border: none; border-radius: 16px;
  font-family: var(--font); font-size: 15px; font-weight: 700;
@@ -586,7 +586,7 @@
   .talk-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     padding: 11px 20px;
-    background: #FF00BF;
+    background: #CF0090;
     color: var(--white);
     border: none; border-radius: 24px;
     font-family: var(--font); font-size: 15px; font-weight: 600;
@@ -615,7 +615,7 @@
     -webkit-tap-highlight-color: transparent;
     font-family: var(--font);
   }
-  .did-help-link:hover, .did-help-link:active { color: #FF00BF; }
+  .did-help-link:hover, .did-help-link:active { color: #CF0090; }
   /* EMERGENCY FLOATING PILL */
   /* HOLMAN FLOATING BUTTON */
   .holman-fab {
@@ -625,7 +625,7 @@
     z-index: 9998;
     width: 58px; height: 58px;
     border-radius: 50%;
-    background: #FF00BF;
+    background: #CF0090;
     border: none;
     cursor: grab;
     display: flex; flex-direction: column;
@@ -692,13 +692,13 @@
     pointer-events: auto;
   }
   .holman-tooltip-name {
-    font-size: 12px; font-weight: 700; color: #003C72;
+    font-size: 12px; font-weight: 700; color: #0F406A;
     text-transform: uppercase; letter-spacing: 0.05em;
     margin-bottom: 4px;
   }
   .holman-tooltip-num {
     font-size: 18px; font-weight: 800;
-    color: #FF00BF; text-decoration: none;
+    color: #CF0090; text-decoration: none;
     display: block; line-height: 1.2;
   }
   .holman-tooltip-sub {
@@ -714,7 +714,7 @@
     line-height: 1; padding: 0;
     -webkit-tap-highlight-color: transparent;
   }
-  .holman-tooltip-close:hover { background: #E0E8F0; color: #003C72; }
+  .holman-tooltip-close:hover { background: #E0E8F0; color: #0F406A; }
   @media (prefers-color-scheme: dark) {
     .holman-tooltip { background: #1A2535; box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(255,255,255,0.07); }
     .holman-tooltip-name { color: #A8C8F0; }
@@ -727,7 +727,7 @@
  .send-msg-btn {
    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
    padding: 11px 20px;
-   background: #003B71;
+   background: #0F406A;
    color: var(--white);
    border: none; border-radius: 24px;
    font-family: var(--font); font-size: 15px; font-weight: 600;
@@ -962,7 +962,7 @@
 
  /* TYPING */
  .typing-bubble-wrap {
-   background: #003C72;
+   background: #0F406A;
    border-radius: 18px 18px 18px 4px;
    padding: 12px 16px;
    box-shadow: 0 0 0 1.5px rgba(0,59,113,0.25), 0 4px 14px rgba(0,59,113,0.2);
@@ -984,9 +984,9 @@
    width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
    animation: typingWave 1.3s ease-in-out infinite;
  }
- .typing-indicator span:nth-child(1) { background: #FF00BF; animation-delay: 0s; }
+ .typing-indicator span:nth-child(1) { background: #CF0090; animation-delay: 0s; }
  .typing-indicator span:nth-child(2) { background: rgba(255,255,255,0.75); animation-delay: 0.2s; }
- .typing-indicator span:nth-child(3) { background: #FF00BF; animation-delay: 0.4s; }
+ .typing-indicator span:nth-child(3) { background: #CF0090; animation-delay: 0.4s; }
  @keyframes typingWave {
    0%, 60%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
    30% { transform: translateY(-6px) scale(1.2); opacity: 1; }
@@ -1102,7 +1102,7 @@
   .send-btn {
   width: 44px; height: 44px;
  border-radius: 50%; border: none;
- background-color: #FF00BF !important;
+ background-color: #CF0090 !important;
  -webkit-appearance: none;
  appearance: none;
  color: var(--white);
@@ -1136,7 +1136,7 @@
  .location-prompt input::placeholder { color: #9AABB8; }
  .location-prompt button {
  width: 100%; padding: 14px 18px; border: none; border-radius: 14px;
- background: #003B71; color: var(--white);
+ background: #0F406A; color: var(--white);
  font-family: var(--font); font-size: 16px; font-weight: 600;
  cursor: pointer; min-height: 50px;
  touch-action: manipulation;
@@ -1182,7 +1182,7 @@
  -webkit-overflow-scrolling: touch;
  }
  .modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
- .modal-title { font-size: 24px; font-weight: 700; color: #003B71; }
+ .modal-title { font-size: 24px; font-weight: 700; color: #0F406A; }
  .modal-subtitle { font-size: 15px; color: var(--gray); margin-top: 3px; }
  .modal-close {
  width: 34px; height: 34px; border: none;
@@ -1192,7 +1192,7 @@
  flex-shrink: 0; margin-top: 4px; touch-action: manipulation;
  }
  .modal-hours {
- background: #EEF3FA; border-left: 4px solid #003B71;
+ background: #EEF3FA; border-left: 4px solid #0F406A;
  border-radius: 0 12px 12px 0; padding: 12px 16px;
  font-size: 14px; color: #3A4A5C; margin: 14px 0; line-height: 1.6;
  }
@@ -1207,7 +1207,7 @@
  -webkit-appearance: none; appearance: none;
  -webkit-user-select: text;
  }
- .modal-input:focus, .modal-select:focus, .modal-textarea:focus { border-color: #FF00BF; box-shadow: 0 0 0 3px rgba(255,0,191,0.12); }
+ .modal-input:focus, .modal-select:focus, .modal-textarea:focus { border-color: #CF0090; box-shadow: 0 0 0 3px rgba(255,0,191,0.12); }
  .modal-textarea { resize: vertical; min-height: 100px; line-height: 1.55; }
  .modal-select-wrap { position: relative; }
  .modal-select-wrap::after {
@@ -1218,7 +1218,7 @@
  .modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
  .modal-submit {
  width: 100%; padding: 16px;
- background-color: #003B71;
+ background-color: #0F406A;
  background-image: none;
  color: var(--white);
  border: none; border-radius: 16px;
@@ -1332,7 +1332,7 @@
   font-size: 14px;
   font-family: Arial, sans-serif;
   cursor: pointer;
-  color: #003B71;
+  color: #0F406A;
   border-bottom: 1px solid #f5f5f5;
   -webkit-tap-highlight-color: rgba(0,59,113,0.08);
 }
@@ -1356,7 +1356,7 @@
  /* Quick action buttons */
  .quick-btn { background: #161B22; color: #E6EDF3; border-color: #30363D; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
  .quick-btn:hover { background: #1E2A3B; border-color: #4A6080; color: #E6EDF3; }
- .quick-btn:active { background: #003B71; color: #fff; border-color: #003B71; }
+ .quick-btn:active { background: #0F406A; color: #fff; border-color: #0F406A; }
  .expand-toggle-btn { background: #161B22; color: #8B949E; border-color: #30363D; }
  .expand-toggle-btn:hover { border-color: #4A6080; color: #E6EDF3; }
 
@@ -1374,12 +1374,12 @@
  /* Accordion */
  .ev-accordion-item { background: #161B22; border-color: #30363D; }
  .ev-accordion-header { background: #161B22; color: #E6EDF3; }
- .ev-accordion-header.open { background: #003B71; color: #fff; }
+ .ev-accordion-header.open { background: #0F406A; color: #fff; }
  .ev-accordion-body { background: #161B22; color: #E6EDF3; }
  .ac-section-label { color: #8B949E; }
  .ac-gate-row { background: #1A2233; color: #C0C8D4; }
  .ac-gate-row strong { color: #D0DCE8; }
- .ac-step-num { background: #003B71; color: #fff; }
+ .ac-step-num { background: #0F406A; color: #fff; }
  .ac-step-body { color: #C0C8D4; }
  .ac-step-body strong { color: #A8C8F0; }
  .ac-holman { background: #1A3A6B; color: #E6EDF3; }
@@ -1405,7 +1405,7 @@
  .modal-box { background: #161B22; }
  .modal-title { color: #E6EDF3; }
  .modal-subtitle { color: #8B949E; }
- .modal-hours { background: #1C2333; border-left-color: #003B71; color: #C0C8D4; }
+ .modal-hours { background: #1C2333; border-left-color: #0F406A; color: #C0C8D4; }
  .modal-input, .modal-select, .modal-textarea { background: #0D1117; color: #E6EDF3; border-color: #30363D; }
  .modal-label { color: #C0C8D4; }
  .modal-close { background: #30363D; color: #E6EDF3; }
@@ -1423,7 +1423,7 @@
  .location-prompt input::placeholder { color: #8B949E; }
 
  /* Send / Talk buttons */
- .modal-submit { background-color: #003B71; background-image: none; box-shadow: none; }
+ .modal-submit { background-color: #0F406A; background-image: none; box-shadow: none; }
  .send-msg-btn { background: #1A3A6B; color: #E6EDF3; box-shadow: 0 2px 6px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(255,255,255,0.08); }
  .send-msg-btn:hover { background: #1E4280; }
 
@@ -1476,14 +1476,14 @@
 </head>
 <body>
 <style>
-.app-loader{position:fixed;inset:0;background:#003C72;display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.3s ease;}
+.app-loader{position:fixed;inset:0;background:#0F406A;display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.3s ease;}
 .app-loader.hidden{opacity:0;pointer-events:none;}
 .app-loader svg{animation:pulse 1.4s ease-in-out infinite;}
 @keyframes loaderFade{to{opacity:0;}}
 </style>
 <div class="app-loader" id="appLoader">
 <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#FF00BF"/>
+<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#CF0090"/>
 </svg>
 </div>
 <div class="app">
@@ -1548,7 +1548,7 @@
  <div class="modal-hours">
  <strong>Mon–Fri, 9:00 AM – 5:00 PM</strong><br>
  This form notifies your local office. For urgent issues, contact Lyft support through the Driver App.<br>
- <span id="modalWaitTime" style="display:none;margin-top:6px;font-weight:600;color:#003B71;font-size:13px;"></span>
+ <span id="modalWaitTime" style="display:none;margin-top:6px;font-weight:600;color:#0F406A;font-size:13px;"></span>
  </div>
  <div class="modal-row">
  <div class="modal-field">
@@ -1603,19 +1603,19 @@
  </div>
  <div class="modal-field" id="attach-field" style="display:none;">
  <label class="modal-label" id="attach-label">Attachment <span id="attach-required-badge" style="font-weight:600;text-transform:none;font-size:11px;color:#D93025;display:none;">* Required</span><span id="attach-optional-badge" style="font-weight:400;text-transform:none;font-size:11px;color:#9BA8B8;">(optional)</span></label>
- <div id="attach-prompt" style="display:none;font-size:13px;color:#003B71;background:rgba(0,59,113,0.06);border-radius:10px;padding:10px 12px;margin-bottom:10px;line-height:1.5;"></div>
+ <div id="attach-prompt" style="display:none;font-size:13px;color:#0F406A;background:rgba(0,59,113,0.06);border-radius:10px;padding:10px 12px;margin-bottom:10px;line-height:1.5;"></div>
  <input type="file" id="cf-attachment" accept="image/*,.pdf" style="display:none;" onchange="handleAttachmentChange(this)" />
  <div id="attach-drop-zone" onclick="document.getElementById('cf-attachment').click()" style="border:2px dashed rgba(0,59,113,0.25);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;background:rgba(0,59,113,0.03);transition:border-color 0.15s,background 0.15s;touch-action:manipulation;">
-   <div style="flex-shrink:0;width:28px;height:28px;"><svg viewBox="0 0 24 24" fill="none" stroke="#FF00BF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+   <div style="flex-shrink:0;width:28px;height:28px;"><svg viewBox="0 0 24 24" fill="none" stroke="#CF0090" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
    <div>
-     <div id="attach-zone-label" style="font-size:14px;font-weight:600;color:#003B71;">Tap to attach</div>
+     <div id="attach-zone-label" style="font-size:14px;font-weight:600;color:#0F406A;">Tap to attach</div>
      <div style="font-size:12px;color:#9BA8B8;margin-top:2px;">JPG · PNG · PDF — max 5MB</div>
    </div>
  </div>
  <div id="attach-preview" style="display:none;margin-top:10px;padding:12px 14px;background:#EEF4FB;border-radius:12px;align-items:center;gap:12px;">
    <div style="font-size:26px;" id="attach-icon">&#128247;</div>
    <div style="flex:1;min-width:0;">
-     <div id="attach-filename" style="font-size:13px;font-weight:600;color:#003B71;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+     <div id="attach-filename" style="font-size:13px;font-weight:600;color:#0F406A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
      <div id="attach-filesize" style="font-size:11px;color:#7D868C;margin-top:2px;"></div>
    </div>
    <button type="button" onclick="clearAttachment()" style="background:rgba(0,0,0,0.06);border:none;border-radius:50%;width:28px;height:28px;font-size:14px;color:#7D868C;cursor:pointer;touch-action:manipulation;flex-shrink:0;">&#10005;</button>
@@ -2776,7 +2776,7 @@ const REGION_OVERAGE_RATES = {
 };
 
 function setAvatarText(el) {
-  el.innerHTML = '<svg viewBox="0 0 52 62" xmlns="http://www.w3.org/2000/svg" aria-label="Ari"><circle cx="26" cy="26" r="26" fill="#003C72"/><path d="M26 10 C19 10 14 15.5 14 22 C14 30 26 42 26 42 C26 42 38 30 38 22 C38 15.5 33 10 26 10Z" fill="#FF00BF"/><circle cx="26" cy="22" r="5" fill="#ffffff"/></svg>';
+  el.innerHTML = '<svg viewBox="0 0 52 62" xmlns="http://www.w3.org/2000/svg" aria-label="Ari"><circle cx="26" cy="26" r="26" fill="#0F406A"/><path d="M26 10 C19 10 14 15.5 14 22 C14 30 26 42 26 42 C26 42 38 30 38 22 C38 15.5 33 10 26 10Z" fill="#CF0090"/><circle cx="26" cy="22" r="5" fill="#ffffff"/></svg>';
 }
 
 // STATE 
@@ -2886,7 +2886,7 @@ function linkifyContent(text) {
  });
 
  // Bold IMPORTANT and WARNING (all caps versions)
- html = html.replace(/\bIMPORTANT:/g, '<strong style="color:#FF00BF;">IMPORTANT:</strong>');
+ html = html.replace(/\bIMPORTANT:/g, '<strong style="color:#CF0090;">IMPORTANT:</strong>');
  html = html.replace(/\bWARNING:/g, '<strong style="color:#FFB347;">WARNING:</strong>');
 
  // Bold "Bring your vehicle to" and "bring it to"
@@ -3393,8 +3393,8 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
  b.style.animation = 'btnPop 0.2s cubic-bezier(0.34,1.6,0.64,1) ' + (0.03*i) + 's forwards';
  });
  toggleBtn.innerHTML = 'Less &#9650;';
- toggleBtn.style.borderColor = '#003B71';
- toggleBtn.style.color = '#003B71';
+ toggleBtn.style.borderColor = '#0F406A';
+ toggleBtn.style.color = '#0F406A';
     setTimeout(flashScrollBtn, 250);
  } else {
  hiddenContainer.style.display = 'none';
@@ -3431,7 +3431,7 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
     helpRow.style.display = 'none';
     var talkBtn = document.createElement('button');
     talkBtn.className = 'talk-btn quick-btn';
-    talkBtn.style.background = '#FF00BF';
+    talkBtn.style.background = '#CF0090';
     talkBtn.style.color = 'var(--white)';
     talkBtn.innerHTML = 'Talk to Someone';
     talkBtn.style.animation = 'talkBtnEntrance 0.38s cubic-bezier(0.34,1.4,0.64,1) both';
@@ -3460,7 +3460,7 @@ function appendQuickActions(isSubsequentCall, suppressTalkBtn) {
     helpRow2.style.display = 'none';
     var smBtn = document.createElement('button');
     smBtn.className = 'talk-btn quick-btn';
-    smBtn.style.background = '#FF00BF';
+    smBtn.style.background = '#CF0090';
     smBtn.style.color = 'var(--white)';
     smBtn.innerHTML = 'Talk to Someone';
     smBtn.style.animation = 'talkBtnEntrance 0.38s cubic-bezier(0.34,1.4,0.64,1) both';
@@ -3762,8 +3762,8 @@ function renderWrappedAccordion() {
  '<div class="ac-callout info"><strong>SFO Only</strong>If you are renting a Lyft-branded wrapped vehicle (a car with Lyft decals on the doors), you are eligible for bonuses that reduce your weekly rental cost.</div>',
  '<div class="ac-section-label">Available Bonuses</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">$</div><div><strong>Sign-On Bonus</strong> — $100 one-time bonus when you start your first rental in a wrapped vehicle</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">$</div><div><strong>Weekly Bonus</strong> — $100 rental cost adjustment every week you complete 80 or more rides</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">$</div><div><strong>Sign-On Bonus</strong> — $100 one-time bonus when you start your first rental in a wrapped vehicle</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">$</div><div><strong>Weekly Bonus</strong> — $100 rental cost adjustment every week you complete 80 or more rides</div></div>',
  '</div>',
  '<div class="ac-callout warn"><strong>Weekly Ride Requirement</strong>You must complete 80 or more rides in a rental week to qualify for the weekly bonus. If you do not reach 80 rides in a given week, the bonus does not apply for that week.</div>'
  ].join(''));
@@ -3772,9 +3772,9 @@ function renderWrappedAccordion() {
  '<div class="ac-callout info"><strong>Think You Qualified But Did Not Receive a Bonus?</strong>Tap Talk to Someone below. Include your name and the specific week in question — our team will review your account and resolve it without you needing to come in.</div>',
  '<div class="ac-section-label">When to Contact Us</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>You completed 80+ rides in a week but the $100 bonus was not applied</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Your sign-on bonus was not received after your first wrapped vehicle rental</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>You have a question about whether your vehicle qualifies</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>You completed 80+ rides in a week but the $100 bonus was not applied</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Your sign-on bonus was not received after your first wrapped vehicle rental</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>You have a question about whether your vehicle qualifies</div></div>',
  '</div>'
  ].join(''));
 
@@ -3799,9 +3799,9 @@ function renderMovingAccordion() {
  '<div class="ac-callout info"><strong>Rental Charges Stop When You Return the Vehicle</strong>Your contract closes on the next business day after return.</div>',
  '<div class="ac-section-label">Deposit Refund Timeline</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">1</div><div>Contract is officially closed after vehicle is processed</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">2</div><div>Any outstanding balance is deducted from your deposit first</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">3</div><div>Deposit refunded to your original card within 3 weeks</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">1</div><div>Contract is officially closed after vehicle is processed</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">2</div><div>Any outstanding balance is deducted from your deposit first</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">3</div><div>Deposit refunded to your original card within 3 weeks</div></div>',
  '</div>',
  '<div class="ac-callout warn"><strong>Outstanding Balance?</strong>Pay it off before or at return. An unpaid balance will delay your refund and may affect your ability to start a new rental in your new city.</div>'
  ].join(''));
@@ -3810,11 +3810,11 @@ function renderMovingAccordion() {
  '<div class="ac-callout success"><strong>Good News</strong>If your account is in good standing and your Lyft region change is approved, you can start a new rental in your new market.</div>',
  '<div class="ac-section-label">Requirements to Re-Rent in a New Market</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Lyft region change approved</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>No outstanding balance from previous rental</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Account in good standing — no DNR status</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Meet the new state\'s driver requirements</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>New security deposit required</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Lyft region change approved</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>No outstanding balance from previous rental</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Account in good standing — no DNR status</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Meet the new state\'s driver requirements</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>New security deposit required</div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>Questions About Your New Market?</strong>Tap Talk to Someone below and include your new city — our team can help coordinate.</div>'
  ].join(''));
@@ -3859,7 +3859,7 @@ function renderMarketsGrid() {
 
  m.cities.forEach(function(city) {
  var pill = document.createElement('div');
- pill.style.cssText = 'background:#EEF3FA;border:1.5px solid #D0DCF0;border-radius:14px;padding:2px 8px;font-size:12px;color:#003B71;font-weight:600;';
+ pill.style.cssText = 'background:#EEF3FA;border:1.5px solid #D0DCF0;border-radius:14px;padding:2px 8px;font-size:12px;color:#0F406A;font-weight:600;';
  pill.textContent = city;
  cityRow.appendChild(pill);
  });
@@ -3884,9 +3884,9 @@ function renderRentalAccountAccordion() {
  '<div class="ac-callout success"><strong>Welcome to Flexdrive!</strong>Here is what to bring to your pickup appointment.</div>',
  '<div class="ac-section-label">What to Bring</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Valid U.S. driver\'s license</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>The payment card used for your deposit — must be in your name</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Lyft Driver App open and ready</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Valid U.S. driver\'s license</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>The payment card used for your deposit — must be in your name</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Lyft Driver App open and ready</div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>Office Hours</strong>Monday–Friday, 9:00 AM – 5:00 PM. Appointments are not required but are appreciated.<br><br>Have a question before you arrive? Tap Send a Message below.</div>'
  ].join(''));
@@ -3894,10 +3894,10 @@ function renderRentalAccountAccordion() {
  makeAccordionItem(c, 'What Is Included in Your Rental', '', [
  '<div class="ac-section-label">Included With Every Rental</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Vehicle use for Lyft driving and personal use within your mileage plan</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Insurance coverage (see Insurance coverage topic for full details)</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Preventative maintenance at approved vendors — oil changes, diagnostics, tires, general service</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>24/7 roadside assistance through Holman: <a href="tel:8332745938">(833) 274-5938</a></div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Vehicle use for Lyft driving and personal use within your mileage plan</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Insurance coverage (see Insurance coverage topic for full details)</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Preventative maintenance at approved vendors — oil changes, diagnostics, tires, general service</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>24/7 roadside assistance through Holman: <a href="tel:8332745938">(833) 274-5938</a></div></div>',
  '</div>',
  '<div class="ac-section-label">NOT Included</div>',
  '<div class="ac-gate">',
@@ -3913,10 +3913,10 @@ function renderRentalAccountAccordion() {
  '<div class="ac-callout info"><strong>7-Day Minimum</strong>The minimum rental period is 7 days. Your rental renews automatically each week as long as you meet all requirements.</div>',
  '<div class="ac-section-label">Auto-Renewal Requirements</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Payment is current — no overdue balance</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Completing at least 20 rides per week</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Scheduled maintenance is up to date</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Lyft driver account remains active and in good standing</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Payment is current — no overdue balance</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Completing at least 20 rides per week</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Scheduled maintenance is up to date</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Lyft driver account remains active and in good standing</div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>To Extend or Continue Your Rental</strong>No action needed — it renews automatically. To schedule a return, use the Lyft Driver App: Vehicle tab → Schedule a return.</div>'
  ].join(''));
@@ -3924,13 +3924,13 @@ function renderRentalAccountAccordion() {
  makeAccordionItem(c, 'Eligibility Requirements', '', [
  '<div class="ac-section-label">To Rent a Flexdrive Vehicle You Must:</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Be at least 25 years old</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Have a valid U.S. driver\'s license</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Pass a background check and driving record review</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Be approved and active on the Lyft platform</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Complete the minimum number of weekly paid Lyft rides (varies by region)</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Provide a valid payment card — prepaid/gift cards not accepted</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Pay a refundable security deposit</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Be at least 25 years old</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Have a valid U.S. driver\'s license</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Pass a background check and driving record review</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Be approved and active on the Lyft platform</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Complete the minimum number of weekly paid Lyft rides (varies by region)</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Provide a valid payment card — prepaid/gift cards not accepted</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Pay a refundable security deposit</div></div>',
  '</div>',
  '<div class="ac-callout warn"><strong>Ongoing Requirements</strong>You must maintain Lyft platform eligibility throughout your rental. Flexdrive may suspend or terminate membership at any time for violations or non-compliance.</div>'
  ].join(''));
@@ -3939,9 +3939,9 @@ function renderRentalAccountAccordion() {
  '<div class="ac-callout info"><strong>Background Checks Are Run by Lyft</strong>Flexdrive requires an active Lyft driver account to rent. Your background check status directly affects your rental eligibility.</div>',
  '<div class="ac-section-label">For Background Check Status</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">1</div><div>Check the Lyft Driver App for updates and status</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">2</div><div>Contact Lyft support through the Driver App for disputes or questions</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">3</div><div>Visit <a href="https://help.lyft.com" target="_blank">help.lyft.com</a> for background check policies</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">1</div><div>Check the Lyft Driver App for updates and status</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">2</div><div>Contact Lyft support through the Driver App for disputes or questions</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">3</div><div>Visit <a href="https://help.lyft.com" target="_blank">help.lyft.com</a> for background check policies</div></div>',
  '</div>',
  '<div class="ac-callout warn"><strong>Re-Screening</strong>Lyft performs periodic re-screenings. If a re-screening results in disqualification, you will need to return your Flexdrive vehicle. Flexdrive cannot override or influence Lyft\'s background check decisions.</div>'
  ].join(''));
@@ -4042,8 +4042,8 @@ function renderVehicleRulesAccordion() {
     makeAccordionItem(c, 'Traffic & Parking Violations', '', [
       '<div class="ac-callout warn"><strong>Violations Are Your Responsibility</strong>All traffic and parking violations incurred during your rental are your financial responsibility, including fines, late fees, and any processing penalties.</div>',
       '<div class="ac-gate">',
-      '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">1</div><div>Flexdrive receives the violation notice and pays it automatically on your behalf</div></div>',
-      '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">2</div><div>The violation amount is charged to your account in your current or next weekly rental payment</div></div>',
+      '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">1</div><div>Flexdrive receives the violation notice and pays it automatically on your behalf</div></div>',
+      '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">2</div><div>The violation amount is charged to your account in your current or next weekly rental payment</div></div>',
       '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">$</div><div>An administrative processing fee of up to $50 is added per violation notification</div></div>',
       '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">!</div><div>Once paid, the ticket is closed with the court and cannot be reopened or disputed</div></div>',
       '</div>',
@@ -4075,9 +4075,9 @@ function renderBillingAccordion() {
  '<div class="ac-callout info"><strong>The Billing Week</strong>Your billing week runs Monday to Monday — starts at 5:00 AM, ends the following Monday at 4:59 AM.</div>',
  '<div class="ac-section-label">How Charges Are Applied</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">1</div><div>Your Lyft earnings throughout the week go toward covering your rental costs automatically</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">2</div><div>If earnings do not fully cover the rental by Monday 4:59 AM, the remaining balance is charged to your card on file the following Tuesday</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">3</div><div>Additional charges (overage fees, tolls) are added on top of your base rental rate</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">1</div><div>Your Lyft earnings throughout the week go toward covering your rental costs automatically</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">2</div><div>If earnings do not fully cover the rental by Monday 4:59 AM, the remaining balance is charged to your card on file the following Tuesday</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">3</div><div>Additional charges (overage fees, tolls) are added on top of your base rental rate</div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>View Your Billing History</strong>Lyft Driver App: Main Menu → Account → Express Drive billing history</div>'
  ].join(''));
@@ -4086,11 +4086,11 @@ function renderBillingAccordion() {
  makeAccordionItem(c, 'Why Your Bill Changed', '', [
  '<div class="ac-callout warn"><strong>Common Reasons Your Charge Varies Week to Week</strong></div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div><strong>First week proration</strong> — your first week is prorated based on your pickup day, so it is typically less than your standard rate</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div><strong>Mileage plan change</strong> — if you recently changed your mileage plan, your weekly rate adjusts accordingly</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div><strong>Personal mileage overages</strong> — overage fees are added on top of your base rental rate in 25-mile increments</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div><strong>Delayed toll charges</strong> — toll charges often appear 2–3 weeks after the trip</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div><strong>CDW or PCDW plan</strong> — protection plan costs are added to your weekly rental rate</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div><strong>First week proration</strong> — your first week is prorated based on your pickup day, so it is typically less than your standard rate</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div><strong>Mileage plan change</strong> — if you recently changed your mileage plan, your weekly rate adjusts accordingly</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div><strong>Personal mileage overages</strong> — overage fees are added on top of your base rental rate in 25-mile increments</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div><strong>Delayed toll charges</strong> — toll charges often appear 2–3 weeks after the trip</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div><strong>CDW or PCDW plan</strong> — protection plan costs are added to your weekly rental rate</div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>Question About a Specific Charge?</strong>Tap Talk to Someone below and include the week in question — our team will review it.</div>'
  ].join(''));
@@ -4209,9 +4209,9 @@ function renderMileageAccordion() {
  '<div class="ac-callout info"><strong>The Basic Rule</strong>Personal miles are tracked every time the vehicle moves and your Lyft Driver App is NOT in Driver Mode. Miles driven while online giving rides do not count toward your personal mileage.</div>',
  '<div class="ac-section-label">Key Facts</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Miles update every 5 miles driven, starting at 1/10 of a mile</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Miles do NOT roll over — unused miles are forfeited each Monday at 5:00 AM</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>First week mileage is prorated based on your pickup day</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Miles update every 5 miles driven, starting at 1/10 of a mile</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Miles do NOT roll over — unused miles are forfeited each Monday at 5:00 AM</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>First week mileage is prorated based on your pickup day</div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>How to Check Your Current Usage</strong>Swipe up on the Driver App main screen when not in Driver Mode to see your personal mileage balance.</div>'
  ].join(''));
@@ -4225,7 +4225,7 @@ function renderMileageAccordion() {
    '<div class="ac-step"><div class="ac-step-num">3</div><div class="ac-step-body"><strong>You keep driving</strong><br>The app is now offline. Every mile counts as personal miles, even if you intended to be working.</div></div>',
    '<div class="ac-step"><div class="ac-step-num">4</div><div class="ac-step-body"><strong>Miles accumulate fast</strong><br>A 45-minute drive home after a filter expires can add 20–30+ personal miles without you realizing it.</div></div>',
    '<div class="ac-section-label">How to Prevent This</div>',
-   '<div class="ac-gate"><div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Always check for the green Online indicator before driving</div></div><div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Manually re-enable Driver Mode after each Destination Filter expires</div></div><div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Set a 25-minute phone reminder when you start a Destination Filter</div></div><div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Check your mileage balance daily: swipe up on the Driver App main screen when offline</div></div></div>',
+   '<div class="ac-gate"><div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Always check for the green Online indicator before driving</div></div><div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Manually re-enable Driver Mode after each Destination Filter expires</div></div><div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Set a 25-minute phone reminder when you start a Destination Filter</div></div><div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Check your mileage balance daily: swipe up on the Driver App main screen when offline</div></div></div>',
    '<div class="ac-callout warn"><strong>Already Have Extra Miles From This?</strong>Use the How to Dispute section below. Include the date and note that a Destination Filter was active.</div>'
  ].join(''));
 
@@ -4244,10 +4244,10 @@ function renderMileageAccordion() {
  makeAccordionItem(c, 'How to Dispute Your Miles', '', [
  '<div class="ac-callout info"><strong>What to Include</strong>Our team needs specific details to review your account. Tap Talk to Someone below and include the following:</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">1</div><div>The week you are disputing (Monday to Monday)</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">2</div><div>The mileage amount you believe is incorrect</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">3</div><div>What you were doing — Destination Filter active? Maintenance trip? App went offline unexpectedly?</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">4</div><div>Screenshots of your Driver App ride history if available — shows online vs offline time</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">1</div><div>The week you are disputing (Monday to Monday)</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">2</div><div>The mileage amount you believe is incorrect</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">3</div><div>What you were doing — Destination Filter active? Maintenance trip? App went offline unexpectedly?</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">4</div><div>Screenshots of your Driver App ride history if available — shows online vs offline time</div></div>',
  '</div>',
  '<div class="ac-callout warn"><strong>Important</strong>Mileage disputes are reviewed against your Driver App data. If a Destination Filter expired and you continued driving offline, those miles are typically not reversible. Include as much detail as possible.</div>',
  '<div class="ac-callout success"><strong>Response Time</strong>Our team will review your account and get back to you within 1 business day.</div>'
@@ -4284,10 +4284,10 @@ function renderDepositAccordion() {
  '<div class="ac-callout info"><strong>When to Expect It</strong>Your deposit is held for up to 3 weeks after your contract is officially closed, then released minus any outstanding charges.</div>',
  '<div class="ac-section-label">What Happens Step by Step</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;min-width:24px;">1</div><div>Vehicle is returned and contract is officially closed</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;min-width:24px;">2</div><div>Any outstanding balance is deducted from the deposit first</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;min-width:24px;">3</div><div>Remainder is refunded to your original payment card — allow 5–7 business days to appear on your statement</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;min-width:24px;">4</div><div>Banks can take up to 30 days to fully process the refund</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;min-width:24px;">1</div><div>Vehicle is returned and contract is officially closed</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;min-width:24px;">2</div><div>Any outstanding balance is deducted from the deposit first</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;min-width:24px;">3</div><div>Remainder is refunded to your original payment card — allow 5–7 business days to appear on your statement</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;min-width:24px;">4</div><div>Banks can take up to 30 days to fully process the refund</div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>ARN Tracking (Visa & Mastercard Only)</strong>An Acquirer Reference Number (ARN) for bank tracking becomes available within 1–3 days of the refund being initiated. You can provide this to your bank to trace the transaction.</div>'
  ].join(''));
@@ -4328,10 +4328,10 @@ function renderReturnAccordion() {
  '<div class="ac-callout warn"><strong>Charges Apply If Not Met</strong>Failing to meet cleaning or fueling requirements will result in fees on your account.</div>',
  '<div class="ac-section-label">Vehicle Condition</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Interior vacuumed and wiped down</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Exterior washed</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Fuel or charge at the same level as when you picked it up</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>All keys and accessories returned</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Interior vacuumed and wiped down</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Exterior washed</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Fuel or charge at the same level as when you picked it up</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>All keys and accessories returned</div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>Paired Your Phone to the Car?</strong>Delete your personal information from the vehicle\'s infotainment or navigation system before returning. Flexdrive is not responsible for personal data left in the vehicle.</div>'
  ].join(''));
@@ -4343,7 +4343,7 @@ function renderReturnAccordion() {
  '<div class="ac-callout info"><strong>Key Drop Location</strong>Use the overnight drop box at the office for after-hours key drop-offs — but note your contract does not close until the next business day.</div>',
  '<div class="ac-section-label">Business Hours</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">M–F</div><div>9:00 AM – 5:00 PM</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">M–F</div><div>9:00 AM – 5:00 PM</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">Sat</div><div>Closed</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">Sun</div><div>Closed</div></div>',
  '</div>'
@@ -4361,9 +4361,9 @@ function renderReturnAccordion() {
  '<div class="ac-callout success"><strong>Timeline</strong>Your deposit will be refunded within 3 weeks after your contract is officially closed.</div>',
  '<div class="ac-section-label">What Happens to Your Deposit</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">1</div><div>Any outstanding charges are deducted from the deposit first</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">2</div><div>The remainder is refunded to your original payment method</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">3</div><div>Refund processing time varies by bank — typically 5–10 business days after Flexdrive issues it</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">1</div><div>Any outstanding charges are deducted from the deposit first</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">2</div><div>The remainder is refunded to your original payment method</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">3</div><div>Refund processing time varies by bank — typically 5–10 business days after Flexdrive issues it</div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>Questions About Your Deposit?</strong>Tap Send a Message below and our team will review your account.</div>'
  ].join(''));
@@ -4572,12 +4572,12 @@ function renderLocationCards() {
    var myRegion = VENDORS[userRegion];
    var myCard = document.createElement('div');
    myCard.className = 'msg-bubble';
-   myCard.style.cssText = 'background:#003C72;color:#fff;border-radius:16px;padding:14px 16px;margin-bottom:10px;font-size:15px;line-height:1.6;';
+   myCard.style.cssText = 'background:#0F406A;color:#fff;border-radius:16px;padding:14px 16px;margin-bottom:10px;font-size:15px;line-height:1.6;';
    myCard.innerHTML = '<div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.7;margin-bottom:6px;">YOUR FLEXDRIVE OFFICE</div>' +
      '<div style="font-weight:700;font-size:16px;margin-bottom:2px;">' + myRegion.regionName + '</div>' +
      '<div style="opacity:0.85;">' + myOffice.address + '</div>' +
      '<div style="opacity:0.7;font-size:13px;margin-top:4px;">' + myOffice.hours + '</div>' +
-     (myOffice.phone ? '<div style="color:#FF00BF;font-weight:600;margin-top:4px;">' + myOffice.phone + '</div>' : '');
+     (myOffice.phone ? '<div style="color:#CF0090;font-weight:600;margin-top:4px;">' + myOffice.phone + '</div>' : '');
    container.appendChild(myCard);
  }
 
@@ -4647,9 +4647,9 @@ function renderEVAccordion() {
  '<div class="ac-callout info"><strong>EVs Are Silent</strong>Look for the green "Ready" icon on the dashboard before driving. The car is on even if you hear nothing.</div>',
  '<div class="ac-section-label">Key Differences From a Gas Car</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div><strong>Acceleration</strong> is faster than a gas car, but uses more range — use it wisely</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div><strong>Regenerative Braking</strong> — when you lift your foot off the accelerator, the car slows down AND recharges the battery. Use it to save range.</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div><strong>Drive Mode</strong> — switch how the car handles to balance performance and efficiency</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div><strong>Acceleration</strong> is faster than a gas car, but uses more range — use it wisely</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div><strong>Regenerative Braking</strong> — when you lift your foot off the accelerator, the car slows down AND recharges the battery. Use it to save range.</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div><strong>Drive Mode</strong> — switch how the car handles to balance performance and efficiency</div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>Find Your EV Hub</strong>Lyft Driver App: Main Menu → Electric Vehicle Hub<br>Shows nearby charging stations, your discounts, battery status, and more.</div>'
  ].join(''));
@@ -4658,8 +4658,8 @@ function renderEVAccordion() {
  makeAccordionItem(c, 'Finding & Using Chargers', '', [
  '<div class="ac-section-label">Two Ways to Find Stations</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;">1</div><div><strong>EV Hub in the Lyft Driver App</strong><br>Main Menu → Electric Vehicle Hub → Charging Stations. Shows nearby chargers and available discounts.</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;">2</div><div><strong>PlugShare App</strong> (download separately)<br>Finds all public EV charging stations. Filter for CCS/SAE plug type, EVgo + Electrify America networks, minimum 50kW.</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;">1</div><div><strong>EV Hub in the Lyft Driver App</strong><br>Main Menu → Electric Vehicle Hub → Charging Stations. Shows nearby chargers and available discounts.</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;">2</div><div><strong>PlugShare App</strong> (download separately)<br>Finds all public EV charging stations. Filter for CCS/SAE plug type, EVgo + Electrify America networks, minimum 50kW.</div></div>',
  '</div>',
  '<div class="ac-section-label">Charging Levels — Speed Comparison</div>',
  '<div class="ac-gate">',
@@ -4689,11 +4689,11 @@ function renderEVAccordion() {
  '<div class="ac-callout warn"><strong>Charge Before You Hit 20%</strong>Head to a charger when you have 40–50 miles (10–20%) of range remaining. Do not wait until empty.</div>',
  '<div class="ac-section-label">How to Maximize Your Range</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Charge during breaks, meals, or between rides whenever possible</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Use seat warmers instead of the heater — much less battery drain</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Turn off AC and switch to Drive Mode to increase range</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Use regenerative braking to recover energy while slowing down</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Avoid Accessory Mode — it slowly drains the 12V battery</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Charge during breaks, meals, or between rides whenever possible</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Use seat warmers instead of the heater — much less battery drain</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Turn off AC and switch to Drive Mode to increase range</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Use regenerative braking to recover energy while slowing down</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Avoid Accessory Mode — it slowly drains the 12V battery</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#E6930A;font-weight:700;">!</div><div>Cold weather reduces range significantly — plan for more frequent charging in winter</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">-</div><div>Never leave the charge cord at a charging station</div></div>',
  '</div>',
@@ -4718,8 +4718,8 @@ function renderEVAccordion() {
  makeAccordionItem(c, 'Charging Station Support', '', [
  '<div class="ac-callout info"><strong>Broken or Unresponsive Station?</strong>Contact the charging network directly — Lyft and Flexdrive are unable to assist with charging station technical issues.</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;">EV</div><div><strong>EVgo Support</strong><br><a href="tel:8555095581">(855) 509-5581</a></div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;">EA</div><div><strong>Electrify America Support</strong><br><a href="tel:8336322778">(833) 632-2778</a></div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;">EV</div><div><strong>EVgo Support</strong><br><a href="tel:8555095581">(855) 509-5581</a></div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;">EA</div><div><strong>Electrify America Support</strong><br><a href="tel:8336322778">(833) 632-2778</a></div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>The support number is also listed on the charger itself.</strong> You can also report a broken charger in the EVgo or EA app to help other drivers.</div>',
  '<div class="ac-callout warn"><strong>EV Not Fast Charging?</strong>If plugged into a fast charger but charging slowly or not at all, this can be caused by a drained 12V battery — separate from the main drive battery. Take the vehicle to an approved vendor for inspection.</div>'
@@ -4736,10 +4736,10 @@ function renderEVAccordion() {
  '</div>',
  '<div class="ac-section-label">Return Checklist</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Battery charged to 80% or above</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Interior and exterior clean</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Charge cord that came with the vehicle returned</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Complete a walk-around with an Operations Associate at the office</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Battery charged to 80% or above</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Interior and exterior clean</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Charge cord that came with the vehicle returned</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Complete a walk-around with an Operations Associate at the office</div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>Cannot Reach 80% Before Returning?</strong>Let us know at the office when you arrive and we will note it on your account.</div>'
  ].join(''));
@@ -4916,8 +4916,8 @@ function renderSwapAccordion() {
  '<div class="ac-callout urgent"><strong>No General Swaps</strong>Flexdrive does not swap vehicles based on preference — color, size, or type are not qualifying reasons.</div>',
  '<div class="ac-section-label">A swap is only considered in two situations</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;">1</div><div><strong>Remarketing</strong> — Flexdrive pulls your vehicle from the fleet and contacts you directly to come in.</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;">2</div><div><strong>Serious Mechanical Issue</strong> — A significant problem verified by an approved vendor or confirmed by our team at the office.</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;">1</div><div><strong>Remarketing</strong> — Flexdrive pulls your vehicle from the fleet and contacts you directly to come in.</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;">2</div><div><strong>Serious Mechanical Issue</strong> — A significant problem verified by an approved vendor or confirmed by our team at the office.</div></div>',
  '</div>',
  '<div class="ac-callout info"><strong>Want a different vehicle for any other reason?</strong>Return your current vehicle, close your contract, then book a new reservation through the Lyft Driver App.</div>',
  '<div class="ac-callout warn"><strong>Warning</strong>Repeatedly requesting preference swaps without following the return process can result in your account being flagged.</div>'
@@ -4928,17 +4928,17 @@ function renderSwapAccordion() {
  '<div class="ac-callout info"><strong>What Is Remarketing?</strong>Flexdrive is pulling your vehicle from the rental fleet. You will be contacted directly with instructions to come in.</div>',
  '<div class="ac-section-label">Remarketing Timeline</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;min-width:44px;">Day 10</div><div>Initial "Due for Replacement" notice sent to you</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;min-width:44px;">Day 10</div><div>Initial "Due for Replacement" notice sent to you</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#E6930A;min-width:44px;">Day 24</div><div>Warning sent regarding rideshare ineligibility</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#D93025;min-width:44px;">Day 38</div><div>Vehicle deactivated — blocked from going online. $500 repossession fee may apply.</div></div>',
  '</div>',
  '<div class="ac-callout warn"><strong>Warning</strong>Repeatedly rescheduling or missing your swap appointment can be grounds for Do Not Rent (DNR) status.</div>',
  '<div class="ac-section-label">When You Come In for Your Swap</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;">+</div><div>Complete any outstanding maintenance before arriving</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;">+</div><div>Return with the vehicle washed inside and out</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;">+</div><div>Fuel or charge at the same level as pickup</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;">+</div><div>Bring all keys and accessories that came with the vehicle</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;">+</div><div>Complete any outstanding maintenance before arriving</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;">+</div><div>Return with the vehicle washed inside and out</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;">+</div><div>Fuel or charge at the same level as pickup</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;">+</div><div>Bring all keys and accessories that came with the vehicle</div></div>',
  '</div>',
  '<div class="ac-callout success"><strong>Your Deposit</strong>Your deposit stays on file during a remarketing swap as long as your account is in good standing. No new deposit required for the replacement vehicle.</div>'
  ].join(''));
@@ -4990,9 +4990,9 @@ function renderRoadsideAccordion() {
  '<div class="ac-callout urgent"><strong>Do NOT Use Allstate Roadside</strong>Allstate is shown in the Lyft app but is NOT your roadside provider. Holman is.</div>',
  '<div class="ac-section-label">While Waiting for Holman</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Stay with the vehicle if safe to do so</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Turn on your hazard lights</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>If on a highway, move away from traffic</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Stay with the vehicle if safe to do so</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Turn on your hazard lights</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>If on a highway, move away from traffic</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">-</div><div>Do not attempt to repair the vehicle yourself</div></div>',
  '</div>'
  ].join(''));
@@ -5018,8 +5018,8 @@ function renderRoadsideAccordion() {
  '<div class="ac-callout urgent"><strong>Do Not Call a Third-Party Locksmith</strong>These costs will not be reimbursed and may violate your rental agreement.</div>',
  '<div class="ac-section-label">If a Replacement Key Fob Is Needed</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;">1</div><div>Call Holman first to document the issue</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#003B71;">2</div><div>Visit the Flexdrive office for key replacement</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;">1</div><div>Call Holman first to document the issue</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;">2</div><div>Visit the Flexdrive office for key replacement</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">$</div><div>Key fob replacement fee: $300 may apply</div></div>',
  '</div>'
  ].join(''));
@@ -5071,9 +5071,9 @@ function renderRoadsideAccordion() {
  '</div>',
  '<div class="ac-section-label">Maximum Charges</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">$</div><div>Tire: up to $500 per tire</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">$</div><div>Suspension: up to $1,000</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">$</div><div>Alignment: actual cost, only if caused by driver impact</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">$</div><div>Tire: up to $500 per tire</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">$</div><div>Suspension: up to $1,000</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">$</div><div>Alignment: actual cost, only if caused by driver impact</div></div>',
  '</div>',
  '<div class="ac-section-label">You Will NOT Be Charged If:</div>',
  '<div class="ac-gate">',
@@ -5096,8 +5096,8 @@ function renderRoadsideAccordion() {
  '</div>',
  '<div class="ac-section-label">Preventing Dead Batteries</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>Do not leave the vehicle in Accessory Mode for extended periods</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#003B71;font-weight:700;">+</div><div>For EVs: do not let the battery drop below 10% — charge proactively</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>Do not leave the vehicle in Accessory Mode for extended periods</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">+</div><div>For EVs: do not let the battery drop below 10% — charge proactively</div></div>',
  '</div>'
  ].join(''));
 
@@ -6850,7 +6850,7 @@ function sendMessage() {
             chatArea.querySelectorAll('.talk-btn').forEach(function(b) { if (b.closest('.quick-actions')) b.parentNode.removeChild(b); });
             smBtn.className = 'send-msg-btn';
             smBtn.innerHTML = 'Talk to Someone';
-            smBtn.style.background = '#FF00BF';
+            smBtn.style.background = '#CF0090';
             smBtn.style.color = '#fff';
             smBtn.addEventListener('click', function() { openContactModal('talk'); });
             smWrap.appendChild(smBtn);
@@ -7198,10 +7198,10 @@ function sendMessage() {
     _suggestWrap.appendChild(_didYouMean);
     _suggestions.forEach(function(topic) {
       var btn = document.createElement('button');
-      btn.style.cssText = 'background:#fff;border:1.5px solid #003C72;border-radius:22px;padding:9px 16px;font-size:14px;color:#003C72;font-weight:600;cursor:pointer;text-align:left;transition:all 0.15s;width:100%;';
+      btn.style.cssText = 'background:#fff;border:1.5px solid #0F406A;border-radius:22px;padding:9px 16px;font-size:14px;color:#0F406A;font-weight:600;cursor:pointer;text-align:left;transition:all 0.15s;width:100%;';
       btn.textContent = topic;
-      btn.onmouseenter = function() { btn.style.background = '#003C72'; btn.style.color = '#fff'; };
-      btn.onmouseleave = function() { btn.style.background = '#fff'; btn.style.color = '#003C72'; };
+      btn.onmouseenter = function() { btn.style.background = '#0F406A'; btn.style.color = '#fff'; };
+      btn.onmouseleave = function() { btn.style.background = '#fff'; btn.style.color = '#0F406A'; };
       btn.onclick = function() { userInput.value = topic; sendMessage(); };
       _suggestWrap.appendChild(btn);
     });
@@ -7558,7 +7558,7 @@ function showWelcome() {
     var _nextBiz = getNextBusinessDay();
     _holidayBanner = '<div style="background:rgba(255,255,255,0.12);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.95);">' + HOLIDAY_CLOSED_MSG[_todayHol.key] + ' We\'ll be back ' + _nextBiz + ' at 9:00 AM.</div>';
   }
-  s1.innerHTML = '<span style="font-size:17px;font-weight:700;color:var(--white);display:block;margin-bottom:2px;">' + _greet + ', I\'m Ari &#128075;</span><span style="font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:0.04em;text-transform:uppercase;display:block;margin-bottom:10px;">Automated Rental Information</span>' + _holidayBanner + 'I\'m your Flexdrive support assistant &mdash; Instant answers on mileage, billing, maintenance, protection plans, fees, state rules, and more.<br><br>Lyft app or earnings questions? Visit <a href=\"https://help.lyft.com\" target=\"_blank\" style=\"color:#FF00BF;\">help.lyft.com</a>.';
+  s1.innerHTML = '<span style="font-size:17px;font-weight:700;color:var(--white);display:block;margin-bottom:2px;">' + _greet + ', I\'m Ari &#128075;</span><span style="font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:0.04em;text-transform:uppercase;display:block;margin-bottom:10px;">Automated Rental Information</span>' + _holidayBanner + 'I\'m your Flexdrive support assistant &mdash; Instant answers on mileage, billing, maintenance, protection plans, fees, state rules, and more.<br><br>Lyft app or earnings questions? Visit <a href=\"https://help.lyft.com\" target=\"_blank\" style=\"color:#CF0090;\">help.lyft.com</a>.';
   bubble.appendChild(s1);
 
   var d2 = document.createElement('div');
@@ -7657,7 +7657,7 @@ function openContactModal(mode) {
  } else { waitEl.style.display = 'none'; }
  }
  // Swap title, hours border, submit button, and attachment zone based on mode
- var accent = isTalk ? '#FF00BF' : '#003B71';
+ var accent = isTalk ? '#CF0090' : '#0F406A';
  var accentFaint = isTalk ? 'rgba(255,0,191,0.06)' : 'rgba(0,59,113,0.05)';
  var accentBorder = isTalk ? 'rgba(255,0,191,0.35)' : 'rgba(0,59,113,0.3)';
  if (titleEl) titleEl.style.color = accent;
@@ -7675,8 +7675,8 @@ function openContactModal(mode) {
  var stripeEl = document.getElementById('modal-stripe');
  if (stripeEl) {
  stripeEl.style.background = isTalk
- ? 'linear-gradient(90deg, #FF00BF 0%, #FF00BF 55%, #E000B0 78%, #CC0099 100%)'
- : 'linear-gradient(90deg, #003B71 0%, #003B71 50%, #1A5A96 72%, #2E6EA8 86%, #4A85B8 100%)';
+ ? 'linear-gradient(90deg, #CF0090 0%, #CF0090 55%, #E000B0 78%, #CC0099 100%)'
+ : 'linear-gradient(90deg, #0F406A 0%, #0F406A 50%, #1A5A96 72%, #2E6EA8 86%, #4A85B8 100%)';
  // Re-trigger animation
  stripeEl.style.animation = 'none';
  stripeEl.offsetHeight;
@@ -7695,8 +7695,8 @@ function openContactModal(mode) {
  var submitBtn = document.getElementById('cf-submit');
  if (submitBtn) {
  submitBtn.style.background = isTalk
- ? 'linear-gradient(90deg, #FF00BF 0%, #FF00BF 55%, #E000B0 78%, #CC0099 100%)'
- : 'linear-gradient(90deg, #003B71 0%, #003B71 50%, #1A5A96 72%, #2E6EA8 86%, #4A85B8 100%)';
+ ? 'linear-gradient(90deg, #CF0090 0%, #CF0090 55%, #E000B0 78%, #CC0099 100%)'
+ : 'linear-gradient(90deg, #0F406A 0%, #0F406A 50%, #1A5A96 72%, #2E6EA8 86%, #4A85B8 100%)';
  submitBtn.style.boxShadow = isTalk ? '0 4px 16px rgba(255,0,191,0.35)' : '0 4px 16px rgba(0,59,113,0.35)';
  }
 
@@ -8413,7 +8413,7 @@ function buildLangMenu() {
   LANGUAGES.forEach(function(lang) {
     var item = document.createElement('div');
     item.textContent = lang.label;
-    item.style.cssText = 'padding:11px 16px;font-size:14px;font-family:Arial,sans-serif;cursor:pointer;color:#003B71;border-bottom:1px solid #f5f5f5;';
+    item.style.cssText = 'padding:11px 16px;font-size:14px;font-family:Arial,sans-serif;cursor:pointer;color:#0F406A;border-bottom:1px solid #f5f5f5;';
     if (lang.code === currentLang) { item.style.background = '#F0F1F2'; item.style.fontWeight = '700'; }
     item.addEventListener('mouseover', function() { this.style.background = '#F0F4FF'; });
     item.addEventListener('mouseout', function() { this.style.background = lang.code === currentLang ? '#F0F1F2' : ''; });
