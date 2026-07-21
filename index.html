@@ -5225,9 +5225,42 @@ function logSession(region, regionName) {
 
 
 
+// ─── GREETING / ZIP GUARDS FOR UNMATCHED LOGGING ───
+// Greetings and bare zip codes aren't real "unanswered questions" —
+// they're conversational noise or a location reply to a prompt.
+// Filtering them out keeps the weekly Unmatched Questions review meaningful.
+
+var GREETING_WORDS = ['hi', 'hii', 'hello', 'hey', 'heyy', 'hiya', 'yo', 'sup',
+ 'good morning', 'good afternoon', 'good evening', 'greetings', 'howdy'];
+
+function isGreetingOnly(text) {
+ var cleaned = text.trim().toLowerCase().replace(/[!.,?]/g, '');
+ var wordCount = cleaned.split(/\s+/).length;
+
+ // Bare greeting: "hi", "hello", "good morning", etc. — nothing else attached.
+ if (GREETING_WORDS.indexOf(cleaned) !== -1) return true;
+
+ // Greeting + short intro: "hi I'm Jane", "hey this is john", "hello my name is..."
+ var startsWithGreeting = GREETING_WORDS.some(function(g) {
+   return cleaned.indexOf(g) === 0;
+ });
+ var hasIntroPhrase = /\b(i'?m|im|this is|my name is)\b/.test(cleaned);
+
+ if (startsWithGreeting && hasIntroPhrase && wordCount <= 6) return true;
+
+ return false;
+}
+
+function isZipCodeOnly(text) {
+ var cleaned = text.trim();
+ return /^\d{5}(-\d{4})?$/.test(cleaned);
+}
+
 // ─── LOG UNMATCHED QUESTIONS ───
 function logUnmatchedQuestion(question) {
  if (!question || question.trim().length < 3) return; // skip empty or trivial inputs
+ if (isGreetingOnly(question)) return;                 // skip bare greetings / name intros
+ if (isZipCodeOnly(question)) return;                  // skip bare zip code entries
  var payload = {
  action: 'unmatched',
  question: question,
