@@ -5208,12 +5208,26 @@ function showSessionTimeoutPrompt() {
  // No-op — session timeout prompt disabled
 }
 
+// ─── SESSION ID (funnel key) ───────────────────────────────────────────────
+// A random ID minted once per session, attached to the anonymous behavioral
+// tabs (Sessions, Topics, Feedback, Escalation Questions) so they can be tied
+// into a single funnel. DELIBERATELY NOT attached to the contact form, so the
+// anonymous escalation record can never be re-linked to a renter's identity.
+var sessionId = null;
+function getSessionId() {
+ if (!sessionId) {
+   sessionId = 'S-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+ }
+ return sessionId;
+}
+
 // ─── LOG SESSION START ───
 function logSession(region, regionName) {
  var payload = {
  action: 'session',
  region: region,
  regionName: regionName,
+ sessionId: getSessionId(),
  timestamp: new Date().toISOString()
  };
  fetch(APPS_SCRIPT_URL, {
@@ -5224,8 +5238,8 @@ function logSession(region, regionName) {
 }
 
 // ─── VALUE METRICS: TOPICS / FEEDBACK / ESCALATION ──────────────────────────
-// All three log ANONYMOUSLY (timestamp, region, region name + the one data
-// point). No name / email / phone is ever attached to these.
+// All three log ANONYMOUSLY (timestamp, region, region name, session ID + the
+// one data point). No name / email / phone is ever attached to these.
 
 // Generic anonymous logger — shared by the three metrics below.
 function logMetric(action, extraKey, extraVal) {
@@ -5233,6 +5247,7 @@ function logMetric(action, extraKey, extraVal) {
  action: action,
  region: userRegion || 'UNKNOWN',
  regionName: (userRegion && VENDORS[userRegion]) ? VENDORS[userRegion].regionName : 'Unknown',
+ sessionId: getSessionId(),
  timestamp: new Date().toISOString()
  };
  payload[extraKey] = extraVal;
@@ -5389,6 +5404,7 @@ function logUnmatchedQuestion(question) {
  question: question,
  region: userRegion || 'UNKNOWN',
  regionName: userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown',
+ sessionId: getSessionId(),
  timestamp: new Date().toISOString()
  };
  fetch(APPS_SCRIPT_URL, {
@@ -8637,6 +8653,7 @@ function startOver() {
  if (feedbackPromptTimer) clearTimeout(feedbackPromptTimer);
  feedbackGiven = false;
  feedbackPromptShown = false;
+ sessionId = null; // mint a fresh session ID for the new session
  awaitingLocation = true;
  userInput.disabled = true;
  userInput.placeholder = 'Enter City or Zip Code...';
