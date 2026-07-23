@@ -5223,6 +5223,129 @@ function logSession(region, regionName) {
  }).catch(function() {});
 }
 
+// ─── VALUE METRICS: TOPICS / FEEDBACK / ESCALATION ──────────────────────────
+// All three log ANONYMOUSLY (timestamp, region, region name + the one data
+// point). No name / email / phone is ever attached to these.
+
+// Generic anonymous logger — shared by the three metrics below.
+function logMetric(action, extraKey, extraVal) {
+ var payload = {
+ action: action,
+ region: userRegion || 'UNKNOWN',
+ regionName: (userRegion && VENDORS[userRegion]) ? VENDORS[userRegion].regionName : 'Unknown',
+ timestamp: new Date().toISOString()
+ };
+ payload[extraKey] = extraVal;
+ fetch(APPS_SCRIPT_URL, {
+ method: 'POST',
+ body: JSON.stringify(payload),
+ mode: 'no-cors'
+ }).catch(function() {});
+}
+
+// 1. Topic logged whenever the renter actually RECEIVES an answer
+//    (main knowledge-base match OR card-level inline answer).
+function logTopic(topic) {
+ if (!topic) topic = '(uncategorized card)';
+ logMetric('topic', 'topic', topic);
+}
+
+// 2. Per-session resolution confirmation (thumbs up / down).
+//    Only logged when the renter actually taps — ignores are logged as nothing.
+function logFeedback(result) {
+ logMetric('feedback', 'result', result); // result = 'Yes' or 'No'
+}
+
+// 3. The last question the renter asked right before escalating to a human.
+//    Deliberately NOT joined to the contact form's identity fields.
+function logEscalationQuestion() {
+ var lastUserMsg = '';
+ for (var i = sessionLog.length - 1; i >= 0; i--) {
+   if (sessionLog[i].role === 'user') { lastUserMsg = sessionLog[i].text; break; }
+ }
+ if (!lastUserMsg) return; // nothing to log (e.g. escalated before asking anything)
+ logMetric('escalation_question', 'question', lastUserMsg);
+}
+
+// ─── RESOLUTION PROMPT (per-session "Did this help?") ───────────────────────
+// Appears 35s after the last bot answer IF the renter hasn't sent another
+// message and hasn't already answered this session. One tap logs Yes/No.
+var feedbackPromptTimer = null;
+var feedbackGiven = false;      // renter already answered this session
+var feedbackPromptShown = false; // prompt currently visible (avoid duplicates)
+
+function scheduleFeedbackPrompt() {
+ if (feedbackGiven) return;             // don't ask twice
+ if (feedbackPromptTimer) clearTimeout(feedbackPromptTimer);
+ feedbackPromptTimer = setTimeout(showFeedbackPrompt, 35000); // 35s of inactivity
+}
+
+function cancelFeedbackPrompt() {
+ // Called when the renter sends another message — they're still active.
+ if (feedbackPromptTimer) clearTimeout(feedbackPromptTimer);
+ // If an unanswered prompt is sitting on screen, remove it (stale).
+ if (feedbackPromptShown && !feedbackGiven) {
+   var stale = document.getElementById('feedbackPromptRow');
+   if (stale && stale.parentNode) stale.parentNode.removeChild(stale);
+   feedbackPromptShown = false;
+ }
+}
+
+function showFeedbackPrompt() {
+ if (feedbackGiven || feedbackPromptShown) return;
+ if (isTyping) { scheduleFeedbackPrompt(); return; } // wait if mid-answer
+ feedbackPromptShown = true;
+
+ var row = document.createElement('div');
+ row.className = 'msg-row assistant';
+ row.id = 'feedbackPromptRow';
+
+ var av = document.createElement('div');
+ av.className = 'msg-avatar';
+ setAvatarText(av);
+
+ var wrap = document.createElement('div');
+ wrap.className = 'msg-bubble';
+ wrap.style.cssText = 'background:var(--white);color:#1A2433;border-bottom-left-radius:6px;box-shadow:0 2px 8px rgba(15,64,106,0.12),0 0 0 2px rgba(15,64,106,0.08);font-size:15px;line-height:1.5;padding:13px 16px;border-radius:20px;';
+
+ var q = document.createElement('div');
+ q.textContent = 'Did this answer your question?';
+ q.style.cssText = 'margin-bottom:10px;font-weight:600;';
+ wrap.appendChild(q);
+
+ var btnRow = document.createElement('div');
+ btnRow.style.cssText = 'display:flex;gap:10px;';
+
+ function makeBtn(label, result) {
+   var b = document.createElement('button');
+   b.textContent = label;
+   b.style.cssText = 'flex:1;border:1.5px solid #0F406A;background:#fff;color:#0F406A;border-radius:22px;padding:9px 0;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.15s;';
+   b.onmouseenter = function() { b.style.background = '#0F406A'; b.style.color = '#fff'; };
+   b.onmouseleave = function() { b.style.background = '#fff'; b.style.color = '#0F406A'; };
+   b.addEventListener('click', function() {
+     if (feedbackGiven) return;
+     feedbackGiven = true;
+     logFeedback(result);
+     // Replace buttons with a short thank-you.
+     wrap.innerHTML = '';
+     var ty = document.createElement('div');
+     ty.textContent = result === 'Yes' ? 'Great — glad that helped!' : 'Thanks — tap "Talk to Someone" any time and our team will help directly.';
+     ty.style.cssText = 'font-size:15px;line-height:1.5;';
+     wrap.appendChild(ty);
+   });
+   return b;
+ }
+
+ btnRow.appendChild(makeBtn('\uD83D\uDC4D Yes', 'Yes'));
+ btnRow.appendChild(makeBtn('\uD83D\uDC4E No', 'No'));
+ wrap.appendChild(btnRow);
+
+ row.appendChild(av);
+ row.appendChild(wrap);
+ chatArea.appendChild(row);
+ scrollToElement(row);
+}
+
 
 
 // ─── GREETING / ZIP GUARDS FOR UNMATCHED LOGGING ───
@@ -6802,6 +6925,7 @@ function sendMessage() {
  messages.push({ role: 'user', content: text });
  sessionLog.push({ role: 'user', text: text, time: new Date().toLocaleTimeString() });
  resetSessionTimeout();
+ cancelFeedbackPrompt(); // renter is active again — clear any pending/stale "Did this help?" prompt
 
  userInput.value = '';
  userInput.style.height = 'auto';
@@ -6853,6 +6977,7 @@ function sendMessage() {
  var cardResult = findCardAnswer(resolvedText);
  if (cardResult) {
       lastMatch = cardResult;
+ logTopic(cardResult.topic); // value metric: renter received a card answer
  renderMessage('assistant', getAriGreeting() + cardResult.a);
  isTyping = false;
  // If answer has vendor button, append a Find vendor quick link
@@ -6894,6 +7019,7 @@ function sendMessage() {
           setTimeout(function() { appendQuickActions(true, false); }, 300);
         }
       }
+      scheduleFeedbackPrompt(); // start 35s "Did this help?" timer after card answer
       return;
     }
 
@@ -6904,6 +7030,7 @@ function sendMessage() {
 
  if (match) {
  lastMatch = match;
+ logTopic(match.topic); // value metric: renter received a KB answer
  // Track conversation history for context
  conversationHistory.push({ topic: match.topic, keywords: match.keywords });
  if (conversationHistory.length > 8) conversationHistory.shift();
@@ -6933,6 +7060,7 @@ function sendMessage() {
  removeTyping();
  renderMessage('assistant', officeMsg);
  isTyping = false;
+ scheduleFeedbackPrompt(); // start 35s "Did this help?" timer after office answer
  return;
  }
 
@@ -7248,6 +7376,7 @@ function sendMessage() {
  }
 
  isTyping = false;
+ scheduleFeedbackPrompt(); // start 35s "Did this help?" timer after answer
  }, typingDelay);
 }
 
@@ -7655,6 +7784,7 @@ function handleResponsePrefChange(val) {
 }
 
 function openContactModal(mode) {
+ logEscalationQuestion(); // value metric: capture last question before escalating (anonymous)
  document.getElementById('cf-name').value = '';
  document.getElementById('cf-email').value = '';
  document.getElementById('cf-phone').value = '';
@@ -8503,6 +8633,10 @@ function startOver() {
  conversationHistory = [];
  lastMatch = null;
  userRegion = null;
+ // Reset per-session feedback state so the new session can prompt again
+ if (feedbackPromptTimer) clearTimeout(feedbackPromptTimer);
+ feedbackGiven = false;
+ feedbackPromptShown = false;
  awaitingLocation = true;
  userInput.disabled = true;
  userInput.placeholder = 'Enter City or Zip Code...';
