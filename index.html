@@ -1823,15 +1823,20 @@ const VENDORS = {
  ], recovery: [], hasTolls: true,
  stateNotes: "CDW is optional and is NOT insurance. See Texas CDW provisions."
  },
- HOU: {
+ IAH: {
  regionName: "Houston, TX", state: "Texas",
  office: { name: "Flexdrive Houston Office", address: "2855 Mangum Rd., Suite B106, Houston, TX 77092", hours: "Monday-Friday, 9:00 AM - 5:00 PM", phone: null },
  vendors: [
- { name: "Goodyear - Houston (N Eldridge Pkwy)", type: "Maintenance", address: "10141 North Eldridge Parkway, Houston TX 77065", phone: "(281) 469-4394", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
- { name: "Goodyear - Katy (Grand Pkwy)", type: "Maintenance", address: "1317 West Grand Parkway South, Katy TX 77494", phone: "(281) 693-3399", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
+ { name: "Goodyear - Houston (N Eldridge Pkwy)", type: "Maintenance", address: "10141 N Eldridge Pkwy, Houston TX 77065", phone: "(281) 469-4394", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
+ { name: "Goodyear - Cypress (Louetta Rd)", type: "Maintenance", address: "13035 Louetta Rd, Cypress TX 77429", phone: "(281) 257-9288", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
+ { name: "Goodyear - The Woodlands", type: "Maintenance", address: "4550 Panther Creek Pines Pkwy, The Woodlands TX 77381", phone: "(281) 298-5182", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
+ { name: "Goodyear - Katy (Grand Pkwy)", type: "Maintenance", address: "1317 West Grand Pkwy, Katy TX 77494", phone: "(281) 693-3399", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
  { name: "Goodyear - College Station", type: "Maintenance", address: "2998 Texas Avenue South, College Station TX 77845", phone: "(979) 764-3101", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
- { name: "Goodyear - Pearland (Kirby Dr)", type: "Maintenance", address: "3209 Kirby Drive, Pearland TX 77584", phone: "(713) 436-8031", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
- { name: "Goodyear - Cypress (Louetta Rd)", type: "Maintenance", address: "13035 Louetta Rd, Cypress TX 77429", phone: "(281) 257-9288", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" }
+ { name: "Sun Auto - Humble (W Lake Houston Pkwy)", type: "Maintenance", address: "17710 W Lake Houston Pkwy, Humble TX 77346", phone: "(281) 644-0809", note: null, bookingUrl: null },
+ { name: "Sun Auto - Humble (FM 1960)", type: "Maintenance", address: "7625 Farm to Market 1960 Rd E, Humble TX 77346", phone: "(281) 857-6760", note: null, bookingUrl: null },
+ { name: "Sun Auto - League City", type: "Maintenance", address: "632 Egret Bay Blvd, League City TX 77573", phone: "(281) 713-9120", note: null, bookingUrl: null },
+ { name: "Sun Auto - Missouri City", type: "Maintenance", address: "9060 Hwy 6, Missouri City TX 77459", phone: "(346) 769-3174", note: null, bookingUrl: null },
+ { name: "Sun Auto - Cypress (Barker Cypress Rd)", type: "Maintenance", address: "11916 Barker Cypress Rd, Cypress TX 77433", phone: "(281) 270-7806", note: null, bookingUrl: null }
  ], recovery: [], hasTolls: true,
  stateNotes: "CDW is optional and is NOT insurance. See Texas CDW provisions."
  },
@@ -2005,7 +2010,7 @@ const ZIP_TO_REGION = {
  "44": "CLE",
  "75": "DAL", "76": "FTW",
  "80": "DEN",
- "77": "HOU",
+ "77": "IAH",
  "90": "LAX", "91": "LAX", "93": "LAX",
  "53": "MKE",
  "19": "PHL",
@@ -2033,8 +2038,8 @@ const CITY_TO_REGION = {
  // DAL / FTW
  "dallas": "DAL", "plano": "DAL", "irving": "DAL", "garland": "DAL", "dfw": "DAL",
  "fort worth": "FTW", "arlington": "FTW",
- // HOU
- "houston": "HOU", "katy": "HOU", "sugar land": "HOU",
+ // IAH
+ "houston": "IAH", "katy": "IAH", "sugar land": "IAH",
  // SAT
  "san antonio": "SAT", "sat": "SAT",
  // BAL
@@ -2659,7 +2664,7 @@ const STATE_LYFT_REQUIREMENTS = {
  "Contact Lyft support with your info to transfer your driver account to Colorado."
  ]
  },
- HOU: {
+ IAH: {
  state: "Texas (Houston)",
  helpUrl: "https://help.lyft.com/hc/en-us/all/articles/115013083628-Texas-Driver-Information",
  requirements: [
@@ -2763,7 +2768,7 @@ const STATE_LYFT_REQUIREMENTS = {
 const REGION_OVERAGE_RATES = {
  ATL: { rate: "$16.00", confirmed: true },
  SAT: { rate: "$17.00", confirmed: true },
- HOU: { rate: "$18.00", confirmed: true },
+ IAH: { rate: "$18.00", confirmed: true },
  PDX: { rate: "$18.00", confirmed: true },
  LAX: { rate: "$20.00", confirmed: true },
  DAL: { rate: "$20.00", confirmed: true },
@@ -4554,7 +4559,7 @@ var STATE_GROUPS = [
  { state: "Ohio", regions: ["CIN", "CLE"] },
  { state: "Oregon", regions: ["PDX"] },
  { state: "Pennsylvania", regions: ["PHL", "PIT"] },
- { state: "Texas", regions: ["AUS", "DAL", "HOU", "SAT"] },
+ { state: "Texas", regions: ["AUS", "DAL", "IAH", "SAT"] },
  { state: "Virginia", regions: ["DC"] },
  { state: "Washington D.C.", regions: ["DC"] },
  { state: "Wisconsin", regions: ["MKE"] }
@@ -7462,7 +7467,7 @@ function handleLocationInput(locationText) {
       DAL: "Big D drivers — we've got you covered in Dallas.",
       DEN: "Mile High drivers — we've got you covered in Denver.",
       FTW: "Cowtown drivers — we've got you covered in Fort Worth.",
-      HOU: "Space City drivers — we've got you covered in Houston.",
+      IAH: "Space City drivers — we've got you covered in Houston.",
       MKE: "Brew City drivers — we've got you covered in Milwaukee.",
       PHL: "From South Street to the Main Line — Philadelphia drivers, we've got you covered.",
       PHX: "Desert heat, city hustle — Phoenix drivers, we've got you covered.",
@@ -7575,7 +7580,7 @@ function renderRelocationButtons() {
  { code: 'CLE', city: 'Cleveland', state: 'OH' },
  { code: 'DAL', city: 'Dallas/FW', state: 'TX' },
  { code: 'DEN', city: 'Denver', state: 'CO' },
- { code: 'HOU', city: 'Houston', state: 'TX' },
+ { code: 'IAH', city: 'Houston', state: 'TX' },
  { code: 'LAX', city: 'Los Angeles', state: 'CA' },
  { code: 'MKE', city: 'Milwaukee', state: 'WI' },
  { code: 'PHL', city: 'Philadelphia', state: 'PA' },
