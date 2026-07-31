@@ -1561,8 +1561,8 @@
  </div>
  </div>
  <div class="modal-field">
- <label class="modal-label" for="cf-email" id="cf-email-label">Email Address <span id="cf-email-required" style="display:none;">*</span> <span id="cf-email-optional" style="font-weight:400;text-transform:none;font-size:11px;color:#9BA8B8;">(optional)</span></label>
- <input class="modal-input" id="cf-email" type="email" placeholder="your@email.com" />
+ <label class="modal-label" for="cf-email" id="cf-email-label">Email Address * <span style="font-weight:400;text-transform:none;font-size:11px;color:#9BA8B8;">— must match your Lyft profile</span></label>
+ <input class="modal-input" id="cf-email" type="email" placeholder="your@email.com" required />
  </div>
  <div class="modal-field">
  <label class="modal-label" for="cf-reason">Reason for Contact *</label>
@@ -1627,8 +1627,7 @@
  <div class="modal-success-icon"></div>
  <div class="modal-success-title" id="modalSuccessTitle">Message Sent!</div>
  <div class="modal-success-text" id="modalSuccessText">
- Your message has been sent to the local office.<br><br>
- Office hours: Mon–Fri, 9:00 AM – 5:00 PM
+ Your message has been sent. Our team will follow up by email during business hours (Mon–Fri, 9:00 AM – 5:00 PM).<br><br>When you receive our email, <strong>reply directly to it</strong> if you need to add anything — this keeps everything in one thread.
  </div>
  <button class="modal-submit" style="margin-top:24px;" onclick="closeContactModal()">Close</button>
  </div>
@@ -1649,7 +1648,7 @@ const VENDORS = {
  { name: "Meineke - Beaverton", type: "Oil Change / Diagnostics / Tires / Maintenance", address: "13203 SW Canyon Rd, Beaverton, OR", phone: "(503) 214-2718", note: null, bookingUrl: "https://www.meineke.com/locations/or/beaverton-991/" },
  { name: "Sun Auto - Beaverton", type: "Oil Change / Diagnostics / Tires / Maintenance", address: "12100 SW Broadway St, Beaverton, OR", phone: "(503) 646-8133", note: null, bookingUrl: "https://www.sunautoservice.com/locations/or/beaverton/auto-repair-12100-sw-broadway-st?ao_auto_show=true&ao_client_key=sun-auto-tire-service-8114-sw-broadway&rwg_token=AFd1xnG1xv3QLf5Tjq20XmorxD1NX7T6mjf469i7Fjwez-O6aWEuf0LiM8RDkD4fUGzfeu0pK3WrL9bQkoPjiTs87h11fof0fw%3D%3D" },
  { name: "Sun Auto - Portland", type: "Oil Change / Diagnostics / Tires / Maintenance", address: "4547 NE Sandy Blvd, Portland, OR", phone: "(503) 288-7041", note: null, bookingUrl: "https://www.sunautoservice.com/locations/or/portland/auto-repair-4547-ne-sandy-blvd?ao_auto_show=true&ao_client_key=sun-auto-service-8113-sandy-blvd&rwg_token=AFd1xnHlRh4_ebU1BQQim-XluckfNhLQurLUQ8lMP5sgmKTU3peD4jfmw-ZwCHZhv3T5WEVF1ql8_lNuy-_fFPpfR4EqWniK2A%3D%3D" },
- { name: "Gills Point S - Milwaukie (SE McLoughlin Blvd)", type: "Oil Change / Diagnostics / Tires / Maintenance", address: "14115 SE McLoughlin Blvd, Milwaukie, OR 97267", phone: "(503) 659-5141", note: null, bookingUrl: "https://gillspointstire.com/locations/14115-se-mcloughlin-blvd-tire-store-218" },
+   { name: "Gills Point S - Milwaukie (SE McLoughlin Blvd)", type: "Oil Change / Diagnostics / Tires / Maintenance", address: "14115 SE McLoughlin Blvd, Milwaukie, OR 97267", phone: "(503) 659-5141", note: null, bookingUrl: "https://gillspointstire.com/locations/14115-se-mcloughlin-blvd-tire-store-218" },
  { name: "Gaynors Automotive - Vancouver", type: "Oil Change / Diagnostics / Tires / Maintenance", address: "502 NE 139th St, Vancouver, WA", phone: "(360) 576-4056", note: null, bookingUrl: "https://www.gaynors.com/locations/wa/vancouver/auto-repair-502-ne-139th-st" },
  { name: "Ron's Automotive - Vancouver", type: "Oil Change / Diagnostics / Tires / Maintenance", address: "16211 SE 1st St, Vancouver, WA", phone: "(360) 253-6000", note: null, bookingUrl: "https://www.ronsautomotive.com/locations/wa/vancouver/auto-repair-16211-se-1st-st?&ao_auto_show=true&ao_client_key=rons-automotive-8121&utm_source=local_listing_schedule&utm_medium=organic&utm_campaign=store_8121?ao_auto_show%3Dtrue&ao_client_key=rons-automotive-8121&rwg_token=AFd1xnGYnlHBaEUPRfgFw1pMqUjq_ak-Q2m1w9N5_aqWTj6QpsOLeZClcWAEeHhToxlGzgW-MUzjREVF6mBT4Yzs6PR53yhudA%3D%3D" }
  ],
@@ -1823,20 +1822,15 @@ const VENDORS = {
  ], recovery: [], hasTolls: true,
  stateNotes: "CDW is optional and is NOT insurance. See Texas CDW provisions."
  },
- IAH: {
+ HOU: {
  regionName: "Houston, TX", state: "Texas",
  office: { name: "Flexdrive Houston Office", address: "2855 Mangum Rd., Suite B106, Houston, TX 77092", hours: "Monday-Friday, 9:00 AM - 5:00 PM", phone: null },
  vendors: [
- { name: "Goodyear - Houston (N Eldridge Pkwy)", type: "Maintenance", address: "10141 N Eldridge Pkwy, Houston TX 77065", phone: "(281) 469-4394", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
- { name: "Goodyear - Cypress (Louetta Rd)", type: "Maintenance", address: "13035 Louetta Rd, Cypress TX 77429", phone: "(281) 257-9288", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
- { name: "Goodyear - The Woodlands", type: "Maintenance", address: "4550 Panther Creek Pines Pkwy, The Woodlands TX 77381", phone: "(281) 298-5182", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
- { name: "Goodyear - Katy (Grand Pkwy)", type: "Maintenance", address: "1317 West Grand Pkwy, Katy TX 77494", phone: "(281) 693-3399", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
+ { name: "Goodyear - Houston (N Eldridge Pkwy)", type: "Maintenance", address: "10141 North Eldridge Parkway, Houston TX 77065", phone: "(281) 469-4394", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
+ { name: "Goodyear - Katy (Grand Pkwy)", type: "Maintenance", address: "1317 West Grand Parkway South, Katy TX 77494", phone: "(281) 693-3399", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
  { name: "Goodyear - College Station", type: "Maintenance", address: "2998 Texas Avenue South, College Station TX 77845", phone: "(979) 764-3101", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
- { name: "Sun Auto - Humble (W Lake Houston Pkwy)", type: "Maintenance", address: "17710 W Lake Houston Pkwy, Humble TX 77346", phone: "(281) 644-0809", note: null, bookingUrl: "https://www.sunautoservice.com/locations/tx/humble/auto-repair-17710-w-lake-houston-pkwy" },
- { name: "Sun Auto - Humble (FM 1960)", type: "Maintenance", address: "7625 Farm to Market 1960 Rd E, Humble TX 77346", phone: "(281) 857-6760", note: null, bookingUrl: "https://www.sunautoservice.com/locations/tx/humble/auto-repair-7625-fm-1960-rd" },
- { name: "Sun Auto - League City", type: "Maintenance", address: "632 Egret Bay Blvd, League City TX 77573", phone: "(281) 713-9120", note: null, bookingUrl: "https://www.sunautoservice.com/locations/tx/leaguecity/auto-repair-632-n-egret-bay-blvd" },
- { name: "Sun Auto - Missouri City", type: "Maintenance", address: "9060 Hwy 6, Missouri City TX 77459", phone: "(346) 769-3174", note: null, bookingUrl: "https://www.sunautoservice.com/locations/tx/missouricity/auto-repair-9060-hwy-6" },
- { name: "Sun Auto - Cypress (Barker Cypress Rd)", type: "Maintenance", address: "11916 Barker Cypress Rd, Cypress TX 77433", phone: "(281) 270-7806", note: null, bookingUrl: "https://www.sunautoservice.com/locations/tx/cypress/auto-repair-11916-barker-cypress-rd" }
+ { name: "Goodyear - Pearland (Kirby Dr)", type: "Maintenance", address: "3209 Kirby Drive, Pearland TX 77584", phone: "(713) 436-8031", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" },
+ { name: "Goodyear - Cypress (Louetta Rd)", type: "Maintenance", address: "13035 Louetta Rd, Cypress TX 77429", phone: "(281) 257-9288", note: null, bookingUrl: "https://www.goodyear.com/en_US/stores-find" }
  ], recovery: [], hasTolls: true,
  stateNotes: "CDW is optional and is NOT insurance. See Texas CDW provisions."
  },
@@ -2010,7 +2004,7 @@ const ZIP_TO_REGION = {
  "44": "CLE",
  "75": "DAL", "76": "FTW",
  "80": "DEN",
- "77": "IAH",
+ "77": "HOU",
  "90": "LAX", "91": "LAX", "93": "LAX",
  "53": "MKE",
  "19": "PHL",
@@ -2038,8 +2032,8 @@ const CITY_TO_REGION = {
  // DAL / FTW
  "dallas": "DAL", "plano": "DAL", "irving": "DAL", "garland": "DAL", "dfw": "DAL",
  "fort worth": "FTW", "arlington": "FTW",
- // IAH
- "houston": "IAH", "katy": "IAH", "sugar land": "IAH",
+ // HOU
+ "houston": "HOU", "katy": "HOU", "sugar land": "HOU",
  // SAT
  "san antonio": "SAT", "sat": "SAT",
  // BAL
@@ -2140,14 +2134,14 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Rental charge different / rate went up",
- keywords: ["wrong amount charged", "i was overcharged", "why is my bill higher", "why was i charged", "my bill is wrong", "bill wrong", "payment went up", "why did my payment go up", "rate", "different", "went up", "more", "weekly", "higher", "increased", "price change", "rate increase", "why is my bill higher", "bill went up", "charged more than usual", "weekly charge different", "unexpected charge on my card", "random charge", "unexpected charge on my card", "unexpected card charge", "unexpected charge", "my rate changed", "price went up", "why did i get charged", "billed wrong amount", "wrong charge", "overcharged", "too much charged", "over billed", "overbilled", "i was overbilled", "over charged", "my bill looks wrong", "billing question", "explain my charge", "why so much", "charged too much", "what is this charge", "rental cost increased", "first week charge", "prorated charge"],
+ keywords: ["wrong amount charged", "i was overcharged", "why is my bill higher", "why was i charged", "my bill is wrong", "bill wrong", "payment went up", "why did my payment go up", "rate", "different", "went up", "more", "weekly", "higher", "increased", "price change", "rate increase", "why is my bill higher", "bill went up", "charged more than usual", "weekly charge different", "unexpected charge on my card", "random charge", "unexpected charge on my card", "unexpected card charge", "unexpected charge", "my rate changed", "price went up", "why did i get charged", "billed wrong amount", "wrong charge", "overcharged", "too much charged", "over billed", "overbilled", "i was overbilled", "over charged", "over billed", "overbilled", "i was overbilled", "over charged", "my bill looks wrong", "billing question", "explain my charge", "why so much", "charged too much", "what is this charge", "rental cost increased", "first week charge", "prorated charge"],
  showTalkBtn: true,
  billingAccordion: true,
  response: "Here is everything you need to know about your billing and payments:"
  },
  {
  topic: "Cannot cash out / missing earnings",
- keywords: ["cash out", "earnings", "express pay", "where are my earnings", "payout", "money", "can't withdraw", "no payout", "balance", "where is my money", "can't cash out", "express pay not working", "no money available", "earnings gone", "where did my money go", "money going to rental", "earnings applied to rental", "not getting paid", "money taken", "why can't i cash out", "payout not available", "withdrawal", "instant pay", "transfer money", "get my money", "when do i get paid", "my earnings", "stripe", "lyft pay"],
+ keywords: ["cash out", "earnings", "express pay", "where are my earnings", "payout", "money", "can't withdraw", "no payout", "balance", "where is my money", "can't cash out", "express pay not working", "no money available", "earnings gone", "where did my money go", "money going to rental", "earnings applied to rental", "not getting paid", "where does the rental payment come out of", "where does my payment come from", "where does rental come out of", "what account does rental come out of", "where is rental payment taken from", "where does flexdrive charge me", "what card does rental come out of", "where does the payment go", "how do i get charged for rental", "money taken", "why can't i cash out", "payout not available", "withdrawal", "instant pay", "transfer money", "get my money", "when do i get paid", "my earnings", "stripe", "lyft pay"],
  earningsAccordion: true,
  response: "Here is what to do when you cannot cash out or earnings are missing:"
  },
@@ -2166,7 +2160,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Partial payments / repayment plan / Foundever",
- keywords: ["partial payment", "repayment", "payment plan", "foundever", "can't pay", "can't afford", "installment", "pay over time", "work out a plan", "arrange payment", "972", "payment arrangement", "set up payments", "split payments", "can't pay all at once", "don't have enough", "broke", "short on money", "financial hardship", "struggling to pay", "need help paying", "negotiate payment", "payment help", "can i make payments", "payment options", "pay in installments", "collection help", "payment assistance"],
+ keywords: ["partial payment", "repayment", "payment plan", "foundever", "can't pay", "can't afford", "installment", "pay over time", "work out a plan", "arrange payment", "972", "payment arrangement", "set up payments", "split payments", "can't pay all at once", "don't have enough", "broke", "short on money", "financial hardship", "struggling to pay", "need help paying", "negotiate payment", "payment help", "can i make payments", "payment options", "pay in installments", "collection help", "payment assistance", "willing to work", "work it off", "work off my balance", "work off what i owe", "work until paid off", "work until payment is paid off", "pay it off by working", "work off my debt", "earn it off"],
  response: "If you cannot pay your full overdue balance at once, here are your options:\n\nPARTIAL PAYMENTS:\nFoundever, Flexdrive's payment services partner, can accept partial payments toward your balance while your rental is still active.\n\nREPAYMENT PLANS:\nRepayment plans are only available after the vehicle has been returned. Once your rental is closed, contact Foundever to arrange a plan.\n\nFoundever: (972) 936-8999\nHours: Monday-Saturday, 7:00 AM - 9:00 PM CST\n\nTo pay your full balance immediately, use the Lyft Driver App:\nMenu >Account >Pay and Tax Info >Update payment info >Select Pay Now\n\nWARNING: Consequences — including the risk of vehicle repossession — are still applicable until the full balance is cleared. A repayment plan does not pause or prevent these consequences. Contact Foundever as soon as possible.\n\nDriving with your personal vehicle? Earnings from driving with your personal vehicle on the Lyft platform will automatically go toward paying off any outstanding Flexdrive balance until it is cleared."
  },
  {
@@ -2182,12 +2176,12 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Oil change / maintenance location",
- keywords: ["car needs service", "where do i take the car", "need to get my tires done", "get my tires done", "oil change", "maintenance", "service", "vendor", "shop", "mechanic", "diagnostics", "general maintenance", "approved vendor", "oil change due", "where do i go for service", "where can i get service", "approved shop", "service center", "where to take my car", "lube", "tune up", "brake", "brakes", "alignment", "rotate tires", "tire rotation", "service light", "service needed", "where to service", "get my car serviced", "maintenance shop", "auto shop", "goodyear", "meineke", "jiffy lube", "where should i go", "can i go anywhere", "nearest shop", "service location"],
+ keywords: ["car needs service", "where do i take the car", "need to get my tires done", "get my tires done", "oil change", "maintenance", "service", "vendor", "shop", "mechanic", "diagnostics", "general maintenance", "approved vendor", "oil change due", "where do i go for service", "where can i get service", "approved shop", "where can i change the engine oil", "where to change engine oil", "engine oil change location", "where do i change my oil", "where can i get my oil changed", "where can i change my oil", "service center", "where to take my car", "lube", "tune up", "brake", "brakes", "alignment", "rotate tires", "tire rotation", "service light", "service needed", "where to service", "get my car serviced", "maintenance shop", "auto shop", "goodyear", "meineke", "jiffy lube", "where should i go", "can i go anywhere", "nearest shop", "service location"],
  response: "Please use only our approved service vendors for any maintenance needs - including oil changes, diagnostics, tires, and general service. You will not be reimbursed for work done at non-approved locations.\n\nIMPORTANT: Always tell the shop 'This is a Flexdrive vehicle' before booking your appointment. This ensures billing is routed correctly and you are not charged personally.\n\nWould you like me to help you find your nearest approved vendor? Just share your city or zip code."
  },
  {
  topic: "Charged for maintenance at vendor",
- keywords: ["charged for inspection", "charge for inspection", "for inspection", "inspection charge", "charged inspection", "fee for inspection", "inspection fee", "billed for inspection", "paid for inspection", "charged for maintenance", "for maintenance", "charged for maintenance at vendor", "charged for maintenance at vendor charged maintenance", "charged maintenance", "shop billed", "receipt", "reimbursed", "paid for service", "billed me", "vendor charged", "they charged me", "shop charged my card", "paid out of pocket", "paid for my own oil change", "billed personally", "need to be reimbursed", "reimbursement", "vendor billed me", "shop sent me a bill", "charged at the shop", "shop didn't bill flexdrive", "paid for maintenance myself"],
+ keywords: ["charged for inspection", "charge for inspection", "for inspection", "inspection charge", "charged inspection", "fee for inspection", "inspection fee", "billed for inspection", "paid for inspection", "charged for maintenance", "for maintenance", "charged for maintenance at vendor", "charged for maintenance at vendor charged maintenance", "charged maintenance", "shop billed", "receipt", "reimbursed", "paid for service", "billed me", "vendor charged", "they charged me", "shop charged my card", "paid out of pocket", "paid for my own oil change", "billed personally", "need to be reimbursed", "reimbursement", "vendor billed me", "shop sent me a bill", "charged at the shop", "shop didn't bill flexdrive", "i already changed the oil", "i changed the oil today", "already changed the oil today", "just changed the oil", "i got an oil change today", "finished oil change", "oil change complete", "paid for maintenance myself"],
  showTalkBtn: true,
  response: "Routine maintenance at approved vendors should be billed directly to Flexdrive — you should not be charged out of pocket.\n\nIf you were charged at a vendor, please visit our office with your receipt or use the Talk to Someone button below so our team can review the charge and assist you."
  },
@@ -2209,7 +2203,7 @@ var KNOWLEDGE_BASE = [
   },
  {
  topic: "Roadside assistance / Holman / towing / lockout",
- keywords: ["my car has broken down", "car broken down", "broken down", "my car is not working", "car is not working", "issue with my car", "problem with my car", "something wrong with my car", "car won't move", "my car broke down", "car broke down", "stuck on the road", "locked out of my car", "keys locked in car", "i need a tow", "roadside", "tow", "towing", "lockout", "locked out", "keys locked", "stranded", "broke down", "breakdown", "won't start", "dead battery", "holman", "emergency", "windshield", "roadside help", "need a tow", "car won't move", "stuck", "car died", "stalled", "car stopped working", "broke down on the road", "tow truck", "need tow truck", "help on the road", "car trouble", "car emergency", "need roadside", "stranded on the side of the road", "locked my keys in", "locked keys in car", "keys in car", "can't get in my car", "car not starting", "jump start", "jump", "dead", "battery dead", "battery died", "tow charge", "charged for tow", "roadside charge", "roadside fee", "holman charge", "flat tire", "chip", "cracked windshield", "glass repair", "allstate roadside", "do i pay for roadside", "is roadside free", "roadside abuse", "fuel delivery", "ran out of gas", "out of gas", "car is on fire", "car on fire", "my car is burning", "burning", "fire", "smoke coming from car", "car smoking", "engine on fire", "vehicle on fire", "flames"],
+ keywords: ["my car has broken down", "car broken down", "broken down", "my car is not working", "car is not working", "issue with my car", "problem with my car", "something wrong with my car", "car won't move", "my car broke down", "car broke down", "stuck on the road", "locked out of my car", "keys locked in car", "i need a tow", "roadside", "tow", "towing", "lockout", "locked out", "keys locked", "stranded", "broke down", "breakdown", "won't start", "dead battery", "holman", "emergency", "windshield", "roadside help", "need a tow", "car won't move", "stuck", "car died", "stalled", "car stopped working", "broke down on the road", "tow truck", "need tow truck", "help on the road", "car trouble", "car emergency", "need roadside", "air conditioning not working", "air conditioning", "ac not working", "ac broken", "no ac", "heat not working", "heater not working", "ac stopped working", "air conditioning broken", "air conditioning issue", "hvac not working", "climate control not working", "no heat", "no air", "ac out", "heat out", "stranded on the side of the road", "locked my keys in", "locked keys in car", "keys in car", "can't get in my car", "car not starting", "jump start", "jump", "dead", "battery dead", "battery died", "tow charge", "charged for tow", "roadside charge", "roadside fee", "holman charge", "flat tire", "chip", "cracked windshield", "glass repair", "allstate roadside", "do i pay for roadside", "is roadside free", "roadside abuse", "fuel delivery", "ran out of gas", "out of gas", "car is on fire", "car on fire", "my car is burning", "burning", "fire", "smoke coming from car", "car smoking", "engine on fire", "vehicle on fire", "flames"],
  roadsideAccordion: true,
  response: "Here is everything you need to know about roadside assistance and what is covered:"
  },
@@ -2303,7 +2297,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Swaps",
- keywords: ["chang my car", "swap", "swaps", "switch", "different car", "new vehicle", "change vehicle", "trade", "different vehicle", "get a different car", "switch cars", "vehicle swap", "swap car", "can i swap", "other provider", "different provider", "hertz", "change my car", "change car", "switch my car", "trade in my car", "get a new vehicle", "i want a different vehicle", "upgrade my vehicle", "car has issues want new", "want a new car", "i want a new car", "i want new car", "want new car", "want a different car", "i don't want this car anymore", "don't want this car", "i don't like this car", "car upgrade", "upgrade my car", "can i get a different car", "switch vehicles", "trade my car", "get a new car", "want a suv", "want a sedan", "want electric", "want ev", "change cars", "get a different vehicle", "vehicle change", "car not working want different one", "mechanical issue want new car", "vehicle being replaced", "remarketing", "due for replacement", "remarketing notice", "swap appointment", "missed swap", "missed my swap", "day 38", "vehicle deactivated remarketing", "replacement vehicle notice", "swap appointment missed", "overdue for remarketing", "change out my car", "can i change out my car", "swap out my car", "can i swap out my car"],
+ keywords: ["chang my car", "swap", "swaps", "switch", "different car", "new vehicle", "change vehicle", "trade", "different vehicle", "get a different car", "switch cars", "vehicle swap", "swap car", "can i swap", "other provider", "different provider", "hertz", "change my car", "change car", "switch my car", "trade in my car", "get a new vehicle", "i want a different vehicle", "upgrade my vehicle", "car has issues want new", "want a new car", "i want a new car", "i want new car", "want new car", "want a different car", "i don't want this car anymore", "don't want this car", "i don't like this car", "car upgrade", "upgrade my car", "can i get a different car", "switch vehicles", "trade my car", "get a new car", "want a suv", "want a sedan", "want electric", "want ev", "change cars", "get a different vehicle", "vehicle change", "car not working want different one", "mechanical issue want new car", "returned due to vehicle issues", "returned my rental reschedule", "returned my car want another", "vehicle issues want new rental", "reschedule for another vehicle", "want to reschedule for a new vehicle", "returned rental want to swap", "car issue want to change it", "car issue change it", "car has issue want to change", "want to change it due to car issue", "car problem want to change", "car repair", "need car repair", "car needs repair", "vehicle repair", "repair my car", "need a repair", "my car needs to be repaired", "vehicle being replaced", "remarketing", "due for replacement", "remarketing notice", "swap appointment", "missed swap", "missed my swap", "day 38", "vehicle deactivated remarketing", "replacement vehicle notice", "swap appointment missed", "overdue for remarketing", "change out my car", "can i change out my car", "swap out my car", "can i swap out my car"],
  swapAccordion: true,
  response: "Here is everything you need to know about vehicle swaps and remarketing:"
  },
@@ -2319,7 +2313,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Lyft deactivation",
- keywords: ["deactivated", "deactivation", "can't drive", "account suspended", "lyft account", "suspended", "kicked off", "removed from lyft", "lyft deactivated me", "i got deactivated", "can't go online", "app won't let me drive", "account blocked", "lyft blocked me", "lyft suspended me", "account terminated", "kicked out of lyft", "lyft account closed", "appeal deactivation", "contest deactivation", "why was i deactivated", "what do i do now", "lost my lyft account", "lyft terminated me", "driving privileges revoked", "background check failed", "failed background check"],
+ keywords: ["deactivated", "deactivation", "can't drive", "account suspended", "lyft account", "suspended", "kicked off", "removed from lyft", "lyft deactivated me", "i got deactivated", "can't go online", "app won't let me drive", "account blocked", "lyft blocked me", "lyft suspended me", "account terminated", "kicked out of lyft", "lyft account closed", "appeal deactivation", "contest deactivation", "why was i deactivated", "what do i do now", "am i cleared to rent", "cleared to rent a vehicle", "cleared to rent", "wondering if im cleared to rent", "is my account cleared", "am i eligible to rent", "cleared to rent a car", "lost my lyft account", "lyft terminated me", "driving privileges revoked", "background check failed", "failed background check"],
  showTalkBtn: true,
  earningsAccordion: true,
  response: "Here is what Lyft deactivation means for your Flexdrive rental:"
@@ -2344,13 +2338,13 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Speak to a manager / escalation",
- keywords: ["manager", "speak to manager", "talk to manager", "supervisor", "escalate", "escalation", "i want to complain", "file a complaint", "complaint", "corporate", "regional manager", "i want to speak to someone", "i need to speak to someone", "i want to talk to someone", "need to speak to a person", "speak to a human", "talk to a real person", "real person", "i want to speak to a manager", "can i speak to a manager", "get me a manager", "who do i complain to", "who is in charge", "who runs this", "customer complaint", "unhappy", "dissatisfied", "not happy", "very upset", "extremely upset", "this is unacceptable"],
+ keywords: ["manager", "speak to manager", "talk to manager", "supervisor", "escalate", "escalation", "i want to complain", "that answer is not relevant", "not relevant to my question", "that didn't answer my question", "wrong answer", "that's not what i asked", "not helpful", "not what i was asking", "file a complaint", "complaint", "corporate", "regional manager", "i want to speak to someone", "i need to speak to someone", "i want to talk to someone", "need to speak to a person", "speak to a human", "talk to a real person", "real person", "i want to speak to a manager", "can i speak to a manager", "get me a manager", "who do i complain to", "who is in charge", "who runs this", "customer complaint", "unhappy", "dissatisfied", "not happy", "very upset", "extremely upset", "this is unacceptable"],
  showTalkBtn: true,
  response: "Flexdrive offices do not provide phone support — all communication is by email or in person. Here's how to reach us:\n\n1. Tap 'Still need help?' at the bottom, then 'Talk to Someone' to send us a message. Include as much detail as possible and our team will respond within 1 business day.\n\n2. Reply to your most recent email thread with our team.\n\n3. Visit your Flexdrive office in person Monday\u2013Friday, 9:00 AM \u2013 5:00 PM. No appointment needed.\n\nWe take all feedback seriously and will make sure the right person sees your message."
  },
  {
  topic: "Contact info / phone number / how to reach Flexdrive",
- keywords: ["contact", "phone", "call", "reach", "number", "phone number", "how to reach", "email", "talk to someone", "human", "real person", "speak to someone", "agent", "support", "help", "customer service", "customer support", "flexdrive support", "contact flexdrive", "how do i contact", "reach a person", "get help", "i need help", "need to talk", "need to speak", "contact us", "talk to an agent", "live support", "chat with someone", "associate", "can i call", "flexdrive phone number", "flexdrive email", "hello", "hey", "is anyone there", "i'd like to speak with someone from flexdrive", "speak with someone from flexdrive", "i would like to speak with someone", "talk with someone from flexdrive", "speak to someone from flexdrive", "can i speak to a representative", "speak to a representative", "talk to a representative", "can i talk to a representative", "i want to speak to a representative", "talk to flex", "talk to flexdrive", "speak to flex", "i would like to talk to flex", "is anyone available", "there is anyone available", "anyone here", "is someone there", "anyone available", "is this real", "is this a bot", "am i talking to a person"],
+ keywords: ["contact", "phone", "call", "reach", "number", "phone number", "how to reach", "email", "talk to someone", "human", "real person", "speak to someone", "agent", "support", "help", "customer service", "customer support", "flexdrive support", "contact flexdrive", "how do i contact", "reach a person", "get help", "i need help", "need to talk", "need to speak", "contact us", "talk to an agent", "live support", "chat with someone", "associate", "can i call", "flexdrive phone number", "flexdrive email", "hello", "hey", "hi", "hi i'm", "hi i am", "i'm", "my name is", "i am", "good morning", "good afternoon", "good evening", "is anyone there", "can i speak to a representative", "speak to a representative", "talk to a representative", "can i talk to a representative", "i want to speak to a representative", "talk to flex", "talk to flexdrive", "speak to flex", "i would like to talk to flex", "urgent", "this is urgent", "i need urgent help", "urgent help", "urgent issue", "i'd like to speak with someone from flexdrive", "speak with someone from flexdrive", "i would like to speak with someone", "talk with someone from flexdrive", "speak to someone from flexdrive", "is anyone available", "there is anyone available", "anyone here", "is someone there", "anyone available", "is this real", "is this a bot", "am i talking to a person"],
  response: "The best ways to reach us:\n\n1. Tap 'Still need help?' below, then 'Talk to Someone' — we respond within 1 business day.\n2. Reply to your most recent email thread with our team.\n3. Visit your Flexdrive office in person Monday–Friday, 9:00 AM – 5:00 PM. No appointment needed.\n\nFlexdrive offices do not provide phone support — email and in-person only.\n\nFor Lyft app questions (ride issues, earnings, deactivation), visit help.lyft.com or contact support through the Lyft Driver App."
  },
  {
@@ -2461,7 +2455,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Wrapped vehicle bonus (SFO)",
- keywords: ["wrapped", "wrapped car", "decal", "lyft decal", "branded car", "wrapped vehicle", "sign on bonus", "sign-on bonus", "weekly bonus", "100 bonus", "$100 bonus", "bonus offer", "wrapped bonus", "lyft wrapped", "80 rides", "eighty rides", "ride bonus", "weekly ride bonus", "bonus not received", "didn't get my bonus", "missing bonus", "where is my bonus", "wrapped car bonus", "wrapped vehicle bonus", "lyft branded car", "lyft brand decal"],
+ keywords: ["wrapped", "wrapped car", "decal", "lyft decal", "branded car", "wrapped vehicle", "sign on bonus", "sign-on bonus", "weekly bonus", "100 bonus", "$100 bonus", "bonus offer", "wrapped bonus", "lyft wrapped", "80 rides", "eighty rides", "ride bonus", "weekly ride bonus", "bonus not received", "didn't get my bonus", "missing bonus", "where is my bonus", "wrapped car bonus", "wrapped vehicle bonus", "donde esta mi bono", "dónde está mi bono", "mi bono", "donde esta el bono", "lyft branded car", "lyft brand decal"],
  showTalkBtn: true,
  wrappedAccordion: true,
  response: "Here is everything you need to know about the Lyft wrapped vehicle bonus program:"
@@ -2544,7 +2538,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Moving to a new state / relocating",
- keywords: ["i'm leaving the state", "leaving the state", "moving out of state", "transferring to another city", "can i travel out of state", "travel out of state", "i am relocating", "moving", "relocate", "relocating", "transfer", "new state", "moving to", "different state", "switching states", "change state", "new city", "new market", "i'm moving", "moving out of state", "relocating to another city", "moving to a new city", "transferring to another market", "switching to a different city", "moving away", "new location", "different region", "going to a new state", "i want to drive in another state", "move my account", "transfer my account", "can i move my rental", "can i take the car with me", "drive to another state", "different market", "new market", "can i drive in california", "can i drive in texas"],
+ keywords: ["i'm leaving the state", "leaving the state", "moving out of state", "transferring to another city", "can i travel out of state", "travel out of state", "i am relocating", "moving", "relocate", "relocating", "transfer", "new state", "moving to", "different state", "switching states", "change state", "new city", "new market", "i'm moving", "moving out of state", "relocating to another city", "moving to a new city", "transferring to another market", "switching to a different city", "moving away", "new location", "different region", "going to a new state", "i want to drive in another state", "move my account", "transfer my account", "can i move my rental", "can i take the car with me", "drive to another state", "take care of with me", "take my car to another state", "can i take it to another state", "bring the car to another state", "different market", "new market", "can i drive in california", "can i drive in texas"],
  needsRegion: true,
  needsRelocationRegion: true,
  movingAccordion: true,
@@ -2664,7 +2658,7 @@ const STATE_LYFT_REQUIREMENTS = {
  "Contact Lyft support with your info to transfer your driver account to Colorado."
  ]
  },
- IAH: {
+ HOU: {
  state: "Texas (Houston)",
  helpUrl: "https://help.lyft.com/hc/en-us/all/articles/115013083628-Texas-Driver-Information",
  requirements: [
@@ -2768,7 +2762,7 @@ const STATE_LYFT_REQUIREMENTS = {
 const REGION_OVERAGE_RATES = {
  ATL: { rate: "$16.00", confirmed: true },
  SAT: { rate: "$17.00", confirmed: true },
- IAH: { rate: "$18.00", confirmed: true },
+ HOU: { rate: "$18.00", confirmed: true },
  PDX: { rate: "$18.00", confirmed: true },
  LAX: { rate: "$20.00", confirmed: true },
  DAL: { rate: "$20.00", confirmed: true },
@@ -4559,7 +4553,7 @@ var STATE_GROUPS = [
  { state: "Ohio", regions: ["CIN", "CLE"] },
  { state: "Oregon", regions: ["PDX"] },
  { state: "Pennsylvania", regions: ["PHL", "PIT"] },
- { state: "Texas", regions: ["AUS", "DAL", "IAH", "SAT"] },
+ { state: "Texas", regions: ["AUS", "DAL", "HOU", "SAT"] },
  { state: "Virginia", regions: ["DC"] },
  { state: "Washington D.C.", regions: ["DC"] },
  { state: "Wisconsin", regions: ["MKE"] }
@@ -5213,26 +5207,12 @@ function showSessionTimeoutPrompt() {
  // No-op — session timeout prompt disabled
 }
 
-// ─── SESSION ID (funnel key) ───────────────────────────────────────────────
-// A random ID minted once per session, attached to the anonymous behavioral
-// tabs (Sessions, Topics, Feedback, Escalation Questions) so they can be tied
-// into a single funnel. DELIBERATELY NOT attached to the contact form, so the
-// anonymous escalation record can never be re-linked to a renter's identity.
-var sessionId = null;
-function getSessionId() {
- if (!sessionId) {
-   sessionId = 'S-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
- }
- return sessionId;
-}
-
 // ─── LOG SESSION START ───
 function logSession(region, regionName) {
  var payload = {
  action: 'session',
  region: region,
  regionName: regionName,
- sessionId: getSessionId(),
  timestamp: new Date().toISOString()
  };
  fetch(APPS_SCRIPT_URL, {
@@ -5242,174 +5222,18 @@ function logSession(region, regionName) {
  }).catch(function() {});
 }
 
-// ─── VALUE METRICS: TOPICS / FEEDBACK / ESCALATION ──────────────────────────
-// All three log ANONYMOUSLY (timestamp, region, region name, session ID + the
-// one data point). No name / email / phone is ever attached to these.
 
-// Generic anonymous logger — shared by the three metrics below.
-function logMetric(action, extraKey, extraVal) {
- var payload = {
- action: action,
- region: userRegion || 'UNKNOWN',
- regionName: (userRegion && VENDORS[userRegion]) ? VENDORS[userRegion].regionName : 'Unknown',
- sessionId: getSessionId(),
- timestamp: new Date().toISOString()
- };
- payload[extraKey] = extraVal;
- fetch(APPS_SCRIPT_URL, {
- method: 'POST',
- body: JSON.stringify(payload),
- mode: 'no-cors'
- }).catch(function() {});
-}
-
-// 1. Topic logged whenever the renter actually RECEIVES an answer
-//    (main knowledge-base match OR card-level inline answer).
-function logTopic(topic) {
- if (!topic) topic = '(uncategorized card)';
- logMetric('topic', 'topic', topic);
-}
-
-// 2. Per-session resolution confirmation (thumbs up / down).
-//    Only logged when the renter actually taps — ignores are logged as nothing.
-function logFeedback(result) {
- logMetric('feedback', 'result', result); // result = 'Yes' or 'No'
-}
-
-// 3. The last question the renter asked right before escalating to a human.
-//    Deliberately NOT joined to the contact form's identity fields.
-function logEscalationQuestion() {
- var lastUserMsg = '';
- for (var i = sessionLog.length - 1; i >= 0; i--) {
-   if (sessionLog[i].role === 'user') { lastUserMsg = sessionLog[i].text; break; }
- }
- if (!lastUserMsg) return; // nothing to log (e.g. escalated before asking anything)
- logMetric('escalation_question', 'question', lastUserMsg);
-}
-
-// ─── RESOLUTION PROMPT (per-session "Did this help?") ───────────────────────
-// Appears 35s after the last bot answer IF the renter hasn't sent another
-// message and hasn't already answered this session. One tap logs Yes/No.
-var feedbackPromptTimer = null;
-var feedbackGiven = false;      // renter already answered this session
-var feedbackPromptShown = false; // prompt currently visible (avoid duplicates)
-
-function scheduleFeedbackPrompt() {
- if (feedbackGiven) return;             // don't ask twice
- if (feedbackPromptTimer) clearTimeout(feedbackPromptTimer);
- feedbackPromptTimer = setTimeout(showFeedbackPrompt, 35000); // 35s of inactivity
-}
-
-function cancelFeedbackPrompt() {
- // Called when the renter sends another message — they're still active.
- if (feedbackPromptTimer) clearTimeout(feedbackPromptTimer);
- // If an unanswered prompt is sitting on screen, remove it (stale).
- if (feedbackPromptShown && !feedbackGiven) {
-   var stale = document.getElementById('feedbackPromptRow');
-   if (stale && stale.parentNode) stale.parentNode.removeChild(stale);
-   feedbackPromptShown = false;
- }
-}
-
-function showFeedbackPrompt() {
- if (feedbackGiven || feedbackPromptShown) return;
- if (isTyping) { scheduleFeedbackPrompt(); return; } // wait if mid-answer
- feedbackPromptShown = true;
-
- var row = document.createElement('div');
- row.className = 'msg-row assistant';
- row.id = 'feedbackPromptRow';
-
- var av = document.createElement('div');
- av.className = 'msg-avatar';
- setAvatarText(av);
-
- var wrap = document.createElement('div');
- wrap.className = 'msg-bubble';
- wrap.style.cssText = 'background:var(--white);color:#1A2433;border-bottom-left-radius:6px;box-shadow:0 2px 8px rgba(15,64,106,0.12),0 0 0 2px rgba(15,64,106,0.08);font-size:15px;line-height:1.5;padding:13px 16px;border-radius:20px;';
-
- var q = document.createElement('div');
- q.textContent = 'Did this answer your question?';
- q.style.cssText = 'margin-bottom:10px;font-weight:600;';
- wrap.appendChild(q);
-
- var btnRow = document.createElement('div');
- btnRow.style.cssText = 'display:flex;gap:10px;';
-
- function makeBtn(label, result) {
-   var b = document.createElement('button');
-   b.textContent = label;
-   b.style.cssText = 'flex:1;border:1.5px solid #0F406A;background:#fff;color:#0F406A;border-radius:22px;padding:9px 0;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.15s;';
-   b.onmouseenter = function() { b.style.background = '#0F406A'; b.style.color = '#fff'; };
-   b.onmouseleave = function() { b.style.background = '#fff'; b.style.color = '#0F406A'; };
-   b.addEventListener('click', function() {
-     if (feedbackGiven) return;
-     feedbackGiven = true;
-     logFeedback(result);
-     // Replace buttons with a short thank-you.
-     wrap.innerHTML = '';
-     var ty = document.createElement('div');
-     ty.textContent = result === 'Yes' ? 'Great — glad that helped!' : 'Thanks — tap "Talk to Someone" any time and our team will help directly.';
-     ty.style.cssText = 'font-size:15px;line-height:1.5;';
-     wrap.appendChild(ty);
-   });
-   return b;
- }
-
- btnRow.appendChild(makeBtn('\uD83D\uDC4D Yes', 'Yes'));
- btnRow.appendChild(makeBtn('\uD83D\uDC4E No', 'No'));
- wrap.appendChild(btnRow);
-
- row.appendChild(av);
- row.appendChild(wrap);
- chatArea.appendChild(row);
- scrollToElement(row);
-}
-
-
-
-// ─── GREETING / ZIP GUARDS FOR UNMATCHED LOGGING ───
-// Greetings and bare zip codes aren't real "unanswered questions" —
-// they're conversational noise or a location reply to a prompt.
-// Filtering them out keeps the weekly Unmatched Questions review meaningful.
-
-var GREETING_WORDS = ['hi', 'hii', 'hello', 'hey', 'heyy', 'hiya', 'yo', 'sup',
- 'good morning', 'good afternoon', 'good evening', 'greetings', 'howdy'];
-
-function isGreetingOnly(text) {
- var cleaned = text.trim().toLowerCase().replace(/[!.,?]/g, '');
- var wordCount = cleaned.split(/\s+/).length;
-
- // Bare greeting: "hi", "hello", "good morning", etc. — nothing else attached.
- if (GREETING_WORDS.indexOf(cleaned) !== -1) return true;
-
- // Greeting + short intro: "hi I'm Jane", "hey this is john", "hello my name is..."
- var startsWithGreeting = GREETING_WORDS.some(function(g) {
-   return cleaned.indexOf(g) === 0;
- });
- var hasIntroPhrase = /\b(i'?m|im|this is|my name is)\b/.test(cleaned);
-
- if (startsWithGreeting && hasIntroPhrase && wordCount <= 6) return true;
-
- return false;
-}
-
-function isZipCodeOnly(text) {
- var cleaned = text.trim();
- return /^\d{5}(-\d{4})?$/.test(cleaned);
-}
 
 // ─── LOG UNMATCHED QUESTIONS ───
 function logUnmatchedQuestion(question) {
  if (!question || question.trim().length < 3) return; // skip empty or trivial inputs
- if (isGreetingOnly(question)) return;                 // skip bare greetings / name intros
- if (isZipCodeOnly(question)) return;                  // skip bare zip code entries
+ // Skip name introductions and greetings — not real support questions
+ if (/^(hi\b|hello\b|hey\b|good morning|good afternoon|good evening|i'?m |my name is|i am )/i.test(question.trim())) return;
  var payload = {
  action: 'unmatched',
  question: question,
  region: userRegion || 'UNKNOWN',
  regionName: userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown',
- sessionId: getSessionId(),
  timestamp: new Date().toISOString()
  };
  fetch(APPS_SCRIPT_URL, {
@@ -5668,14 +5492,14 @@ var CARD_ANSWERS = [
  { k: ["lyft deactivated my account","lyft account deactivated","deactivated by lyft","lyft suspended me","lyft account suspended"],
  a: "Return your rental — Lyft App → Vehicle tab → Schedule a return. Charges continue until the car is back. Appeal through Lyft support — Flexdrive cannot restore your account." },
 
- { k: ["reactivated by lyft","lyft account restored","can i rent after reactivation","rent again after deactivation"],
+ { k: ["reactivated by lyft","lyft account restored","can i rent after reactivation","rent again after deactivation","reinstate my account","get reinstated","taking so long to reinstate","what is taking so long to reinstate","when will i be reinstated","account reactivated","reinstatement"],
  a: "Once your Lyft account is restored and in good standing, contact our office to discuss availability for a new rental." },
 
  // ── VEHICLE RULES ─────────────────────────────────────────────────────────────
  { k: ["cleaning fee","dirty car fee","clean car fee","what is cleaning fee","vehicle cleaning charge","why do i have a cleaning charge","cleaning charge on my account","got charged for cleaning","why was i charged for cleaning","cleaning fee on my bill","got a cleaning fee","cleaning charge dispute","was charged cleaning fee"],
    a: "Cleaning charges are applied at contract close based on the condition of the vehicle at return.\n\nStandard cleaning: $50\nExcessive pet hair: $300\nSmoke/vaping odor: $300\nFull detail required: $150\n\nHow to avoid it: Return the vehicle clean — wipe down surfaces, remove trash, and vacuum if needed.\n\nIf you believe the charge was applied in error, tap Talk to Someone below and our team will review it." },
 
- { k: ["i dispute this charge","i disagree with this charge","this charge is wrong","charge is incorrect","billing dispute","dispute a charge","charge on my account i don\'t recognize","wrong amount on my account","charge i don\'t understand","i didn\'t authorize this charge","billing error","error on my bill","my bill is incorrect","charge looks wrong","incorrect billing","overcharged dispute","dispute my bill","over billed","overbilled","i was overbilled","i think i was overbilled","over charged"],
+ { k: ["i dispute this charge","i disagree with this charge","this charge is wrong","charge is incorrect","billing dispute","dispute a charge","charge on my account i don\'t recognize","wrong amount on my account","charge i don\'t understand","i didn\'t authorize this charge","billing error","error on my bill","my bill is incorrect","charge looks wrong","incorrect billing","overcharged dispute","dispute my bill","over billed","overbilled","i was overbilled","i think i was overbilled","over charged","over billed","overbilled","i was overbilled","i think i was overbilled","over charged"],
     a: "Before escalating, let\'s verify the charge together.\n\nStep 1: Open the Lyft Driver App\nMain Menu \u2192 Account \u2192 Express Drive billing history\nThis shows every charge, credit, and payment for the current and past billing weeks.\n\nStep 2: Check what the charge is for\n\u2022 Weekly rental fee\n\u2022 Mileage overage\n\u2022 Cleaning or damage fee\n\u2022 Toll charges\n\u2022 Roadside / tow fee\n\nStep 3: Still disagree?\nTap Talk to Someone below — our team will review the charge with you." },
 { k: ["smoke fee","smoking fee","smoking charge","smoke removal fee","cigarette smell fee"],
  a: "A $300 smoke removal fee is charged if smoking is detected. Smoking — including vaping and e-cigarettes — is never permitted in a Flexdrive rental vehicle, even with windows down." },
@@ -5939,7 +5763,7 @@ var CARD_ANSWERS = [
  { k: ["how to contact flexdrive","how to reach flexdrive office","contact flexdrive","flexdrive phone number","flexdrive email","reach flexdrive","flexdrive contact info"],
  a: "Flexdrive offices do not provide phone support — all communication is by email or in person. To reach your local team: tap 'Still need help?' below then 'Talk to Someone', reply to your most recent email thread, or visit the office Monday–Friday 9:00 AM – 5:00 PM." },
 
- { k: ["proof of insurance","insurance card","show insurance document","insurance certificate","need insurance document","insurance paper","where is insurance card"],
+ { k: ["proof of insurance","insurance card","show insurance document","insurance certificate","need insurance document","insurance paper","where is insurance card","necesito el seguro","necesito seguro","el seguro","necesito mi seguro"],
  a: "Your proof of insurance is available in the Lyft Driver App: Main Menu → Vehicles and Devices → Your Vehicles → See Details → Insurance Information. You can screenshot or download it from there." },
 
 
@@ -5948,7 +5772,7 @@ var CARD_ANSWERS = [
  a: "1. Call 911 — get the police report number. 2. Call Holman: (833) 274-5938. 3. Report in Lyft App: Help → Report a stolen vehicle. 4. Tap Talk to Someone to notify Flexdrive. Do NOT wait." },
 
  // ── LYFT DEACTIVATION — direct answer ────────────────────────
- { k: ["lyft deactivation","lyft deactivated me","lyft deactivated my account","lyft account deactivated","lyft suspended me","lyft account suspended","got deactivated by lyft","deactivated from lyft"],
+ { k: ["lyft deactivation","lyft deactivated me","lyft deactivated my account","lyft account deactivated","lyft suspended me","lyft account suspended","got deactivated by lyft","deactivated from lyft","appeal my rental account suspension","appeal account suspension","automated system error","rental account suspension","appeal suspension","account suspended automated error","suspension appeal"],
  a: "Return your rental immediately — Lyft App → Vehicle tab → Schedule a return. Charges continue until the car is back. Appeal through Lyft support — Flexdrive cannot restore your account." },
 
 
@@ -6378,6 +6202,9 @@ var CARD_ANSWERS = [
 
  { k: ["how do i start renting in a new market","start renting new market","rent in new city how","new city flexdrive how to start"],
  a: "Get your Lyft region change approved, clear any outstanding balance, then contact that market's Flexdrive office. A new deposit is required." },
+
+ { k: ["minimum requirement exception","requirement exception","exception to requirements","eligibility exception","background check exception","can i get an exception","exception request","appeal eligibility","appeal requirements","appeal my background check","minimum requirements exception","waive requirements","requirements waiver"],
+ a: "Eligibility exceptions are reviewed on a case-by-case basis by your local Flexdrive team.\n\nYou have two options:\n\n1. Tap 'Still need help?' below then 'Talk to Someone' — our team will review your request and follow up by email.\n\n2. For a faster answer, contact Lyft support directly through the Lyft Driver App: Menu → Help → chat with support.", showTalkBtn: true },
 
  { k: ["what are the eligibility requirements","eligibility requirements flexdrive","requirements to rent flexdrive","what do i need to qualify"],
  a: "Must be 25+, valid U.S. license, active Lyft account, pass a background check, no prepaid cards, and pay a security deposit." },
@@ -6946,7 +6773,6 @@ function sendMessage() {
  messages.push({ role: 'user', content: text });
  sessionLog.push({ role: 'user', text: text, time: new Date().toLocaleTimeString() });
  resetSessionTimeout();
- cancelFeedbackPrompt(); // renter is active again — clear any pending/stale "Did this help?" prompt
 
  userInput.value = '';
  userInput.style.height = 'auto';
@@ -6998,7 +6824,6 @@ function sendMessage() {
  var cardResult = findCardAnswer(resolvedText);
  if (cardResult) {
       lastMatch = cardResult;
- logTopic(cardResult.topic); // value metric: renter received a card answer
  renderMessage('assistant', getAriGreeting() + cardResult.a);
  isTyping = false;
  // If answer has vendor button, append a Find vendor quick link
@@ -7040,7 +6865,6 @@ function sendMessage() {
           setTimeout(function() { appendQuickActions(true, false); }, 300);
         }
       }
-      scheduleFeedbackPrompt(); // start 35s "Did this help?" timer after card answer
       return;
     }
 
@@ -7051,7 +6875,6 @@ function sendMessage() {
 
  if (match) {
  lastMatch = match;
- logTopic(match.topic); // value metric: renter received a KB answer
  // Track conversation history for context
  conversationHistory.push({ topic: match.topic, keywords: match.keywords });
  if (conversationHistory.length > 8) conversationHistory.shift();
@@ -7081,7 +6904,6 @@ function sendMessage() {
  removeTyping();
  renderMessage('assistant', officeMsg);
  isTyping = false;
- scheduleFeedbackPrompt(); // start 35s "Did this help?" timer after office answer
  return;
  }
 
@@ -7366,38 +7188,71 @@ function sendMessage() {
  else {
  noMatchMsg = "I wasn't able to match that to a specific topic. Try using keywords like 'billing', 'return', 'CDW', or 'mileage' — or tap Talk to Someone below and our team will help.";
  }
- // Find fuzzy suggestions
-  var _suggestions = findFuzzySuggestions(resolvedText);
+ // Before giving up, try translating the input to English — catches
+ // non-English questions (Spanish, etc.) without needing duplicate keyword sets.
+ translateInputToEnglish(resolvedText, function(translated) {
+   var translatedMatch = null;
+   if (translated) {
+     translatedMatch = findCardAnswer(translated.toLowerCase()) || findBestMatch(translated.toLowerCase());
+   }
 
-  if (_suggestions.length > 0) {
-    var _suggestWrap = document.createElement('div');
-    _suggestWrap.style.cssText = 'margin-top:10px;display:flex;flex-direction:column;gap:8px;';
-    var _didYouMean = document.createElement('div');
-    _didYouMean.style.cssText = 'font-size:12px;color:#8B9BAD;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-bottom:2px;';
-    _didYouMean.textContent = 'Did you mean?';
-    _suggestWrap.appendChild(_didYouMean);
-    _suggestions.forEach(function(topic) {
-      var btn = document.createElement('button');
-      btn.style.cssText = 'background:#fff;border:1.5px solid #0F406A;border-radius:22px;padding:9px 16px;font-size:14px;color:#0F406A;font-weight:600;cursor:pointer;text-align:left;transition:all 0.15s;width:100%;';
-      btn.textContent = topic;
-      btn.onmouseenter = function() { btn.style.background = '#0F406A'; btn.style.color = '#fff'; };
-      btn.onmouseleave = function() { btn.style.background = '#fff'; btn.style.color = '#0F406A'; };
-      btn.onclick = function() { userInput.value = topic; sendMessage(); };
-      _suggestWrap.appendChild(btn);
-    });
-    renderMessage('assistant', noMatchMsg, _suggestWrap);
-  } else {
-    renderMessage('assistant', noMatchMsg);
-  }
- }
- // Don't log zip codes or location strings as unmatched questions
- if (text && !resolveRegion(text)) {
-   logUnmatchedQuestion(text);
+   if (translatedMatch) {
+     lastMatch = translatedMatch;
+     var answerText = translatedMatch.a || translatedMatch.response;
+     renderMessage('assistant', getAriGreeting() + answerText);
+     if (translatedMatch.showTalkBtn) {
+       setTimeout(function() {
+         var talkRow = document.createElement('div');
+         talkRow.style.cssText = 'margin-top:10px;';
+         var talkBtn = document.createElement('button');
+         talkBtn.className = 'quick-btn';
+         talkBtn.textContent = 'Talk to Someone';
+         talkBtn.onclick = function() { openContactModal('talk'); };
+         talkRow.appendChild(talkBtn);
+         chatArea.appendChild(talkRow);
+         scrollToElement(talkRow);
+       }, 300);
+     }
+     isTyping = false;
+     return;
+   }
+
+   // Still no match — find fuzzy suggestions
+   var _suggestions = findFuzzySuggestions(resolvedText);
+
+   if (_suggestions.length > 0) {
+     var _suggestWrap = document.createElement('div');
+     _suggestWrap.style.cssText = 'margin-top:10px;display:flex;flex-direction:column;gap:8px;';
+     var _didYouMean = document.createElement('div');
+     _didYouMean.style.cssText = 'font-size:12px;color:#8B9BAD;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-bottom:2px;';
+     _didYouMean.textContent = 'Did you mean?';
+     _suggestWrap.appendChild(_didYouMean);
+     _suggestions.forEach(function(topic) {
+       var btn = document.createElement('button');
+       btn.style.cssText = 'background:#fff;border:1.5px solid #0F406A;border-radius:22px;padding:9px 16px;font-size:14px;color:#0F406A;font-weight:600;cursor:pointer;text-align:left;transition:all 0.15s;width:100%;';
+       btn.textContent = topic;
+       btn.onmouseenter = function() { btn.style.background = '#0F406A'; btn.style.color = '#fff'; };
+       btn.onmouseleave = function() { btn.style.background = '#fff'; btn.style.color = '#0F406A'; };
+       btn.onclick = function() { userInput.value = topic; sendMessage(); };
+       _suggestWrap.appendChild(btn);
+     });
+     renderMessage('assistant', noMatchMsg, _suggestWrap);
+   } else {
+     renderMessage('assistant', noMatchMsg);
+   }
+
+   // Don't log zip codes or location strings as unmatched questions
+   if (text && !resolveRegion(text)) {
+     logUnmatchedQuestion(text);
+   }
+
+   isTyping = false;
+ });
+ return;
  }
  }
 
  isTyping = false;
- scheduleFeedbackPrompt(); // start 35s "Did this help?" timer after answer
  }, typingDelay);
 }
 
@@ -7467,7 +7322,7 @@ function handleLocationInput(locationText) {
       DAL: "Big D drivers — we've got you covered in Dallas.",
       DEN: "Mile High drivers — we've got you covered in Denver.",
       FTW: "Cowtown drivers — we've got you covered in Fort Worth.",
-      IAH: "Space City drivers — we've got you covered in Houston.",
+      HOU: "Space City drivers — we've got you covered in Houston.",
       MKE: "Brew City drivers — we've got you covered in Milwaukee.",
       PHL: "From South Street to the Main Line — Philadelphia drivers, we've got you covered.",
       PHX: "Desert heat, city hustle — Phoenix drivers, we've got you covered.",
@@ -7580,7 +7435,7 @@ function renderRelocationButtons() {
  { code: 'CLE', city: 'Cleveland', state: 'OH' },
  { code: 'DAL', city: 'Dallas/FW', state: 'TX' },
  { code: 'DEN', city: 'Denver', state: 'CO' },
- { code: 'IAH', city: 'Houston', state: 'TX' },
+ { code: 'HOU', city: 'Houston', state: 'TX' },
  { code: 'LAX', city: 'Los Angeles', state: 'CA' },
  { code: 'MKE', city: 'Milwaukee', state: 'WI' },
  { code: 'PHL', city: 'Philadelphia', state: 'PA' },
@@ -7790,22 +7645,12 @@ function showWelcome() {
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyDGHsVfVnieQhX9B2gi0qCNq96EBRG8zjJC0tB_tFpG3PP32BUm8rS5NHskp8OvL0rbw/exec';
 
 function handleResponsePrefChange(val) {
-  var reqSpan = document.getElementById('cf-email-required');
-  var optSpan = document.getElementById('cf-email-optional');
+  // Email is always required regardless of response preference
   var emailInput = document.getElementById('cf-email');
-  if (val === 'yes') {
-    if (reqSpan) reqSpan.style.display = 'inline';
-    if (optSpan) optSpan.style.display = 'none';
-    if (emailInput) emailInput.setAttribute('required', 'required');
-  } else {
-    if (reqSpan) reqSpan.style.display = 'none';
-    if (optSpan) optSpan.style.display = 'inline';
-    if (emailInput) emailInput.removeAttribute('required');
-  }
+  if (emailInput) emailInput.setAttribute('required', 'required');
 }
 
 function openContactModal(mode) {
- logEscalationQuestion(); // value metric: capture last question before escalating (anonymous)
  document.getElementById('cf-name').value = '';
  document.getElementById('cf-email').value = '';
  document.getElementById('cf-phone').value = '';
@@ -8018,11 +7863,11 @@ function submitContactForm() {
     document.getElementById('attach-drop-zone').style.borderColor = '#D93025';
     return;
   }
-  if (responsePref === 'yes' && !email) {
-    alert('Please enter your email address so we can respond to you.');
+  if (!email) {
+    alert('Please enter your email address.');
     return;
   }
-  if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     alert('Please enter a valid email address.');
     return;
   }
@@ -8401,6 +8246,28 @@ function saveCache(lang) {
 }
 
 // Translate via Google Translate API (free, no key needed for this endpoint)
+// Translate USER INPUT to English (auto-detect source language) — used as a fallback
+// when no keyword match is found, so non-English questions can still be understood.
+function translateInputToEnglish(text, callback) {
+  if (!text || text.trim().length < 3) { callback(null); return; }
+  var url = 'https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&tl=en&q=' + encodeURIComponent(text);
+  fetch(url)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var translated = null;
+      if (Array.isArray(data) && data[0]) {
+        translated = Array.isArray(data[0]) ? data[0][0] : data[0];
+      }
+      // Only use it if it's meaningfully different (i.e. wasn't already English)
+      if (translated && translated.trim().toLowerCase() !== text.trim().toLowerCase()) {
+        callback(translated);
+      } else {
+        callback(null);
+      }
+    })
+    .catch(function() { callback(null); });
+}
+
 function translateBatch(texts, lang, callback) {
   var unique = [];
   var seen = {};
@@ -8654,11 +8521,6 @@ function startOver() {
  conversationHistory = [];
  lastMatch = null;
  userRegion = null;
- // Reset per-session feedback state so the new session can prompt again
- if (feedbackPromptTimer) clearTimeout(feedbackPromptTimer);
- feedbackGiven = false;
- feedbackPromptShown = false;
- sessionId = null; // mint a fresh session ID for the new session
  awaitingLocation = true;
  userInput.disabled = true;
  userInput.placeholder = 'Enter City or Zip Code...';
