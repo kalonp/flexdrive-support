@@ -1451,7 +1451,7 @@
  /* Prevent double-tap zoom on buttons */
  button, a { touch-action: manipulation; }
  /* Android select arrow */
- .modal-select { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%23003B71'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+ .modal-select { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%230F406A'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
  /* Improve tap response on Android */
  .quick-btn, .talk-btn, .send-msg-btn { -webkit-tap-highlight-color: transparent; }
  /* Compact location card so input + button both fit above keyboard */
@@ -5207,13 +5207,27 @@ function showSessionTimeoutPrompt() {
  // No-op — session timeout prompt disabled
 }
 
+// ─── SESSION ID (funnel key) ───────────────────────────────────────────────
+// A random ID minted once per session, attached to the anonymous behavioral
+// tabs (Sessions, Topics, Feedback, Escalation Questions) so they can be tied
+// into a single funnel. DELIBERATELY NOT attached to the contact form, so the
+// anonymous escalation record can never be re-linked to a renter's identity.
+var sessionId = null;
+function getSessionId() {
+ if (!sessionId) {
+   sessionId = 'S-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+ }
+ return sessionId;
+}
+
 // ─── LOG SESSION START ───
 function logSession(region, regionName) {
  var payload = {
  action: 'session',
  region: region,
  regionName: regionName,
- timestamp: new Date().toISOString()
+sessionId: getSessionId(),
+  timestamp: new Date().toISOString()
  };
  fetch(APPS_SCRIPT_URL, {
  method: 'POST',
@@ -5223,6 +5237,34 @@ function logSession(region, regionName) {
 }
 
 
+
+// ─── VALUE METRICS: TOPICS / FEEDBACK / ESCALATION ──────────────────────────
+// All three log ANONYMOUSLY (timestamp, region, region name, session ID + the
+// one data point). No name / email / phone is ever attached to these.
+
+// Generic anonymous logger — shared by the three metrics below.
+function logMetric(action, extraKey, extraVal) {
+ var payload = {
+ action: action,
+ region: userRegion || 'UNKNOWN',
+ regionName: (userRegion && VENDORS[userRegion]) ? VENDORS[userRegion].regionName : 'Unknown',
+ sessionId: getSessionId(),
+ timestamp: new Date().toISOString()
+ };
+ payload[extraKey] = extraVal;
+ fetch(APPS_SCRIPT_URL, {
+ method: 'POST',
+ body: JSON.stringify(payload),
+ mode: 'no-cors'
+ }).catch(function() {});
+}
+
+// 1. Topic logged whenever the renter actually RECEIVES an answer
+//    (main knowledge-base match OR card-level inline answer).
+function logTopic(topic) {
+ if (!topic) topic = '(uncategorized card)';
+ logMetric('topic', 'topic', topic);
+}
 
 // ─── LOG UNMATCHED QUESTIONS ───
 function logUnmatchedQuestion(question) {
@@ -6825,6 +6867,7 @@ function sendMessage() {
  if (cardResult) {
       lastMatch = cardResult;
  renderMessage('assistant', getAriGreeting() + cardResult.a);
+ logTopic(cardResult.topic);
  isTyping = false;
  // If answer has vendor button, append a Find vendor quick link
  if (cardResult.showVendorBtn) {
@@ -6877,6 +6920,7 @@ function sendMessage() {
  lastMatch = match;
  // Track conversation history for context
  conversationHistory.push({ topic: match.topic, keywords: match.keywords });
+ logTopic(match.topic);
  if (conversationHistory.length > 8) conversationHistory.shift();
  var responseText = varyOpener(match.response, match.topic, text);
 
