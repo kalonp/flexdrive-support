@@ -3957,7 +3957,8 @@ function renderEarningsAccordion() {
  c.className = 'ev-accordion';
 
  makeAccordionItem(c, 'How Express Pay Works', '', [
- '<div class="ac-callout info"><strong>What Is Express Pay?</strong>Express Pay (Instant Pay) is a Lyft platform feature that lets you transfer your earnings to a debit card instantly for a small fee, or to your bank account for free within 1–5 business days.</div>',
+ '<div class="ac-callout urgent"><strong>Pay &amp; Cash-Out Issues Are Handled by Lyft</strong>Express Pay and cashing out are Lyft platform features. If you cannot cash out or have any pay issue, contact Lyft support through chat in the Lyft Driver App (Menu \u2192 Help), or visit <a href="https://help.lyft.com" target="_blank">help.lyft.com</a>. Flexdrive cannot access or release your Lyft earnings.</div>',
+    '<div class="ac-callout info"><strong>What Is Express Pay?</strong>Express Pay (Instant Pay) is a Lyft platform feature that lets you transfer your earnings to a debit card instantly for a small fee, or to your bank account for free within 1–5 business days.</div>',
  '<div class="ac-callout warn"><strong>Rental Costs Come First</strong>Your Lyft earnings first cover your weekly rental cost before you can cash out the remainder.</div>',
  '<div class="ac-section-label">How to Cash Out</div>',
  '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body">Open the Lyft Driver App and tap <strong>Earnings</strong></div></div>',
@@ -3967,7 +3968,8 @@ function renderEarningsAccordion() {
  ].join(''));
 
  makeAccordionItem(c, 'Cannot Cash Out / Missing Earnings', '', [
- '<div class="ac-callout info"><strong>Why You Cannot Cash Out Yet</strong>Your Lyft earnings go toward your weekly rental costs first. Once rental charges are fully covered for the week, you can cash out the remaining balance.</div>',
+ '<div class="ac-callout urgent"><strong>Pay &amp; Cash-Out Issues Are Handled by Lyft</strong>Express Pay, cashing out, and missing earnings are managed by the Lyft platform \u2014 not Flexdrive. For the fastest help, contact Lyft support through chat in the Lyft Driver App (Menu \u2192 Help), or visit <a href="https://help.lyft.com" target="_blank">help.lyft.com</a>.</div>',
+    '<div class="ac-callout info"><strong>Why You Cannot Cash Out Yet</strong>Your Lyft earnings go toward your weekly rental costs first. Once rental charges are fully covered for the week, you can cash out the remaining balance.</div>',
  '<div class="ac-section-label">Common Reasons Earnings Are Unavailable</div>',
  '<div class="ac-gate">',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#E6930A;font-weight:700;">!</div><div>Outstanding balance from a prior week — all earnings go toward that balance first</div></div>',
@@ -5491,8 +5493,10 @@ var CARD_ANSWERS = [
  { k: ["when am i charged","when does my card get charged","what day is my card charged","tuesday charge","card charged tuesday"],
  a: "If your Lyft earnings don't fully cover the rental by Monday 4:59 AM, the remaining balance is charged to your card on file the following Tuesday.", topic: "Billing week / when am I charged" },
 
- { k: ["why did my bill change","why did my rate change","why is my bill different","rate went up reason","bill higher than usual"],
- a: "Common reasons: first week proration, mileage plan change, personal mileage overages, delayed toll charges (2-3 week delay), or CDW/PCDW added to your plan.", topic: "Rental charge different / rate went up" },
+ { k: ["ev bonus","ev rental bonus","ev discount","electric vehicle bonus","ev bonus going away","ev bonus ending","lost my ev bonus","where is my ev bonus","ev incentive","no more ev bonus","ev bonus gone","ev rate change","ev pricing","electric vehicle rate","my ev rate changed","ev bonus removed","did the ev bonus end"],
+    a: "You can still rent an EV from us — that hasn\'t changed. What\'s going away is the EV rental bonus/discount tied to completing a set number of rides.\n\nWe remain committed to EVs. This change does not reflect a step back from our EV fleet or our broader EV strategy — EVs remain a core part of our fleet offering.\n\nWe recognize this affects driver earnings, and we appreciate your understanding as we make this transition.\n\nIf you no longer want to rent an EV, you have two options: return the vehicle at your Flexdrive location, or work with your local team to swap into a different vehicle class. Tap Talk to Someone below and we can help.", showTalkBtn: true, topic: "EV bonus ending" },
+    { k: ["why did my bill change","why did my rate change","why is my bill different","rate went up reason","bill higher than usual"],
+ a: "Common reasons your weekly rate can change: first week proration, a mileage plan change, personal mileage overages, delayed toll charges (2-3 week delay), or CDW/PCDW added to your plan.\n\nIf your rate changed and you are not sure why, tap Talk to Someone below and your local team can review your specific account.", showTalkBtn: true, topic: "Rental charge different / rate went up" },
 
  { k: ["first week charge","prorated charge","first week bill","why is first week different","first payment"],
  a: "Your first week is prorated based on your pickup day, so it is typically less than your standard weekly rate. This is normal.", topic: "Rental charge different / rate went up" },
