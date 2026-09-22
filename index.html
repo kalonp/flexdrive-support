@@ -1571,6 +1571,7 @@
  <option value="">-- Select a reason --</option>
  <option value="Pick-up">Pick-up</option>
  <option value="Drop-off">Drop-off</option>
+ <option value="Vehicle drop-off">Vehicle drop-off (SAN self-return) 📷</option>
  <option value="Inspection photo">Inspection photo 📷</option>
  <option value="Accident re-rental request">Accident re-rental request 📷</option>
  <option value="Pre-existing damage report">Pre-existing damage report 📷</option>
@@ -1604,7 +1605,7 @@
  <div class="modal-field" id="attach-field" style="display:none;">
  <label class="modal-label" id="attach-label">Attachment <span id="attach-required-badge" style="font-weight:600;text-transform:none;font-size:11px;color:#D93025;display:none;">* Required</span><span id="attach-optional-badge" style="font-weight:400;text-transform:none;font-size:11px;color:#9BA8B8;">(optional)</span></label>
  <div id="attach-prompt" style="display:none;font-size:13px;color:#0F406A;background:rgba(0,59,113,0.06);border-radius:10px;padding:10px 12px;margin-bottom:10px;line-height:1.5;"></div>
- <input type="file" id="cf-attachment" accept="image/*,.pdf" style="display:none;" onchange="handleAttachmentChange(this)" />
+ <input type="file" id="cf-attachment" accept="image/*,.pdf" multiple style="display:none;" onchange="handleAttachmentChange(this)" />
  <div id="attach-drop-zone" onclick="document.getElementById('cf-attachment').click()" style="border:2px dashed rgba(0,59,113,0.25);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;background:rgba(0,59,113,0.03);transition:border-color 0.15s,background 0.15s;touch-action:manipulation;">
    <div style="flex-shrink:0;width:28px;height:28px;"><svg viewBox="0 0 24 24" fill="none" stroke="#CF0090" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
    <div>
@@ -7442,6 +7443,30 @@ function appendLocationRow(msgText, locPrompt) {
   scrollToElement(row);
 }
 
+function renderSanScreen() {
+  var notice = "\uD83D\uDE97 San Diego is temporarily drop-off & remote support only. We're not renting new vehicles here right now and there's no on-site staff \u2014 but we're here to help. Returns are checked about once a week.\n\nWhat would you like to do?";
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;flex-direction:column;gap:10px;margin-top:10px;';
+  var b1 = document.createElement('button');
+  b1.textContent = '\uD83D\uDD11 Return / drop off a vehicle';
+  b1.style.cssText = 'background:#0F406A;color:#fff;border:none;border-radius:12px;padding:14px 16px;font-size:15px;font-weight:700;cursor:pointer;text-align:left;';
+  b1.onclick = function() { openContactModal('dropoff'); };
+  var b2 = document.createElement('button');
+  b2.textContent = '\uD83D\uDCAC Get remote support';
+  b2.style.cssText = 'background:#CF0090;color:#fff;border:none;border-radius:12px;padding:14px 16px;font-size:15px;font-weight:700;cursor:pointer;text-align:left;';
+  b2.onclick = function() { openContactModal('talk'); };
+  wrap.appendChild(b1); wrap.appendChild(b2);
+  renderMessage('assistant', notice, wrap);
+  logSession('SAN', VENDORS['SAN'].regionName);
+  userInput.disabled = false;
+  userInput.placeholder = 'Ask a question...';
+  userInput.setAttribute('readonly', 'true');
+  document.querySelector('.input-bar').style.display = '';
+  userInput.blur();
+  resetSessionTimeout();
+  setTimeout(function(){ scrollToBottom(); }, 300);
+}
+
 function handleLocationInput(locationText) {
  var region = resolveRegion(locationText);
 
@@ -7457,6 +7482,7 @@ function handleLocationInput(locationText) {
  if (region && VENDORS[region]) {
  userRegion = region;
  awaitingLocation = false;
+ if (region === 'SAN') { renderSanScreen(); return; }
  var regionData = VENDORS[region];
 
  // Confirm region — LAX gets both office locations
@@ -7822,6 +7848,7 @@ function openContactModal(mode) {
   var rp = document.getElementById('cf-response-pref');
   if (rp) { rp.value = ''; handleResponsePrefChange(''); }
  var isTalk = (mode === 'talk');
+ var isDropoff = (mode === 'dropoff');
  if (isTalk) logEscalationQuestion(); // value metric: last question before escalating
  var titleEl = document.getElementById('modalTitle');
  var subtitleEl = document.getElementById('modalSubtitle');
@@ -7897,6 +7924,7 @@ function openContactModal(mode) {
       '<option value="">-- Select a reason --</option>' +
       '<option value="Pick-up">Pick-up</option>' +
       '<option value="Drop-off">Drop-off</option>' +
+      '<option value="Vehicle drop-off">Vehicle drop-off (SAN self-return) 📷</option>' +
       '<option value="Inspection photo">Inspection photo 📷</option>' +
       '<option value="Accident re-rental request">Accident re-rental request 📷</option>' +
       '<option value="Pre-existing damage report">Pre-existing damage report 📷</option>' +
@@ -7910,6 +7938,16 @@ function openContactModal(mode) {
       '<option value="EV / charging issue">EV / charging issue</option>' +
       '<option value="Background check / deactivation">Background check / deactivation</option>' +
       '<option value="Other">Other</option>';
+  if (isDropoff) {
+    reasonSelect.value = 'Vehicle drop-off';
+    handleReasonChange('Vehicle drop-off');
+    var _m = document.getElementById('cf-message');
+    if (_m) _m.value = 'VEHICLE DROP-OFF\n\nLicense plate (or last 6 of VIN): \nOdometer reading: \n\nBefore leaving, I confirm:\n[ ] Interior cleaned & personal belongings removed\n[ ] Fueled (gas) or charged (EV)\n[ ] Keys placed in the overnight dropbox\n[ ] Parked in the designated Flexdrive area';
+    var _t = document.getElementById('modalTitle');
+    var _s = document.getElementById('modalSubtitle');
+    if (_t) { _t.textContent = 'Return / Drop Off a Vehicle'; _t.style.color = '#0F406A'; }
+    if (_s) _s.textContent = 'Log your San Diego drop-off';
+  }
   }
  document.getElementById('modalFormView').style.display = 'block';
  document.getElementById('modalSuccessView').style.display = 'none';
@@ -7950,6 +7988,7 @@ function buildTranscript() {
 
 // Reason-to-attachment config
 var ATTACH_CONFIG = {
+  'Vehicle drop-off':              { required: true,  prompt: 'Please attach a photo of the parked vehicle and its odometer reading.', label: 'Attach parked-car / odometer photo' },
   'Inspection photo':              { required: true,  prompt: 'Please attach your inspection photo. Our team cannot process this request without it.', label: 'Attach inspection photo' },
   'Accident re-rental request':    { required: true,  prompt: 'Please attach a screenshot of your not-at-fault email or accident documentation. Our team will review your account and get back to you about re-renting eligibility.', label: 'Attach accident documentation' },
   'Pre-existing damage report':    { required: true,  prompt: 'Please attach photos of the damage. This is required to document the issue on your rental agreement.', label: 'Attach damage photos' },
@@ -8012,7 +8051,7 @@ function submitContactForm() {
  var reason = document.getElementById('cf-reason').value;
  var message = document.getElementById('cf-message').value.trim();
  var fileInput = document.getElementById('cf-attachment');
- var file = fileInput && fileInput.files && fileInput.files[0];
+ var files = (fileInput && fileInput.files) ? fileInput.files : [];
 
  var responsePref = document.getElementById('cf-response-pref') ? document.getElementById('cf-response-pref').value : '';
   if (!name || !phone || !reason || !message || !responsePref) {
@@ -8021,7 +8060,7 @@ function submitContactForm() {
   }
   // Check required attachment
   var attachCfg = ATTACH_CONFIG[reason];
-  if (attachCfg && attachCfg.required && (!file)) {
+  if (attachCfg && attachCfg.required && files.length === 0) {
     alert('Please attach a photo or document — it is required for this type of request.');
     document.getElementById('attach-drop-zone').style.borderColor = '#D93025';
     return;
@@ -8034,9 +8073,8 @@ function submitContactForm() {
     alert('Please enter a valid email address.');
     return;
   }
- if (file && file.size > 5 * 1024 * 1024) {
- alert('Attachment must be under 5MB.');
- return;
+ for (var _fi = 0; _fi < files.length; _fi++) {
+ if (files[_fi].size > 5 * 1024 * 1024) { alert('Each photo must be under 5MB. Please remove ' + files[_fi].name + '.'); return; }
  }
 
  var btn = document.getElementById('cf-submit');
@@ -8045,21 +8083,17 @@ function submitContactForm() {
 
  var regionName = userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown';
 
- // If file attached, read as base64 first
- if (file) {
- var reader = new FileReader();
- reader.onload = function(e) {
- var base64Data = e.target.result.split(',')[1];
- doSubmit(name, email, phone, reason, message, regionName, {
- name: file.name,
- type: file.type,
- data: base64Data
- }, responsePref);
- };
- reader.readAsDataURL(file);
+ // Compress + encode all photos on-device, then submit
+ if (files.length) {
+ encodePhotos(files).then(function(arr) {
+ arr = arr.filter(Boolean);
+ doSubmit(name, email, phone, reason, message, regionName, arr, responsePref);
+ }).catch(function() {
+ doSubmit(name, email, phone, reason, message, regionName, [], responsePref);
+ });
  return;
  }
- doSubmit(name, email, phone, reason, message, regionName, null, responsePref);
+ doSubmit(name, email, phone, reason, message, regionName, [], responsePref);
 }
 
 function doSubmit(name, email, phone, reason, message, regionName, attachment, responsePref) {
@@ -8111,7 +8145,7 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment, r
  regionName: regionName,
  transcript: buildTranscript(),
  timestamp: new Date().toISOString(),
- attachment: attachment || null
+ attachments: (attachment && attachment.length) ? attachment : []
  };
 
  // Apps Script requires no-cors mode and content sent as text/plain to avoid CORS preflight
@@ -8269,6 +8303,9 @@ window.addEventListener('load', function() {
  // Build keyword index for fast matching
  buildKeywordIndex();
  showWelcome();
+ // SAN deep-link: ?region=SAN opens the San Diego screen directly
+ try { var _sp = new URLSearchParams(window.location.search); if ((_sp.get('region')||'').toUpperCase() === 'SAN') { setTimeout(function(){ handleLocationInput('San Diego'); }, 500); } } catch(e){}
+
  // Hide loader
  var loader = document.getElementById('appLoader');
  if (loader) { loader.classList.add('hidden'); setTimeout(function(){ loader.style.display='none'; }, 350); }
@@ -8698,19 +8735,50 @@ function startOver() {
 
 
 // ATTACHMENT HANDLER
+function encodePhotos(files) {
+ var tasks = [];
+ for (var i = 0; i < files.length; i++) { tasks.push(encodeOnePhoto(files[i])); }
+ return Promise.all(tasks);
+}
+function encodeOnePhoto(file) {
+ return new Promise(function(resolve) {
+ if (file.type && file.type.indexOf('image/') === 0) {
+ var img = new Image();
+ var url = URL.createObjectURL(file);
+ img.onload = function() {
+ var max = 1600, w = img.width, h = img.height;
+ if (w > max || h > max) { if (w >= h) { h = Math.round(h * max / w); w = max; } else { w = Math.round(w * max / h); h = max; } }
+ var canvas = document.createElement('canvas');
+ canvas.width = w; canvas.height = h;
+ canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+ URL.revokeObjectURL(url);
+ var dataUrl = canvas.toDataURL('image/jpeg', 0.72);
+ resolve({ filename: (file.name || 'photo.jpg').replace(/\.(png|heic|heif|webp|jpeg)$/i, '.jpg'), mimeType: 'image/jpeg', data: dataUrl.split(',')[1] });
+ };
+ img.onerror = function() { URL.revokeObjectURL(url); resolve(null); };
+ img.src = url;
+ } else {
+ var reader = new FileReader();
+ reader.onload = function(e) { resolve({ filename: file.name || 'file', mimeType: file.type || 'application/octet-stream', data: e.target.result.split(',')[1] }); };
+ reader.onerror = function() { resolve(null); };
+ reader.readAsDataURL(file);
+ }
+ });
+}
 function handleAttachmentChange(input) {
- var file = input.files && input.files[0];
- if (!file) return;
- if (file.size > 5 * 1024 * 1024) {
- alert('File is too large. Please choose a file under 5MB.');
- input.value = ''; return;
+ var files = input.files;
+ if (!files || !files.length) return;
+ var total = 0, names = [];
+ for (var i = 0; i < files.length; i++) {
+ if (files[i].size > 5 * 1024 * 1024) { alert('Each photo must be under 5MB \u2014 please remove ' + files[i].name + '.'); input.value = ''; document.getElementById('attach-preview').style.display = 'none'; document.getElementById('attach-drop-zone').style.display = 'flex'; return; }
+ total += files[i].size; names.push(files[i].name);
  }
  document.getElementById('attach-drop-zone').style.display = 'none';
  var preview = document.getElementById('attach-preview');
  preview.style.display = 'flex';
- document.getElementById('attach-filename').textContent = file.name;
- document.getElementById('attach-filesize').textContent = (file.size / 1024).toFixed(0) + ' KB';
- document.getElementById('attach-icon').innerHTML = file.type === 'application/pdf' ? '&#128196;' : '&#128444;&#65039;';
+ document.getElementById('attach-filename').textContent = files.length === 1 ? names[0] : (files.length + ' photos attached');
+ document.getElementById('attach-filesize').textContent = files.length > 1 ? names.join(', ') : ((total / 1024).toFixed(0) + ' KB');
+ document.getElementById('attach-icon').innerHTML = '&#128247;';
 }
 function clearAttachment() {
  var input = document.getElementById('cf-attachment');
