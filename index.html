@@ -7944,7 +7944,7 @@ function openContactModal(mode) {
     reasonSelect.value = 'Vehicle drop-off';
     handleReasonChange('Vehicle drop-off');
     var _m = document.getElementById('cf-message');
-    if (_m) _m.value = 'VEHICLE DROP-OFF\n\nLicense plate (or last 6 of VIN): \nOdometer reading: \n\nBefore leaving, I confirm:\n[ ] Interior cleaned & personal belongings removed\n[ ] Fueled (gas) or charged (EV)\n[ ] Keys placed in the overnight dropbox\n[ ] Parked in the designated Flexdrive area';
+    if (_m) _m.value = 'License plate (or last 6 of VIN): ';
     var _t = document.getElementById('modalTitle');
     var _s = document.getElementById('modalSubtitle');
     if (_t) { _t.textContent = 'Return / Drop Off a Vehicle'; _t.style.color = '#0F406A'; }
@@ -8777,7 +8777,11 @@ var dropoffPhotos = {};
 function renderDropoffPhotos() {
   var host = document.getElementById('dropoff-photos');
   if (!host) return;
-  var html = '<div style="font-size:13px;font-weight:700;color:#0F406A;margin-bottom:6px;">Photos of the vehicle</div>'
+  var html = '<div style="background:rgba(0,59,113,0.05);border:1px solid rgba(0,59,113,0.15);border-radius:12px;padding:12px 14px;margin-bottom:14px;">'
+    + '<div style="font-size:13px;font-weight:700;color:#0F406A;margin-bottom:6px;">Before you leave, please make sure you\'ve:</div>'
+    + '<div style="font-size:12px;color:#3A4A5A;line-height:1.8;">&bull; Cleaned the interior &amp; removed all belongings<br>&bull; Fueled (gas) or charged (EV)<br>&bull; Left the keys in the overnight dropbox<br>&bull; Parked in the designated Flexdrive area</div>'
+    + '</div>'
+    + '<div style="font-size:13px;font-weight:700;color:#0F406A;margin-bottom:6px;">Photos of the vehicle</div>'
     + '<div style="font-size:12px;color:#7D868C;margin-bottom:10px;">Tap each tile and take the photo shown. The 5 marked Required are needed to submit.</div>'
     + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">';
   DROPOFF_SLOTS.forEach(function(s) {
