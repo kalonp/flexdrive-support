@@ -1567,7 +1567,7 @@
  <div class="modal-field">
  <label class="modal-label" for="cf-reason">Reason for Contact *</label>
  <div class="modal-select-wrap">
- <select class="modal-select" id="cf-reason" onchange="handleReasonChange(this.value)">
+ <select class="modal-select" id="cf-reason" onchange="onReasonSelect(this.value)">
  <option value="">-- Select a reason --</option>
  <option value="Pick-up">Pick-up</option>
  <option value="Drop-off">Drop-off</option>
@@ -7851,6 +7851,7 @@ function openContactModal(mode) {
  document.getElementById('cf-reason').value = '';
  document.getElementById('cf-message').value = '';
  handleReasonChange(''); // reset attachment field to hidden
+  currentClientId = 'C-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
   var _dp0 = document.getElementById('dropoff-photos'); if (_dp0) { _dp0.style.display = 'none'; _dp0.innerHTML = ''; } dropoffPhotos = {};
   var rp = document.getElementById('cf-response-pref');
   if (rp) { rp.value = ''; handleResponsePrefChange(''); }
@@ -7930,8 +7931,9 @@ function openContactModal(mode) {
     reasonSelect.innerHTML =
       '<option value="">-- Select a reason --</option>' +
       '<option value="Pick-up">Pick-up</option>' +
-      '<option value="Drop-off">Drop-off</option>' +
-      '<option value="Vehicle drop-off">Vehicle drop-off (SAN self-return) 📷</option>' +
+      (userRegion === 'SAN'
+        ? '<option value="Vehicle drop-off">Vehicle drop-off / return 📷</option>'
+        : '<option value="Drop-off">Drop-off</option>') +
       '<option value="Inspection photo">Inspection photo 📷</option>' +
       '<option value="Accident re-rental request">Accident re-rental request 📷</option>' +
       '<option value="Pre-existing damage report">Pre-existing damage report 📷</option>' +
@@ -8087,7 +8089,7 @@ function submitContactForm() {
  if (reason === 'Vehicle drop-off') {
  var _missing = DROPOFF_SLOTS.filter(function(s){ return s.required && !dropoffPhotos[s.key]; });
  if (_missing.length) { alert('Please add these required photos:\n\u2022 ' + _missing.map(function(s){ return s.label; }).join('\n\u2022 ')); return; }
- var _btnD = document.getElementById('cf-submit'); _btnD.disabled = true; _btnD.textContent = 'Sending...';
+ var _btnD = document.getElementById('cf-submit'); _btnD.disabled = true; _btnD.textContent = 'Uploading photos — keep this screen open…';
  var _rnD = userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown';
  var _arrD = DROPOFF_SLOTS.filter(function(s){ return dropoffPhotos[s.key]; }).map(function(s){ return dropoffPhotos[s.key]; });
  doSubmit(name, email, phone, reason, message, _rnD, _arrD, responsePref);
@@ -8116,6 +8118,7 @@ function submitContactForm() {
  doSubmit(name, email, phone, reason, message, regionName, [], responsePref);
 }
 
+var currentClientId = null;
 function doSubmit(name, email, phone, reason, message, regionName, attachment, responsePref) {
  var btn = document.getElementById('cf-submit');
 
@@ -8165,7 +8168,8 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment, r
  regionName: regionName,
  transcript: buildTranscript(),
  timestamp: new Date().toISOString(),
- attachments: (attachment && attachment.length) ? attachment : []
+ attachments: (attachment && attachment.length) ? attachment : [],
+ clientId: currentClientId
  };
 
  // Apps Script requires no-cors mode and content sent as text/plain to avoid CORS preflight
@@ -8187,6 +8191,11 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment, r
     } else {
       successEl.innerHTML = 'Your message has been logged. No reply will be sent.<br><br><strong>Mon–Fri, 9:00 AM – 5:00 PM</strong>';
     }
+    if (userRegion === 'SAN') {
+      successEl.innerHTML = responsePref === 'yes'
+        ? 'Your message has been sent. Our remote support team will follow up by email.'
+        : 'Your message has been logged. No reply will be sent.';
+    }
   }
  }
  document.getElementById('modalFormView').style.display = 'none';
@@ -8205,7 +8214,7 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment, r
  })
  .catch(function(err) {
  var supportEmail = userRegion && VENDORS[userRegion] ? userRegion.toLowerCase() + '-support@flexdrive.com' : 'pdx-support@flexdrive.com';
- alert('Something went wrong. Please try again or email ' + supportEmail + ' directly.');
+ alert('We couldn\'t confirm your message went through, but it may still have been received. It\'s safe to tap Send again — we\'ll only log it once. If it keeps failing, email ' + supportEmail + '.');
  btn.disabled = false;
  btn.textContent = 'Send Message';
  });
@@ -8779,6 +8788,27 @@ var DROPOFF_SLOTS = [
   { key: 'damage',      label: 'Damage (if any)',    required: false, svg: DP_DMG }
 ];
 var dropoffPhotos = {};
+function onReasonSelect(v) {
+  if (v === 'Vehicle drop-off' || (userRegion === 'SAN' && v === 'Drop-off')) { enterDropoffMode(); return; }
+  exitDropoffMode();
+  handleReasonChange(v);
+}
+function enterDropoffMode() {
+  var sel = document.getElementById('cf-reason');
+  if (sel) sel.value = 'Vehicle drop-off';
+  handleReasonChange('Vehicle drop-off');
+  var m = document.getElementById('cf-message');
+  if (m && !m.value.trim()) m.value = 'License plate (or last 6 of VIN): ';
+  var host = document.getElementById('dropoff-photos');
+  if (host) { host.style.display = 'block'; if (!host.innerHTML) { dropoffPhotos = {}; renderDropoffPhotos(); } }
+  var af = document.getElementById('attach-field'); if (af) af.style.display = 'none';
+}
+function exitDropoffMode() {
+  var host = document.getElementById('dropoff-photos');
+  if (host && host.style.display !== 'none') { host.style.display = 'none'; host.innerHTML = ''; dropoffPhotos = {}; }
+  var m = document.getElementById('cf-message');
+  if (m && m.value.trim() === 'License plate (or last 6 of VIN):') m.value = '';
+}
 function renderDropoffPhotos() {
   var host = document.getElementById('dropoff-photos');
   if (!host) return;
