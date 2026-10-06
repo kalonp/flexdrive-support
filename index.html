@@ -4299,22 +4299,29 @@ function renderDepositAccordion() {
  '<div class="ac-callout info"><strong>ARN Tracking (Visa & Mastercard Only)</strong>An Acquirer Reference Number (ARN) for bank tracking becomes available within 1–3 days of the refund being initiated. You can provide this to your bank to trace the transaction.</div>',
  '<div class="ac-section-label">Check Your Deposit Status</div>',
  '<div class="ac-callout info">In the Lyft Driver app: Main menu → Vehicles and Devices → Your Vehicles → See details on your Express Drive rental → Rental deposit.</div>',
- (userRegion === 'SAN' ? '<div class="ac-callout warn"><strong>San Diego Returns</strong>San Diego is on a reduced schedule, so your return is finalized when our team closes your contract, which may be a few days after you drop off. The 2-week refund timeline starts then. Your contract is backdated to your drop-off day, so you are not charged for the gap.</div>' : '')
+ (userRegion === 'SAN' ? '<div class="ac-callout warn"><strong>San Diego Returns</strong>San Diego is on a reduced schedule, so your return is finalized when our team closes your contract, which may be a few days after you drop off. The 2-week refund timeline (and the up-to-45-day timeline for closed accounts) starts then. Your contract is backdated to your drop-off day, so you are not charged for the gap.</div>' : '')
  ].join(''));
 
  // ── 2. WHERE THE REFUND GOES ──────────────────────────────────
  makeAccordionItem(c, 'Where the Refund Goes', '', [
  '<div class="ac-callout warn"><strong>Original Card Only</strong>The deposit can only be returned to the original card on file when you placed your deposit. Changing your payout method in the Lyft Driver App does not affect where your deposit is sent.</div>',
  '<div class="ac-section-label">If Your Card or Account Is Closed</div>',
- '<div class="ac-callout info"><strong>What to Do</strong>The refund will still be directed to the original card. Contact your bank directly — in most cases your bank can redirect the funds or issue a check. This process can take additional time.</div>'
+ '<div class="ac-callout success"><strong>New Card, Same Bank Account?</strong>You are all set. Your deposit will reach you automatically, no action needed.</div>',
+ '<div class="ac-callout warn"><strong>Account Itself Closed?</strong>Your deposit still goes to the original card, and we cannot redirect it to a new one. Here is what to do:</div>',
+ '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body"><strong>Call your old bank now</strong> and ask them to redirect the incoming refund to your new account or mail you a check.</div></div>',
+ '<div class="ac-step"><div class="ac-step-num">2</div><div class="ac-step-body"><strong>Ask us for your ARN</strong> (Visa and Mastercard only) through Talk to Someone. It is a tracking number your bank uses to find the refund, available a few business days after the refund is sent.</div></div>',
+ '<div class="ac-step"><div class="ac-step-num">3</div><div class="ac-step-body"><strong>Allow up to 45 days</strong> from when your contract closed.</div></div>',
+ '<div class="ac-callout info"><strong>Your Money Is Not Lost</strong>If your bank cannot redirect it, the funds come back to us and we will make sure you receive them.</div>'
  ].join(''));
 
  // ── 3. HAVEN'T RECEIVED IT? ───────────────────────────────────
  makeAccordionItem(c, 'Haven\'t Received Your Deposit?', '', [
  '<div class="ac-section-label">Steps to Take</div>',
- '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body"><strong>Confirm your contract is officially closed</strong> — charges continue until the vehicle is processed, not just when you drop the key.</div></div>',
+ (userRegion === 'SAN'
+   ? '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body"><strong>Confirm your return has been finalized</strong> — San Diego returns are finalized when our team closes your contract. It is backdated to your drop-off day.</div></div>'
+   : '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body"><strong>Confirm your contract is officially closed</strong> — charges continue until the vehicle is processed, not just when you drop the key.</div></div>'),
  '<div class="ac-step"><div class="ac-step-num">2</div><div class="ac-step-body"><strong>Allow the full timeline</strong> — about 2 weeks after the return is finalized, plus 5–7 business days for your bank to post it.</div></div>',
- '<div class="ac-step"><div class="ac-step-num">3</div><div class="ac-step-body"><strong>Contact your bank</strong> and provide the ARN (if available) to trace the transaction.</div></div>',
+ '<div class="ac-step"><div class="ac-step-num">3</div><div class="ac-step-body"><strong>Contact your bank</strong> and give them your ARN to trace the refund. Ask us for it through Talk to Someone (Visa and Mastercard only).</div></div>',
  '<div class="ac-step"><div class="ac-step-num">4</div><div class="ac-step-body"><strong>Still nothing after that?</strong> Tap Talk to Someone below and we will look into it.</div></div>'
  ].join(''));
 
@@ -5528,7 +5535,7 @@ var CARD_ANSWERS = [
  { k: ["when do i get my deposit back","deposit timeline","how long for deposit","deposit refund timeline","3 weeks deposit"],
  a: "About 2 weeks after your return is finalized, plus 5–7 business days for it to show up. Any outstanding balance is deducted first, then the remainder is refunded to your original payment card.", topic: "Deposit refund" },
 
- { k: ["deposit original card","deposit different card","deposit card closed","can i change deposit card","where does deposit go"],
+ { k: ["deposit original card","deposit different card","can i change deposit card","where does deposit go"],
  a: "The deposit can only be returned to the original card on file when you placed it. Changing your payout method in the Lyft App does not affect where your deposit is sent.", topic: "Deposit refund" },
 
  { k: ["deposit not received","deposit missing","haven't received deposit","where is my deposit","deposit late","deposit not back"],
@@ -5838,8 +5845,8 @@ var CARD_ANSWERS = [
  a: "Yes — your Lyft earnings throughout the week automatically go toward covering your rental cost. Any remaining balance after Monday 4:59 AM is charged to your card on file on Tuesday.", topic: "Express Pay / Instant Pay / cash out" },
 
  // ── DEPOSIT — closed card ─────────────────────────────────────
- { k: ["deposit card closed","refund to closed card","original card closed deposit","my card is closed","bank account closed deposit","where does deposit go if card closed"],
- a: "The refund is still directed to the original card on file. Contact your bank directly — most banks can redirect the funds or issue a check even if the account is closed. This may take additional processing time.", topic: "Deposit refund" },
+ { k: ["deposit card closed","refund to closed card","original card closed deposit","my card is closed","bank account closed deposit","where does deposit go if card closed","closed my bank account","old bank account","changed banks","my account was closed","deposit to new card","redirect my deposit","new card deposit","card expired deposit","deposit closed account","arn number","what is an arn"],
+ a: "If you got a new card on the same bank account, you're all set: your deposit will reach you automatically. If the account itself is closed, the deposit still goes to the original card and we can't redirect it. Call your old bank now and ask them to redirect the refund to your new account or mail you a check. You can ask us for your ARN (a tracking number for Visa and Mastercard refunds) through Talk to Someone, and give it to your bank. Allow up to 45 days from when your contract closed. Your money isn't lost: if the bank can't redirect it, it comes back to us and we'll make sure you receive it.", topic: "Deposit refund" },
 
  // ── RETURN — keys / after hours / late ───────────────────────
  { k: ["return the keys","where to drop keys","key drop return","where is key drop","where to leave keys"],
