@@ -3806,7 +3806,7 @@ function renderMovingAccordion() {
  '<div class="ac-gate">',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">1</div><div>Contract is officially closed after vehicle is processed</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">2</div><div>Any outstanding balance is deducted from your deposit first</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">3</div><div>Deposit refunded to your original card within 3 weeks</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">3</div><div>Deposit refunded to your original card about 2 weeks after the return is finalized, then 5–7 business days to show up</div></div>',
  '</div>',
  '<div class="ac-callout warn"><strong>Outstanding Balance?</strong>Pay it off before or at return. An unpaid balance will delay your refund and may affect your ability to start a new rental in your new city.</div>'
  ].join(''));
@@ -4288,15 +4288,18 @@ function renderDepositAccordion() {
 
  // ── 1. TIMELINE ───────────────────────────────────────────────
  makeAccordionItem(c, 'Refund Timeline', '', [
- '<div class="ac-callout info"><strong>When to Expect It</strong>Your deposit is held for up to 3 weeks after your contract is officially closed, then released minus any outstanding charges.</div>',
+ '<div class="ac-callout info"><strong>When to Expect It</strong>It takes about 2 weeks after your return is finalized to process your refund. Once it is refunded, allow 5–7 business days for it to show up in your account. Any outstanding charges (rental, tolls, damages) are covered by the deposit first.</div>',
  '<div class="ac-section-label">What Happens Step by Step</div>',
  '<div class="ac-gate">',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;min-width:24px;">1</div><div>Vehicle is returned and contract is officially closed</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;min-width:24px;">2</div><div>Any outstanding balance is deducted from the deposit first</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;min-width:24px;">3</div><div>Remainder is refunded to your original payment card — allow 5–7 business days to appear on your statement</div></div>',
- '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;min-width:24px;">4</div><div>Banks can take up to 30 days to fully process the refund</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;min-width:24px;">3</div><div>About 2 weeks after the return is finalized, the remainder is refunded to the card originally charged</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon" style="font-weight:700;color:#0F406A;min-width:24px;">4</div><div>It then takes 5–7 business days to show up in your account</div></div>',
  '</div>',
- '<div class="ac-callout info"><strong>ARN Tracking (Visa & Mastercard Only)</strong>An Acquirer Reference Number (ARN) for bank tracking becomes available within 1–3 days of the refund being initiated. You can provide this to your bank to trace the transaction.</div>'
+ '<div class="ac-callout info"><strong>ARN Tracking (Visa & Mastercard Only)</strong>An Acquirer Reference Number (ARN) for bank tracking becomes available within 1–3 days of the refund being initiated. You can provide this to your bank to trace the transaction.</div>',
+ '<div class="ac-section-label">Check Your Deposit Status</div>',
+ '<div class="ac-callout info">In the Lyft Driver app: Main menu → Vehicles and Devices → Your Vehicles → See details on your Express Drive rental → Rental deposit.</div>',
+ (userRegion === 'SAN' ? '<div class="ac-callout warn"><strong>San Diego Returns</strong>San Diego is on a reduced schedule, so your return is finalized when our team closes your contract, which may be a few days after you drop off. The 2-week refund timeline starts then. Your contract is backdated to your drop-off day, so you are not charged for the gap.</div>' : '')
  ].join(''));
 
  // ── 2. WHERE THE REFUND GOES ──────────────────────────────────
@@ -4310,9 +4313,9 @@ function renderDepositAccordion() {
  makeAccordionItem(c, 'Haven\'t Received Your Deposit?', '', [
  '<div class="ac-section-label">Steps to Take</div>',
  '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body"><strong>Confirm your contract is officially closed</strong> — charges continue until the vehicle is processed, not just when you drop the key.</div></div>',
- '<div class="ac-step"><div class="ac-step-num">2</div><div class="ac-step-body"><strong>Wait the full 30 days</strong> — banks vary on processing time. Most refunds arrive within 5–7 business days but some take longer.</div></div>',
+ '<div class="ac-step"><div class="ac-step-num">2</div><div class="ac-step-body"><strong>Allow the full timeline</strong> — about 2 weeks after the return is finalized, plus 5–7 business days for your bank to post it.</div></div>',
  '<div class="ac-step"><div class="ac-step-num">3</div><div class="ac-step-body"><strong>Contact your bank</strong> and provide the ARN (if available) to trace the transaction.</div></div>',
- '<div class="ac-step"><div class="ac-step-num">4</div><div class="ac-step-body"><strong>Still nothing after 30 days?</strong> Tap Talk to Someone below or contact your Flexdrive office and we will look into it.</div></div>'
+ '<div class="ac-step"><div class="ac-step-num">4</div><div class="ac-step-body"><strong>Still nothing after that?</strong> Tap Talk to Someone below and we will look into it.</div></div>'
  ].join(''));
 
  return c;
@@ -4365,7 +4368,7 @@ function renderReturnAccordion() {
 
  // ── 5. DEPOSIT REFUND ─────────────────────────────────────────
  makeAccordionItem(c, 'Your Deposit Refund', '', [
- '<div class="ac-callout success"><strong>Timeline</strong>Your deposit will be refunded within 3 weeks after your contract is officially closed.</div>',
+ '<div class="ac-callout success"><strong>Timeline</strong>Your deposit is refunded about 2 weeks after your return is finalized, then takes 5–7 business days to show up.</div>',
  '<div class="ac-section-label">What Happens to Your Deposit</div>',
  '<div class="ac-gate">',
  '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#0F406A;font-weight:700;">1</div><div>Any outstanding charges are deducted from the deposit first</div></div>',
@@ -4503,7 +4506,7 @@ var ACCIDENT_SECTIONS = [
  {
  title: "Rental Charges During Repair",
  emoji: "",
- content: "One of the most common sources of confusion after an accident: rental charges continue until your vehicle is returned to the Flexdrive office and your contract is officially closed.\n\nIMPORTANT: If your vehicle is towed to a repair shop (not a Flexdrive office), your rental contract is still open and charges continue to accrue. You are responsible for ensuring the vehicle is returned to us to close the contract.\n\nHolman tows go to the nearest Flexdrive office — call (833) 274-5938 to arrange this. Do NOT have the vehicle towed to a third-party shop.\n\nIf you believe you were charged incorrectly after the vehicle was returned, please contact us with the return date and we will review it.\n\nAfter the contract is closed:\n- Your deposit refund is processed within 3 weeks\n- Any outstanding damage charges are deducted from the deposit before the refund is issued\n- If subrogation succeeds against an at-fault third party, applicable charges may be refunded"
+ content: "One of the most common sources of confusion after an accident: rental charges continue until your vehicle is returned to the Flexdrive office and your contract is officially closed.\n\nIMPORTANT: If your vehicle is towed to a repair shop (not a Flexdrive office), your rental contract is still open and charges continue to accrue. You are responsible for ensuring the vehicle is returned to us to close the contract.\n\nHolman tows go to the nearest Flexdrive office — call (833) 274-5938 to arrange this. Do NOT have the vehicle towed to a third-party shop.\n\nIf you believe you were charged incorrectly after the vehicle was returned, please contact us with the return date and we will review it.\n\nAfter the contract is closed:\n- Your deposit refund is processed about 2 weeks after the return is finalized\n- Any outstanding damage charges are deducted from the deposit before the refund is issued\n- If subrogation succeeds against an at-fault third party, applicable charges may be refunded"
  },
  {
  title: "Subrogation — Getting Your Money Back",
@@ -4892,7 +4895,7 @@ function renderAccidentAccordion() {
  '<div class="ac-holman"><span class="ac-holman-icon"></span><div><div style="font-weight:700;margin-bottom:2px;">Holman tows go to your Flexdrive office</div><a href="tel:8332745938">(833) 274-5938</a><div style="font-size:12px;opacity:0.8;margin-top:2px;">Do NOT have it towed to a third-party shop</div></div></div>',
  '<div class="ac-section-label">After the Contract Is Closed</div>',
  '<div class="ac-gate">',
- '<div class="ac-gate-row"><div class="ac-gate-icon"></div><div>Deposit refund processed within 3 weeks</div></div>',
+ '<div class="ac-gate-row"><div class="ac-gate-icon"></div><div>Deposit refund processed about 2 weeks after the return is finalized</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon"></div><div>Outstanding damage charges deducted from deposit before refund</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon"></div><div>If subrogation succeeds, applicable charges may be refunded</div></div>',
  '</div>',
@@ -5520,16 +5523,16 @@ var CARD_ANSWERS = [
 
  // ── DEPOSIT ───────────────────────────────────────────────────────────────────
  { k: ["where's my refund","wheres my refund","where is my refund","where is my deposit refund","my refund","where my refund"],
- a: "Your deposit refund is sent within 3 weeks after your contract is officially closed. It goes to the original payment card on file. Allow 5-7 business days after Flexdrive issues it to appear on your statement.", topic: "Deposit refund" },
+ a: "Your deposit refund is sent about 2 weeks after your return is finalized. It goes to the card originally charged. Allow 5–7 business days after that for it to show up in your account.", topic: "Deposit refund" },
 
  { k: ["when do i get my deposit back","deposit timeline","how long for deposit","deposit refund timeline","3 weeks deposit"],
- a: "Within 3 weeks after your contract is officially closed. Any outstanding balance is deducted first, then the remainder is refunded to your original payment card.", topic: "Deposit refund" },
+ a: "About 2 weeks after your return is finalized, plus 5–7 business days for it to show up. Any outstanding balance is deducted first, then the remainder is refunded to your original payment card.", topic: "Deposit refund" },
 
  { k: ["deposit original card","deposit different card","deposit card closed","can i change deposit card","where does deposit go"],
  a: "The deposit can only be returned to the original card on file when you placed it. Changing your payout method in the Lyft App does not affect where your deposit is sent.", topic: "Deposit refund" },
 
  { k: ["deposit not received","deposit missing","haven't received deposit","where is my deposit","deposit late","deposit not back"],
- a: "Allow 3 weeks after contract close, then 5-7 business days for your bank to post it. Still missing? Tap Talk to Someone — include your return date and we'll confirm the status.", topic: "Deposit refund" },
+ a: "Allow about 2 weeks after your return is finalized, then 5–7 business days for your bank to post it. Still missing? Tap Talk to Someone — include your return date and we'll confirm the status.", topic: "Deposit refund" },
 
  { k: ["arn number","acquirer reference number","bank tracking deposit","trace my deposit","deposit tracking"],
  a: "An ARN (Acquirer Reference Number) for bank tracking becomes available within 1-3 days of the refund being initiated for Visa and Mastercard only. Provide this to your bank to trace the transaction.", topic: "Deposit refund" },
@@ -5903,7 +5906,7 @@ var CARD_ANSWERS = [
  a: "Get your Lyft region change approved first, clear any outstanding balance, then contact that market's Flexdrive office. A new security deposit is required.", topic: "Driving out of state / relocating" },
 
  { k: ["new deposit new market","do i need new deposit new city","deposit transfer new market","deposit carry over"],
- a: "A new security deposit is required when starting a rental in a new market. Your previous deposit is refunded (within 3 weeks of contract close) separately — it does not transfer to the new market.", topic: "Driving out of state / relocating" },
+ a: "A new security deposit is required when starting a rental in a new market. Your previous deposit is refunded separately (about 2 weeks after that return is finalized) — it does not transfer to the new market.", topic: "Driving out of state / relocating" },
 
  // ── WRAPPED VEHICLE — SFO ─────────────────────────────────────
  { k: ["sfo decal car","sfo wrapped program","what is wrapped vehicle sfo","lyft branded car sfo","wrapped car sfo","sfo lyft branded vehicle"],
@@ -6003,13 +6006,13 @@ var CARD_ANSWERS = [
 
  // ── DEPOSIT — amount / how to pay / status ────────────────────
  { k: ["how much is deposit","deposit amount","security deposit amount","how much to put down","deposit cost","deposit fee"],
- a: "Security deposit amounts vary by market and vehicle type. You will see the exact amount before confirming your reservation in the Lyft Driver App. The deposit is fully refundable within 3 weeks of returning the vehicle, minus any outstanding charges.", topic: "Deposit refund" },
+ a: "Security deposit amounts vary by market and vehicle type. You will see the exact amount before confirming your reservation in the Lyft Driver App. The deposit is refundable about 2 weeks after your return is finalized, minus any outstanding charges.", topic: "Deposit refund" },
 
  { k: ["deposit methods","how to pay deposit","pay deposit","deposit payment method","can i pay deposit with cash"],
  a: "The security deposit is charged to the payment card on file in the Lyft Driver App at time of pickup. Cash and prepaid/gift cards are not accepted. The card must be in your name.", topic: "Eligibility / requirements to rent" },
 
  { k: ["deposit check status","check deposit status","is my deposit coming","deposit being processed","deposit on the way","deposit status check"],
- a: "Your deposit is processed within 3 weeks of contract close. Allow an additional 5–7 business days for your bank to post it. To check status, contact your Flexdrive office via Talk to Someone — include your return date and we will confirm processing.", topic: "Deposit refund" },
+ a: "Your deposit is processed about 2 weeks after your return is finalized. Allow an additional 5–7 business days for your bank to post it. To check status in the Lyft Driver app: Main menu → Vehicles and Devices → Your Vehicles → See details → Rental deposit.", topic: "Deposit refund" },
 
  // ── RETURN — appointment / account after / same day ───────────
  { k: ["do i need appointment to return","return appointment required","is appointment required return","can i just show up to return"],
@@ -6139,7 +6142,7 @@ var CARD_ANSWERS = [
 
  // Deposit
  { k: ["how long until i get my deposit back","when deposit returned","how long deposit refund","deposit refund how long"],
- a: "Within 3 weeks of contract close, then 5–7 business days for your bank to post it. Still missing after 30 days? Tap Talk to Someone.", topic: "Deposit refund" },
+ a: "About 2 weeks after your return is finalized, then 5–7 business days for your bank to post it. Still missing after that? Tap Talk to Someone.", topic: "Deposit refund" },
 
  { k: ["where does the refund go","where is deposit refunded","where does deposit go","refund to which card"],
  a: "To the original card on file at pickup — always. Updating your payment method in the Lyft App does not redirect the deposit.", topic: "Deposit refund" },
@@ -6255,7 +6258,7 @@ var CARD_ANSWERS = [
  a: "Lyft App → Main Menu → Get Help → Help Center → Account and earnings → Request a region change. Takes a few business days. Return your current vehicle before relocating.", topic: "Driving out of state / relocating" },
 
  { k: ["do i need a new deposit new city","new deposit new market","deposit when moving markets","deposit transfer new city"],
- a: "Yes — a new security deposit is required for each new market. Your previous deposit is refunded separately within 3 weeks of returning your current vehicle.", topic: "Driving out of state / relocating" },
+ a: "Yes — a new security deposit is required for each new market. Your previous deposit is refunded separately, about 2 weeks after that return is finalized.", topic: "Driving out of state / relocating" },
 
  { k: ["is flexdrive in my new city","flexdrive available my city","new city flexdrive","flexdrive in new location"],
  a: "Flexdrive operates in 22 cities. Tap 'Where is Flexdrive available?' to see the full list with addresses, or ask me your new city.", topic: "Driving out of state / relocating" },
@@ -6354,7 +6357,7 @@ var CARD_ANSWERS = [
  a: "If your Lyft account is deactivated or your rental ends, yes — you must return the vehicle. Outstanding charges continue until it is back at the office.", topic: "Return vehicle / end rental" },
 
  { k: ["what happens to my deposit deactivation","deposit if deactivated","deactivation deposit refund","what about deposit lyft deactivated"],
- a: "Your deposit is refunded within 3 weeks of contract close, minus any outstanding balance. Deactivation does not forfeit your deposit.", topic: "Lyft deactivation" },
+ a: "Your deposit is refunded about 2 weeks after your return is finalized, minus any outstanding balance. Deactivation does not forfeit your deposit.", topic: "Lyft deactivation" },
 
  { k: ["do i need a new deposit","need new deposit","new deposit required","deposit for new rental"],
  a: "Yes — a new security deposit is required for each new rental or new market. Previous deposits are refunded separately.", topic: "Eligibility / requirements to rent" },
@@ -6442,7 +6445,7 @@ var CARD_ANSWERS = [
 
 
  { k: ["what happens to my deposit","deposit if i return","deposit when i return","what about my deposit when returning"],
- a: "Your deposit is refunded within 3 weeks of contract close, minus any outstanding balance. It goes to the original card on file at pickup.", topic: "Deposit refund" },
+ a: "Your deposit is refunded about 2 weeks after your return is finalized, minus any outstanding balance. It goes to the card originally charged.", topic: "Deposit refund" },
 
  { k: ["how many days do i have to keep the car","how long do i have to keep the car","minimum days rental","minimum days","7 days minimum","7 day minimum","how long minimum rental","minimum rental days","how long must i keep","minimum time rental","how long do i have to rent","shortest rental","can i return before 7 days","return before 7 days","early return policy"],
  a: "The minimum rental period is 7 days. You cannot return before 7 days without potential early termination charges. After 7 days your rental auto-renews weekly — to stop it, go to Lyft App → Vehicle tab → Schedule a return.", topic: "Minimum rental period" },
