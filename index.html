@@ -2230,7 +2230,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Deposit refund",
- keywords: ["when do i get my money back", "get my money back", "deposit", "refund", "money back", "get back", "deposit status", "how long", "return deposit", "where is my deposit", "deposit refund", "security deposit", "when do i get my deposit back", "how long for deposit", "deposit returned", "deposit timeline", "still haven't gotten deposit", "deposit not back yet", "how many weeks", "3 weeks", "deposit processing", "original card", "card closed deposit", "deposit check"],
+ keywords: ["when do i get my money back", "get my money back", "deposit", "refund", "money back", "get back", "deposit status", "return deposit", "where is my deposit", "deposit refund", "security deposit", "when do i get my deposit back", "how long for deposit", "deposit returned", "deposit timeline", "still haven't gotten deposit", "deposit not back yet", "how many weeks", "3 weeks", "deposit processing", "original card", "card closed deposit", "deposit check"],
  showTalkBtn: true,
  depositAccordion: true,
  response: "Here is everything you need to know about your deposit refund:"
@@ -2254,7 +2254,7 @@ var KNOWLEDGE_BASE = [
   },
  {
  topic: "Traffic / parking violation",
- keywords: ["ticket", "violation", "parking", "citation", "fine", "speeding", "red light", "traffic ticket", "got a ticket", "parking ticket", "speeding ticket", "traffic violation", "camera ticket", "red light camera", "school zone ticket", "camera flashed me", "camera flash", "photo ticket", "photo enforcement", "i got flashed", "speed camera", "traffic camera", "camera got me", "photo violation", "i wasn't doing anything wrong", "i didn't do anything wrong", "got pulled over", "police stopped me", "cop stopped me", "citation notice", "flexdrive sent me a ticket", "ticket on the car", "ticket notification", "admin fee", "processing fee", "violation fee", "fix a ticket", "expired registration ticket", "meter ticket"],
+ keywords: ["contest a ticket", "contest my ticket", "contest the ticket", "dispute a ticket", "dispute my ticket", "fight a ticket", "fight my ticket", "ebt discount", "calfresh", "low income discount", "ticket", "violation", "parking", "citation", "fine", "speeding", "red light", "traffic ticket", "got a ticket", "parking ticket", "speeding ticket", "traffic violation", "camera ticket", "red light camera", "school zone ticket", "camera flashed me", "camera flash", "photo ticket", "photo enforcement", "i got flashed", "speed camera", "traffic camera", "camera got me", "photo violation", "i wasn't doing anything wrong", "i didn't do anything wrong", "got pulled over", "police stopped me", "cop stopped me", "citation notice", "flexdrive sent me a ticket", "ticket on the car", "ticket notification", "admin fee", "processing fee", "violation fee", "fix a ticket", "expired registration ticket", "meter ticket"],
  vehicleRulesAccordion: true,
     sendMsgBtn: true,
  response: "Here is what happens with traffic and parking violations:"
@@ -5414,6 +5414,26 @@ function logUnmatchedQuestion(question) {
 // Each entry: { keywords: [...phrases], answer: "..." }
 // Keywords use substring matching (same as main engine) but checked as exact phrases.
 
+// ── Market-specific notes appended to existing answers ─────────────────────
+// Add a market by adding a key. `when` must match the renter's question too,
+// so a note only shows when it's relevant (e.g., not on parking-ticket questions).
+var REGION_NOTES = {
+  SFO: [{
+    topics: ["Traffic / parking violation", "Camera / photo ticket", "Speeding ticket"],
+    when: /speed|camera|flash|photo|contest|dispute|fight|ebt|calfresh|low.income|in the mail|look up|check.*ticket/,
+    text: "📸 Bay Area speed cameras\nSan Francisco, Oakland, and San José use speed cameras. Tickets are mailed to Flexdrive as the vehicle owner, so you won't get the notice yourself.\n\n• Check the ticketing agencies weekly using your plate number. That way you can catch a ticket early and contest it before the due date, instead of finding it in your weekly fees.\n• You have 21 days from the violation date to contest.\n• If it isn't contested in time, Flexdrive may pay it automatically and charge you the ticket plus a processing fee (currently $15 per ticket).\n• Fines depend on how far over the limit you were. In San Francisco: $50 (11–15 mph over), $100 (16–25 mph over), $200 (26+ mph over).\n• Reduced fines for low-income drivers (like the EBT / CalFresh discount) do not apply to rental vehicles.\n\nLook up San Francisco speed camera tickets: https://www.sfmta.com/SpeedCameras\nNeed a copy of a ticket or help contesting? Tap Talk to Someone."
+  }]
+};
+function withRegionNote(text, topic, userText) {
+  var notes = userRegion && REGION_NOTES[userRegion];
+  if (!notes) return text;
+  var q = (userText || '').toLowerCase();
+  for (var i = 0; i < notes.length; i++) {
+    if (notes[i].topics.indexOf(topic) !== -1 && notes[i].when.test(q)) return text + '\n\n' + notes[i].text;
+  }
+  return text;
+}
+
 var CARD_ANSWERS = [
 
  // ── DAMAGE ON VEHICLE ────────────────────────────────────────────────────────
@@ -7002,7 +7022,7 @@ function sendMessage() {
  var cardResult = findCardAnswer(resolvedText);
  if (cardResult) {
       lastMatch = cardResult;
- renderMessage('assistant', getAriGreeting() + cardResult.a);
+ renderMessage('assistant', getAriGreeting() + withRegionNote(cardResult.a, cardResult.topic, resolvedText));
  logTopic(cardResult.topic);
  scheduleFeedbackPrompt();
  isTyping = false;
@@ -7060,7 +7080,7 @@ function sendMessage() {
  logTopic(match.topic);
  scheduleFeedbackPrompt();
  if (conversationHistory.length > 8) conversationHistory.shift();
- var responseText = varyOpener(match.response, match.topic, text);
+ var responseText = withRegionNote(varyOpener(match.response, match.topic, text), match.topic, resolvedText);
 
  // Location-aware overage rate: prepend renter's specific rate if known
  if (match.regionAwareRate && userRegion) {
