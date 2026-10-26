@@ -7987,7 +7987,44 @@ function handleResponsePrefChange(val) {
   if (emailInput) emailInput.setAttribute('required', 'required');
 }
 
+// ── CONTACT GATE ───────────────────────────────────────────────────────────
+// Only markets with a support team get the contact form. A renter's market is
+// where they RENT, not where they are (an LAX renter may drive in Sacramento),
+// so with no market set we ask which office they rent from.
+var SUPPORT_REGIONS = ['PDX', 'LAX', 'SFO', 'SAN', 'PHX', 'HOU'];
+var SUPPORT_OFFICES = [
+  { code: 'PDX', label: 'Portland' }, { code: 'LAX', label: 'Los Angeles' },
+  { code: 'SFO', label: 'San Francisco' }, { code: 'SAN', label: 'San Diego' },
+  { code: 'PHX', label: 'Phoenix' }, { code: 'HOU', label: 'Houston' }
+];
+function renderAppHelpNotice() {
+  var where = (userRegion && VENDORS[userRegion]) ? ' from ' + VENDORS[userRegion].regionName : ' from another location';
+  renderMessage('assistant', "Our chat support team covers Flexdrive renters in Portland, Los Angeles, San Francisco, San Diego, Phoenix, and Houston. For help with your rental" + where + ", please tap Help in the Lyft Driver app.");
+}
+function promptRentalOffice(mode) {
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;';
+  var opts = SUPPORT_OFFICES.concat([{ code: '', label: 'Somewhere else' }]);
+  opts.forEach(function(o) {
+    var b = document.createElement('button');
+    b.textContent = o.label;
+    b.style.cssText = 'background:' + (o.code ? '#0F406A' : '#fff') + ';color:' + (o.code ? '#fff' : '#0F406A') + ';border:1.5px solid #0F406A;border-radius:18px;padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer;';
+    b.onclick = function() {
+      Array.prototype.forEach.call(wrap.querySelectorAll('button'), function(x) { x.disabled = true; x.style.opacity = '0.5'; x.style.cursor = 'default'; });
+      renderMessage('user', o.label);
+      if (!o.code) { renderAppHelpNotice(); return; }
+      userRegion = o.code;
+      try { logSession(o.code, VENDORS[o.code].regionName); } catch (e) {}
+      openContactModal(mode);
+    };
+    wrap.appendChild(b);
+  });
+  renderMessage('assistant', 'Which Flexdrive office do you rent from?', wrap);
+}
+
 function openContactModal(mode) {
+ if (!userRegion) { promptRentalOffice(mode); return; }
+ if (SUPPORT_REGIONS.indexOf(userRegion) === -1) { renderAppHelpNotice(); return; }
  document.getElementById('cf-name').value = '';
  document.getElementById('cf-email').value = '';
  document.getElementById('cf-phone').value = '';
