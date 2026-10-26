@@ -1573,6 +1573,7 @@
  <option value="Drop-off">Drop-off</option>
  <option value="Vehicle drop-off">Vehicle drop-off (SAN self-return) 📷</option>
  <option value="Inspection photo">Inspection photo 📷</option>
+<option value="Maintenance receipt">Maintenance receipt 📷</option>
  <option value="Accident re-rental request">Accident re-rental request 📷</option>
  <option value="Pre-existing damage report">Pre-existing damage report 📷</option>
  <option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>
@@ -2470,7 +2471,7 @@ var KNOWLEDGE_BASE = [
  response: "Here are the requirements to rent a Flexdrive vehicle:"
  },
  {
- topic: "Wrapped vehicle bonus (SFO)",
+ topic: "Wrapped vehicle bonus (SFO)", regions: ["SFO"],
  keywords: ["wrapped", "wrapped car", "decal", "lyft decal", "branded car", "wrapped vehicle", "sign on bonus", "sign-on bonus", "weekly bonus", "100 bonus", "$100 bonus", "bonus offer", "wrapped bonus", "lyft wrapped", "80 rides", "eighty rides", "ride bonus", "weekly ride bonus", "bonus not received", "didn't get my bonus", "missing bonus", "where is my bonus", "wrapped car bonus", "wrapped vehicle bonus", "donde esta mi bono", "dónde está mi bono", "mi bono", "donde esta el bono", "lyft branded car", "lyft brand decal"],
  showTalkBtn: true,
  wrappedAccordion: true,
@@ -5232,6 +5233,7 @@ function findBestMatch(userText) {
  Object.keys(scores).forEach(function(idx) {
  var entry = KNOWLEDGE_BASE[parseInt(idx)];
  if (entry.regionExclude && userRegion && entry.regionExclude.indexOf(userRegion) !== -1) return;
+ if (entry.regions && entry.regions.indexOf(userRegion) === -1) return;
  if (scores[idx] > bestScore || (scores[idx] === bestScore && longest[idx] > bestLen)) { bestScore = scores[idx]; bestLen = longest[idx]; bestIdx = parseInt(idx); }
  });
  if (bestScore >= 2) return KNOWLEDGE_BASE[bestIdx];
@@ -5243,6 +5245,7 @@ function findBestMatch(userText) {
  var bestMatch = null;
  KNOWLEDGE_BASE.forEach(function(entry) {
  if (entry.regionExclude && userRegion && entry.regionExclude.indexOf(userRegion) !== -1) return;
+ if (entry.regions && entry.regions.indexOf(userRegion) === -1) return;
  var score = 0;
  entry.keywords.forEach(function(kw) { if (kwHit(lower, kw)) score += 2; });
  if (score > bestScore2) { bestScore2 = score; bestMatch = entry; }
@@ -5678,8 +5681,8 @@ var CARD_ANSWERS = [
   { k: ["how do i schedule a swap","schedule a swap appointment","swap appointment","book a swap","how do i request a swap","set up a swap appointment","how do i get a swap","request a swap","schedule swap"],
     a: "To request or schedule a swap, reach out to your local team — tap Talk to Someone below and they'll help you set it up. Keep in mind a swap is only considered for remarketing or a verified serious mechanical issue confirmed by an approved vendor.", showTalkBtn: true, topic: "Swaps" },
 
-  { k: ["maintenance due but already done","inspection reminder but already did it","already did my maintenance","already completed the inspection","already got maintenance done","got a maintenance reminder but","do i still need to bring it in","maintenance already done","inspection already done","already did the oil change","maintenance reminder is wrong","why do i need an inspection again","keep getting inspection reminders","reminder to bring car in but already did", "need to return my vehicle again", "return my vehicle again", "do i really need to bring it back in", "do i need to bring it back in", "bring it back in"],
-    a: "If you received a maintenance or inspection reminder but have already completed it (or you believe it's in error), submit your proof — a photo of the receipt or inspection document — through the contact form (tap Talk to Someone). Your local team will review it and manually update your record so the reminders stop.", showTalkBtn: true, topic: "Maintenance / inspection reminder" },
+  { k: ["maintenance due but already done","inspection reminder but already did it","already did my maintenance","already completed the inspection","already got maintenance done","got a maintenance reminder but","do i still need to bring it in","maintenance already done","inspection already done","already did the oil change","maintenance reminder is wrong","why do i need an inspection again","keep getting inspection reminders","reminder to bring car in but already did", "need to return my vehicle again", "return my vehicle again", "do i really need to bring it back in", "do i need to bring it back in", "bring it back in", "maintenance is due but", "maintenance due but", "says maintenance is due but", "but i just got it done", "just had it done", "did my maintenance", "just did my maintenance", "already serviced", "flagged for maintenance", "account flagged for maintenance"],
+    a: "If you got a maintenance or inspection reminder but already had the work done (or you believe it's in error), send us a photo of the bill or receipt showing it was completed. Tap Talk to Someone, choose \"Maintenance receipt\" (or \"Inspection photo\" for an inspection), and attach the photo. Once we verify it, we'll reset your maintenance miles and update your record so the reminders stop.", showTalkBtn: true, topic: "Maintenance / inspection reminder" },
 
   { k: ["how quickly does the team respond","how long until someone responds","response time","how fast will you respond","when will i hear back","how long to get a response","how long does it take to hear back","how soon will someone reply","how long for a reply"],
     a: "Our team typically responds within one business day. If your issue is urgent or safety-related, tap Talk to Someone below so it's flagged right away.", showTalkBtn: true, topic: "Response time expectation" },
@@ -5863,7 +5866,7 @@ var CARD_ANSWERS = [
 
  // ── MARKET-SPECIFIC ───────────────────────────────────────────────────────────
  { k: ["wrapped vehicle bonus","wrapped car bonus","sfo bonus","lyft wrapped bonus","80 rides bonus","sign on bonus wrapped"],
- a: "SFO only: Renting a Lyft-branded wrapped vehicle earns a $100 one-time sign-on bonus and a $100 weekly bonus every week you complete 80+ rides. Tap the Wrapped vehicle bonus quick link for full details.", topic: "Wrapped vehicle bonus (SFO)" },
+ a: "SFO only: Renting a Lyft-branded wrapped vehicle earns a $100 one-time sign-on bonus and a $100 weekly bonus every week you complete 80+ rides. Tap the Wrapped vehicle bonus quick link for full details.", regions: ["SFO"], topic: "Wrapped vehicle bonus (SFO)" },
 
  { k: ["arizona felony","az felony","failure to return arizona","arizona return law","class 5 felony rental"],
  a: "In Arizona, failure to return a rental vehicle within 72 hours of the due date is a Class 5 Felony under A.R.S. 13-1806. Return the vehicle immediately and contact our office.", topic: "State-specific rules" },
@@ -6022,7 +6025,7 @@ var CARD_ANSWERS = [
 
  // ── WRAPPED VEHICLE — SFO ─────────────────────────────────────
  { k: ["sfo decal car","sfo wrapped program","what is wrapped vehicle sfo","lyft branded car sfo","wrapped car sfo","sfo lyft branded vehicle"],
- a: "SFO only: A wrapped vehicle is a Flexdrive rental car with Lyft decals on the doors. Renting one earns a $100 one-time sign-on bonus plus a $100 weekly bonus every week you complete 80+ rides.", topic: "Wrapped vehicle bonus (SFO)" },
+ a: "SFO only: A wrapped vehicle is a Flexdrive rental car with Lyft decals on the doors. Renting one earns a $100 one-time sign-on bonus plus a $100 weekly bonus every week you complete 80+ rides.", regions: ["SFO"], topic: "Wrapped vehicle bonus (SFO)" },
 
  // ── MAINTENANCE — oil change schedule ────────────────────────
  { k: ["oil change how often","when should i get oil change","oil change interval","oil change reminder","how many miles between oil change","oil change schedule"],
@@ -6424,10 +6427,10 @@ var CARD_ANSWERS = [
 
  // Wrapped vehicle bonus
  { k: ["what if i didn't receive my bonus","missing wrapped bonus","wrapped bonus not received","didn't get bonus wrapped car"],
- a: "Tap Talk to Someone and include your name and the specific week in question. Our team will review your ride count and apply the bonus if you qualified. No office visit needed.", topic: "Wrapped vehicle bonus (SFO)" },
+ a: "Tap Talk to Someone and include your name and the specific week in question. Our team will review your ride count and apply the bonus if you qualified. No office visit needed.", regions: ["SFO"], topic: "Wrapped vehicle bonus (SFO)" },
 
  { k: ["how do i report a missing bonus","report missing wrapped bonus","missing wrapped vehicle bonus","bonus not applied"],
- a: "Tap Talk to Someone — include your name and the week (Mon–Mon). We will confirm your ride count and resolve it within 1 business day.", topic: "Wrapped vehicle bonus (SFO)" },
+ a: "Tap Talk to Someone — include your name and the week (Mon–Mon). We will confirm your ride count and resolve it within 1 business day.", regions: ["SFO"], topic: "Wrapped vehicle bonus (SFO)" },
 
  // Vehicle repossessed
  { k: ["what happens to my belongings after repossession","belongings after repo","stuff in repossessed car","personal items after repossession"],
@@ -6562,6 +6565,29 @@ var CARD_ANSWERS = [
  { k: ["how many days do i have to keep the car","how long do i have to keep the car","minimum days rental","minimum days","7 days minimum","7 day minimum","how long minimum rental","minimum rental days","how long must i keep","minimum time rental","how long do i have to rent","shortest rental","can i return before 7 days","return before 7 days","early return policy"],
  a: "The minimum rental period is 7 days. You cannot return before 7 days without potential early termination charges. After 7 days your rental auto-renews weekly — to stop it, go to Lyft App → Vehicle tab → Schedule a return.", topic: "Minimum rental period" },
 
+
+
+ // ── POLICY ANSWERS (confirmed by Kal, Oct 26 2026) ─────────────────────────
+ // Appended last on purpose: existing cards keep priority.
+ { k: ["credit for days", "credit for the days", "credited for days", "credit for downtime", "credit for the time", "days i couldn't use", "couldn't use the car", "couldn't use my car", "couldn't drive the car", "unable to use the car", "unable to drive the car", "compensation for days", "refund for days", "days i lost", "lost days of driving", "maintenance waiver", "waive the days", "credit to account for day"],
+   a: "Credits for days you couldn't use the vehicle (for example, while it was in the shop) are reviewed case by case before they can be approved. Tap Talk to Someone and include the dates the vehicle was unavailable and what happened. Our team will review your account and follow up.",
+   sendMsgBtn: true, topic: "Downtime credit request" },
+
+ { k: ["charged after i returned", "charged after returning", "charged after return", "charged after the return", "charged after i dropped off", "charged even though i returned", "still charged after", "still being charged after", "returned the car and still", "returned it and still", "returned and still being charged", "after i returned the car", "after returning the car", "since i returned", "contract not closed", "contract isn't closed", "contract hasn't closed", "contract still open", "towed to a yard after", "towed after the accident", "towed after an accident", "towed after my accident"],
+   a: "Once your vehicle is back on our lot, we close your contract, then backdate your charges and/or reimburse you if needed. A reimbursement is issued as a bonus, or taken off your outstanding balance if you have one. We'll let you know by email once it's done.\n\nIf your vehicle was towed to a yard after an accident (for example, because it was blocking traffic), we backdate once the vehicle arrives on our lot.\n\nStill have questions? Tap Talk to Someone and include your return date.",
+   sendMsgBtn: true, topic: "Charged after return" },
+
+ { k: ["didn't get my bonus", "didnt get my bonus", "did not get my bonus", "haven't received my bonus", "havent received my bonus", "haven't received this bonus", "haven't received the bonus", "didn't receive my bonus", "didn't receive the bonus", "did not receive my bonus", "bonus not received", "bonus not paid", "bonus wasn't paid", "bonus was not paid", "missing my bonus", "missing bonus", "where is my bonus", "where's my bonus", "bonus never came", "bonus never arrived", "never got my bonus", "what if i didn't receive my bonus", "how do i report a missing bonus", "report a missing bonus", "bonus not applied"],
+   a: "We'll look into it before confirming anything. Our team first verifies whether the bonus was paid out. Tap Talk to Someone and include which bonus it is and the week it was for.\n\nIf the bonus is a reimbursement for a car you returned (or one that was towed to a yard after an accident), we backdate your charges once the vehicle is on our lot and your contract is closed.",
+   sendMsgBtn: true, topic: "Bonus not received" },
+
+ { k: ["what would my fees be if i", "what my fees would be if i", "fees if i return", "fees if i turn in", "fees if i turned in", "how much if i return", "how much will i owe if i return", "how much do i owe if i return", "how much would i owe if i return", "cost to return my car", "return mid week", "return midweek", "daily rate", "partial week"],
+   a: "You can estimate it yourself: take your weekly rental amount and divide it by 7 to get your daily rate, then multiply by the number of days in the current billing week up to your return day (the billing week starts Monday). For example, returning on a Wednesday is 3 days: Monday, Tuesday, and Wednesday.\n\nThis is an estimate. If you're still within your first 7 days, the 7-day minimum rental period applies.",
+   topic: "Return fees estimate" },
+
+ { k: ["what kind of vehicle will i get", "what kind of car will i get", "what car will i get", "what vehicle will i get", "which car will i get", "which vehicle will i get", "vehicle will i get", "car will i get", "what car do i get", "what model will i get", "what make and model", "can i choose the model", "choose my car model", "pick my car model", "choose the make", "specific make and model"],
+   a: "You'll get the vehicle type you selected. The exact make and model depends on what's in stock at pickup, so it can vary.",
+   topic: "Which vehicle will I get" },
 
 ];
 
@@ -6745,6 +6771,8 @@ function findCardAnswer(text) {
  var lower = normalizeForMatch(text).trim();
  for (var i = 0; i < CARD_ANSWERS.length; i++) {
  var entry = CARD_ANSWERS[i];
+ // regions: answer only for these markets (e.g. SFO wrap bonus)
+ if (entry.regions && entry.regions.indexOf(userRegion) === -1) continue;
  for (var j = 0; j < entry.k.length; j++) {
  if (kwHit(lower, entry.k[j])) {
  return { a: entry.a, showVendorBtn: !!entry.showVendorBtn, sendMsgBtn: !!entry.sendMsgBtn, topic: entry.topic || null };
@@ -8050,6 +8078,7 @@ function openContactModal(mode) {
         ? '<option value="Vehicle drop-off">Vehicle drop-off / return 📷</option>'
         : '<option value="Drop-off">Drop-off</option>') +
       '<option value="Inspection photo">Inspection photo 📷</option>' +
+      '<option value="Maintenance receipt">Maintenance receipt 📷</option>' +
       '<option value="Accident re-rental request">Accident re-rental request 📷</option>' +
       '<option value="Pre-existing damage report">Pre-existing damage report 📷</option>' +
       '<option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>' +
@@ -8118,6 +8147,7 @@ function buildTranscript() {
 var ATTACH_CONFIG = {
   'Vehicle drop-off':              { required: true,  prompt: 'Please attach a photo of the parked vehicle and its odometer reading.', label: 'Attach parked-car / odometer photo' },
   'Inspection photo':              { required: true,  prompt: 'Please attach your inspection photo. Our team cannot process this request without it.', label: 'Attach inspection photo' },
+  'Maintenance receipt':           { required: true,  prompt: 'Please attach a photo of the bill or receipt showing your maintenance was completed. Our team will verify it and reset your maintenance miles.', label: 'Attach receipt photo' },
   'Accident re-rental request':    { required: true,  prompt: 'Please attach a screenshot of your not-at-fault email or accident documentation. Our team will review your account and get back to you about re-renting eligibility.', label: 'Attach accident documentation' },
   'Pre-existing damage report':    { required: true,  prompt: 'Please attach photos of the damage. This is required to document the issue on your rental agreement.', label: 'Attach damage photos' },
   'Traffic / parking ticket copy': { required: false, prompt: 'Attach a photo of your ticket if you have it — not required, just helpful for your records.', label: 'Attach ticket photo (optional)' },
