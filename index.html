@@ -8236,12 +8236,15 @@ function submitContactForm() {
  if (_missing.length) { alert('Please add these required photos:\n\u2022 ' + _missing.map(function(s){ return s.label; }).join('\n\u2022 ')); return; }
  var _btnD = document.getElementById('cf-submit'); _btnD.disabled = true; _btnD.textContent = 'Uploading photos — keep this screen open…';
  var _rnD = userRegion && VENDORS[userRegion] ? VENDORS[userRegion].regionName : 'Unknown';
- var _arrD = DROPOFF_SLOTS.filter(function(s){ return dropoffPhotos[s.key]; }).map(function(s){ return dropoffPhotos[s.key]; });
+ var _arrD = [], _extraD = 0;
+ DROPOFF_SLOTS.forEach(function(s){ var v = dropoffPhotos[s.key]; if (!v) return; if (Array.isArray(v)) { _arrD = _arrD.concat(v); _extraD += v.length; } else { _arrD.push(v); } });
+ if (_extraD) message = message + '\n\nDamage / extra photos: ' + _extraD;
  doSubmit(name, email, phone, reason, message, _rnD, _arrD, responsePref);
  return;
  }
  for (var _fi = 0; _fi < files.length; _fi++) {
- if (files[_fi].size > 5 * 1024 * 1024) { alert('Each photo must be under 5MB. Please remove ' + files[_fi].name + '.'); return; }
+ var _isImg = files[_fi].type && files[_fi].type.indexOf('image/') === 0;
+ if (files[_fi].size > (_isImg ? 25 : 5) * 1024 * 1024) { alert('That file is too large to upload. Please remove ' + files[_fi].name + '.'); return; }
  }
 
  var btn = document.getElementById('cf-submit');
@@ -8923,14 +8926,19 @@ var DP_ODO = '<svg viewBox="0 0 60 60" width="42" height="42" fill="none" stroke
 var DP_DASH = '<svg viewBox="0 0 64 44" width="52" height="40" fill="none" stroke="#0F406A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="60" height="34" rx="6"/><path d="M11 29a10 10 0 0 1 20 0"/><line x1="21" y1="29" x2="28" y2="22"/><circle cx="21" cy="29" r="1.8" fill="#0F406A" stroke="none"/><path d="M37 29a8 8 0 0 1 16 0"/><line x1="45" y1="29" x2="40" y2="24"/><circle cx="45" cy="29" r="1.6" fill="#CF0090" stroke="none"/></svg>';
 var DP_INT = '<svg viewBox="0 0 60 60" width="42" height="42" fill="none" stroke="#0F406A" stroke-width="2.4"><circle cx="30" cy="30" r="20"/><circle cx="30" cy="30" r="6"/><line x1="30" y1="24" x2="30" y2="10"/><line x1="25" y1="35" x2="13" y2="42"/><line x1="35" y1="35" x2="47" y2="42"/></svg>';
 var DP_DMG = '<svg viewBox="0 0 60 60" width="42" height="42" fill="none" stroke="#CF0090" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M30 9l22 42H8z"/><line x1="30" y1="26" x2="30" y2="38"/><circle cx="30" cy="44" r="1.6" fill="#CF0090" stroke="none"/></svg>';
+var DP_KEY = '<svg viewBox="0 0 60 60" width="42" height="42" fill="none" stroke="#0F406A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="30" r="9"/><circle cx="20" cy="30" r="3"/><path d="M29 30h22M44 30v7M50 30v5"/></svg>';
+var DP_EQUIP = '<svg viewBox="0 0 60 60" width="42" height="42" fill="none" stroke="#0F406A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="20" y="8" width="20" height="34" rx="3"/><line x1="27" y1="37" x2="33" y2="37"/><path d="M30 42v6M22 52h16"/><path d="M14 18v14M46 18v14"/></svg>';
 var DROPOFF_SLOTS = [
   { key: 'front-left',  label: 'Front-left corner',  required: true,  svg: dpCar(10, 12) },
   { key: 'front-right', label: 'Front-right corner', required: true,  svg: dpCar(50, 12) },
   { key: 'rear-left',   label: 'Rear-left corner',   required: true,  svg: dpCar(10, 88) },
   { key: 'rear-right',  label: 'Rear-right corner',  required: true,  svg: dpCar(50, 88) },
-  { key: 'dash',        label: 'Gas + odometer',     required: true,  svg: DP_DASH },
-  { key: 'interior',    label: 'Interior',           required: false, svg: DP_INT },
-  { key: 'damage',      label: 'Damage (if any)',    required: false, svg: DP_DMG }
+  { key: 'dash',        label: 'Gas/charge + odometer', required: true,  svg: DP_DASH },
+  { key: 'interior',    label: 'Front interior',     required: false, svg: DP_INT },
+  { key: 'rear-interior', label: 'Rear interior',    required: false, svg: DP_INT },
+  { key: 'equipment',   label: 'Equipment in car',   required: false, hint: 'Phone mount, docs, transponder, EV cord', svg: DP_EQUIP },
+  { key: 'key',         label: 'Key in drop box',    required: false, hint: 'Show the key going in', svg: DP_KEY },
+  { key: 'damage',      label: 'Damage / extra photos', required: false, multi: 8, svg: DP_DMG }
 ];
 var dropoffPhotos = {};
 function onReasonSelect(v) {
@@ -8962,32 +8970,92 @@ function renderDropoffPhotos() {
     + '<div style="font-size:12px;color:#3A4A5A;line-height:1.8;">&bull; Cleaned the interior &amp; removed all belongings<br>&bull; Fueled (gas) or charged (EV)<br>&bull; Left the keys in the overnight dropbox<br>&bull; Parked in the designated Flexdrive area</div>'
     + '</div>'
     + '<div style="font-size:13px;font-weight:700;color:#0F406A;margin-bottom:6px;">Photos of the vehicle</div>'
-    + '<div style="font-size:12px;color:#7D868C;margin-bottom:10px;">Tap each tile and take the photo shown. The 5 marked Required are needed to submit.</div>'
+    + '<div style="font-size:12px;color:#7D868C;margin-bottom:10px;">Tap each tile and take the photo shown. The 5 marked Required are needed to submit. Tap a photo again to retake it.</div>'
     + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">';
   DROPOFF_SLOTS.forEach(function(s) {
     html += '<div id="dp-tile-' + s.key + '" style="border:2px dashed rgba(0,59,113,0.25);border-radius:12px;padding:10px 8px;text-align:center;background:rgba(0,59,113,0.03);">'
-      + '<input type="file" accept="image/*" id="dp-' + s.key + '" style="display:none;" onchange="handleSlotPhoto(\'' + s.key + '\', this)"/>'
+      + '<input type="file" accept="image/*"' + (s.multi ? ' multiple' : '') + ' id="dp-' + s.key + '" style="display:none;" onchange="handleSlotPhoto(\'' + s.key + '\', this)"/>'
       + '<div id="dp-view-' + s.key + '" onclick="document.getElementById(\'dp-' + s.key + '\').click()" style="cursor:pointer;height:66px;display:flex;align-items:center;justify-content:center;">' + s.svg + '</div>'
       + '<div style="font-size:12px;font-weight:600;color:#0F406A;margin-top:6px;line-height:1.2;">' + s.label + '</div>'
-      + '<div style="font-size:10px;margin-top:2px;color:' + (s.required ? '#CF0090' : '#9BA8B8') + ';">' + (s.required ? 'Required' : 'Optional') + '</div>'
+      + (s.hint ? '<div style="font-size:10px;color:#7D868C;margin-top:2px;line-height:1.25;">' + s.hint + '</div>' : '')
+      + '<div style="font-size:10px;margin-top:2px;color:' + (s.required ? '#CF0090' : '#9BA8B8') + ';">' + (s.required ? 'Required' : (s.multi ? 'Optional \u00b7 up to ' + s.multi : 'Optional')) + '</div>'
+      + (s.multi ? '<div id="dp-clear-' + s.key + '" onclick="clearSlotPhotos(\'' + s.key + '\')" style="display:none;font-size:10px;color:#CF0090;text-decoration:underline;cursor:pointer;margin-top:3px;">Remove all</div>' : '')
       + '</div>';
   });
   html += '</div>';
+  html += '<div style="font-size:11px;color:#7D868C;margin-top:8px;line-height:1.5;">Damage in more than one spot? Add a photo of each in <b>Damage / extra photos</b>, then note where in the message below (for example: rear bumper, driver mirror).</div>';
   host.innerHTML = html;
 }
+function getDropoffSlot(key) {
+  for (var i = 0; i < DROPOFF_SLOTS.length; i++) { if (DROPOFF_SLOTS[i].key === key) return DROPOFF_SLOTS[i]; }
+  return null;
+}
+// Compress on-device FIRST, then check size. Phone photos are often over 5MB
+// straight off the camera but well under 1MB after compression.
+function encodeDropoffPhoto(file) {
+  if (file.size > 25 * 1024 * 1024) { alert('That photo is too large to upload. Please try a different photo.'); return Promise.resolve(null); }
+  return encodeOnePhoto(file).then(function(obj) {
+    if (!obj) { alert("We couldn't read that photo. Please take it again."); return null; }
+    if (obj.data.length * 0.75 > 5 * 1024 * 1024) { alert('That photo is too large to upload. Please try a different photo.'); return null; }
+    return obj;
+  });
+}
 function handleSlotPhoto(key, input) {
-  var file = input.files && input.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { alert('Photo must be under 5MB.'); input.value = ''; return; }
-  encodeOnePhoto(file).then(function(obj) {
+  var slot = getDropoffSlot(key);
+  var files = input.files ? Array.prototype.slice.call(input.files) : [];
+  input.value = ''; // lets the renter pick the same photo again if needed
+  if (!slot || !files.length) return;
+  if (slot.multi) {
+    var list = Array.isArray(dropoffPhotos[key]) ? dropoffPhotos[key] : [];
+    var room = slot.multi - list.length;
+    if (room <= 0) { alert('You can add up to ' + slot.multi + ' photos here.'); return; }
+    if (files.length > room) {
+      alert('You can add ' + room + ' more photo' + (room === 1 ? '' : 's') + ' here. The first ' + room + ' were added.');
+      files = files.slice(0, room);
+    }
+    Promise.all(files.map(encodeDropoffPhoto)).then(function(objs) {
+      objs.forEach(function(obj) { if (obj) list.push(obj); });
+      list.forEach(function(obj, n) { obj.filename = key + '-' + (n + 1) + '.jpg'; });
+      if (list.length) { dropoffPhotos[key] = list; } else { delete dropoffPhotos[key]; }
+      renderSlotView(slot);
+    });
+    return;
+  }
+  encodeDropoffPhoto(files[0]).then(function(obj) {
     if (!obj) return;
     obj.filename = key + '.jpg';
     dropoffPhotos[key] = obj;
-    var view = document.getElementById('dp-view-' + key);
-    if (view) view.innerHTML = '<div style="position:relative;width:100%;"><img src="data:image/jpeg;base64,' + obj.data + '" style="width:100%;height:66px;object-fit:cover;border-radius:8px;"/><div style="position:absolute;top:2px;right:2px;background:#1CA64B;color:#fff;border-radius:50%;width:20px;height:20px;font-size:13px;line-height:20px;">\u2713</div></div>';
-    var tile = document.getElementById('dp-tile-' + key);
-    if (tile) { tile.style.borderColor = '#1CA64B'; tile.style.borderStyle = 'solid'; tile.style.background = 'rgba(28,166,75,0.06)'; }
+    renderSlotView(slot);
   });
+}
+function renderSlotView(slot) {
+  var key = slot.key, val = dropoffPhotos[key];
+  var view = document.getElementById('dp-view-' + key);
+  var tile = document.getElementById('dp-tile-' + key);
+  var clr = document.getElementById('dp-clear-' + key);
+  var has = Array.isArray(val) ? val.length > 0 : !!val;
+  if (view) {
+    if (!has) {
+      view.innerHTML = slot.svg;
+    } else if (Array.isArray(val)) {
+      var thumbs = val.slice(0, 3).map(function(o) { return '<img src="data:image/jpeg;base64,' + o.data + '" style="width:30%;height:44px;object-fit:cover;border-radius:6px;"/>'; }).join('');
+      view.innerHTML = '<div style="width:100%;"><div style="display:flex;gap:4px;justify-content:center;">' + thumbs + '</div>'
+        + '<div style="font-size:10px;color:#1CA64B;font-weight:700;margin-top:4px;">' + val.length + ' added' + (val.length < slot.multi ? ' \u00b7 tap to add more' : '') + '</div></div>';
+    } else {
+      view.innerHTML = '<div style="position:relative;width:100%;"><img src="data:image/jpeg;base64,' + val.data + '" style="width:100%;height:66px;object-fit:cover;border-radius:8px;"/><div style="position:absolute;top:2px;right:2px;background:#1CA64B;color:#fff;border-radius:50%;width:20px;height:20px;font-size:13px;line-height:20px;">\u2713</div></div>';
+    }
+  }
+  if (tile) {
+    tile.style.borderColor = has ? '#1CA64B' : 'rgba(0,59,113,0.25)';
+    tile.style.borderStyle = has ? 'solid' : 'dashed';
+    tile.style.background = has ? 'rgba(28,166,75,0.06)' : 'rgba(0,59,113,0.03)';
+  }
+  if (clr) clr.style.display = has ? 'block' : 'none';
+}
+function clearSlotPhotos(key) {
+  var slot = getDropoffSlot(key);
+  delete dropoffPhotos[key];
+  if (slot) renderSlotView(slot);
 }
 function encodePhotos(files) {
  var tasks = [];
@@ -9024,7 +9092,7 @@ function handleAttachmentChange(input) {
  if (!files || !files.length) return;
  var total = 0, names = [];
  for (var i = 0; i < files.length; i++) {
- if (files[i].size > 5 * 1024 * 1024) { alert('Each photo must be under 5MB \u2014 please remove ' + files[i].name + '.'); input.value = ''; document.getElementById('attach-preview').style.display = 'none'; document.getElementById('attach-drop-zone').style.display = 'flex'; return; }
+ if (files[i].size > ((files[i].type && files[i].type.indexOf('image/') === 0) ? 25 : 5) * 1024 * 1024) { alert('That file is too large to upload \u2014 please remove ' + files[i].name + '.'); input.value = ''; document.getElementById('attach-preview').style.display = 'none'; document.getElementById('attach-drop-zone').style.display = 'flex'; return; }
  total += files[i].size; names.push(files[i].name);
  }
  document.getElementById('attach-drop-zone').style.display = 'none';
