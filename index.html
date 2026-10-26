@@ -1825,7 +1825,7 @@ const VENDORS = {
  ], recovery: [], hasTolls: true,
  stateNotes: "CDW is optional and is NOT insurance. See Texas CDW provisions."
  },
- HOU: {
+ IAH: {
  regionName: "Houston, TX", state: "Texas",
  office: { name: "Flexdrive Houston Office", address: "2855 Mangum Rd., Suite B106, Houston, TX 77092", hours: "Monday-Friday, 9:00 AM - 5:00 PM", phone: null },
  vendors: [
@@ -1997,29 +1997,7 @@ const VENDORS = {
  }
 };
 
-const ZIP_TO_REGION = {
- "97": "PDX", "98": "PDX",
- "30": "ATL", "31": "ATL",
- "78": "AUS",
- "21": "BAL",
- "02": "BOS",
- "28": "CLT",
- "60": "CHI", "61": "CHI",
- "45": "CIN",
- "44": "CLE",
- "75": "DAL", "76": "FTW",
- "80": "DEN",
- "77": "HOU",
- "90": "LAX", "91": "LAX", "93": "LAX",
- "53": "MKE",
- "19": "PHL",
- "85": "PHX",
-   "23": "ORF",
- "15": "PIT",
- "92": "SAN",
- "94": "SFO", "95": "SFO", "96": "SFO",
- "20": "DC"
-};
+// (Zip-code lookup removed Oct 26 2026: renters choose their office from the picker.)
 
 const CITY_TO_REGION = {
  // PDX
@@ -2037,8 +2015,8 @@ const CITY_TO_REGION = {
  // DAL / FTW
  "dallas": "DAL", "plano": "DAL", "irving": "DAL", "garland": "DAL", "dfw": "DAL",
  "fort worth": "FTW", "arlington": "FTW",
- // HOU
- "houston": "HOU", "katy": "HOU", "sugar land": "HOU",
+ // IAH
+ "houston": "IAH", "katy": "IAH", "sugar land": "IAH", "hou": "IAH", "iah": "IAH",
  // SAT
  "san antonio": "SAT", "sat": "SAT",
  // BAL
@@ -2099,14 +2077,12 @@ const CITY_TO_REGION = {
 
 function resolveRegion(input) {
  var clean = input.trim().toLowerCase();
+ // Exact office name from the picker (e.g. "Houston, TX") always resolves.
+ var codes = Object.keys(VENDORS);
+ for (var k = 0; k < codes.length; k++) { if (VENDORS[codes[k]].regionName.toLowerCase() === clean) return codes[k]; }
  var cities = Object.keys(CITY_TO_REGION);
  for (var i = 0; i < cities.length; i++) {
  if (clean.includes(cities[i])) return CITY_TO_REGION[cities[i]];
- }
- var digits = clean.replace(/\D/g, '');
- if (digits.length >= 2) {
- var prefix = digits.substring(0, 2);
- if (ZIP_TO_REGION[prefix]) return ZIP_TO_REGION[prefix];
  }
  return null;
 }
@@ -2182,7 +2158,7 @@ var KNOWLEDGE_BASE = [
  {
  topic: "Oil change / maintenance location",
  keywords: ["car needs service", "where do i take the car", "need to get my tires done", "get my tires done", "oil change", "maintenance", "service", "vendor", "shop", "mechanic", "diagnostics", "general maintenance", "approved vendor", "oil change due", "where do i go for service", "where can i get service", "approved shop", "where can i change the engine oil", "where to change engine oil", "engine oil change location", "where do i change my oil", "where can i get my oil changed", "where can i change my oil", "service center", "where to take my car", "lube", "tune up", "brake", "brakes", "alignment", "rotate tires", "tire rotation", "service light", "service needed", "where to service", "get my car serviced", "maintenance shop", "auto shop", "goodyear", "meineke", "jiffy lube", "where should i go", "can i go anywhere", "nearest shop", "service location"],
- response: "Please use only our approved service vendors for any maintenance needs - including oil changes, diagnostics, tires, and general service. You will not be reimbursed for work done at non-approved locations.\n\nIMPORTANT: Always tell the shop 'This is a Flexdrive vehicle' before booking your appointment. This ensures billing is routed correctly and you are not charged personally.\n\nWould you like me to help you find your nearest approved vendor? Just share your city or zip code."
+ response: "Please use only our approved service vendors for any maintenance needs - including oil changes, diagnostics, tires, and general service. You will not be reimbursed for work done at non-approved locations.\n\nIMPORTANT: Always tell the shop 'This is a Flexdrive vehicle' before booking your appointment. This ensures billing is routed correctly and you are not charged personally.\n\nWould you like me to help you find your nearest approved vendor? Just choose your office."
  },
  {
  topic: "Charged for maintenance at vendor",
@@ -2304,7 +2280,7 @@ var KNOWLEDGE_BASE = [
  keywords: ["my car is gone", "car is gone", "repossessed", "repo", "towed", "belongings", "stuff", "taken", "recovered", "personal items", "get my things", "car was taken", "car got repo'd", "they took my car", "flexdrive took my car", "vehicle was repossessed", "car picked up", "my stuff is in the car", "get my belongings", "get my stuff", "retrieve my things", "items left in car", "left stuff in car", "car was taken away", "what happened to my things", "where is my car", "car gone", "vehicle gone", "recovery yard", "impound"],
  needsRegion: true,
  showTalkBtn: true,
- response: "We understand this is a stressful situation. Your vehicle was recovered due to outstanding charges and/or non-compliance with the rental program requirements.\n\nWARNING: Belongings left in the vehicle are disposed of by the tow/recovery yard — Flexdrive does not have access to your items once the vehicle leaves your possession. Contact the recovery yard directly as soon as possible — do not delay.\n\nFlexdrive is not responsible for any belongings left in the vehicle after repossession.\n\nPlease note that any outstanding balance on your account remains your responsibility.\n\nWould you like help finding your recovery location? Please share your city or zip code."
+ response: "We understand this is a stressful situation. Your vehicle was recovered due to outstanding charges and/or non-compliance with the rental program requirements.\n\nWARNING: Belongings left in the vehicle are disposed of by the tow/recovery yard — Flexdrive does not have access to your items once the vehicle leaves your possession. Contact the recovery yard directly as soon as possible — do not delay.\n\nFlexdrive is not responsible for any belongings left in the vehicle after repossession.\n\nPlease note that any outstanding balance on your account remains your responsibility.\n\nWould you like help finding your recovery location? Please choose your office."
  },
  {
  topic: "Swaps",
@@ -2378,7 +2354,7 @@ var KNOWLEDGE_BASE = [
  myOfficeCard: true,
  keywords: ["where is the office", "when is the office open", "when does the office open", "hours", "office hours", "when are you open", "office location", "where is the office", "address", "visit", "come in", "walk in", "open", "what time do you open", "what time do you close", "when do you close", "office address", "flexdrive office", "nearest office", "where are you located", "office near me", "find the office", "come to the office", "in person", "drop in", "office info", "office near me", "can i come in", "when should i come in", "appointment", "do i need an appointment", "walk in ok", "office open today", "saturday hours", "sunday hours", "weekend hours", "closed today", "nobody at the office", "no one at the office", "i'm here nobody is here", "arrived at office no one there", "came to the office nobody there", "no staff at office", "nobody there", "no one there when i arrived", "i'm here and nobody here", "no one at the office for inspection"],
  needsRegion: true,
- response: "Our offices are open Monday-Friday, 9:00 AM - 5:00 PM. Appointments are not required but are appreciated.\n\nWould you like me to find your nearest office? Just share your city or zip code."
+ response: "Our offices are open Monday-Friday, 9:00 AM - 5:00 PM. Appointments are not required but are appreciated.\n\nWould you like me to find your nearest office? Just choose your office."
  },
  {
  topic: "Minimum rental period",
@@ -2675,7 +2651,7 @@ const STATE_LYFT_REQUIREMENTS = {
  "Contact Lyft support with your info to transfer your driver account to Colorado."
  ]
  },
- HOU: {
+ IAH: {
  state: "Texas (Houston)",
  helpUrl: "https://help.lyft.com/hc/en-us/all/articles/115013083628-Texas-Driver-Information",
  requirements: [
@@ -2779,7 +2755,7 @@ const STATE_LYFT_REQUIREMENTS = {
 const REGION_OVERAGE_RATES = {
  ATL: { rate: "$16.00", confirmed: true },
  SAT: { rate: "$17.00", confirmed: true },
- HOU: { rate: "$18.00", confirmed: true },
+ IAH: { rate: "$18.00", confirmed: true },
  PDX: { rate: "$18.00", confirmed: true },
  LAX: { rate: "$20.00", confirmed: true },
  DAL: { rate: "$20.00", confirmed: true },
@@ -2812,7 +2788,7 @@ var sendBtn = document.getElementById('sendBtn');
 
 // Lock textarea until location is entered
 userInput.disabled = true;
-userInput.placeholder = 'Enter City or Zip Code...';
+userInput.placeholder = 'Choose your office above...';
 document.querySelector('.input-bar').style.display = 'none';
 sendBtn.disabled = true;
 
@@ -4400,39 +4376,6 @@ function renderReturnAccordion() {
  return c;
 }
 
-function renderLocationPrompt(callback) {
- var container = document.createElement('div');
- container.className = 'location-prompt';
- var input = document.createElement('input');
- input.type = 'text';
- input.placeholder = 'Enter City or Zip Code...';
- input.setAttribute('autocomplete', 'off');
- input.setAttribute('autocorrect', 'off');
- input.setAttribute('autocapitalize', 'off');
- input.setAttribute('spellcheck', 'false');
- input.addEventListener('focus', function() {
- // Instantly scroll location card into view when keyboard opens
- container.scrollIntoView({ behavior: 'instant', block: 'end' });
- });
- var btn = document.createElement('button');
- btn.textContent = 'Find Location';
- btn.className = 'location-find-btn';
- btn.addEventListener('click', function() {
- if (input.value.trim()) {
- input.blur();
- callback(input.value.trim());
- }
- });
- input.addEventListener('keydown', function(e) {
- if (e.key === 'Enter' && input.value.trim()) {
- input.blur();
- callback(input.value.trim());
- }
- });
- container.appendChild(input);
- container.appendChild(btn);
- return container;
-}
 
 // EV ACCORDION 
 var ROADSIDE_SECTIONS = [
@@ -4585,7 +4528,7 @@ var STATE_GROUPS = [
  { state: "Ohio", regions: ["CIN", "CLE"] },
  { state: "Oregon", regions: ["PDX"] },
  { state: "Pennsylvania", regions: ["PHL", "PIT"] },
- { state: "Texas", regions: ["AUS", "DAL", "HOU", "SAT"] },
+ { state: "Texas", regions: ["AUS", "DAL", "IAH", "SAT"] },
  { state: "Virginia", regions: ["DC"] },
  { state: "Washington D.C.", regions: ["DC"] },
  { state: "Wisconsin", regions: ["MKE"] }
@@ -7197,7 +7140,7 @@ function sendMessage() {
  }
  } else if (match.regionAwareRate && !userRegion) {
  // No region set — prompt for location after showing the full table
- responseText = responseText + "\n\nDon't see your market above? Share your city or zip code and I'll look up your specific rate.";
+ responseText = responseText + "";
  }
 
  if ((wantsOffice || match.needsRegion) && userRegion && VENDORS[userRegion] && !wantsVendor) {
@@ -7332,25 +7275,25 @@ function sendMessage() {
  } else if (wantsVendor && !userRegion) {
  renderMessage('assistant', getAriGreeting() + responseText);
  setTimeout(function() {
- var locPrompt = renderLocationPrompt(function(loc) { handleVendorInput(loc); });
- appendLocationRow('Please share your city or zip code so I can find your nearest approved vendors:', locPrompt);
+ var locPrompt = renderOfficePicker(function(code) { handleVendorInput(VENDORS[code].regionName); }, renderAppHelpNotice);
+ appendLocationRow('Which Flexdrive office do you rent from? I\'ll show the approved vendors for that area:', locPrompt);
  }, 400);
  } else if (match.needsRegion && !userRegion && match.topic !== 'Return vehicle / end rental' && match.topic !== 'Accident / car was hit') {
  renderMessage('assistant', getAriGreeting() + responseText);
  setTimeout(function() {
- var locPrompt = renderLocationPrompt(function(loc) { handleLocationInput(loc); });
- appendLocationRow('Please share your city or zip code so I can give you the right information for your region:', locPrompt);
+ var locPrompt = renderOfficePicker(function(code) { handleLocationInput(VENDORS[code].regionName); }, renderAppHelpNotice);
+ appendLocationRow('Which Flexdrive office do you rent from? I\'ll give you the right information for your region:', locPrompt);
  }, 400);
  } else {
  renderMessage('assistant', getAriGreeting() + responseText);
  }
  } else if (wantsVendor || wantsOffice) {
  var msg2 = wantsVendor
- ? 'Please share your city or zip code so I can find your nearest approved vendors:'
- : 'Please share your city or zip code so I can find your nearest Flexdrive office:';
- var locPrompt2 = renderLocationPrompt(function(loc) {
- wantsVendor ? handleVendorInput(loc) : handleLocationInput(loc);
- });
+ ? 'Which Flexdrive office do you rent from? I\'ll show the approved vendors for that area:'
+ : 'Which Flexdrive office do you rent from? I\'ll show you its details:';
+ var locPrompt2 = renderOfficePicker(function(code) {
+ wantsVendor ? handleVendorInput(VENDORS[code].regionName) : handleLocationInput(VENDORS[code].regionName);
+ }, renderAppHelpNotice);
  appendLocationRow(msg2, locPrompt2);
  } else {
  // Smart fallback — find closest partial matches
@@ -7554,7 +7497,7 @@ function sendMessage() {
    }
 
    // Don't log zip codes or location strings as unmatched questions
-   if (text && !resolveRegion(text)) {
+   if (text && !resolveRegion(text) && !/^\s*\d{5}(-\d{4})?\s*$/.test(text)) {
      logUnmatchedQuestion(text);
    }
 
@@ -7605,6 +7548,7 @@ function renderSanScreen() {
   b2.style.cssText = 'background:#CF0090;color:#fff;border:none;border-radius:12px;padding:14px 16px;font-size:15px;font-weight:700;cursor:pointer;text-align:left;';
   b2.onclick = function() { openContactModal('talk'); };
   wrap.appendChild(b1); wrap.appendChild(b2);
+  notice = "Sun, surf, and support \u2014 America's Finest City drivers, we've got you covered.\n\n" + notice;
   renderMessage('assistant', notice, wrap);
   logSession('SAN', VENDORS['SAN'].regionName);
   userInput.disabled = false;
@@ -7643,30 +7587,29 @@ function handleLocationInput(locationText) {
  }
 
     var regionTaglines = {
-      PDX: "Rain or shine in the Rose City — we've got you covered.",
+      PDX: "Rain or shine in the Rose City — Portland drivers, we've got you covered.",
       SAN: "Sun, surf, and support — America's Finest City drivers, we've got you covered.",
-      SFO: "From the Bay to the valley — we've got you covered.",
+      SFO: "From the Golden Gate to the South Bay — Bay Area drivers, we've got you covered.",
       LAX: "From the 405 to the PCH — City of Angels drivers, we've got you covered.",
-      PHX: "Desert heat, city hustle — Phoenix drivers, we've got you covered.",
-      ATL: "Hotlanta drivers — we've got you covered in the ATL.",
-      AUS: "Keep Austin driving — we've got you covered.",
-      BAL: "Charm City drivers — we've got you covered in Baltimore.",
+      PHX: "From Camelback to the Valley of the Sun — Phoenix drivers, we've got you covered.",
+      ATL: "From Peachtree to the Perimeter — ATL drivers, we've got you covered.",
+      AUS: "From South Congress to the Domain — Austin drivers, we've got you covered.",
+      BAL: "From the Inner Harbor to the Beltway — Charm City drivers, we've got you covered.",
       BOS: "From the Pike to the T — Boston drivers, we've got you covered.",
-      CLT: "Queen City drivers — we've got you covered in Charlotte.",
+      CLT: "From Uptown to the Speedway — Queen City drivers, we've got you covered.",
       CHI: "From the Loop to the lakefront — Chicago drivers, we've got you covered.",
-      CIN: "Cincy drivers — we've got you covered in the 513.",
-      CLE: "Believeland drivers — we've got you covered in Cleveland.",
-      DAL: "Big D drivers — we've got you covered in Dallas.",
-      DEN: "Mile High drivers — we've got you covered in Denver.",
-      FTW: "Cowtown drivers — we've got you covered in Fort Worth.",
-      HOU: "Space City drivers — we've got you covered in Houston.",
-      MKE: "Brew City drivers — we've got you covered in Milwaukee.",
+      CIN: "From Over-the-Rhine to the riverfront — Cincy drivers, we've got you covered.",
+      CLE: "From the Flats to the lakefront — Cleveland drivers, we've got you covered.",
+      DAL: "From Deep Ellum to the North Tollway — Big D drivers, we've got you covered.",
+      DEN: "From the Mile High City to the foothills — Denver drivers, we've got you covered.",
+      FTW: "From Sundance Square to the Stockyards — Cowtown drivers, we've got you covered.",
+      IAH: "From the Loop to the Beltway — Space City drivers, we've got you covered.",
+      MKE: "From the lakefront to the Third Ward — Brew City drivers, we've got you covered.",
+      ORF: "From the Chesapeake to the coast — Hampton Roads drivers, we've got you covered.",
       PHL: "From South Street to the Main Line — Philadelphia drivers, we've got you covered.",
-      PHX: "Desert heat, city hustle — Phoenix drivers, we've got you covered.",
-      PIT: "Steel City drivers — we've got you covered in Pittsburgh.",
-      SAT: "San Antonio drivers — we've got you covered in the Alamo City.",
-      DC: "From the Beltway to the Mall — DC Metro drivers, we've got you covered.",
-      ORF: "From the Chesapeake to the coast — Hampton Roads drivers, we've got you covered."
+      PIT: "From the Strip District to the Point — Steel City drivers, we've got you covered.",
+      SAT: "From the River Walk to the Alamo — San Antonio drivers, we've got you covered.",
+      DC: "From the Beltway to the Mall — DC Metro drivers, we've got you covered."
     };
     var tagline = regionTaglines[region] || "";
 
@@ -7704,12 +7647,12 @@ function handleLocationInput(locationText) {
  } else {
  // No match — keep locked, prompt to try again
  renderMessage('assistant',
- "We couldn't find a match for that location. Try entering just the city name (e.g. \"Portland\" or \"Los Angeles\") or your zip code.\n\nIf you're not sure, check your rental agreement or the Lyft Driver App for your Flexdrive pickup location."
+ "We couldn't find a match for that location. Please choose your office from the list.\n\nIf you're not sure, check your rental agreement or the Lyft Driver App for your Flexdrive pickup location."
  );
 
  // Re-render location prompt so driver can try again
  setTimeout(function() {
- var retryPrompt = renderLocationPrompt(function(loc) { handleLocationInput(loc); });
+ var retryPrompt = renderOfficePicker(function(code) { handleLocationInput(VENDORS[code].regionName); }, renderAppHelpNotice);
  var row = document.createElement('div');
  row.className = 'msg-row assistant';
  var av = document.createElement('div');
@@ -7744,9 +7687,9 @@ function handleVendorInput(locationText) {
  renderMessage('assistant', 'For approved vendors in the ' + regionData.regionName + ' area, please check the Lyft Driver App: Vehicles and Devices >Schedule Preventive Maintenance, or refer to the vendor list in your welcome email.\n\nIMPORTANT: Always tell the shop "This is a Flexdrive vehicle" before any work is done.');
  }
  } else {
- renderMessage('assistant', "We couldn't find that location. Try entering just the city name (e.g. \"Portland\" or \"Los Angeles\") or your zip code.");
+ renderMessage('assistant', "We couldn't find that location. Please choose your office from the list.");
  setTimeout(function() {
- var retryPrompt = renderLocationPrompt(function(loc) { handleVendorInput(loc); });
+ var retryPrompt = renderOfficePicker(function(code) { handleVendorInput(VENDORS[code].regionName); }, renderAppHelpNotice);
  var row = document.createElement('div');
  row.className = 'msg-row assistant';
  var av = document.createElement('div');
@@ -7761,51 +7704,8 @@ function handleVendorInput(locationText) {
 }
 
 function renderRelocationButtons() {
- var regions = [
- { code: 'ATL', city: 'Atlanta', state: 'GA' },
- { code: 'AUS', city: 'Austin', state: 'TX' },
- { code: 'BAL', city: 'Baltimore', state: 'MD' },
- { code: 'BOS', city: 'Boston', state: 'MA' },
- { code: 'CLT', city: 'Charlotte', state: 'NC' },
- { code: 'CHI', city: 'Chicago', state: 'IL' },
- { code: 'CIN', city: 'Cincinnati', state: 'OH' },
- { code: 'CLE', city: 'Cleveland', state: 'OH' },
- { code: 'DAL', city: 'Dallas/FW', state: 'TX' },
- { code: 'DEN', city: 'Denver', state: 'CO' },
- { code: 'HOU', city: 'Houston', state: 'TX' },
- { code: 'LAX', city: 'Los Angeles', state: 'CA' },
- { code: 'MKE', city: 'Milwaukee', state: 'WI' },
- { code: 'PHL', city: 'Philadelphia', state: 'PA' },
- { code: 'PHX', city: 'Phoenix', state: 'AZ' },
- { code: 'PIT', city: 'Pittsburgh', state: 'PA' },
- { code: 'PDX', city: 'Portland', state: 'OR' },
- { code: 'SAT', city: 'San Antonio', state: 'TX' },
- { code: 'SAN', city: 'San Diego', state: 'CA' },
- { code: 'SFO', city: 'San Francisco', state: 'CA' },
- { code: 'DC', city: 'Washington DC', state: 'DC' }
- ];
-
- var container = document.createElement('div');
- container.className = 'reloc-regions';
-
- regions.forEach(function(r, idx) {
- var btn = document.createElement('button');
- btn.className = 'reloc-btn';
- btn.style.animationDelay = (idx * 0.04) + 's';
- btn.innerHTML = r.city + ' <span class="reloc-state">' + r.state + '</span>';
- btn.addEventListener('click', function() {
- // Remove the prompt row
- var promptRows = chatArea.querySelectorAll('.reloc-regions');
- promptRows.forEach(function(p) {
- var parentRow = p.closest('.msg-row');
- if (parentRow) parentRow.remove();
- });
- handleRelocationInput(r.city);
- });
- container.appendChild(btn);
- });
-
- return container;
+ // Same expandable picker as everywhere else; passes the office name to handleRelocationInput.
+ return renderOfficePicker(function(code) { handleRelocationInput(VENDORS[code].regionName); }, null, 'Choose a city');
 }
 
 function handleRelocationInput(locationText) {
@@ -7836,7 +7736,7 @@ function handleRelocationInput(locationText) {
  );
  } else {
  renderMessage('assistant',
- "That location isn't in a Flexdrive region. Flexdrive is currently available in: Atlanta, Austin, Baltimore, Boston, Charlotte, Chicago, Cincinnati, Cleveland, Dallas/Fort Worth, Denver, Houston, Los Angeles, Milwaukee, Philadelphia, Phoenix, Pittsburgh, Portland, San Antonio, San Diego, San Francisco, and Washington D.C.\n\nTry entering a different city or zip code:"
+ "That location isn't in a Flexdrive region. Flexdrive is currently available in: Atlanta, Austin, Baltimore, Boston, Charlotte, Chicago, Cincinnati, Cleveland, Dallas/Fort Worth, Denver, Houston, Los Angeles, Milwaukee, Philadelphia, Phoenix, Pittsburgh, Portland, San Antonio, San Diego, San Francisco, and Washington D.C.\n\nChoose a different city:"
  );
  setTimeout(function() {
  var relocBtns2 = renderRelocationButtons();
@@ -7907,7 +7807,7 @@ function getNextBusinessDay() {
 }
 
 function showWelcome() {
- var locPrompt = renderLocationPrompt(function(loc) { handleLocationInput(loc); });
+ var locPrompt = renderOfficePicker(function(code) { handleLocationInput(VENDORS[code].regionName); }, renderAppHelpNotice);
 
  var bubble = document.createElement('div');
  bubble.className = 'msg-bubble welcome-bubble';
@@ -7956,7 +7856,7 @@ function showWelcome() {
   var s4 = document.createElement('div');
   s4.className = 'welcome-section';
   s4.style.animationDelay = '0.8s';
-  s4.textContent = 'To get started, what city or zip code did you pick up your vehicle?';
+  s4.textContent = 'To get started, which Flexdrive office did you pick up your vehicle from?';
   bubble.appendChild(s4);
 
  var wrapper = document.createElement('div');
@@ -7987,44 +7887,77 @@ function handleResponsePrefChange(val) {
   if (emailInput) emailInput.setAttribute('required', 'required');
 }
 
-// ── CONTACT GATE ───────────────────────────────────────────────────────────
-// Only markets with a support team get the contact form. A renter's market is
-// where they RENT, not where they are (an LAX renter may drive in Sacramento),
-// so with no market set we ask which office they rent from.
-var SUPPORT_REGIONS = ['PDX', 'LAX', 'SFO', 'SAN', 'PHX', 'HOU'];
-var SUPPORT_OFFICES = [
-  { code: 'PDX', label: 'Portland' }, { code: 'LAX', label: 'Los Angeles' },
-  { code: 'SFO', label: 'San Francisco' }, { code: 'SAN', label: 'San Diego' },
-  { code: 'PHX', label: 'Phoenix' }, { code: 'HOU', label: 'Houston' }
-];
-function renderAppHelpNotice() {
-  var where = (userRegion && VENDORS[userRegion]) ? ' from ' + VENDORS[userRegion].regionName : ' from another location';
-  renderMessage('assistant', "Our chat support team covers Flexdrive renters in Portland, Los Angeles, San Francisco, San Diego, Phoenix, and Houston. For help with your rental" + where + ", please tap Help in the Lyft Driver app.");
-}
-function promptRentalOffice(mode) {
+// ── OFFICE PICKER (used everywhere a market is chosen) ─────────────────────
+// One expandable list of every Ari office (A-Z). Picking one collapses the
+// list to "✓ <office>" and calls onPick(code). "My office isn't listed" calls
+// onNotListed and leaves the picker usable so the renter can reopen it.
+function renderOfficePicker(onPick, onNotListed, label) {
+  var title = label || 'Choose your office';
   var wrap = document.createElement('div');
-  wrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;';
-  var opts = SUPPORT_OFFICES.concat([{ code: '', label: 'Somewhere else' }]);
-  opts.forEach(function(o) {
+  wrap.className = 'office-picker';
+  wrap.style.cssText = 'margin-top:10px;width:100%;';
+  var toggle = document.createElement('button');
+  toggle.textContent = title + ' \u25BE';
+  toggle.style.cssText = 'width:100%;background:#0F406A;color:#fff;border:none;border-radius:12px;padding:12px 14px;font-size:15px;font-weight:700;cursor:pointer;text-align:left;';
+  var list = document.createElement('div');
+  list.style.cssText = 'display:none;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;';
+  list.style.display = 'none';
+  var done = false;
+  function close(text) { list.style.display = 'none'; toggle.textContent = text; }
+  toggle.onclick = function() {
+    if (done) return;
+    var open = list.style.display !== 'none';
+    list.style.display = open ? 'none' : 'grid';
+    toggle.textContent = title + (open ? ' \u25BE' : ' \u25B4');
+    if (!open) { try { scrollToElement(list); } catch (e) {} }
+  };
+  Object.keys(VENDORS).sort(function(x, y) { return VENDORS[x].regionName.localeCompare(VENDORS[y].regionName); }).forEach(function(code) {
     var b = document.createElement('button');
-    b.textContent = o.label;
-    b.style.cssText = 'background:' + (o.code ? '#0F406A' : '#fff') + ';color:' + (o.code ? '#fff' : '#0F406A') + ';border:1.5px solid #0F406A;border-radius:18px;padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer;';
+    b.textContent = VENDORS[code].regionName;
+    b.style.cssText = 'background:#fff;color:#0F406A;border:1.5px solid #0F406A;border-radius:10px;padding:9px 8px;font-size:13px;font-weight:600;cursor:pointer;text-align:center;';
     b.onclick = function() {
-      Array.prototype.forEach.call(wrap.querySelectorAll('button'), function(x) { x.disabled = true; x.style.opacity = '0.5'; x.style.cursor = 'default'; });
-      renderMessage('user', o.label);
-      if (!o.code) { renderAppHelpNotice(); return; }
-      userRegion = o.code;
-      try { logSession(o.code, VENDORS[o.code].regionName); } catch (e) {}
-      openContactModal(mode);
+      if (done) return;
+      done = true;
+      close('\u2713 ' + VENDORS[code].regionName);
+      toggle.disabled = true; toggle.style.cursor = 'default'; toggle.style.background = '#1CA64B';
+      onPick(code);
     };
-    wrap.appendChild(b);
+    list.appendChild(b);
   });
-  renderMessage('assistant', 'Which Flexdrive office do you rent from?', wrap);
+  if (onNotListed) {
+    var none = document.createElement('button');
+    none.textContent = "My office isn't listed";
+    none.style.cssText = 'grid-column:1 / -1;background:#fff;color:#7D868C;border:1.5px dashed #9BA8B8;border-radius:10px;padding:9px 8px;font-size:13px;font-weight:600;cursor:pointer;';
+    none.onclick = function() { if (done) return; close(title + ' \u25BE'); onNotListed(); };
+    list.appendChild(none);
+  }
+  wrap.appendChild(toggle);
+  wrap.appendChild(list);
+  return wrap;
+}
+function renderAppHelpNotice() {
+  renderMessage('assistant', "If your office isn't listed, please tap Help in the Lyft Driver app for help with your rental.");
+}
+
+// ── CONTACT GATE ───────────────────────────────────────────────────────────
+// Every Ari market has a support inbox, so any known market can use the form.
+// With NO market set we ask which office they rent from (a renter's market is
+// where they RENT, not where they are: an LAX renter may drive in Sacramento).
+function promptRentalOffice(mode) {
+  var picker = renderOfficePicker(function(code) {
+    renderMessage('user', VENDORS[code].regionName);
+    userRegion = code;
+    try { logSession(code, VENDORS[code].regionName); } catch (e) {}
+    openContactModal(mode);
+  }, function() {
+    renderMessage('user', "My office isn't listed");
+    renderAppHelpNotice();
+  });
+  renderMessage('assistant', 'Which Flexdrive office do you rent from?', picker);
 }
 
 function openContactModal(mode) {
- if (!userRegion) { promptRentalOffice(mode); return; }
- if (SUPPORT_REGIONS.indexOf(userRegion) === -1) { renderAppHelpNotice(); return; }
+ if (!userRegion || !VENDORS[userRegion]) { promptRentalOffice(mode); return; }
  document.getElementById('cf-name').value = '';
  document.getElementById('cf-email').value = '';
  document.getElementById('cf-phone').value = '';
@@ -8937,7 +8870,7 @@ function startOver() {
  userRegion = null;
  awaitingLocation = true;
  userInput.disabled = true;
- userInput.placeholder = 'Enter City or Zip Code...';
+ userInput.placeholder = 'Choose your office above...';
  userInput.value = '';
  sendBtn.disabled = true;
  document.querySelector('.input-bar').style.display = 'none';
