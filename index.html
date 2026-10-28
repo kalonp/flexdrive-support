@@ -1562,7 +1562,8 @@
  </div>
  <div class="modal-field">
  <label class="modal-label" for="cf-email" id="cf-email-label">Email Address * <span style="font-weight:400;text-transform:none;font-size:11px;color:#9BA8B8;">— must match your Lyft profile</span></label>
- <input class="modal-input" id="cf-email" type="email" placeholder="your@email.com" required />
+ <input class="modal-input" id="cf-email" type="email" placeholder="your@email.com" required onblur="checkEmailTypo()" oninput="hideEmailSuggestion()" />
+ <div id="cf-email-suggest" style="display:none;margin-top:8px;padding:10px 12px;background:#FFF4FB;border:1.5px solid #CF0090;border-radius:10px;font-size:14px;color:#0F406A;"></div>
  </div>
  <div class="modal-field">
  <label class="modal-label" for="cf-reason">Reason for Contact *</label>
@@ -7864,6 +7865,71 @@ function showWelcome() {
 // CONTACT FORM 
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyDGHsVfVnieQhX9B2gi0qCNq96EBRG8zjJC0tB_tFpG3PP32BUm8rS5NHskp8OvL0rbw/exec';
 
+// ── EMAIL TYPO CHECK ───────────────────────────────────────────────────────
+// Suggests a fix only when the address is close to a big email provider
+// (yahoo.co -> yahoo.com, gmial.com -> gmail.com). Never auto-changes it, and
+// never flags business/school domains or valid regional ones (yahoo.co.uk).
+var EMAIL_PROVIDERS = ['gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com','aol.com','live.com','msn.com','comcast.net','att.net','sbcglobal.net','verizon.net','me.com','ymail.com','protonmail.com','mail.com','rocketmail.com','bellsouth.net','cox.net','charter.net','email.com','gmx.com','gmx.us','aim.com','inbox.com','juno.com','netzero.net','earthlink.net','zoho.com','yandex.com','fastmail.com','hey.com','mac.com','pm.me','tutanota.com'];
+var EMAIL_VALID_EXTRA = ['yahoo.co.uk','yahoo.co.jp','yahoo.ca','yahoo.com.mx','hotmail.co.uk','hotmail.ca','hotmail.com.mx','outlook.com.mx','live.ca','live.co.uk','googlemail.com','icloud.co'];
+var EMAIL_NAME_FIX = { gmail: 'gmail.com', yahoo: 'yahoo.com', hotmail: 'hotmail.com', outlook: 'outlook.com', icloud: 'icloud.com', aol: 'aol.com', comcast: 'comcast.net', sbcglobal: 'sbcglobal.net', verizon: 'verizon.net', ymail: 'ymail.com', protonmail: 'protonmail.com', bellsouth: 'bellsouth.net' };
+function _editDist(a, b) { // Damerau-Levenshtein (adjacent swaps count as 1)
+  var d = [], i, j;
+  for (i = 0; i <= a.length; i++) { d[i] = [i]; }
+  for (j = 0; j <= b.length; j++) { d[0][j] = j; }
+  for (i = 1; i <= a.length; i++) for (j = 1; j <= b.length; j++) {
+    var c = a[i-1] === b[j-1] ? 0 : 1;
+    d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + c);
+    if (i > 1 && j > 1 && a[i-1] === b[j-2] && a[i-2] === b[j-1]) d[i][j] = Math.min(d[i][j], d[i-2][j-2] + 1);
+  }
+  return d[a.length][b.length];
+}
+function suggestEmailFix(email) {
+  var at = String(email || '').trim().lastIndexOf('@');
+  if (at < 1) return null;
+  var local = email.trim().slice(0, at), domain = email.trim().slice(at + 1).toLowerCase();
+  if (!domain || EMAIL_PROVIDERS.indexOf(domain) !== -1 || EMAIL_VALID_EXTRA.indexOf(domain) !== -1) return null;
+  var name = domain.split('.')[0];
+  // A) known provider name with the wrong ending: yahoo.co, gmail.con
+  if (EMAIL_NAME_FIX[name] && domain !== EMAIL_NAME_FIX[name]) return local + '@' + EMAIL_NAME_FIX[name];
+  // B) misspelled provider: gmial.com, yaho.com, hotmial.com (only the big, long names, to avoid false alarms)
+  var best = null, bestD = 99, tie = false;
+  ['gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com'].forEach(function(p) {
+    var dd = _editDist(domain, p);
+    if (dd < bestD) { bestD = dd; best = p; tie = false; } else if (dd === bestD) { tie = true; }
+  });
+  var limit = best && best.length >= 10 ? 2 : 1;
+  if (best && !tie && bestD >= 1 && bestD <= limit) return local + '@' + best;
+  return null;
+}
+var _emailKept = null; // address the renter confirmed is correct
+function hideEmailSuggestion() {
+  var box = document.getElementById('cf-email-suggest');
+  if (box) { box.style.display = 'none'; box.innerHTML = ''; }
+}
+function checkEmailTypo() {
+  var input = document.getElementById('cf-email');
+  var email = input ? input.value.trim() : '';
+  var fix = suggestEmailFix(email);
+  if (!fix || email === _emailKept) { hideEmailSuggestion(); return false; }
+  var box = document.getElementById('cf-email-suggest');
+  if (!box) return false;
+  box.innerHTML = '';
+  var q = document.createElement('div');
+  q.textContent = 'Did you mean ' + fix + '?';
+  q.style.cssText = 'font-weight:600;margin-bottom:8px;';
+  var yes = document.createElement('button');
+  yes.type = 'button'; yes.textContent = 'Yes, fix it';
+  yes.style.cssText = 'background:#CF0090;color:#fff;border:none;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;margin-right:8px;';
+  yes.onclick = function() { input.value = fix; _emailKept = null; hideEmailSuggestion(); };
+  var no = document.createElement('button');
+  no.type = 'button'; no.textContent = 'No, keep mine';
+  no.style.cssText = 'background:#fff;color:#0F406A;border:1.5px solid #0F406A;border-radius:8px;padding:6px 12px;font-size:13px;font-weight:600;cursor:pointer;';
+  no.onclick = function() { _emailKept = email; hideEmailSuggestion(); };
+  box.appendChild(q); box.appendChild(yes); box.appendChild(no);
+  box.style.display = 'block';
+  return true;
+}
+
 function handleResponsePrefChange(val) {
   // Email is always required regardless of response preference
   var emailInput = document.getElementById('cf-email');
@@ -7947,6 +8013,7 @@ function openContactModal(mode) {
  if (!userRegion || !VENDORS[userRegion]) { promptRentalOffice(mode); return; }
  document.getElementById('cf-name').value = '';
  document.getElementById('cf-email').value = '';
+ _emailKept = null; hideEmailSuggestion();
  document.getElementById('cf-phone').value = '';
  document.getElementById('cf-reason').value = '';
  document.getElementById('cf-message').value = '';
@@ -8187,6 +8254,10 @@ function submitContactForm() {
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     alert('Please enter a valid email address.');
     return;
+  }
+  if (checkEmailTypo()) {
+    try { document.getElementById('cf-email-suggest').scrollIntoView({ block: 'center' }); } catch (e) {}
+    return; // renter picks "Yes, fix it" or "No, keep mine", then taps Send again
   }
  if (reason === 'Vehicle drop-off') {
  var _missing = DROPOFF_SLOTS.filter(function(s){ return s.required && !dropoffPhotos[s.key]; });
