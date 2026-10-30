@@ -1577,7 +1577,7 @@
 <option value="Maintenance receipt">Maintenance receipt 📷</option>
  <option value="Accident re-rental request">Accident re-rental request 📷</option>
  <option value="Pre-existing damage report">Pre-existing damage report 📷</option>
- <option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>
+ <option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option><option value="Vehicle impounded / towed">Vehicle impounded / towed</option>
  <option value="Mileage dispute">Mileage dispute</option>
  <option value="Billing question">Billing question</option>
  <option value="Cleaning charge dispute">Cleaning charge dispute</option>
@@ -2169,7 +2169,7 @@ var KNOWLEDGE_BASE = [
  {
  topic: "Accident / car was hit",
  accidentAccordion: true,
- keywords: ["someone scraped my car", "scraped my car", "someone bumped my car", "bumped my car", "hit and run", "car was damaged", "broken into", "break in", "break-in", "broke into my car", "someone broke in", "car was broken into", "vehicle break in", "theft", "stolen", "car theft", "car was keyed", "keyed my car", "keyed", "graffiti on my car", "graffiti", "items stolen", "robbery", "vandalism", "vandalized", "smashed window", "accident", "hit", "crash", "collision", "wreck", "someone hit me", "I hit", "fender bender", "rear ended", "can i rent again", "re-rent", "rent again", "back on the road", "dnr", "do not rent", "how do i get off dnr", "after accident rent", "rental after accident", "when can i drive again", "return to renting", "got into an accident", "car accident", "i was in a crash", "hit another car", "another car hit me", "car crash", "vehicle collision", "minor accident", "major accident", "hit a pole", "hit a curb", "bumped a car", "scraped a car", "backed into", "side swiped", "t-boned", "totaled", "car is totaled", "car damaged", "damaged my car", "damage to car", "what do i do after accident", "accident report", "police report", "who do i call", "accident procedure", "i was hit", "there is damage on the vehicle", "there is damage on my vehicle", "there is damage", "damage on the vehicle", "damage on my car", "i found damage", "i see damage", "found damage on the car", "noticed damage on the car", "vehicle has damage", "my car has damage", "car has a dent", "car has a scratch", "damage to the vehicle", "body damage", "bumper damage", "door damage", "panel damage", "someone put a scratch on my car", "someone scratched my car", "scratch on my vehicle", "scratch but not accident", "scratch but i wasn't in an accident", "wasn't in an accident just a scratch", "scratch not accident", "accident agreement", "accident paperwork", "accident form", "accident documentation", "flexdrive accident agreement"],
+ keywords: ["towed to a shop", "towed to the shop", "towed to a body shop", "towed to the body shop", "towed to a repair shop", "someone scraped my car", "scraped my car", "someone bumped my car", "bumped my car", "hit and run", "car was damaged", "broken into", "break in", "break-in", "broke into my car", "someone broke in", "car was broken into", "vehicle break in", "theft", "stolen", "car theft", "car was keyed", "keyed my car", "keyed", "graffiti on my car", "graffiti", "items stolen", "robbery", "vandalism", "vandalized", "smashed window", "accident", "hit", "crash", "collision", "wreck", "someone hit me", "I hit", "fender bender", "rear ended", "can i rent again", "re-rent", "rent again", "back on the road", "dnr", "do not rent", "how do i get off dnr", "after accident rent", "rental after accident", "when can i drive again", "return to renting", "got into an accident", "car accident", "i was in a crash", "hit another car", "another car hit me", "car crash", "vehicle collision", "minor accident", "major accident", "hit a pole", "hit a curb", "bumped a car", "scraped a car", "backed into", "side swiped", "t-boned", "totaled", "car is totaled", "car damaged", "damaged my car", "damage to car", "what do i do after accident", "accident report", "police report", "who do i call", "accident procedure", "i was hit", "there is damage on the vehicle", "there is damage on my vehicle", "there is damage", "damage on the vehicle", "damage on my car", "i found damage", "i see damage", "found damage on the car", "noticed damage on the car", "vehicle has damage", "my car has damage", "car has a dent", "car has a scratch", "damage to the vehicle", "body damage", "bumper damage", "door damage", "panel damage", "someone put a scratch on my car", "someone scratched my car", "scratch on my vehicle", "scratch but not accident", "scratch but i wasn't in an accident", "wasn't in an accident just a scratch", "scratch not accident", "accident agreement", "accident paperwork", "accident form", "accident documentation", "flexdrive accident agreement"],
  needsRegion: true,
  sendMsgBtn: true,
  response: "We are sorry to hear about the incident. Please follow these steps:\n\n1. Call the police and get an accident report\n2. Report the accident through the Lyft Driver App: Go to Support and Resources > Help Center > select Accident, damage, or unsafe ride > Report an accident\n3. If the vehicle has minor damage and is still drivable, please bring it to our office for inspection as soon as possible. The vehicle will be deactivated as soon as the accident is reported.\n4. If the vehicle is NOT safe to drive, call Holman at (833) 274-5938 for towing to our office\n\nIMPORTANT: While the claim is open, you will be ineligible to rent until the claim is resolved, you are deemed not at fault, and any outstanding balance is paid.\n\nDo not attempt to repair any damage on your own.\n\nOnce we inspect the vehicle, we will walk you through next steps regarding any applicable charges based on your protection plan.\n\nRE-RENTING AFTER AN ACCIDENT:\nOnce the claim is resolved and you have a not-at-fault determination, tap \"Still need help?\" below, then \"Talk to Someone\" — select \"Accident re-rental request\" and attach your not-at-fault determination email. Our team will review your account and determine eligibility."
@@ -2234,8 +2234,8 @@ var KNOWLEDGE_BASE = [
   },
   {
     topic: "Parking ticket",
-    keywords: ["parking ticket", "i got a parking ticket", "parking violation", "parking fine", "parked illegally", "parking citation", "meter expired", "meter ticket", "no parking ticket", "street cleaning ticket", "towed", "car towed", "vehicle towed", "got towed", "tow fee", "impound", "car impounded"],
-    response: "Parking violations are your responsibility under your rental agreement.\n\nIf the ticket comes directly to you: pay the issuing authority directly and report it to Lyft as soon as possible.\n\nIf Flexdrive is notified: the fine is paid automatically and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified.\n\nNeed a copy? Visit us Mon\u2013Fri 9AM\u20135PM or tap \"Still need help?\" then \"Talk to Someone\" and select \"Traffic / parking ticket copy.\"\n\nIf your vehicle was towed: contact the towing authority directly — towing and impound fees are your responsibility."
+    keywords: ["parking ticket", "i got a parking ticket", "parking violation", "parking fine", "parked illegally", "parking citation", "meter expired", "meter ticket", "no parking ticket", "street cleaning ticket"],
+    response: "Parking violations are your responsibility under your rental agreement.\n\nIf the ticket comes directly to you: pay the issuing authority directly and report it to Lyft as soon as possible.\n\nIf Flexdrive is notified: the fine is paid automatically and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified.\n\nNeed a copy? Visit us Mon\u2013Fri 9AM\u20135PM or tap \"Still need help?\" then \"Talk to Someone\" and select \"Traffic / parking ticket copy.\"\n\nIf your vehicle was towed or impounded: don't pick it up yourself. Tap \"Still need help?\" then \"Talk to Someone\" and tell us where it was taken. Flexdrive's recovery team gets it back. Towing and impound fees from a violation are your responsibility."
   },
  {
  topic: "Picking up my vehicle / reservation",
@@ -2255,10 +2255,22 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Vehicle repossessed / belongings",
- keywords: ["my car is gone", "car is gone", "repossessed", "repo", "towed", "belongings", "stuff", "taken", "recovered", "personal items", "get my things", "car was taken", "car got repo'd", "they took my car", "flexdrive took my car", "vehicle was repossessed", "car picked up", "my stuff is in the car", "get my belongings", "get my stuff", "retrieve my things", "items left in car", "left stuff in car", "car was taken away", "what happened to my things", "where is my car", "car gone", "vehicle gone", "recovery yard", "impound"],
+ keywords: ["repossessed", "repo", "belongings", "stuff", "recovered", "personal items", "get my things", "car got repo'd", "they took my car", "flexdrive took my car", "vehicle was repossessed", "my stuff is in the car", "get my belongings", "get my stuff", "retrieve my things", "items left in car", "left stuff in car", "what happened to my things", "recovery yard"],
  needsRegion: true,
  showTalkBtn: true,
- response: "We understand this is a stressful situation. Your vehicle was recovered due to outstanding charges and/or non-compliance with the rental program requirements.\n\nWARNING: Belongings left in the vehicle are disposed of by the tow/recovery yard — Flexdrive does not have access to your items once the vehicle leaves your possession. Contact the recovery yard directly as soon as possible — do not delay.\n\nFlexdrive is not responsible for any belongings left in the vehicle after repossession.\n\nPlease note that any outstanding balance on your account remains your responsibility.\n\nWould you like help finding your recovery location? Please choose your office."
+ response: "We understand this is a stressful situation. If Flexdrive recovered your vehicle, it's usually because of outstanding charges or a missed rental program requirement. Not sure what happened? Tap \"Talk to Someone\" and we'll confirm.\n\nWARNING: Belongings left in the vehicle are disposed of by the tow/recovery yard — Flexdrive does not have access to your items once the vehicle leaves your possession. Contact the recovery yard directly as soon as possible — do not delay.\n\nFlexdrive is not responsible for any belongings left in the vehicle after repossession.\n\nPlease note that any outstanding balance on your account remains your responsibility.\n\nWould you like help finding your recovery location? Please choose your office."
+ },
+ {
+ topic: "Vehicle missing / where is my car",
+ keywords: ["my car is gone", "car is gone", "car gone", "vehicle gone", "my vehicle is gone", "where is my car", "where is my vehicle", "where did my car go", "car is missing", "my car is missing", "vehicle is missing", "car missing", "vehicle missing", "car disappeared", "can't find my car", "cant find my car", "car not where i parked", "car was taken", "car was taken away", "they took my car", "someone took my car", "car picked up"],
+ showTalkBtn: true,
+ response: "Sorry you're dealing with this. If your vehicle isn't where you left it, it's usually one of these:\n\nTOWED OR IMPOUNDED (parking, a private lot, or a police stop): don't pick it up yourself. Tap \"Still need help?\" then \"Talk to Someone\" and choose \"Vehicle impounded / towed.\" Flexdrive's recovery team gets it back.\n\nRECOVERED BY FLEXDRIVE (for example, after outstanding charges or a missed program requirement): tap \"Talk to Someone\" and we'll confirm. Belongings left in a recovered vehicle are disposed of by the recovery yard, so tell us right away.\n\nSTOLEN: 1. Call 911 and get the police report number. 2. Call Holman: (833) 274-5938. 3. Report it in the Lyft Driver app: Help → Report a stolen vehicle. 4. Tap \"Talk to Someone\" to notify Flexdrive. Do not wait.\n\nNot sure which? Tap \"Talk to Someone\" and tell us where and when you last saw the car."
+ },
+ {
+ topic: "Vehicle impounded / towed",
+ keywords: ["impound", "impounded", "car impounded", "vehicle impounded", "car was impounded", "my car got impounded", "impound lot", "impound yard", "impound fee", "impound fees", "towed", "car towed", "vehicle towed", "got towed", "car got towed", "my car was towed", "car was towed", "towed away", "tow lot", "tow yard", "tow fee", "tow fees", "towing fee", "towed by police", "police towed", "police impounded", "police took my car", "police hold", "evidence hold", "where was my car towed", "where is my car towed", "private property tow", "how much is the tow fee", "how much is the impound", "how much is impound", "how much to get my car out", "get my car out of impound", "get my car back from impound", "get my car from the tow yard"],
+ showTalkBtn: true,
+ response: "If your vehicle was impounded or towed (by police, the city, or a private lot), here is what to do:\n\n1. Tell us right away: tap \"Still need help?\" then \"Talk to Someone\" and choose \"Vehicle impounded / towed.\" Include the tow company or lot name, address and phone number if you have them, and why it was towed (parking, accident, police stop).\n\n2. Don't pick up the vehicle from the lot yourself. Flexdrive's recovery team works with the lot directly and brings the vehicle back to your Flexdrive office.\n\n3. If it was towed after an accident, also report the accident in the Lyft Driver app if you haven't already. If it was towed to a repair shop (not an impound lot), it isn't impounded: your rental contract stays open while it's repaired.\n\n4. Left personal items in the car? List them in your message so the team can follow up.\n\nTowing and impound fees from a parking or traffic violation are your responsibility."
  },
  {
  topic: "Swaps",
@@ -5829,9 +5841,6 @@ var CARD_ANSWERS = [
  { k: ["my car has broken down","car has broken down","broken down","car broke down","my car broke down","my car is not working","car is not working","issue with my car","problem with my car","something wrong with my car","car won't move"],
  a: "Call Holman at (833) 274-5938 — available 24/7. If the car is unsafe to drive, do not attempt to drive it to a shop. Holman will arrange a tow to the nearest approved Flexdrive service vendor.", topic: "Roadside assistance / Holman / towing / lockout" },
 
- { k: ["my car is gone","car is gone","car missing","vehicle missing","car was taken"],
- a: "If your vehicle was repossessed, contact your Flexdrive office immediately. A $500 recovery fee may apply. Flexdrive is not responsible for any belongings left inside. Outstanding rental charges remain your responsibility.", topic: "Repossession" },
-
  { k: ["chang my car","change my car","change car","get a different car","swap my car","want to switch cars"],
  a: "Flexdrive does not swap vehicles based on preference. Swaps are only considered for two reasons: (1) Remarketing — Flexdrive pulls your vehicle from the fleet, or (2) a verified mechanical issue confirmed by an approved vendor.", topic: "Swaps" },
 
@@ -5966,7 +5975,7 @@ var CARD_ANSWERS = [
 
 
  // ── STOLEN VEHICLE ────────────────────────────────────────────
- { k: ["car was stolen","my car was stolen","stolen car","vehicle stolen","car got stolen","someone stole my car","car theft","vehicle theft","car was taken","my car was taken"],
+ { k: ["car was stolen","my car was stolen","stolen car","vehicle stolen","car got stolen","someone stole my car","car theft","vehicle theft"],
  a: "1. Call 911 — get the police report number. 2. Call Holman: (833) 274-5938. 3. Report in Lyft App: Help → Report a stolen vehicle. 4. Tap Talk to Someone to notify Flexdrive. Do NOT wait.", topic: "Accident / car was hit" },
 
  // ── LYFT DEACTIVATION — direct answer ────────────────────────
@@ -7994,7 +8003,7 @@ function _officeHoursLabel() {
 // Help in the Lyft Driver app until that market's rollout wave launches.
 // The live list comes from the backend (Code.gs routing switch) when the page loads.
 // This is only the fallback if that call fails, so nothing needs editing here to launch a market.
-var ROUTING_ON = { PDX: 1, LAX: 1, SFO: 1, SAN: 1, PHX: 1, IAH: 1 };
+var ROUTING_ON = { PDX: 1, LAX: 1, SFO: 1, SAN: 1, PHX: 1, IAH: 1, ATL: 1, AUS: 1, BAL: 1, BOS: 1, CHI: 1, CIN: 1, CLE: 1, CLT: 1, DAL: 1, FTW: 1, DC: 1, DEN: 1, MKE: 1, ORF: 1, PHL: 1, PIT: 1, SAT: 1 };
 (function loadRouting() {
   try {
     fetch(APPS_SCRIPT_URL + '?action=routing')
@@ -8130,7 +8139,7 @@ function openContactModal(mode) {
       '<option value="Maintenance receipt">Maintenance receipt 📷</option>' +
       '<option value="Accident re-rental request">Accident re-rental request 📷</option>' +
       '<option value="Pre-existing damage report">Pre-existing damage report 📷</option>' +
-      '<option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option>' +
+      '<option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option><option value="Vehicle impounded / towed">Vehicle impounded / towed</option>' +
       '<option value="Mileage dispute">Mileage dispute</option>' +
       '<option value="Billing question">Billing question</option>' +
       '<option value="Cleaning charge dispute">Cleaning charge dispute</option>' +
