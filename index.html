@@ -7988,6 +7988,30 @@ function _officeHoursLabel() {
   var o = userRegion && VENDORS[userRegion] && VENDORS[userRegion].office;
   return (o && o.hours) ? o.hours : 'Mon\u2013Fri, 9:00 AM \u2013 5:00 PM';
 }
+// ── ROUTING SWITCH ─────────────────────────────────────────────────────────
+// Markets where Talk to Someone / Send a Message reaches the local team.
+// Every other market still gets Ari's answers, but the form sends renters to
+// Help in the Lyft Driver app until that market's rollout wave launches.
+// The live list comes from the backend (Code.gs routing switch) when the page loads.
+// This is only the fallback if that call fails, so nothing needs editing here to launch a market.
+var ROUTING_ON = { PDX: 1, LAX: 1, SFO: 1, SAN: 1, PHX: 1, IAH: 1 };
+(function loadRouting() {
+  try {
+    fetch(APPS_SCRIPT_URL + '?action=routing')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d && Array.isArray(d.routed) && d.routed.length) {
+          var m = {}; d.routed.forEach(function(c) { m[c] = 1; }); ROUTING_ON = m;
+        }
+      })
+      .catch(function() {});
+  } catch (e) {}
+})();
+function renderRoutingOffNotice() {
+  var v = VENDORS[userRegion] || {};
+  var city = v.regionName || 'your area';
+  renderMessage('assistant', 'For help with your rental in ' + city + ', please tap Help in the Lyft Driver app, or visit your Flexdrive office (' + _officeHoursLabel() + ').');
+}
 function renderAppHelpNotice() {
   renderMessage('assistant', "If your office isn't listed, please tap Help in the Lyft Driver app for help with your rental.");
 }
@@ -8011,6 +8035,7 @@ function promptRentalOffice(mode) {
 
 function openContactModal(mode) {
  if (!userRegion || !VENDORS[userRegion]) { promptRentalOffice(mode); return; }
+ if (!ROUTING_ON[userRegion]) { if (mode === 'talk') logEscalationQuestion(); renderRoutingOffNotice(); return; }
  document.getElementById('cf-name').value = '';
  document.getElementById('cf-email').value = '';
  _emailKept = null; hideEmailSuggestion();
