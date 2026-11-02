@@ -1509,9 +1509,6 @@
  <!-- INPUT -->
  <div class="input-bar">
  <div class="input-bar-inner">
- <button class="globe-side-btn" id="translateBtnInput" onclick="toggleLangMenu()" aria-label="Translate">
-   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
- </button>
  <div class="input-wrap">
  <textarea id="userInput" rows="1" placeholder=" " readonly></textarea>
  <div id="placeholderOverlay"><span id="placeholderSpan">Ask a question...</span></div>
@@ -8666,7 +8663,11 @@ var LANGUAGES = [
   { code: 'pt',    label: 'Português (Portuguese)' },
 ];
 
-var currentLang = sessionStorage.getItem('fd_lang') || '';
+// Oct 30 2026: page-translation (globe) button removed. Renters use their browser's own Translate.
+// Silent Spanish/other -> English matching (translateInputToEnglish) is kept on purpose.
+// Clear any language saved from an older visit so the page is never auto-translated.
+var currentLang = '';
+try { sessionStorage.removeItem('fd_lang'); } catch (e) {}
 var translationCache = {};
 var mutationObserver = null;
 var pendingNodes = [];
