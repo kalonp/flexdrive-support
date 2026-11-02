@@ -8689,61 +8689,14 @@ function saveCache(lang) {
 // Translate USER INPUT to English (auto-detect source language) — used as a fallback
 // when no keyword match is found, so non-English questions can still be understood.
 function translateInputToEnglish(text, callback) {
-  if (!text || text.trim().length < 3) { callback(null); return; }
-  var url = 'https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&tl=en&q=' + encodeURIComponent(text);
-  fetch(url)
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      var translated = null;
-      if (Array.isArray(data) && data[0]) {
-        translated = Array.isArray(data[0]) ? data[0][0] : data[0];
-      }
-      // Only use it if it's meaningfully different (i.e. wasn't already English)
-      if (translated && translated.trim().toLowerCase() !== text.trim().toLowerCase()) {
-        callback(translated);
-      } else {
-        callback(null);
-      }
-    })
-    .catch(function() { callback(null); });
+  // Nov 2 2026: Google Translate removed (unofficial endpoint, renter text = Restricted data,
+  // no third-party risk assessment). Unmatched non-English questions fall through to the normal no-match flow.
+  callback(null);
 }
 
 function translateBatch(texts, lang, callback) {
-  var unique = [];
-  var seen = {};
-  texts.forEach(function(t) {
-    var k = t.trim();
-    if (k && k.length > 1 && !seen[k]) { seen[k] = true; unique.push(k); }
-  });
-
-  loadCache(lang);
-  var toFetch = unique.filter(function(t) { return !translationCache[lang][t]; });
-
-  if (toFetch.length === 0) { callback(translationCache[lang]); return; }
-
-  // Use Google Translate API (unofficial but widely used, no key needed)
-  var params = toFetch.map(function(t) { return 'q=' + encodeURIComponent(t); }).join('&');
-  var url = 'https://translate.googleapis.com/translate_a/t?client=gtx&sl=en&tl=' + lang + '&' + params;
-
-  fetch(url)
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      // Response is array of translated strings
-      if (Array.isArray(data)) {
-        data.forEach(function(item, i) {
-          var translated = Array.isArray(item) ? item[0] : item;
-          if (translated && toFetch[i]) {
-            translationCache[lang][toFetch[i]] = translated;
-          }
-        });
-      }
-      saveCache(lang);
-      callback(translationCache[lang]);
-    })
-    .catch(function(err) {
-      console.warn('Translate error:', err);
-      callback(translationCache[lang]);
-    });
+  // Nov 2 2026: page translation removed with the globe button. No network call.
+  callback({});
 }
 
 function getTextNodesIn(root) {
