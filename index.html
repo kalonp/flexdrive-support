@@ -8021,7 +8021,8 @@ function _officeHoursLabel() {
 // Help in the Lyft Driver app until that market's rollout wave launches.
 // The live list comes from the backend (Code.gs routing switch) when the page loads.
 // This is only the fallback if that call fails, so nothing needs editing here to launch a market.
-var ROUTING_ON = { PDX: 1, LAX: 1, SFO: 1, SAN: 1, PHX: 1, IAH: 1, ATL: 1, AUS: 1, BAL: 1, BOS: 1, CHI: 1, CIN: 1, CLE: 1, CLT: 1, DAL: 1, FTW: 1, DC: 1, DEN: 1, MKE: 1, ORF: 1, PHL: 1, PIT: 1, SAT: 1 };
+// Nov 9 2026: live markets are PDX, LAX, SFO, SAN, PHX, IAH, BWI (Ari code BAL). Keep in sync with BASE_ROUTED in Code.gs.
+var ROUTING_ON = { PDX: 1, LAX: 1, SFO: 1, SAN: 1, PHX: 1, IAH: 1, BAL: 1 };
 (function loadRouting() {
   try {
     fetch(APPS_SCRIPT_URL + '?action=routing')
