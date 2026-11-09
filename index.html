@@ -2136,6 +2136,12 @@ var KNOWLEDGE_BASE = [
  response: "Please use only our approved service vendors for any maintenance needs - including oil changes, diagnostics, tires, and general service. You will not be reimbursed for work done at non-approved locations.\n\nIMPORTANT: Always tell the shop 'This is a Flexdrive vehicle' before booking your appointment. This ensures billing is routed correctly and you are not charged personally.\n\nWould you like me to help you find your nearest approved vendor? Just choose your office."
  },
  {
+ topic: "Shop didn't give me a receipt",
+ keywords: ["no receipt", "didn't give me a receipt", "didnt give me a receipt", "did not give me a receipt", "didn't get a receipt", "didnt get a receipt", "never got a receipt", "no receipt from the shop", "shop won't give me a receipt", "won't give me a receipt", "wouldn't give me a receipt", "can't get a receipt", "cant get a receipt", "missing receipt", "lost my receipt", "lost the receipt", "need my receipt", "need a copy of my receipt", "copy of the receipt", "where is my receipt", "where's my receipt", "don't have a receipt", "dont have a receipt", "no bill", "didn't give me a bill", "didnt give me a bill", "doesn't provide any bill", "doesnt provide any bill", "don't provide any bill", "didn't provide a bill", "no invoice", "didn't give me an invoice", "need an invoice", "goodyear receipt", "goodyear bill", "bill from goodyear", "receipt from goodyear", "shop receipt", "receipt from the shop", "service receipt", "no paperwork"],
+ showTalkBtn: true,
+ response: "No problem — you don't need the receipt from the shop. When an approved vendor (like Goodyear) services your vehicle, the work is billed to Flexdrive through Holman, and our team can pull the record from there.\n\nTap Talk to Someone below and choose Other as the reason. Include:\n\u2022 The shop name and location\n\u2022 The date of the service\n\u2022 What was done (oil change, tires, etc.)\n\nIf you paid out of pocket, say so in your message so we can review it for reimbursement."
+ },
+ {
  topic: "Charged for maintenance at vendor",
  keywords: ["charged for inspection", "charge for inspection", "for inspection", "inspection charge", "charged inspection", "fee for inspection", "inspection fee", "billed for inspection", "paid for inspection", "charged for maintenance", "for maintenance", "charged for maintenance at vendor", "charged for maintenance at vendor charged maintenance", "charged maintenance", "shop billed", "receipt", "reimbursed", "paid for service", "billed me", "vendor charged", "they charged me", "shop charged my card", "paid out of pocket", "paid for my own oil change", "billed personally", "need to be reimbursed", "reimbursement", "vendor billed me", "shop sent me a bill", "charged at the shop", "shop didn't bill flexdrive", "i already changed the oil", "i changed the oil today", "already changed the oil today", "just changed the oil", "i got an oil change today", "finished oil change", "oil change complete", "paid for maintenance myself", "bought fuses", "bought a part", "bought parts", "bought a part for the vehicle", "can i get refunded", "get refunded", "reimburse me", "refund for a repair", "upload receipt", "upload receipts", "proof of maintenance", "submit receipt"],
  showTalkBtn: true,
@@ -2333,7 +2339,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "What is Flexdrive / Express Drive",
- keywords: ["express drive what is it", "what is flexdrive", "what is express drive", "how does it work", "about flexdrive", "about express drive", "how does rental work", "new driver", "getting started", "flexdrive explained", "explain flexdrive", "tell me about flexdrive", "how does express drive work", "how do i start", "just started", "first time renter", "brand new", "new to this", "never rented before", "how does this work", "flexdrive overview", "what is this", "who is flexdrive", "flexdrive program", "lyft car rental", "rent through lyft", "lyft rental program", "rent a car", "i want to rent a car", "i want to rent", "how do i rent a car", "can i rent a car", "i need to rent a car", "looking to rent a car", "want to rent", "need a rental", "need a car", "reserve a car", "book a car", "how do i reserve"],
+ keywords: ["express drive what is it", "what is flexdrive", "what is express drive", "how does it work", "about flexdrive", "about express drive", "how does rental work", "new driver", "getting started", "flexdrive explained", "explain flexdrive", "tell me about flexdrive", "how does express drive work", "how do i start", "just started", "first time renter", "brand new", "new to this", "never rented before", "how does this work", "flexdrive overview", "what is this", "who is flexdrive", "flexdrive program", "lyft car rental", "rent through lyft", "lyft rental program", "rent a car", "i want to rent a car", "i want to rent", "how do i rent a car", "can i rent a car", "i need to rent a car", "looking to rent a car", "want to rent", "need a rental", "need a car", "reserve a car", "book a car", "how do i reserve", "rent", "renting", "renting a car", "booking", "book a rental", "make a booking"],
  response: "Flexdrive powers the Lyft Express Drive rental program. We provide vehicles to people who want to drive for Lyft but don't have their own car.\n\nHere's how it works:\n- You rent a vehicle from Flexdrive through the Lyft Driver App\n- Your Lyft earnings go toward covering your weekly rental costs first\n- Once rental costs are covered, you can cash out the rest with Express Pay\n- Your rental includes insurance, routine maintenance at approved vendors, and 24/7 roadside assistance through Holman: (833) 274-5938\n\nFlexdrive operates locations across the country with a team dedicated to keeping you on the road with reliable cars, fair pricing, and real support.\n\nWhether you picked up your first set of keys yesterday or you've been with us for years - every mile you drive matters. Welcome to the Flexdrive family."
  },
  {
@@ -5129,7 +5135,8 @@ function normalizeForMatch(t) {
   try { t2 = t2.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); } catch (e) {}
   return t2
     .replace(/[\u2018\u2019\u201A\u201B\u2032\u00B4\u0060]/g, "'")
-    .replace(/[\u201C\u201D\u201E\u2033]/g, '"');
+    .replace(/[\u201C\u201D\u201E\u2033]/g, '"')
+    .replace(/\bgood\s*-?\s*years?\b/g, 'goodyear'); // "good year" / "good-year" -> vendor name
 }
 var _kwRe = {};
 function kwHit(lower, kw) {
@@ -5187,6 +5194,8 @@ function findBestMatch(userText) {
 }
 
 function needsVendorLookup(text) {
+ // Receipt / bill / invoice questions want the receipt answer, not a vendor list
+ if (/receipt|invoice|paperwork|\bbill\b/i.test(text)) return false;
  // Exclude billing complaints about maintenance charges
  if (/charged.*maintenance|charge.*maintenance|billed.*maintenance|paid.*maintenance|maintenance.*charge|maintenance.*fee|charged.*inspection|charge.*inspection|billed.*inspection|inspection.*charge|inspection.*fee/i.test(text)) return false;
  return /vendor|maintenance|oil change|service|shop|tire|body shop|mantenimiento|aceite|mecanico|mec\u00e1nico|llanta|where.*(go|take|bring)|nearest|closest|find.*vendor|mechanic|diagnostic|goodyear|meineke|sun auto|gills|gaynor/i.test(text);
