@@ -89,6 +89,9 @@
  background: #CF0090;
  }
  .header-left { display: flex; align-items: center; gap: 12px; }
+  .office-chip { display:none; align-items:center; gap:4px; max-width:55%; background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.35); border-radius:999px; padding:6px 12px; font-size:13px; font-weight:600; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:inherit; }
+  .office-chip:hover, .office-chip:active { background:rgba(255,255,255,0.22); }
+  .change-office-link { display:inline-block; margin-top:10px; background:none; border:none; padding:0; color:#CF0090; font-size:14px; font-weight:600; text-decoration:underline; cursor:pointer; font-family:inherit; }
   .header-renter-support { color: rgba(255,255,255,0.7); font-size: 11px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
  .msg-row.assistant + .msg-row.assistant .msg-avatar { visibility: hidden; }
 
@@ -1498,7 +1501,7 @@
      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
      <span class="btn-lang">Translate</span>
    </button>
-   <div class="header-renter-support">Renter Support</div>
+   <button class="office-chip" id="officeChip" onclick="changeOffice()" aria-label="Change your office"><span id="officeChipName"></span>&nbsp;&#9662;</button>
  </div>
  <!-- CHAT -->
  <div class="chat-area" id="chatArea"></div>
@@ -2760,7 +2763,7 @@ const REGION_OVERAGE_RATES = {
 };
 
 function setAvatarText(el) {
-  el.innerHTML = '<svg viewBox="0 0 52 62" xmlns="http://www.w3.org/2000/svg" aria-label="Ari"><circle cx="26" cy="26" r="26" fill="#0F406A"/><path d="M26 10 C19 10 14 15.5 14 22 C14 30 26 42 26 42 C26 42 38 30 38 22 C38 15.5 33 10 26 10Z" fill="#CF0090"/><circle cx="26" cy="22" r="5" fill="#ffffff"/></svg>';
+  el.innerHTML = '<svg viewBox="0 0 52 62" xmlns="http://www.w3.org/2000/svg" aria-label="Miles"><circle cx="26" cy="26" r="26" fill="#0F406A"/><path d="M26 10 C19 10 14 15.5 14 22 C14 30 26 42 26 42 C26 42 38 30 38 22 C38 15.5 33 10 26 10Z" fill="#CF0090"/><circle cx="26" cy="22" r="5" fill="#ffffff"/></svg>';
 }
 
 // STATE 
@@ -3540,7 +3543,7 @@ function renderMessage(role, content, extra, noScroll) {
  } else {
    var ariLabel = document.createElement('div');
    ariLabel.className = 'msg-label msg-label-ari';
-   ariLabel.textContent = 'Ari';
+   ariLabel.textContent = 'Miles';
    var ariWrapper = document.createElement('div');
    ariWrapper.style.cssText = 'display:flex;flex-direction:column;flex:1;min-width:0;';
    ariWrapper.appendChild(ariLabel);
@@ -3646,10 +3649,10 @@ function renderTyping(thinkingText) {
   _dots[2].style.animationDuration = (_baseSpeed - 0.05) + 's';
   _dots[2].style.animationDelay = (_gap * 2) + 's';
 
-  // "Ari is typing" label at top
+  // "Miles is typing" label at top
   var ariLabel = document.createElement('div');
   ariLabel.className = 'typing-label';
-  ariLabel.textContent = 'Ari is typing';
+  ariLabel.textContent = 'Miles is typing';
   bubbleWrap.appendChild(ariLabel);
 
   bubbleWrap.appendChild(indicator);
@@ -6830,7 +6833,7 @@ function calculateTypingDelay(text) {
 
   var match = findBestMatch(resolved);
   if (match) {
-    // Accordion = complex — Ari is "thinking"
+    // Accordion = complex — Miles is "thinking"
     var isAccordion = match.vehicleRulesAccordion || match.billingAccordion ||
       match.protectionAccordion || match.mileageAccordion || match.depositAccordion ||
       match.returnAccordion || match.roadsideAccordion || match.inspectionAccordion ||
@@ -6843,7 +6846,7 @@ function calculateTypingDelay(text) {
     return 700 + jitter; // 600ms–800ms
   }
 
-  // No match found — slight extra pause (Ari is searching)
+  // No match found — slight extra pause (Miles is searching)
   return 900 + jitter;
 }
 
@@ -7052,6 +7055,9 @@ function sendMessage() {
  // Blur to dismiss keyboard and reset zoom on mobile
  userInput.blur();
  if (isMobile) userInput.setAttribute('readonly', 'true');
+
+ // Renter says they picked the wrong office: show the office list instead of an answer
+ if (isChangeOfficeIntent(text)) { isTyping = false; changeOffice(true); return; }
 
 
   // Pick a thinking phrase based on response complexity
@@ -7414,7 +7420,7 @@ function sendMessage() {
  });
 
  renderMessage('assistant', partialMsg);
- // Near-miss: log it so the gap shows in the Unmatched tab, tagged with Ari's closest guess (typed locations skipped)
+ // Near-miss: log it so the gap shows in the Unmatched tab, tagged with Miles's closest guess (typed locations skipped)
  if (!resolveRegion(text)) logUnmatchedQuestion(text, 'partial: ' + topMatch.topic);
  setTimeout(function() {
  var suggActions = renderQuickActions(suggLabels);
@@ -7568,9 +7574,11 @@ function renderSanScreen() {
   b2.style.cssText = 'background:#CF0090;color:#fff;border:none;border-radius:12px;padding:14px 16px;font-size:15px;font-weight:700;cursor:pointer;text-align:left;';
   b2.onclick = function() { openContactModal('talk'); };
   wrap.appendChild(b1); wrap.appendChild(b2);
+  wrap.appendChild(makeChangeOfficeLink());
   notice = "Sun, surf, and support \u2014 America's Finest City drivers, we've got you covered.\n\n" + notice;
   renderMessage('assistant', notice, wrap);
   logSession('SAN', VENDORS['SAN'].regionName);
+  updateOfficeChip();
   userInput.disabled = false;
   userInput.placeholder = 'Ask a question...';
   userInput.setAttribute('readonly', 'true');
@@ -7647,9 +7655,10 @@ function handleLocationInput(locationText) {
       "Tolls: " + tollLine + "\n\n" +
       "What can I help you with today?";
 
-    renderMessage('assistant', regionMsg);
+    renderMessage('assistant', regionMsg, makeChangeOfficeLink());
 
  logSession(region, regionData.regionName);
+ updateOfficeChip();
 
  // Unlock textarea (no focus — avoids keyboard jumping on mobile)
  userInput.disabled = false;
@@ -7838,8 +7847,8 @@ function showWelcome() {
   title.innerHTML = '';
  bubble.appendChild(title);
 
-  // Section 1 — Ari intro
-  // Section 1 — Ari intro with acronym subtitle
+  // Section 1 — Miles intro
+  // Section 1 — Miles intro with name
   var s1 = document.createElement('div');
   s1.className = 'welcome-section';
   s1.style.animationDelay = '0.3s';
@@ -7851,7 +7860,7 @@ function showWelcome() {
     var _nextBiz = getNextBusinessDay();
     _holidayBanner = '<div style="background:rgba(255,255,255,0.12);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.95);">' + HOLIDAY_CLOSED_MSG[_todayHol.key] + ' We\'ll be back ' + _nextBiz + ' at 9:00 AM.</div>';
   }
-  s1.innerHTML = '<span style="font-size:17px;font-weight:700;color:var(--white);display:block;margin-bottom:2px;">' + _greet + ', I\'m Ari &#128075;</span><span style="font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:0.04em;text-transform:uppercase;display:block;margin-bottom:10px;">Automated Rental Information</span>' + _holidayBanner + 'I\'m your Flexdrive support assistant &mdash; Instant answers on mileage, billing, maintenance, protection plans, fees, state rules, and more.<br><br>Lyft app or earnings questions? Visit <a href=\"https://help.lyft.com\" target=\"_blank\" style=\"color:#CF0090;\">help.lyft.com</a>.';
+  s1.innerHTML = '<span style="font-size:17px;font-weight:700;color:var(--white);display:block;margin-bottom:2px;">' + _greet + ', I\'m Miles &#128075;</span><span style="display:block;margin-bottom:10px;"></span>' + _holidayBanner + 'I\'m your Flexdrive support assistant &mdash; Instant answers on mileage, billing, maintenance, protection plans, fees, state rules, and more.<br><br>Lyft app or earnings questions? Visit <a href=\"https://help.lyft.com\" target=\"_blank\" style=\"color:#CF0090;\">help.lyft.com</a>.';
   bubble.appendChild(s1);
 
   var d2 = document.createElement('div');
@@ -7973,9 +7982,56 @@ function handleResponsePrefChange(val) {
 }
 
 // ── OFFICE PICKER (used everywhere a market is chosen) ─────────────────────
-// One expandable list of every Ari office (A-Z). Picking one collapses the
+// One expandable list of every Miles office (A-Z). Picking one collapses the
 // list to "✓ <office>" and calls onPick(code). "My office isn't listed" calls
 // onNotListed and leaves the picker usable so the renter can reopen it.
+// ── CHANGE OFFICE ──────────────────────────────────────────────────────────
+// Lets a renter fix a wrong office pick without refreshing: the header chip,
+// the link under the office confirmation, and typed phrases ("wrong office")
+// all open the office list. The chat stays; the new office's details post below.
+function updateOfficeChip() {
+  var chip = document.getElementById('officeChip');
+  if (!chip) return;
+  var v = userRegion && VENDORS[userRegion];
+  if (!v) { chip.style.display = 'none'; return; }
+  document.getElementById('officeChipName').textContent = '\uD83D\uDCCD ' + v.regionName.split(',')[0];
+  chip.style.display = 'inline-flex';
+}
+function makeChangeOfficeLink() {
+  var a = document.createElement('button');
+  a.className = 'change-office-link';
+  a.textContent = 'Not your office? Change it';
+  a.onclick = function() { changeOffice(); };
+  var d = document.createElement('div');
+  d.appendChild(a);
+  return d;
+}
+function isChangeOfficeIntent(text) {
+  var t = text.toLowerCase();
+  // Real rental issues that mention a location are not office switches
+  if (/\b(drop|dropped|drop-off|dropoff|return|returned|returning|park|parked|left the car|pick ?up|picked up|pickup|reservation|address|tow|towed)\b/.test(t)) return false;
+  if (/\b(wrong|change|switch|different|incorrect)\s+(my\s+|the\s+)?(office|location|region|market|city)\b/.test(t)) return true;
+  if (/\b(picked|selected|chose|choose|clicked|tapped|pressed|hit)\s+(the\s+)?wrong\b/.test(t)) return true;
+  if (/\b(i'?m|i am|i rent|i'?m renting|i drive)\s+(in|from|out of)\b.*\bnot\b/.test(t)) return true;
+  return false;
+}
+function changeOffice(fromTyped) {
+  if (awaitingLocation || !userRegion) return; // first pick is still on screen
+  var current = userRegion;
+  var picker = renderOfficePicker(function(code) {
+    if (code === current) {
+      renderMessage('assistant', "You're all set — you're still on " + VENDORS[code].regionName + '. What can I help you with?');
+      return;
+    }
+    lastMatch = null;
+    handleLocationInput(VENDORS[code].regionName);
+  }, renderAppHelpNotice, 'Choose your office');
+  renderMessage('assistant', fromTyped
+    ? 'No problem, let\'s fix your office. Which Flexdrive office do you rent from?'
+    : 'Which Flexdrive office do you rent from?', picker);
+  setTimeout(function() { try { scrollToElement(picker); } catch (e) { scrollToBottom(); } }, 200);
+}
+
 function renderOfficePicker(onPick, onNotListed, label) {
   var title = label || 'Choose your office';
   var wrap = document.createElement('div');
@@ -8026,11 +8082,11 @@ function _officeHoursLabel() {
 }
 // ── ROUTING SWITCH ─────────────────────────────────────────────────────────
 // Markets where Talk to Someone / Send a Message reaches the local team.
-// Every other market still gets Ari's answers, but the form sends renters to
+// Every other market still gets Miles's answers, but the form sends renters to
 // Help in the Lyft Driver app until that market's rollout wave launches.
 // The live list comes from the backend (Code.gs routing switch) when the page loads.
 // This is only the fallback if that call fails, so nothing needs editing here to launch a market.
-// Nov 9 2026: live markets are PDX, LAX, SFO, SAN, PHX, IAH, BWI (Ari code BAL). Keep in sync with BASE_ROUTED in Code.gs.
+// Nov 9 2026: live markets are PDX, LAX, SFO, SAN, PHX, IAH, BWI (Miles code BAL). Keep in sync with BASE_ROUTED in Code.gs.
 var ROUTING_ON = { PDX: 1, LAX: 1, SFO: 1, SAN: 1, PHX: 1, IAH: 1, BAL: 1 };
 (function loadRouting() {
   try {
@@ -8054,7 +8110,7 @@ function renderAppHelpNotice() {
 }
 
 // ── CONTACT GATE ───────────────────────────────────────────────────────────
-// Every Ari market has a support inbox, so any known market can use the form.
+// Every Miles market has a support inbox, so any known market can use the form.
 // With NO market set we ask which office they rent from (a renter's market is
 // where they RENT, not where they are: an LAX renter may drive in Sacramento).
 function promptRentalOffice(mode) {
@@ -8062,6 +8118,7 @@ function promptRentalOffice(mode) {
     renderMessage('user', VENDORS[code].regionName);
     userRegion = code;
     try { logSession(code, VENDORS[code].regionName); } catch (e) {}
+    updateOfficeChip();
     openContactModal(mode);
   }, function() {
     renderMessage('user', "My office isn't listed");
@@ -8952,6 +9009,7 @@ function startOver() {
  conversationHistory = [];
  lastMatch = null;
  userRegion = null;
+ updateOfficeChip();
  awaitingLocation = true;
  userInput.disabled = true;
  userInput.placeholder = 'Choose your office above...';
