@@ -1811,6 +1811,16 @@
 .conversation-help-menu { background:var(--composer-surface); border-radius:18px; padding:10px; box-shadow:0 12px 32px rgba(15,64,106,.22); }
 body:has(.conversation-help[open]) .holman-fab, body:has(.conversation-help[open]) .holman-tooltip, body:has(#contactModal.open) .holman-fab, body:has(#contactModal.open) .holman-tooltip { opacity:0 !important; pointer-events:none !important; }
 
+/* Drop-off button: a primary action, not a quiet link. */
+.chat-area .miles-dropoff-button { background:var(--navy); color:#fff; border-color:var(--navy); font-weight:600; }
+.chat-area .miles-dropoff-button:hover { background:var(--pink); border-color:var(--pink); color:#fff; }
+.msg-row .miles-dropoff-actions { margin:8px 0 0; max-width:100%; }
+
+/* Office name in the header: plain text, no pill or arrow (still tappable to change office). */
+.header .office-chip, .conversation-tools .office-chip { background:none; border:none; border-radius:0; box-shadow:none; padding:6px 4px; font-weight:600; }
+.header .office-chip:hover, .header .office-chip:active { background:none; opacity:.8; }
+.header .office-chip:focus-visible { outline:2px solid var(--pink); outline-offset:2px; border-radius:4px; }
+
 </style>
 </head>
 <body>
@@ -1837,7 +1847,7 @@ body:has(.conversation-help[open]) .holman-fab, body:has(.conversation-help[open
      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
      <span class="btn-lang">Translate</span>
    </button>
-   <button class="office-chip" id="officeChip" onclick="changeOffice()" aria-label="Change your office"><span id="officeChipName"></span>&nbsp;&#9662;</button>
+   <button class="office-chip" id="officeChip" onclick="changeOffice()" aria-label="Change your office"><span id="officeChipName"></span></button>
  </div>
  <!-- CHAT -->
  <div class="chat-area" id="chatArea"></div>
@@ -8542,7 +8552,13 @@ function openContactModal(mode) {
       '<option value="EV / charging issue">EV / charging issue</option>' +
       '<option value="Background check / deactivation">Background check / deactivation</option>' +
       '<option value="Other">Other</option>';
-  if (isDropoff) {
+  if (isDropoff && userRegion !== 'SAN') {
+    // Staffed markets: the regular message form with "Drop-off" pre-selected (no guided photo flow).
+    reasonSelect.value = 'Drop-off';
+    handleReasonChange('Drop-off');
+    var _tN = document.getElementById('modalTitle');
+    if (_tN) { _tN.textContent = 'Return / Drop Off a Vehicle'; _tN.style.color = '#0F406A'; }
+  } else if (isDropoff) {
     reasonSelect.value = 'Vehicle drop-off';
     handleReasonChange('Vehicle drop-off');
     var _m = document.getElementById('cf-message');
@@ -8792,8 +8808,7 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment, r
  form.append('payload', JSON.stringify(payload));
 
  // Standalone build: post straight to the Apps Script deployment (no Lovable proxy). A text/plain POST with
- // no custom headers avoids a CORS preflight, and Apps Script's JSON reply can be read, so receipt is confirmed
- // ({status:'success'}) rather than assumed.
+ // no custom headers avoids a CORS preflight, and Apps Script's JSON reply can be read, so receipt is confirmed.
  fetch(APPS_SCRIPT_URL, {
  method: 'POST',
  body: JSON.stringify(payload),
@@ -9811,6 +9826,36 @@ function clearAttachment() {
     } catch (e) {}
     return result;
   };
+  // Returns / drop-offs: after the answer, a bubble with a button straight to the drop-off form
+  // (San Diego: guided photo drop-off; other markets: message form with "Drop-off" pre-selected).
+  var RETURN_TOPICS = { 'Return vehicle / end rental': 1, 'Return fees estimate': 1, 'Gas / fuel level at return': 1 };
+  var RETURN_TEXT = /\b(return|returning|drop.?off|dropping off|drop (it|the car|my car|the vehicle) off|turn in|turning in|bring (it|the car|my car) back|end (my |the )?rental|devolver|regresar|entregar)\b/i;
+  var NOT_DROPOFF = /\b(charged|deposit|refund|bonus|reimburs|after (i|my) return)/i;
+  var baseLogTopic = window.logTopic;
+  window.logTopic = function (topic) {
+    var result = baseLogTopic.apply(this, arguments);
+    try {
+      var last = '';
+      for (var i = sessionLog.length - 1; i >= 0; i--) { if (sessionLog[i].role === 'user') { last = sessionLog[i].text || ''; break; } }
+      if ((RETURN_TOPICS[topic] || RETURN_TEXT.test(last)) && !NOT_DROPOFF.test(last)) setTimeout(addDropoffBubble, 700);
+    } catch (e) {}
+    return result;
+  };
+  function addDropoffBubble() {
+    document.querySelectorAll('.miles-dropoff-row').forEach(function (el) { el.remove(); });
+    var es = window.milesLang === 'es', san = userRegion === 'SAN';
+    var wrap = document.createElement('div'); wrap.className = 'miles-handoff-actions miles-dropoff-actions';
+    var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'quick-btn miles-handoff-button miles-dropoff-button';
+    btn.textContent = es ? 'Devolver / entregar mi vehículo' : 'Return / drop off my vehicle';
+    btn.onclick = function () { openContactModal('dropoff'); };
+    wrap.appendChild(btn);
+    var text = es
+      ? (san ? '¿Vas a dejar tu vehículo? Usa el formulario de entrega para enviar tu placa y fotos.' : '¿Vas a devolver tu vehículo? Avísale a tu oficina con el formulario de entrega.')
+      : (san ? 'Dropping off your vehicle? Use the drop-off form to send your plate number and photos.' : 'Returning your vehicle? Let your office know with the drop-off form.');
+    renderMessage('assistant', text, wrap);
+    var rows = chatArea.querySelectorAll('.msg-row.assistant'); var row = rows[rows.length - 1];
+    if (row) row.classList.add('miles-dropoff-row');
+  }
   function addTalkButton() {
     chatArea.querySelectorAll('.miles-handoff-actions').forEach(function (el) { el.remove(); });
     var wrap = document.createElement('div'); wrap.className = 'miles-handoff-actions';
@@ -9954,7 +9999,7 @@ function clearAttachment() {
       if(!reason.value){
         var suggested=MilesFormRules.suggestedReason(message.value,userRegion);
         if(suggested&&Array.from(reason.options).some(function(o){return o.value===suggested;})){reason.value=suggested;onReasonSelect(suggested);hint.hidden=false;}
-      } else hint.hidden=false;
+      } else if(mode!=='dropoff') hint.hidden=false;
     },80);
   };
 })();
