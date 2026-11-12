@@ -3225,9 +3225,19 @@ function flashScrollBtn() {
 // Scroll so the new bot message appears at the top of the chat area
 function scrollToElement(el) {
   try {
-    // offsetTop is layout-stable; getBoundingClientRect can be stale before paint
-    var targetTop = el.offsetTop - 8;
-    chatArea.scrollTo({ top: targetTop, behavior: 'smooth' });
+    // Measure against the chat area itself. offsetTop is relative to the nearest positioned parent, so for
+    // anything placed inside an answer (drop-off button, chips) it was tiny and the chat jumped to the top.
+    var target = chatArea.scrollTop + (el.getBoundingClientRect().top - chatArea.getBoundingClientRect().top) - 8;
+    var max = chatArea.scrollHeight - chatArea.clientHeight;
+    // Extras under an answer (chips, buttons, vendor cards) never push the start of that answer off screen.
+    if (!(el.classList && el.classList.contains('msg-row'))) {
+      var rows = chatArea.querySelectorAll('.msg-row.assistant'), last = rows[rows.length - 1];
+      if (last && !last.contains(el) && last.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING || last && last.contains(el)) {
+        var cap = chatArea.scrollTop + (last.getBoundingClientRect().top - chatArea.getBoundingClientRect().top) - 8;
+        target = Math.min(target, cap);
+      }
+    }
+    chatArea.scrollTo({ top: Math.max(0, Math.min(target, max)), behavior: 'smooth' });
   } catch(e) {
     chatArea.scrollTop = chatArea.scrollHeight;
   }
