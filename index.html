@@ -4038,12 +4038,7 @@ function renderTyping(thinkingText) {
 
   bubbleWrap.appendChild(indicator);
 
-  if (thinkingText) {
-    var label = document.createElement('div');
-    label.className = 'typing-thinking';
-    label.textContent = thinkingText;
-    bubbleWrap.appendChild(label);
-  }
+  // Dots only: no "Finding the details..." style text under the typing dots.
 
   row.appendChild(avatar);
   row.appendChild(bubbleWrap);
@@ -9874,7 +9869,7 @@ function clearAttachment() {
   contactOptions.appendChild(human); contact.appendChild(contactOptions);
   var roadside=section('Roadside 24/7');
   var roadsideOptions=document.createElement('div'); roadsideOptions.className='support-options';
-  [['Call Holman · (833) 274-5938','tel:8332745938'],['Immediate danger · Call 911','tel:911']].forEach(function(item) {
+  [['Call Holman · (833) 274-5938','tel:8332745938']].forEach(function(item) {
     var link=document.createElement('a'); link.className='support-choice support-label'; link.textContent=item[0]; link.href=item[1]; roadsideOptions.appendChild(link);
   });
   roadside.appendChild(roadsideOptions);
