@@ -3385,7 +3385,7 @@ var FOLLOWUP_QUESTIONS = {
  "Return vehicle / end rental": ["What do I need to return the car?","Can I return after hours?","When does my contract officially close?"],
  "Swaps": ["What is remarketing?","What if my car has a mechanical issue?","How do I schedule a swap appointment?"],
  "Flat tire": ["Is my flat tire covered?","Who do I call for roadside?","How do I avoid being charged for a flat?"],
- "Roadside assistance / Holman / towing / lockout": ["What is Holman's number?","Will I be charged for roadside?","What if I'm locked out?"],
+ "Roadside assistance / Holman / towing / lockout": ["Will I be charged for roadside?","What if I'm locked out?"],
  "Windshield / glass damage": ["Does CDW cover glass damage?","Who do I call for windshield repair?","How much does glass damage cost without CDW?"],
  "Dashboard maintenance light / check engine": ["Where should I take the car?","What lights are urgent?","Who do I call if the car is unsafe?"],
  "Oil change / maintenance location": ["How do I find an approved vendor?","What do I say at the shop?","Is oil change covered?"],
@@ -7444,7 +7444,7 @@ function sendMessage() {
  if (!text || isTyping) { window.__milesTyped = false; return; }
 
   // Emergency shortcut — show Holman banner instantly before typing delay
-  if (EMERGENCY_REGEX.test(text)) showEmergencyBanner();
+  // Floating pink Holman 24/7 button retired: Holman is already in the answer, the safety card and Support > Roadside 24/7.
 
 
  renderMessage('user', text);
@@ -10525,6 +10525,10 @@ function clearAttachment() {
       chips(es()?'También preguntaste':'You also asked', [{label:also.text,query:also.text}], delay);
     } else if (!skipFollowups && !es()) {
       var qs=(typeof lastMatch!=='undefined' && lastMatch && typeof FOLLOWUP_QUESTIONS!=='undefined') ? FOLLOWUP_QUESTIONS[lastMatch.topic] : null;
+      // Skip suggestions that just repeat what the driver asked (e.g. "locked out" -> "What if I'm locked out?").
+      var lastQ=''; for (var li=sessionLog.length-1; li>=0; li--) { if (sessionLog[li].role==='user') { lastQ=String(sessionLog[li].text||'').toLowerCase(); break; } }
+      var askedWords=lastQ.replace(/[^a-z0-9' ]/g,' ').split(/\s+/).filter(function(w){ return w.length>2; });
+      if (qs) qs=qs.filter(function(q){ var ql=q.toLowerCase(); return !(askedWords.length>=2 && askedWords.every(function(w){ return ql.indexOf(w)>=0; })); });
       if (qs && qs.length) chips('People also ask', qs.slice(0,3).map(function(q){ return {label:q,query:q}; }), delay);
     }
     skipFollowups=false;
@@ -10596,7 +10600,7 @@ function clearAttachment() {
      title:'Vehicle swap request', offer:'Request a vehicle swap',
      steps:[
        {key:'plate', label:'License plate', q:'What’s the license plate on your current car? (Type it below.)', text:true},
-       {key:'why', label:'Why', q:'Why do you need a swap?', choices:['Mechanical problem','Damage','Too small / wrong type','Other']},
+       {key:'why', label:'Why', q:'Why do you need a swap?', choices:['Mechanical problem','Damage','Other']},
        {key:'drivable', label:'Drivable', q:'Is the car safe to drive right now?', choices:['Yes','No']}]},
     {id:'charge', reason:'Billing question', re:/\b(dispute|charged twice|double charged?|duplicate (billing )?charge|overcharged|wrong charge|refund (a|my|the) charge|billing question|mileage dispute|miles (that )?look wrong|dispute my miles|miles i didn'?t use|personal miles that)\b/i,
      title:'Charge review request', offer:'Ask my office to review a charge',
@@ -10662,7 +10666,18 @@ function clearAttachment() {
     renderMessage('user', val);
     active.answers[active.flow.steps[active.i].key]=val; active.i++;
     if (active.i<active.flow.steps.length) { setTimeout(ask, 350); return; }
-    var flow=active.flow, text=R.summary(flow, active.answers); active=null;
+    var flow=active.flow, text=R.summary(flow, active.answers), unsafe=(flow.id==='swap' && active.answers.drivable==='No'); active=null;
+    if (unsafe) {
+      // Not safe to drive: roadside first, then the office still gets the swap request.
+      setTimeout(function(){
+        renderMessage('assistant','Since the car isn\u2019t safe to drive, please don\u2019t drive it. Call Holman at (833) 274-5938 \u2014 available 24/7 \u2014 for roadside help or a tow. I\u2019ll still send your swap request to your office.');
+        setTimeout(function(){
+          renderMessage('assistant','Your request is filled in below; just add your contact info and send.');
+          setTimeout(function(){ fill(flow, text); }, reduce?0:600);
+        }, reduce?0:900);
+      }, 350);
+      return;
+    }
     setTimeout(function(){
       renderMessage('assistant','Thanks — that’s everything your office needs. I’ve filled in the message for you; just add your contact info and send.');
       setTimeout(function(){ fill(flow, text); }, reduce?0:600);
