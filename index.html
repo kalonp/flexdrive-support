@@ -4718,7 +4718,7 @@ function renderDepositAccordion() {
  '<div class="ac-callout info"><strong>ARN Tracking (Visa & Mastercard Only)</strong>An Acquirer Reference Number (ARN) for bank tracking becomes available within 1–3 days of the refund being initiated. You can provide this to your bank to trace the transaction.</div>',
  '<div class="ac-section-label">Check Your Deposit Status</div>',
  '<div class="ac-callout info">In the Lyft Driver app: Main menu → Vehicles and Devices → Your Vehicles → See details on your Express Drive rental → Rental deposit.</div>',
- (userRegion === 'SAN' ? '<div class="ac-callout warn"><strong>San Diego Returns</strong>San Diego is on a reduced schedule, so your return is finalized when our team closes your contract, which may be a few days after you drop off. The 2-week refund timeline (and the up-to-45-day timeline for closed accounts) starts then. Your contract is backdated to your drop-off day, so you are not charged for the gap.</div>' : '')
+ (isUnstaffed(userRegion) ? '<div class="ac-callout warn"><strong>Returns at This Office</strong>This office is on a reduced schedule, so your return is finalized when our team closes your contract, which may be a few days after you drop off. The 2-week refund timeline (and the up-to-45-day timeline for closed accounts) starts then. Your contract is backdated to your drop-off day, so you are not charged for the gap.</div>' : '')
  ].join(''));
 
  // ── 2. WHERE THE REFUND GOES ──────────────────────────────────
@@ -4736,8 +4736,8 @@ function renderDepositAccordion() {
  // ── 3. HAVEN'T RECEIVED IT? ───────────────────────────────────
  makeAccordionItem(c, 'Haven\'t Received Your Deposit?', '', [
  '<div class="ac-section-label">Steps to Take</div>',
- (userRegion === 'SAN'
-   ? '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body"><strong>Confirm your return has been finalized</strong> — San Diego returns are finalized when our team closes your contract. It is backdated to your drop-off day.</div></div>'
+ (isUnstaffed(userRegion)
+   ? '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body"><strong>Confirm your return has been finalized</strong> — Returns at this office are finalized when our team closes your contract. It is backdated to your drop-off day.</div></div>'
    : '<div class="ac-step"><div class="ac-step-num">1</div><div class="ac-step-body"><strong>Confirm your contract is officially closed</strong> — charges continue until the vehicle is processed, not just when you drop the key.</div></div>'),
  '<div class="ac-step"><div class="ac-step-num">2</div><div class="ac-step-body"><strong>Allow the full timeline</strong> — about 2 weeks after the return is finalized, plus 5–7 business days for your bank to post it.</div></div>',
  '<div class="ac-step"><div class="ac-step-num">3</div><div class="ac-step-body"><strong>Contact your bank</strong> and give them your ARN to trace the refund. Ask us for it through Talk to Someone (Visa and Mastercard only).</div></div>',
@@ -7213,7 +7213,7 @@ function findFuzzySuggestions(userText) {
 function findCardAnswer(text) {
  var lower = normalizeForMatch(text).trim();
  // Whole-message rental requests ("Rental", "Car rental", "Booking"): logged unmatched in SFO Oct-Nov 2026.
- if (userRegion !== 'SAN' && /^(car rental|rental|rent|renting|renting a car|rent a car|booking|book a car|book a rental|get a rental|would like to get (a )?rental|i would like (to get )?a rental|i want a rental|i want to rent( a car)?|i would like to rent( a car)?|new rental|how do i rent( a car)?)[.!? ]*$/.test(lower)) {
+ if (!isUnstaffed(userRegion) && /^(car rental|rental|rent|renting|renting a car|rent a car|booking|book a car|book a rental|get a rental|would like to get (a )?rental|i would like (to get )?a rental|i want a rental|i want to rent( a car)?|i would like to rent( a car)?|new rental|how do i rent( a car)?)[.!? ]*$/.test(lower)) {
    return { a: "Flexdrive rentals are set up through the Lyft Driver App, and your Lyft earnings go toward the weekly rental cost first. Ask me about what you need to rent, picking up your car, or what\u2019s included.", showVendorBtn: false, sendMsgBtn: false, topic: "What is Flexdrive / Express Drive" };
  }
  for (var i = 0; i < CARD_ANSWERS.length; i++) {
@@ -7653,7 +7653,7 @@ function sendMessage() {
  if (match.myOfficeCard && office) {
  var regionData = VENDORS[userRegion];
  var officeMsg = 'Your Flexdrive office:\n' + office.address + '\nHours: ' + office.hours;
-        if (userRegion === 'SAN') { officeMsg = 'San Diego is currently unstaffed — drop-off & remote support only.'; }
+        if (isUnstaffed(userRegion)) { officeMsg = officeShortName(userRegion) + ' is currently unstaffed — drop-off & remote support only.'; }
  else if (regionData) officeMsg += '\n' + (regionData.hasTolls ? 'Toll charges may apply to your account.' : 'No tolls in this region.');
  removeTyping();
  renderMessage('assistant', officeMsg);
@@ -7738,8 +7738,8 @@ function sendMessage() {
  var accordion = renderEVAccordion();
  renderMessage('assistant', responseText, accordion);
  } else if (match.inspectionAccordion) {
- if (userRegion === 'SAN') {
- renderMessage('assistant', 'San Diego inspections:\n\n• Telematics-based reminders — just keep driving your vehicle normally and the reminder will clear on its own.\n\n• Annual inspections — these are completed at one of your approved vendor options. Ask me to "find a maintenance vendor" for your San Diego list.');
+ if (isUnstaffed(userRegion)) {
+ renderMessage('assistant', officeShortName(userRegion) + ' inspections:\n\n• Telematics-based reminders — just keep driving your vehicle normally and the reminder will clear on its own.\n\n• Annual inspections — these are completed at one of your approved vendor options. Ask me to "find a maintenance vendor" for your San Diego list.');
  } else {
  var inspectionAccordion = renderInspectionAccordion();
  renderMessage('assistant', responseText, inspectionAccordion);
@@ -8028,8 +8028,9 @@ function appendLocationRow(msgText, locPrompt) {
   scrollToElement(row);
 }
 
-function renderSanScreen() {
-  var notice = "\uD83D\uDE97 San Diego is temporarily drop-off & remote support only. We're not renting new vehicles here right now and there's no on-site staff \u2014 but we're here to help. Returns are checked about once a week.\n\nWhat would you like to do?";
+function renderSanScreen(code) {
+  code = code || 'SAN';
+  var notice = "\uD83D\uDE97 " + officeShortName(code) + " is temporarily drop-off & remote support only. We're not renting new vehicles here right now and there's no on-site staff \u2014 but we're here to help." + (code === 'SAN' ? " Returns are checked about once a week." : "") + "\n\nWhat would you like to do?";
   var wrap = document.createElement('div');
   wrap.style.cssText = 'display:flex;flex-direction:column;gap:10px;margin-top:10px;';
   var b1 = document.createElement('button');
@@ -8042,9 +8043,9 @@ function renderSanScreen() {
   b2.onclick = function() { openContactModal('talk'); };
   wrap.appendChild(b1); wrap.appendChild(b2);
   wrap.appendChild(makeChangeOfficeLink());
-  notice = "Sun, surf, and support \u2014 America's Finest City drivers, we've got you covered.\n\n" + notice;
+  if (code === 'SAN') notice = "Sun, surf, and support \u2014 America's Finest City drivers, we've got you covered.\n\n" + notice;
   renderMessage('assistant', notice, wrap);
-  logSession('SAN', VENDORS['SAN'].regionName);
+  logSession(code, VENDORS[code].regionName);
   updateOfficeChip();
   userInput.disabled = false;
   userInput.placeholder = 'Ask a question...';
@@ -8070,7 +8071,7 @@ function handleLocationInput(locationText) {
  if (region && VENDORS[region]) {
  userRegion = region;
  awaitingLocation = false;
- if (region === 'SAN') { renderSanScreen(); return; }
+ if (isUnstaffed(region)) { renderSanScreen(region); return; }
  var regionData = VENDORS[region];
 
  // Confirm region — LAX gets both office locations
@@ -8560,6 +8561,13 @@ function _officeHoursLabel() {
 // This is only the fallback if that call fails, so nothing needs editing here to launch a market.
 // Nov 9 2026: live markets are PDX, LAX, SFO, SAN, PHX, IAH, BWI (Miles code BAL). Keep in sync with BASE_ROUTED in Code.gs.
 var ROUTING_ON = { PDX: 1, LAX: 1, SFO: 1, SAN: 1, PHX: 1, IAH: 1, BAL: 1 };
+// Unstaffed mode (drop-off & remote support only, like San Diego). The live list comes from the
+// Market Settings tab in the chatbot Sheet (checkbox per market), via the same ?action=routing call.
+// This is only the fallback if that call fails or the tab isn't set up yet.
+var MILES_UNSTAFFED = { SAN: 1 };
+var MILES_RETURN_INFO = {};
+function isUnstaffed(code) { return !!(code && MILES_UNSTAFFED[code]); }
+function officeShortName(code) { var v = VENDORS[code]; return v && v.regionName ? v.regionName.split(',')[0] : 'This office'; }
 (function loadRouting() {
   try {
     fetch(APPS_SCRIPT_URL + '?action=routing')
@@ -8567,6 +8575,10 @@ var ROUTING_ON = { PDX: 1, LAX: 1, SFO: 1, SAN: 1, PHX: 1, IAH: 1, BAL: 1 };
       .then(function(d) {
         if (d && Array.isArray(d.routed) && d.routed.length) {
           var m = {}; d.routed.forEach(function(c) { m[c] = 1; }); ROUTING_ON = m;
+        }
+        if (d && d.markets && Array.isArray(d.markets.unstaffed)) {
+          var u = {}; d.markets.unstaffed.forEach(function(c) { u[c] = 1; }); MILES_UNSTAFFED = u;
+          MILES_RETURN_INFO = (d.markets.returnInfo && typeof d.markets.returnInfo === 'object') ? d.markets.returnInfo : {};
         }
       })
       .catch(function() {});
@@ -8689,7 +8701,7 @@ function openContactModal(mode) {
     reasonSelect.innerHTML =
       '<option value="">-- Select a reason --</option>' +
       '<option value="Pick-up">Pick-up</option>' +
-      (userRegion === 'SAN'
+      (isUnstaffed(userRegion)
         ? '<option value="Vehicle drop-off">Vehicle drop-off / return 📷</option>'
         : '<option value="Drop-off">Drop-off</option>') +
       '<option value="Documents or photos">Send a receipt, photos or documents 📷</option>' +
@@ -8702,7 +8714,7 @@ function openContactModal(mode) {
       '<option value="EV / charging issue">EV / charging issue</option>' +
       '<option value="Background check / deactivation">Background check / deactivation</option>' +
       '<option value="Other">Other</option>';
-  if (isDropoff && userRegion !== 'SAN') {
+  if (isDropoff && !isUnstaffed(userRegion)) {
     // Staffed markets: the regular message form with "Drop-off" pre-selected (no guided photo flow).
     reasonSelect.value = 'Drop-off';
     handleReasonChange('Drop-off');
@@ -8716,7 +8728,7 @@ function openContactModal(mode) {
     var _t = document.getElementById('modalTitle');
     var _s = document.getElementById('modalSubtitle');
     if (_t) { _t.textContent = 'Return / Drop Off a Vehicle'; _t.style.color = '#0F406A'; }
-    if (_s) _s.textContent = 'Log your San Diego drop-off';
+    if (_s) _s.textContent = 'Log your ' + officeShortName(userRegion) + ' drop-off';
     document.getElementById('dropoff-photos').style.display = 'block';
     var _afD = document.getElementById('attach-field'); if (_afD) _afD.style.display = 'none';
     dropoffPhotos = {};
@@ -8974,7 +8986,7 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment, r
     } else {
       successEl.innerHTML = 'Your message has been logged. No reply will be sent.<br><br><strong>' + _officeHoursLabel() + '</strong>';
     }
-    if (userRegion === 'SAN') {
+    if (isUnstaffed(userRegion)) {
       successEl.innerHTML = responsePref === 'yes'
         ? 'Your message has been sent. Our remote support team will follow up by email.'
         : 'Your message has been logged. No reply will be sent.';
@@ -9533,7 +9545,7 @@ var DROPOFF_SLOTS = [
 ];
 var dropoffPhotos = {};
 function onReasonSelect(v) {
-  if (v === 'Vehicle drop-off' || (userRegion === 'SAN' && v === 'Drop-off')) { enterDropoffMode(); return; }
+  if (v === 'Vehicle drop-off' || (isUnstaffed(userRegion) && v === 'Drop-off')) { enterDropoffMode(); return; }
   exitDropoffMode();
   handleReasonChange(v);
 }
@@ -9791,7 +9803,7 @@ function clearAttachment() {
     pendingOffice=null; userRegion=code; lastMatch=null; window.milesChangingOffice=false; enableChat(); updateOfficeChip();
     document.querySelectorAll('.office-setup').forEach(function(el) { el.remove(); });
     var message='Got it — your rental office is '+VENDORS[code].regionName+'. What can I help you with?';
-    if (code==='SAN') message='Got it — San Diego. That office currently handles drop-offs and remote support only, with no new rentals or on-site staff. What can I help you with?';
+    if (isUnstaffed(code)) message='Got it — '+officeShortName(code)+'. That office currently handles drop-offs and remote support only, with no new rentals or on-site staff. What can I help you with?';
     if (!silent) rememberBot(message);
     // Keep original session reporting, but never include GPS coordinates.
     try { logSession(code,VENDORS[code].regionName); } catch(e) {}
@@ -9862,7 +9874,7 @@ function clearAttachment() {
     if (confirmed) {
       acceptOffice(confirmed,true); window.milesChangingOffice=false;
       window.milesOfficeReply='Got it — your rental office is '+VENDORS[confirmed].regionName+'. What can I help you with?';
-      if (confirmed==='SAN') window.milesOfficeReply='Got it — San Diego. That office currently handles drop-offs and remote support only, with no new rentals or on-site staff. What can I help you with?';
+      if (isUnstaffed(confirmed)) window.milesOfficeReply='Got it — '+officeShortName(confirmed)+'. That office currently handles drop-offs and remote support only, with no new rentals or on-site staff. What can I help you with?';
       return true;
     }
     if (/^(no|nope|different office)[.!\s]*$/i.test(text.trim())) pendingOffice=null;
@@ -9993,7 +10005,7 @@ function clearAttachment() {
   };
   function addDropoffBubble() {
     document.querySelectorAll('.miles-dropoff-row').forEach(function (el) { el.remove(); });
-    var es = window.milesLang === 'es', san = userRegion === 'SAN';
+    var es = window.milesLang === 'es', san = isUnstaffed(userRegion);
     var wrap = document.createElement('div'); wrap.className = 'miles-handoff-actions miles-dropoff-actions';
     var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'quick-btn miles-handoff-button miles-dropoff-button';
     btn.textContent = es ? 'Devolver / entregar mi vehículo' : 'Return / drop off my vehicle';
@@ -10153,11 +10165,12 @@ function clearAttachment() {
     ['Account & protection','Background check / deactivation','Account access or deactivation'],
     ['Something else','Other','Something else']
   ];
+  function unstaffed(region) { return (typeof window!=='undefined' && typeof window.isUnstaffed==='function') ? window.isUnstaffed(region) : region==='SAN'; }
   function reasonsFor(region) {
     return REASONS.filter(function(r){
-      if(r[1]==='Vehicle drop-off')return region==='SAN';
-      if(r[1]==='Drop-off')return region!=='SAN';
-      return region!=='SAN'||['Pick-up','Vehicle swap / replacement request'].indexOf(r[1])===-1;
+      if(r[1]==='Vehicle drop-off')return unstaffed(region);
+      if(r[1]==='Drop-off')return !unstaffed(region);
+      return !unstaffed(region)||['Pick-up','Vehicle swap / replacement request'].indexOf(r[1])===-1;
     }).map(function(r){return {group:r[0],value:r[1],label:r[2]};});
   }
   function replyPreference(noReply) { return noReply ? 'no' : 'yes'; }
@@ -10175,7 +10188,7 @@ function clearAttachment() {
     if (/ticket|citation/.test(t) && /\bcop(y|ies)\b/.test(t)) return 'Other';
     if (/ticket|citation/.test(t)) return 'Documents or photos';
     if (/charge|billing|payment|bill|charged/.test(t)) return 'Billing question';
-    if (/return|drop.?off/.test(t)) return region==='SAN' ? 'Vehicle drop-off' : 'Drop-off';
+    if (/return|drop.?off/.test(t)) return unstaffed(region) ? 'Vehicle drop-off' : 'Drop-off';
     if (/swap|replacement/.test(t)) return 'Vehicle swap / replacement request';
     if (/\ba\/?c\b|air condition|heater|\bno heat\b|trunk|door won|window won|window stuck/.test(t)) return 'Vehicle swap / replacement request';
     if (/charging|electric|\bev\b/.test(t)) return 'EV / charging issue';
@@ -10236,7 +10249,7 @@ function clearAttachment() {
   var label=document.createElement('label');label.className='form-no-reply';
   var checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.id='cf-no-reply';
   label.append(checkbox,document.createTextNode('No reply needed'));reply.append(explanation,label);emailField.after(reply);
-  function syncReply(){pref.value=MilesFormRules.replyPreference(checkbox.checked);handleResponsePrefChange(pref.value);explanation.textContent=checkbox.checked?'Your request will be logged without an email reply.':userRegion==='SAN'?'The support team will reply to your Lyft email address.':'The team will reply to your Lyft email address during office hours.';}
+  function syncReply(){pref.value=MilesFormRules.replyPreference(checkbox.checked);handleResponsePrefChange(pref.value);explanation.textContent=checkbox.checked?'Your request will be logged without an email reply.':isUnstaffed(userRegion)?'The support team will reply to your Lyft email address.':'The team will reply to your Lyft email address during office hours.';}
   checkbox.addEventListener('change',syncReply);
   var safety=document.createElement('p');safety.className='form-safety';
   safety.innerHTML='Not monitored for emergencies. For fire or immediate danger, call <a href="tel:911">911</a>. For roadside help, call <a href="tel:8332745938">Holman 24/7</a>.';
@@ -10251,15 +10264,15 @@ function clearAttachment() {
      refreshReasons();
     if(movingDraft){
       ['cf-name','cf-email','cf-phone','cf-message','cf-response-pref'].forEach(function(id){document.getElementById(id).value=movingDraft[id];});
-      var value=movingDraft['cf-reason'];if(userRegion==='SAN'&&value==='Drop-off')value='Vehicle drop-off';if(userRegion!=='SAN'&&value==='Vehicle drop-off')value='Drop-off';
+      var value=movingDraft['cf-reason'];if(isUnstaffed(userRegion)&&value==='Drop-off')value='Vehicle drop-off';if(!isUnstaffed(userRegion)&&value==='Vehicle drop-off')value='Drop-off';
       if(Array.from(reason.options).some(function(o){return o.value===value;})){reason.value=value;onReasonSelect(value);}
       movingDraft=null;
     }
     officeName.textContent=VENDORS[userRegion].regionName;
      document.getElementById('modalTitle').textContent=mode==='dropoff'?'Return my car':'Message the team';
     document.getElementById('modalSubtitle').textContent='Review your request before sending';
-    hours.hidden=userRegion==='SAN';
-    hours.textContent=userRegion==='SAN'?'':'Office hours: '+_officeHoursLabel();
+    hours.hidden=isUnstaffed(userRegion);
+    hours.textContent=isUnstaffed(userRegion)?'':'Office hours: '+_officeHoursLabel();
     checkbox.checked=pref.value==='no';syncReply();
     referenceValue.textContent=currentClientId||'';
     hint.hidden=true;
@@ -10570,7 +10583,7 @@ function clearAttachment() {
       }
     }
     var bubble=baseRender.call(this,role,content,extra,arguments[3]);
-    if (role==='assistant' && bubble && typeof userRegion!=='undefined' && userRegion==='SAN') { try { dropSanHours(bubble); } catch(e) {} }
+    if (role==='assistant' && bubble && typeof userRegion!=='undefined' && isUnstaffed(userRegion)) { try { dropSanHours(bubble); } catch(e) {} }
     // Apply the office's closing time before the type-out effect copies the text, or it would restore 9AM-5PM.
     if (role==='assistant' && bubble && window.milesLocalizeHours) { try { window.milesLocalizeHours(bubble); if (extra && extra.nodeType===1) window.milesLocalizeHours(extra); } catch(e) {} }
     if (role==='assistant' && bubble && !reduce) { try { stream(bubble, extra); } catch(e) {} }
@@ -10841,8 +10854,10 @@ function clearAttachment() {
     SAN:{parking:null, dropbox:null}
   };
   var VIRTUAL_RETURN=Object.keys(RETURN_MARKETS);
-  function virtualReturn(region) { return Object.prototype.hasOwnProperty.call(RETURN_MARKETS, region); }
-  function returnDirections(region) { var m=RETURN_MARKETS[region]; return m ? {parking:m.parking||null, dropbox:m.dropbox||null} : null; }
+  function unstaffed(region) { return (typeof window!=='undefined' && typeof window.isUnstaffed==='function') ? window.isUnstaffed(region) : Object.prototype.hasOwnProperty.call(RETURN_MARKETS, region); }
+  function virtualReturn(region) { return unstaffed(region); }
+  // Directions come from the Market Settings tab when filled in, otherwise from RETURN_MARKETS above.
+  function returnDirections(region) { var live=(typeof window!=='undefined' && window.MILES_RETURN_INFO) ? window.MILES_RETURN_INFO[region] : null; var m=live || RETURN_MARKETS[region]; return m ? {parking:m.parking||null, dropbox:m.dropbox||null} : null; }
   // Photos the driver should take, shown in chat right before the photo form opens.
   var PHOTO_CHECKLIST={
     en:['Dashboard: odometer and gas/charge level','All 4 corners of the outside','Front and back seats, and the trunk','The key going into the drop box'],
@@ -10871,8 +10886,8 @@ function clearAttachment() {
   function offerLabel(f, lang) { return lang==='es'&&OFFER_ES[f.id]?OFFER_ES[f.id]:f.offer; }
   // San Diego has no staff on site: support and returns only, no new rentals, swaps or extensions.
   var SAN_BLOCKED=/\b(swap|switch|exchange|replace(ment)?|extend|extension|renew|new (car|rental|vehicle)|rent (a|another|again|a new)|(get|need|want) (a|another) (car|rental|vehicle)|pick ?up (a|my) (car|vehicle)|picking up)\b/i;
-  function sanBlocked(region, text) { return region==='SAN' && SAN_BLOCKED.test(String(text||'')); }
-  function topicsFor(region) { return region==='SAN' ? TOPICS.filter(function(t){ return t.flow!=='swap' && t.flow!=='extend'; }) : TOPICS; }
+  function sanBlocked(region, text) { return unstaffed(region) && SAN_BLOCKED.test(String(text||'')); }
+  function topicsFor(region) { return unstaffed(region) ? TOPICS.filter(function(t){ return t.flow!=='swap' && t.flow!=='extend'; }) : TOPICS; }
   function requestFor(text) {
     var t=String(text||'');
     for (var i=0;i<FLOWS.length;i++) if (FLOWS[i].re.test(t)) return FLOWS[i];
@@ -10949,7 +10964,7 @@ function clearAttachment() {
   function sanReasons() {
     var sel=document.getElementById('cf-reason'); if (!sel) return;
     Array.prototype.forEach.call(sel.options, function(o){
-      var hide=userRegion==='SAN' && (o.value==='Pick-up' || o.value==='Vehicle swap / replacement request');
+      var hide=isUnstaffed(userRegion) && (o.value==='Pick-up' || o.value==='Vehicle swap / replacement request');
       o.hidden=hide; o.disabled=hide;
     });
   }
@@ -11014,8 +11029,8 @@ function clearAttachment() {
       renderMessage('user', text); userInput.value=''; userInput.style.height='auto'; sendBtn.disabled=true;
       setTimeout(function(){
         renderMessage('assistant', window.milesLang==='es'
-          ? 'San Diego no tiene personal en la oficina por ahora, así que no hay rentas nuevas, cambios de auto ni extensiones. Puedo ayudarte a devolver tu auto o enviar tu pregunta al equipo.'
-          : 'San Diego doesn’t have staff on site right now, so we can’t offer new rentals, car swaps or extensions there. I can help you return your car, or send your question to the team.');
+          ? officeShortName(userRegion)+' no tiene personal en la oficina por ahora, así que no hay rentas nuevas, cambios de auto ni extensiones. Puedo ayudarte a devolver tu auto o enviar tu pregunta al equipo.'
+          : officeShortName(userRegion)+' doesn’t have staff on site right now, so we can’t offer new rentals, car swaps or extensions there. I can help you return your car, or send your question to the team.');
         chips(window.milesLang==='es'?'Elige una':'Pick one', [
           {label:window.milesLang==='es'?'Devolver mi auto':'Return my car', run:function(){ clearChips(); userInput.value='return my vehicle'; window.__milesTyped=true; window.sendMessage(); }},
           {label:window.milesLang==='es'?'Enviar al equipo':'Message the team', run:function(){ clearChips(); openDirect('talk'); }}]);
