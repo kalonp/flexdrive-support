@@ -2091,6 +2091,43 @@ html, body { background:#0F406A; }
 </div>
 
 <script>
+// TEST MODE (Nov 13 2026): open Miles with ?test=1 and nothing from that browser tab is logged
+// to the Sheet (sessions, topics, unmatched, escalation questions, feedback). The contact form
+// still sends, so alerts can be tested. Stays on for the tab until it's closed or ?test=0 is opened.
+(function () {
+  var on = false;
+  try {
+    var q = window.location.search || '';
+    if (/[?&]test=0(&|$)/.test(q)) sessionStorage.removeItem('milesTestMode');
+    if (/[?&]test=1(&|$)/.test(q)) sessionStorage.setItem('milesTestMode', '1');
+    on = sessionStorage.getItem('milesTestMode') === '1';
+  } catch (e) { on = /[?&]test=1(&|$)/.test(window.location.search || ''); }
+  window.MILES_TEST_MODE = on;
+  if (!on) return;
+  var SKIP = { session: 1, topic: 1, unmatched: 1, escalation_question: 1, feedback: 1 };
+  var baseFetch = window.fetch;
+  window.fetch = function (url, opts) {
+    try {
+      if (typeof url === 'string' && url.indexOf('script.google.com') !== -1 && opts && typeof opts.body === 'string') {
+        var action = JSON.parse(opts.body).action;
+        if (SKIP[action]) return Promise.resolve(new Response('{"status":"logged","testMode":true}', { status: 200, headers: { 'Content-Type': 'application/json' } }));
+      }
+    } catch (e) {}
+    return baseFetch.apply(this, arguments);
+  };
+  function banner() {
+    if (document.getElementById('milesTestBanner')) return;
+    var b = document.createElement('div');
+    b.id = 'milesTestBanner';
+    b.setAttribute('role', 'status');
+    b.textContent = 'TEST MODE \u00b7 chats aren\u2019t logged \u00b7 contact form still sends';
+    b.style.cssText = 'position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:99999;background:#FF00BF;color:#fff;font:600 12px/1.2 system-ui,sans-serif;padding:4px 10px;border-radius:0 0 8px 8px;pointer-events:none;';
+    document.body.appendChild(b);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', banner); else banner();
+})();
+</script>
+<script>
 
 // VENDOR & REGION DATABASE 
 const VENDORS = {
