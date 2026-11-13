@@ -30,6 +30,64 @@
 @keyframes miles-check-draw { from { stroke-dashoffset:1; } to { stroke-dashoffset:0; } }
 @media(prefers-reduced-motion:reduce) { .miles-receipt-check path { animation:none; } }
 @media(prefers-color-scheme:dark) { .form-office,.form-reference,.form-safety a,.form-reply,#cf-error { color:var(--white); } }
+
+/* The same quiet surfaces, pink accents and fine outlines as Miles's answer groups. */
+:root {
+  --form-surface:var(--help-surface);
+  --form-text:var(--help-text);
+  --form-muted:var(--help-muted);
+  --form-border:var(--help-group-border);
+  --form-field:var(--help-navy-tint);
+  --form-backdrop:color-mix(in srgb,var(--navy) 55%,transparent);
+  --form-shadow:0 16px 48px color-mix(in srgb,var(--navy) 20%,transparent);
+}
+#contactModal { background:var(--form-backdrop); }
+#contactModal .modal-box { width:100%; max-width:560px; background:var(--form-surface); border:1px solid var(--form-border); border-radius:16px 16px 0 0; box-shadow:var(--form-shadow); max-height:92dvh; }
+#contactModal .modal-inner { padding:18px 20px calc(24px + env(safe-area-inset-bottom)); max-height:none; overflow:visible; }
+#contactModal #modal-stripe { display:none; }
+#contactModal .modal-drag-handle { width:32px; height:4px; background:var(--form-border); margin:10px auto 0; }
+#contactModal .modal-header { gap:16px; margin-bottom:18px; }
+#contactModal .modal-title { color:var(--form-text) !important; font-size:22px; line-height:1.3; }
+#contactModal .modal-subtitle { color:var(--form-muted); font-size:13px; line-height:1.5; margin-top:5px; }
+#contactModal .modal-close { width:40px; height:40px; margin:0; border:1px solid var(--form-border); background:none; color:var(--form-muted); border-radius:8px; }
+#contactModal .form-office { color:var(--form-text); border-color:var(--form-border); padding-bottom:16px; margin-bottom:20px; }
+#contactModal .form-office strong { font-size:16px; line-height:1.4; }
+#contactModal .form-caption { color:var(--form-muted); font-size:12px; }
+#contactModal .change-office-link { color:var(--pink); min-height:40px; padding:0 4px; }
+#contactModal .modal-label { font-size:13px; font-weight:600; letter-spacing:0; text-transform:none; color:var(--form-text); margin-bottom:8px; }
+#contactModal .modal-label span { color:var(--form-muted) !important; letter-spacing:0; }
+#contactModal .modal-input, #contactModal .modal-select, #contactModal .modal-textarea { border:1px solid var(--form-border); border-radius:8px; background:var(--form-field); color:var(--form-text); padding:12px; font-size:16px; line-height:1.5; transition:border-color .15s,box-shadow .15s; }
+#contactModal .modal-input::placeholder, #contactModal .modal-textarea::placeholder { color:var(--form-muted); opacity:1; }
+#contactModal .modal-select { padding-right:32px; }
+#contactModal .modal-select-wrap::after { color:var(--form-muted); right:12px; }
+#contactModal option, #contactModal optgroup { background:var(--form-surface); color:var(--form-text); }
+#contactModal .modal-input:focus, #contactModal .modal-select:focus, #contactModal .modal-textarea:focus { border-color:var(--pink); box-shadow:0 0 0 3px var(--composer-ring); }
+#contactModal #cf-message { min-height:112px; }
+#contactModal .modal-field { margin-bottom:18px; min-width:0; }
+#contactModal .form-reply { color:var(--form-muted); gap:10px; padding-bottom:16px; border-bottom:1px solid var(--form-border); line-height:1.5; }
+#contactModal .form-no-reply { color:var(--form-text); min-height:40px; }
+#contactModal .form-hours.modal-hours { color:var(--form-muted); margin:12px 0 8px; line-height:1.5; }
+#contactModal .form-safety { color:var(--form-muted); font-size:12px; line-height:1.6; }
+#contactModal .form-safety a { color:var(--form-text); }
+#contactModal .modal-submit { background:var(--pink) !important; color:var(--white); box-shadow:none !important; border-radius:8px; min-height:48px; font-size:15px; padding:13px 16px; }
+#contactModal .modal-submit:disabled { opacity:.55; }
+#contactModal .modal-close:focus-visible, #contactModal .modal-submit:focus-visible, #contactModal .change-office-link:focus-visible { outline:2px solid var(--pink); outline-offset:3px; }
+#contactModal #attach-drop-zone { border:1px dashed var(--form-border) !important; background:var(--form-field) !important; border-radius:8px !important; }
+#contactModal #attach-drop-zone svg { stroke:var(--pink); }
+#contactModal #attach-zone-label, #contactModal #attach-filename { color:var(--form-text) !important; }
+#contactModal #attach-drop-zone div, #contactModal #attach-filesize { color:var(--form-muted); }
+#contactModal #attach-prompt, #contactModal #attach-preview, #contactModal #cf-email-suggest { background:var(--form-field) !important; color:var(--form-text) !important; border-radius:8px !important; }
+#contactModal #cf-error { color:var(--help-alert); }
+#contactModal .modal-success-title, #contactModal .form-reference { color:var(--form-text); }
+#contactModal .modal-success-text { color:var(--form-muted); font-size:14px; }
+@media(min-width:600px) { #contactModal .modal-box { border-radius:12px; max-height:86dvh; } #contactModal .modal-inner { padding:24px 28px; } #contactModal .modal-drag-handle { display:none; } }
+@media(max-width:360px) { #contactModal .modal-inner { padding-left:16px; padding-right:16px; } #contactModal .modal-row { grid-template-columns:1fr; gap:0; } }
+@media(prefers-reduced-motion:reduce) { #contactModal .modal-box { animation:none; } #contactModal .modal-input, #contactModal .modal-select, #contactModal .modal-textarea { transition:none; } }
+
+/* Unsent form waiting: small pill above the message box to reopen it. */
+.miles-draft-pill { display:block; margin:6px auto 4px; border:0; border-radius:999px; background:var(--pink); color:#fff; font:600 14px/1.2 inherit; padding:9px 16px; cursor:pointer; box-shadow:0 2px 10px rgba(15,64,106,.2); }
+.miles-draft-pill[hidden] { display:none; }
+.miles-draft-pill:focus-visible { outline:2px solid #fff; outline-offset:2px; }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1592,6 +1650,7 @@
 .chat-area .ev-accordion {
   gap:0; margin:8px var(--chat-edge) 14px calc(var(--chat-edge) + var(--avatar-size) + 8px);
   width:calc(100% - var(--chat-edge) * 2 - var(--avatar-size) - 8px); max-width:600px;
+  background:var(--help-surface); border:1px solid var(--help-group-border); border-radius:8px; padding:0 12px;
 }
 .chat-area .ev-accordion-item,
 .chat-area .ev-accordion-item:hover,
@@ -1606,6 +1665,10 @@
 }
 .chat-area .ev-accordion-header:hover { color:var(--pink); background:none; }
 .chat-area .ev-accordion-header.open { color:var(--pink); background:none; font-weight:500; }
+.chat-area .ev-accordion > .ev-accordion-item:last-child { border-bottom:0; }
+.miles-related-details > summary { display:flex; align-items:center; min-height:44px; cursor:pointer; color:var(--help-muted); font-size:13px; }
+.miles-related-details > summary:focus-visible { outline:2px solid var(--pink); outline-offset:-2px; }
+.miles-related-details .ev-accordion-item:last-child { border-bottom:0; }
 .chat-area .ev-accordion-header:focus-visible { outline:2px solid var(--pink); outline-offset:-2px; }
 .chat-area .ev-accordion-icon {
   width:7px; height:7px; margin:0 5px 3px 0; font-size:0;
@@ -1734,6 +1797,7 @@
   --help-text:var(--navy);
   --help-muted:color-mix(in srgb,var(--navy) 62%,var(--white));
   --help-line:color-mix(in srgb,var(--navy) 10%,transparent);
+  --help-group-border:color-mix(in srgb,var(--navy) 22%,var(--help-surface));
   --help-pink-tint:color-mix(in srgb,var(--pink) 7%,var(--white));
   --help-navy-tint:color-mix(in srgb,var(--navy) 6%,var(--white));
   --help-alert:#C4314B;
@@ -1745,6 +1809,7 @@
     --help-text:#E8ECF2;
     --help-muted:#A9B3C1;
     --help-line:color-mix(in srgb,var(--white) 10%,transparent);
+    --help-group-border:color-mix(in srgb,var(--white) 20%,var(--help-surface));
     --help-pink-tint:color-mix(in srgb,var(--pink) 14%,#0D1117);
     --help-navy-tint:color-mix(in srgb,var(--navy) 45%,#0D1117);
     --help-alert:#FF7A8E;
@@ -1962,14 +2027,10 @@ html, body { background:#0F406A; }
  <option value="Pick-up">Pick-up</option>
  <option value="Drop-off">Drop-off</option>
  <option value="Vehicle drop-off">Vehicle drop-off (SAN self-return) 📷</option>
- <option value="Inspection photo">Inspection photo 📷</option>
-<option value="Maintenance receipt">Maintenance receipt 📷</option>
- <option value="Accident re-rental request">Accident re-rental request 📷</option>
- <option value="Pre-existing damage report">Pre-existing damage report 📷</option>
- <option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option><option value="Vehicle impounded / towed">Vehicle impounded / towed</option>
- <option value="Mileage dispute">Mileage dispute</option>
+ <option value="Documents or photos">Send a receipt, photos or documents 📷</option>
+ <option value="Vehicle impounded / towed">Vehicle impounded / towed</option>
  <option value="Billing question">Billing question</option>
- <option value="Cleaning charge dispute">Cleaning charge dispute</option>
+ <option value="Fee dispute">Dispute a fee</option>
  <option value="Deposit refund">Deposit refund</option>
  <option value="Vehicle swap / replacement request">Vehicle swap / replacement request</option>
  <option value="CDW / protection plan question">CDW / protection plan question</option>
@@ -2567,7 +2628,7 @@ var KNOWLEDGE_BASE = [
  keywords: ["choque", "me chocaron", "tuve un choque", "towed to a shop", "towed to the shop", "towed to a body shop", "towed to the body shop", "towed to a repair shop", "someone scraped my car", "scraped my car", "someone bumped my car", "bumped my car", "hit and run", "car was damaged", "broken into", "break in", "break-in", "broke into my car", "someone broke in", "car was broken into", "vehicle break in", "theft", "stolen", "car theft", "car was keyed", "keyed my car", "keyed", "graffiti on my car", "graffiti", "items stolen", "robbery", "vandalism", "vandalized", "smashed window", "accident", "hit", "crash", "collision", "wreck", "someone hit me", "I hit", "fender bender", "rear ended", "can i rent again", "re-rent", "rent again", "back on the road", "dnr", "do not rent", "how do i get off dnr", "after accident rent", "rental after accident", "when can i drive again", "return to renting", "got into an accident", "car accident", "i was in a crash", "hit another car", "another car hit me", "car crash", "vehicle collision", "minor accident", "major accident", "hit a pole", "hit a curb", "bumped a car", "scraped a car", "backed into", "side swiped", "t-boned", "totaled", "car is totaled", "car damaged", "damaged my car", "damage to car", "what do i do after accident", "accident report", "police report", "who do i call", "accident procedure", "i was hit", "there is damage on the vehicle", "there is damage on my vehicle", "there is damage", "damage on the vehicle", "damage on my car", "i found damage", "i see damage", "found damage on the car", "noticed damage on the car", "vehicle has damage", "my car has damage", "car has a dent", "car has a scratch", "damage to the vehicle", "body damage", "bumper damage", "door damage", "panel damage", "someone put a scratch on my car", "someone scratched my car", "scratch on my vehicle", "scratch but not accident", "scratch but i wasn't in an accident", "wasn't in an accident just a scratch", "scratch not accident", "accident agreement", "accident paperwork", "accident form", "accident documentation", "flexdrive accident agreement"],
  needsRegion: true,
  sendMsgBtn: true,
- response: "We are sorry to hear about the incident. Please follow these steps:\n\n1. Call the police and get an accident report\n2. Report the accident through the Lyft Driver App: Go to Support and Resources > Help Center > select Accident, damage, or unsafe ride > Report an accident\n3. If the vehicle has minor damage and is still drivable, please bring it to our office for inspection as soon as possible. The vehicle will be deactivated as soon as the accident is reported.\n4. If the vehicle is NOT safe to drive, call Holman at (833) 274-5938 for towing to our office\n\nIMPORTANT: While the claim is open, you will be ineligible to rent until the claim is resolved, you are deemed not at fault, and any outstanding balance is paid.\n\nDo not attempt to repair any damage on your own.\n\nOnce we inspect the vehicle, we will walk you through next steps regarding any applicable charges based on your protection plan.\n\nRE-RENTING AFTER AN ACCIDENT:\nOnce the claim is resolved and you have a not-at-fault determination, tap \"Still need help?\" below, then \"Talk to Someone\" — select \"Accident re-rental request\" and attach your not-at-fault determination email. Our team will review your account and determine eligibility."
+ response: "We are sorry to hear about the incident. Please follow these steps:\n\n1. Call the police and get an accident report\n2. Report the accident through the Lyft Driver App: Go to Support and Resources > Help Center > select Accident, damage, or unsafe ride > Report an accident\n3. If the vehicle has minor damage and is still drivable, please bring it to our office for inspection as soon as possible. The vehicle will be deactivated as soon as the accident is reported.\n4. If the vehicle is NOT safe to drive, call Holman at (833) 274-5938 for towing to our office\n\nIMPORTANT: While the claim is open, you will be ineligible to rent until the claim is resolved, you are deemed not at fault, and any outstanding balance is paid.\n\nDo not attempt to repair any damage on your own.\n\nOnce we inspect the vehicle, we will walk you through next steps regarding any applicable charges based on your protection plan.\n\nRE-RENTING AFTER AN ACCIDENT:\nOnce the claim is resolved and you have a not-at-fault determination, tap \"Still need help?\" below, then \"Talk to Someone\" — select \"Send a receipt, photos or documents\" and attach your not-at-fault determination email. Our team will review your account and determine eligibility."
  },
  {
  topic: "Damage charges / not at fault",
@@ -2602,7 +2663,7 @@ var KNOWLEDGE_BASE = [
   {
     topic: "I got pulled over",
     keywords: ["i got pulled over", "got pulled over", "police pulled me over", "cop pulled me over", "officer pulled me over", "police stopped me", "cop stopped me", "getting pulled over", "being pulled over", "pulled over right now", "officer is stopping me", "police behind me", "cop behind me", "lights flashing behind me", "police lights", "getting a ticket", "officer wants my documents", "officer asking for registration", "what do i show the officer", "what do i say to the cop", "what to do if pulled over", "i see police lights"],
-    response: "Stay calm. Here is what to do:\n\n\u2022 Pull over safely to the right and turn off the engine\n\u2022 Keep your hands visible on the steering wheel\n\u2022 When asked, provide your driver's license, and tell the officer this is a Flexdrive rental vehicle\n\u2022 The vehicle registration and insurance documents are in the glovebox\n\nAfter the stop:\n\u2022 If you received a ticket, Flexdrive will handle payment and charge your account plus an admin fee of up to $50\n\u2022 Report it to Lyft as soon as possible\n\u2022 Need a copy? Tap \"Still need help?\" then \"Talk to Someone\" — select \"Traffic / parking ticket copy\""
+    response: "Stay calm. Here is what to do:\n\n\u2022 Pull over safely to the right and turn off the engine\n\u2022 Keep your hands visible on the steering wheel\n\u2022 When asked, provide your driver's license, and tell the officer this is a Flexdrive rental vehicle\n\u2022 The vehicle registration and insurance documents are in the glovebox\n\nAfter the stop:\n\u2022 If you received a ticket, Flexdrive will handle payment and charge your account plus an admin fee of up to $50\n\u2022 Report it to Lyft as soon as possible\n\u2022 Need a copy? Tap \"Still need help?\" then \"Talk to Someone\" — select \"Send a receipt, photos or documents\""
   },
  {
  topic: "Traffic / parking violation",
@@ -2614,7 +2675,7 @@ var KNOWLEDGE_BASE = [
   {
     topic: "Camera / photo ticket",
     keywords: ["camera flashed me", "camera flash", "photo ticket", "photo enforcement", "i got flashed", "speed camera", "traffic camera", "camera got me", "photo violation", "red light camera ticket", "school zone camera", "i wasn't doing anything wrong", "i didn't do anything wrong", "camera took my picture", "flash from camera"],
-    response: "If a traffic camera captured your vehicle, here's what happens:\n\nFlexdrive receives the ticket, pays it automatically, and charges the amount plus an administrative fee of up to $50 to your account. You will be notified when this happens.\n\nNeed a copy of the ticket?\n\u2022 Visit us in person Mon\u2013Fri 9AM\u20135PM\n\u2022 Or tap \"Still need help?\" then \"Talk to Someone\" — select \"Traffic / parking ticket copy\" and we'll email it to you.\n\nNote: Camera tickets come to Flexdrive first since the plate is registered to us, not you."
+    response: "If a traffic camera captured your vehicle, here's what happens:\n\nFlexdrive receives the ticket, pays it automatically, and charges the amount plus an administrative fee of up to $50 to your account. You will be notified when this happens.\n\nNeed a copy of the ticket?\n\u2022 Visit us in person Mon\u2013Fri 9AM\u20135PM\n\u2022 Or tap \"Still need help?\" then \"Talk to Someone\" — select \"Send a receipt, photos or documents\" and we'll email it to you.\n\nNote: Camera tickets come to Flexdrive first since the plate is registered to us, not you."
   },
   {
     topic: "Get a copy of my ticket",
@@ -2625,12 +2686,12 @@ var KNOWLEDGE_BASE = [
   {
     topic: "Speeding ticket",
     keywords: ["speeding ticket", "i got a speeding ticket", "speed ticket", "caught speeding", "speeding violation", "i was speeding", "speed trap", "got pulled over for speeding", "speeding fine", "speed camera ticket", "school zone speeding", "speeding notice from flexdrive"],
-    response: "Speeding tickets are your responsibility under your rental agreement.\n\nIf you were pulled over: pay the issuing authority directly and report it to Lyft as soon as possible.\n\nIf Flexdrive is notified: the fine is paid automatically and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified. Flexdrive may also be required to pass your details to the police for speeding notices.\n\nNeed a copy? Visit us Mon\u2013Fri 9AM\u20135PM or tap \"Still need help?\" then \"Talk to Someone\" and select \"Traffic / parking ticket copy.\""
+    response: "Speeding tickets are your responsibility under your rental agreement.\n\nIf you were pulled over: pay the issuing authority directly and report it to Lyft as soon as possible.\n\nIf Flexdrive is notified: the fine is paid automatically and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified. Flexdrive may also be required to pass your details to the police for speeding notices.\n\nNeed a copy? Visit us Mon\u2013Fri 9AM\u20135PM or tap \"Still need help?\" then \"Talk to Someone\" and choose \"Something else\" to ask for a copy."
   },
   {
     topic: "Parking ticket",
     keywords: ["parking ticket", "i got a parking ticket", "parking violation", "parking fine", "parked illegally", "parking citation", "meter expired", "meter ticket", "no parking ticket", "street cleaning ticket"],
-    response: "Parking violations are your responsibility under your rental agreement.\n\nIf the ticket comes directly to you: pay the issuing authority directly and report it to Lyft as soon as possible.\n\nIf Flexdrive is notified: the fine is paid automatically and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified.\n\nNeed a copy? Visit us Mon\u2013Fri 9AM\u20135PM or tap \"Still need help?\" then \"Talk to Someone\" and select \"Traffic / parking ticket copy.\"\n\nIf your vehicle was towed or impounded: don't pick it up yourself. Tap \"Still need help?\" then \"Talk to Someone\" and tell us where it was taken. Flexdrive's recovery team gets it back. Towing and impound fees from a violation are your responsibility."
+    response: "Parking violations are your responsibility under your rental agreement.\n\nIf the ticket comes directly to you: pay the issuing authority directly and report it to Lyft as soon as possible.\n\nIf Flexdrive is notified: the fine is paid automatically and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified.\n\nNeed a copy? Visit us Mon\u2013Fri 9AM\u20135PM or tap \"Still need help?\" then \"Talk to Someone\" and choose \"Something else\" to ask for a copy.\n\nIf your vehicle was towed or impounded: don't pick it up yourself. Tap \"Still need help?\" then \"Talk to Someone\" and tell us where it was taken. Flexdrive's recovery team gets it back. Towing and impound fees from a violation are your responsibility."
   },
  {
  topic: "Picking up my vehicle / reservation",
@@ -3225,14 +3286,12 @@ function flashScrollBtn() {
 // Scroll so the new bot message appears at the top of the chat area
 function scrollToElement(el) {
   try {
-    // Measure against the chat area itself. offsetTop is relative to the nearest positioned parent, so for
-    // anything placed inside an answer (drop-off button, chips) it was tiny and the chat jumped to the top.
+    // Measure nested answer actions against the chat area, not their positioned parent.
     var target = chatArea.scrollTop + (el.getBoundingClientRect().top - chatArea.getBoundingClientRect().top) - 8;
     var max = chatArea.scrollHeight - chatArea.clientHeight;
-    // Extras under an answer (chips, buttons, vendor cards) never push the start of that answer off screen.
     if (!(el.classList && el.classList.contains('msg-row'))) {
       var rows = chatArea.querySelectorAll('.msg-row.assistant'), last = rows[rows.length - 1];
-      if (last && !last.contains(el) && last.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING || last && last.contains(el)) {
+      if (last && (last.contains(el) || (last.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING))) {
         var cap = chatArea.scrollTop + (last.getBoundingClientRect().top - chatArea.getBoundingClientRect().top) - 8;
         target = Math.min(target, cap);
       }
@@ -4038,7 +4097,7 @@ function renderTyping(thinkingText) {
 
   bubbleWrap.appendChild(indicator);
 
-  // Dots only: no "Finding the details..." style text under the typing dots.
+  // Dots only: omit filler text while looking up the approved answer.
 
   row.appendChild(avatar);
   row.appendChild(bubbleWrap);
@@ -4416,7 +4475,7 @@ function renderVehicleRulesAccordion() {
       '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">$</div><div>An administrative processing fee of up to $50 is added per violation notification</div></div>',
       '<div class="ac-gate-row"><div class="ac-gate-icon" style="color:#D93025;font-weight:700;">!</div><div>Once paid, the ticket is closed with the court and cannot be reopened or disputed</div></div>',
       '</div>',
-      '<div class="ac-callout info"><strong>Need a Copy?</strong>Visit the office Mon–Fri 9AM–5PM or send us a message and we\'ll email it. Select \'Traffic / parking ticket copy\' when prompted.</div>',
+      '<div class="ac-callout info"><strong>Need a Copy?</strong>Visit the office Mon–Fri 9AM–5PM or send us a message and we\'ll email it. Choose \'Something else\' and ask for a copy.</div>',
       '<div class="ac-callout info"><strong>Expired Registration Citation?</strong>That is a Flexdrive issue — not your responsibility. Contact us or visit the office and bring the citation.</div>'
     ].join(''));
 
@@ -4835,7 +4894,7 @@ var ACCIDENT_SECTIONS = [
  {
  title: "Can I Rent Again?",
  emoji: "",
- content: "After any accident, you will be placed on the Do Not Rent (DNR) list immediately — regardless of fault. This also applies across ALL Lyft Express Drive providers, not just Flexdrive.\n\nREGARDLESS OF FAULT — you cannot re-rent the same day, even with CDW.\n\nFault determination can take up to several months or more. You cannot re-rent until fault is determined and all requirements below are met.\n\nYou are NOT eligible to re-rent if:\n- You have more than 1 damage incident in a 12-month period\n- You have 3 or more damage incidents overall\n\nIF DETERMINED NOT AT FAULT, you may re-rent only if:\n- Lyft's First Notice of Loss (FNOL) team completes their review and reactivates you\n- No additional open investigations exist\n- Your Flexdrive account is in good standing:\n · No outstanding balance\n · No history of overdue rentals, payments, or repossessions\n · Been in the program at least 6 weeks with ride minimums met each week\n- All damage fees are paid in full\n- You have cooperated with all insurance adjuster inquiries\n- No previous at-fault claims, abuse, or negligence on record\n\nIF DETERMINED AT FAULT, re-rental may only be considered if:\n- All 'Not at Fault' requirements above are met\n- Damage was caused by a natural event and deemed unavoidable\n\nTo begin the re-rental review process, tap \"Still need help?\" below, then \"Talk to Someone\" — select \"Accident re-rental request\" and attach your not-at-fault determination email. Our team will review your account and be in touch."
+ content: "After any accident, you will be placed on the Do Not Rent (DNR) list immediately — regardless of fault. This also applies across ALL Lyft Express Drive providers, not just Flexdrive.\n\nREGARDLESS OF FAULT — you cannot re-rent the same day, even with CDW.\n\nFault determination can take up to several months or more. You cannot re-rent until fault is determined and all requirements below are met.\n\nYou are NOT eligible to re-rent if:\n- You have more than 1 damage incident in a 12-month period\n- You have 3 or more damage incidents overall\n\nIF DETERMINED NOT AT FAULT, you may re-rent only if:\n- Lyft's First Notice of Loss (FNOL) team completes their review and reactivates you\n- No additional open investigations exist\n- Your Flexdrive account is in good standing:\n · No outstanding balance\n · No history of overdue rentals, payments, or repossessions\n · Been in the program at least 6 weeks with ride minimums met each week\n- All damage fees are paid in full\n- You have cooperated with all insurance adjuster inquiries\n- No previous at-fault claims, abuse, or negligence on record\n\nIF DETERMINED AT FAULT, re-rental may only be considered if:\n- All 'Not at Fault' requirements above are met\n- Damage was caused by a natural event and deemed unavoidable\n\nTo begin the re-rental review process, tap \"Still need help?\" below, then \"Talk to Someone\" — select \"Send a receipt, photos or documents\" and attach your not-at-fault determination email. Our team will review your account and be in touch."
  },
  {
  title: "Rental Charges During Repair",
@@ -5222,7 +5281,7 @@ function renderAccidentAccordion() {
  '<div class="ac-gate-row"><div class="ac-gate-icon"></div><div>All Not at Fault requirements above must still be met</div></div>',
  '<div class="ac-gate-row"><div class="ac-gate-icon"></div><div>Re-rental only considered if damage was caused by a natural event and deemed unavoidable</div></div>',
  '</div>',
- '<div class="ac-callout info"><strong>To Start the Process</strong>Send a screenshot of your not-at-fault determination email via the button below — select <em>Accident re-rental request</em> and attach the screenshot.</div>',
+ '<div class="ac-callout info"><strong>To Start the Process</strong>Send a screenshot of your not-at-fault determination email via the button below — select <em>Send a receipt, photos or documents</em> and attach the screenshot.</div>',
  '<button class="talk-btn-inline" onclick="openContactModal(\'talk\')">Talk to Someone</button>'
  ].join(''));
 
@@ -5855,7 +5914,7 @@ function resolveMarketText(text) {
 var CARD_ANSWERS = [
  // ── Nov 2 2026: gaps from the sheet review (Unmatched / Escalations / forms) ──
  { k: ["texts to return my rental","text to return my rental","texts to return my car","text to return the car","message to return my car","message to return the car","message to return my vehicle","message to return the vehicle","message to return my rental","messages to return","text says return","text says to return","message says return","message says to return","keep getting texts to return","keep getting texts about returning","notification to return","notifications to return","telling me to return","says i need to return","says to return my","says return my vehicle","says return my car","app says return","asking me to return","told to return my car","getting texts to return","keep getting messages to return","keep getting notifications to return","alert to return","return the car for maintenance","return my rental due to maintenance","risk of repossession","at risk of repossession","will be repossessed","going to be repossessed","repossession warning","in jeopardy"],
-   a: "A \"return your vehicle\" message (or a repossession warning) usually means one of your rental requirements isn't met yet: an overdue balance, maintenance or an inspection that's due, fewer than 20 rides for the week, or a Lyft account that isn't active. Check the Lyft Driver App to see what's open: the Vehicle tab, and Main Menu → Account → Express Drive billing history.\n\n• Already did the maintenance or inspection? Tap Talk to Someone, choose \"Maintenance receipt\" (or \"Inspection photo\"), and attach the receipt so we can update your record.\n• Think the message is a mistake? Tap Talk to Someone and tell us what it says. Please don't ignore it until we confirm.",
+   a: "A \"return your vehicle\" message (or a repossession warning) usually means one of your rental requirements isn't met yet: an overdue balance, maintenance or an inspection that's due, fewer than 20 rides for the week, or a Lyft account that isn't active. Check the Lyft Driver App to see what's open: the Vehicle tab, and Main Menu → Account → Express Drive billing history.\n\n• Already did the maintenance or inspection? Tap Talk to Someone, choose \"Send a receipt, photos or documents\", and attach the receipt so we can update your record.\n• Think the message is a mistake? Tap Talk to Someone and tell us what it says. Please don't ignore it until we confirm.",
    sendMsgBtn: true, topic: "Return-vehicle message / warning" },
  { k: ["couldn't complete 20 rides","could not complete 20 rides","wasn't able to complete 20 rides","not able to complete 20 rides","unable to complete 20 rides","didn't complete 20 rides","didn't complete my 20","didn't make 20 rides","didn't hit 20 rides","didn't get 20 rides","didn't hit my minimum","didn't hit the minimum","didn't meet the minimum","didn't meet my minimum","didn't make the minimum","didn't make my minimum","missed the minimum","missed my minimum","missed the ride minimum","missed my rides","missed my 20 rides","won't make 20 rides","won't make my minimum","won't hit my minimum","won't be able to complete","can't make my minimum","can't complete my rides","can't do my rides","couldn't do my rides","couldn't drive this week","couldn't work this week","sick and couldn't","complete my ride minimum","complete the ride minimum","ride minimum this week","exception for the ride minimum","exception for my rides","ride minimum exception","ride requirement exception","20 ride exception","20 rides exception","exception for 20 rides","prorate the ride minimum","minimum ride exception","waive the ride minimum",["sick","ride"],["sick","minimum"],["sick","couldn't drive"],["sick","can't drive"],["covid","ride"],["covid","minimum"],["family emergency","ride"],["family emergency","minimum"],["family emergency","couldn't drive"],["not enough rides","minimum"],["not enough rides","exception"]],
    a: "You need at least 20 paid Lyft rides per week to keep your rental. If you can't reach that this week (for example, you were sick, had a family emergency, or the car was out of service), you can ask for an exception. Exceptions are reviewed case by case and aren't guaranteed.\n\n1. Tap Talk to Someone and tell us the reason and which days were affected.\n2. You can also contact Lyft support in the Lyft Driver App: Menu → Help → chat with support.",
@@ -5868,7 +5927,7 @@ var CARD_ANSWERS = [
    a: "Squeaking, chirping, or grinding brakes should be checked soon. Take the car to an approved vendor and tell them \"This is a Flexdrive vehicle.\"\n\nIf the brakes feel soft, the car pulls to one side, or it doesn't stop normally, stop driving and call Holman at (833) 274-5938.",
    showVendorBtn: true, topic: "Vehicle makes noise / strange sound" },
  { k: ["a recall","the recall","recall on","recall for","recall notice","safety recall","recall notification","open recall","recall repair","recall paperwork","recall letter"],
-   a: "Safety recalls are repaired at a dealership for your vehicle's brand (for example, a Kia dealer for a Kia). Follow the steps and deadline in your recall notice.\n\nWhen the repair is done, send us a photo of the recall paperwork: tap Talk to Someone, choose \"Maintenance receipt,\" and attach the photo so we can add it to your vehicle's record. If the car was out of service for the repair, include those dates.",
+   a: "Safety recalls are repaired at a dealership for your vehicle's brand (for example, a Kia dealer for a Kia). Follow the steps and deadline in your recall notice.\n\nWhen the repair is done, send us a photo of the recall paperwork: tap Talk to Someone, choose \"Send a receipt, photos or documents,\" and attach the photo so we can add it to your vehicle's record. If the car was out of service for the repair, include those dates.",
    sendMsgBtn: true, topic: "Recall notice" },
  { k: ["do i have cdw","do i have the cdw","do i have protection","do i have a protection plan","do i have pcdw","am i covered by cdw","is cdw on my","what protection plan do i have","which protection plan do i have","what plan am i on for cdw","check my cdw","check my protection plan","see my protection plan"],
    a: "To see whether you have CDW or PCDW, open the Lyft Driver App → Vehicles and Devices → Your Vehicles → See Details. Your current protection plan is shown there. You can remove or downgrade a plan from that screen (changes take effect at the next weekly renewal), but adding CDW requires a free vehicle inspection at your Flexdrive office.",
@@ -5883,7 +5942,7 @@ var CARD_ANSWERS = [
  a: "Report in the Lyft Driver App immediately: Go to Support and Resources > Help Center > select Accident, damage, or unsafe ride > Report an accident. Also call the police and get an accident report number.", topic: "Accident / car was hit" },
 
  { k: ["can i rent again after accident","can i rent after accident","rent again after accident","how long until i can rent again","how long dnr","how long do not rent"],
-    a: "You are placed on DNR immediately after any accident, regardless of fault — no same-day re-rental even with CDW. Re-rental eligibility depends on fault determination, your account standing, and damage fees being paid. Fault determination can take several months or more.\n\nTap \"Still need help?\" below, then \"Talk to Someone\" — select \"Accident re-rental request\" and attach your not-at-fault determination email to start the review process.", sendMsgBtn: true, topic: "Accident / car was hit" },
+    a: "You are placed on DNR immediately after any accident, regardless of fault — no same-day re-rental even with CDW. Re-rental eligibility depends on fault determination, your account standing, and damage fees being paid. Fault determination can take several months or more.\n\nTap \"Still need help?\" below, then \"Talk to Someone\" — select \"Send a receipt, photos or documents\" and attach your not-at-fault determination email to start the review process.", sendMsgBtn: true, topic: "Accident / car was hit" },
 
  { k: ["rental charges after accident","still being charged after accident","charges during repair","rental cost while car is being fixed","do i still pay rent if car is in shop"],
  a: "Yes — rental charges continue until the vehicle is physically returned to the Flexdrive office and your contract is officially closed. Dropping it at a shop does not stop charges.", topic: "Accident / car was hit" },
@@ -6040,7 +6099,7 @@ var CARD_ANSWERS = [
     a: "To request or schedule a swap, reach out to your local team — tap Talk to Someone below and they'll help you set it up. Keep in mind a swap is only considered for remarketing or a verified serious mechanical issue confirmed by an approved vendor.", showTalkBtn: true, topic: "Swaps" },
 
   { k: ["maintenance due but already done","inspection reminder but already did it","already did my maintenance","already completed the inspection","already got maintenance done","got a maintenance reminder but","do i still need to bring it in","maintenance already done","inspection already done","already did the oil change","maintenance reminder is wrong","why do i need an inspection again","keep getting inspection reminders","reminder to bring car in but already did", "need to return my vehicle again", "return my vehicle again", "do i really need to bring it back in", "do i need to bring it back in", "bring it back in", "maintenance is due but", "maintenance due but", "says maintenance is due but", "but i just got it done", "just had it done", "did my maintenance", "just did my maintenance", "already serviced", "flagged for maintenance", "account flagged for maintenance"],
-    a: "If you got a maintenance or inspection reminder but already had the work done (or you believe it's in error), send us a photo of the bill or receipt showing it was completed. Tap Talk to Someone, choose \"Maintenance receipt\" (or \"Inspection photo\" for an inspection), and attach the photo. Once we verify it, we'll reset your maintenance miles and update your record so the reminders stop.", showTalkBtn: true, topic: "Maintenance / inspection reminder" },
+    a: "If you got a maintenance or inspection reminder but already had the work done (or you believe it's in error), send us a photo of the bill or receipt showing it was completed. Tap Talk to Someone, choose \"Send a receipt, photos or documents\", and attach the photo. Once we verify it, we'll reset your maintenance miles and update your record so the reminders stop.", showTalkBtn: true, topic: "Maintenance / inspection reminder" },
 
   { k: ["how quickly does the team respond","how long until someone responds","response time","how fast will you respond","when will i hear back","how long to get a response","how long does it take to hear back","how soon will someone reply","how long for a reply"],
     a: "Our team typically responds within one business day. If your issue is urgent or safety-related, tap Talk to Someone below so it's flagged right away.", showTalkBtn: true, topic: "Response time expectation" },
@@ -6146,7 +6205,7 @@ var CARD_ANSWERS = [
  a: "Tolls incurred during a Lyft ride are reimbursed through your earnings. Tolls during personal driving (app off) are charged to you and added to your weekly rental costs. Charges often appear 2-3 weeks after the trip.", topic: "Tolls / citations / violations" },
 
   { k: ["parking ticket","traffic ticket","traffic violation","parking violation","citation flexdrive","got a ticket","i got a ticket","got a parking ticket","got a speeding ticket","i got a speeding ticket","i got a parking ticket","camera ticket","got a camera ticket"],
-    a: "Tickets and violations are paid automatically by Flexdrive, and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified.\n\nNeed a copy? Visit us in person Mon\u2013Fri 9AM\u20135PM, or send us a message and we'll email it to you.\n\nException: registration citations are Flexdrive's responsibility — bring those to the office.\n\nTap \"Still need help?\" then \"Talk to Someone\" — select \"Traffic / parking ticket copy\" to request yours.", sendMsgBtn: true , topic: "Traffic / parking violation" },
+    a: "Tickets and violations are paid automatically by Flexdrive, and the amount plus an administrative fee of up to $50 is charged to your account. You will be notified.\n\nNeed a copy? Visit us in person Mon\u2013Fri 9AM\u20135PM, or send us a message and we'll email it to you.\n\nException: registration citations are Flexdrive's responsibility — bring those to the office.\n\nTap \"Still need help?\" then \"Talk to Someone\" — choose \"Something else\" to request yours.", sendMsgBtn: true , topic: "Traffic / parking violation" },
 
  { k: ["late return fee","didn't return car","failure to return","overdue rental consequences","vehicle not returned"],
  a: "If you don't return the vehicle after your rental ends, Flexdrive may repossess it without notice. A $500 repossession fee may apply and you will be placed on the Do Not Rent list. In Arizona, failure to return within 72 hours is a Class 5 Felony.", topic: "Late return / failure to return vehicle" },
@@ -6570,7 +6629,7 @@ var CARD_ANSWERS = [
  a: "Up to $1,000 per incident. With CDW: deductible waived. With PCDW: reduced to $500. Glass damage is separate — up to $1,000 additional without CDW.", topic: "Damage charges / not at fault" },
 
  { k: ["can i rent again after an accident","rent again after accident","how long dnr after accident","when can i rent again after accident"],
-    a: "You are placed on DNR immediately after any accident, regardless of fault — no same-day re-rental even with CDW. Re-rental eligibility depends on fault determination, your account standing, and damage fees being paid. Fault determination can take several months or more.\n\nTap \"Still need help?\" below, then \"Talk to Someone\" — select \"Accident re-rental request\" and attach your not-at-fault determination email to start the review process.", sendMsgBtn: true, topic: "Accident / car was hit" },
+    a: "You are placed on DNR immediately after any accident, regardless of fault — no same-day re-rental even with CDW. Re-rental eligibility depends on fault determination, your account standing, and damage fees being paid. Fault determination can take several months or more.\n\nTap \"Still need help?\" below, then \"Talk to Someone\" — select \"Send a receipt, photos or documents\" and attach your not-at-fault determination email to start the review process.", sendMsgBtn: true, topic: "Accident / car was hit" },
 
  { k: ["what if the other driver was at fault","other driver at fault","not my fault accident","other driver caused accident"],
  a: "You are still responsible for charges until fault is determined. If the other driver is found at fault, Flexdrive may pursue subrogation — if successful, applicable charges are refunded to you. This can take several months.", topic: "Damage charges / not at fault" },
@@ -7438,8 +7497,7 @@ function sendMessage() {
  var text = userInput.value.trim();
  if (!text || isTyping) { window.__milesTyped = false; return; }
 
-  // Emergency shortcut — show Holman banner instantly before typing delay
-  // Floating pink Holman 24/7 button retired: Holman is already in the answer, the safety card and Support > Roadside 24/7.
+  // Roadside help remains in the safety card, answers and Support menu without a duplicate floating button.
 
 
  renderMessage('user', text);
@@ -8611,14 +8669,10 @@ function openContactModal(mode) {
       (userRegion === 'SAN'
         ? '<option value="Vehicle drop-off">Vehicle drop-off / return 📷</option>'
         : '<option value="Drop-off">Drop-off</option>') +
-      '<option value="Inspection photo">Inspection photo 📷</option>' +
-      '<option value="Maintenance receipt">Maintenance receipt 📷</option>' +
-      '<option value="Accident re-rental request">Accident re-rental request 📷</option>' +
-      '<option value="Pre-existing damage report">Pre-existing damage report 📷</option>' +
-      '<option value="Traffic / parking ticket copy">Traffic / parking ticket copy</option><option value="Vehicle impounded / towed">Vehicle impounded / towed</option>' +
-      '<option value="Mileage dispute">Mileage dispute</option>' +
+      '<option value="Documents or photos">Send a receipt, photos or documents 📷</option>' +
+      '<option value="Vehicle impounded / towed">Vehicle impounded / towed</option>' +
       '<option value="Billing question">Billing question</option>' +
-      '<option value="Cleaning charge dispute">Cleaning charge dispute</option>' +
+      '<option value="Fee dispute">Dispute a fee</option>' +
       '<option value="Deposit refund">Deposit refund</option>' +
       '<option value="Vehicle swap / replacement request">Vehicle swap / replacement request</option>' +
       '<option value="CDW / protection plan question">CDW / protection plan question</option>' +
@@ -8686,16 +8740,11 @@ function buildTranscript() {
 // Reason-to-attachment config
 var ATTACH_CONFIG = {
   'Vehicle drop-off':              { required: true,  prompt: 'Please attach a photo of the parked vehicle and its odometer reading.', label: 'Attach parked-car / odometer photo' },
-  'Inspection photo':              { required: true,  prompt: 'Please attach your inspection photo. Our team cannot process this request without it.', label: 'Attach inspection photo' },
-  'Maintenance receipt':           { required: true,  prompt: 'Please attach a photo of the bill or receipt showing your maintenance was completed. Our team will verify it and reset your maintenance miles.', label: 'Attach receipt photo' },
-  'Accident re-rental request':    { required: true,  prompt: 'Please attach a screenshot of your not-at-fault email or accident documentation. Our team will review your account and get back to you about re-renting eligibility.', label: 'Attach accident documentation' },
-  'Pre-existing damage report':    { required: true,  prompt: 'Please attach photos of the damage. This is required to document the issue on your rental agreement.', label: 'Attach damage photos' },
-  'Traffic / parking ticket copy': { required: false, prompt: 'Attach a photo of your ticket if you have it — not required, just helpful for your records.', label: 'Attach ticket photo (optional)' },
+  'Documents or photos':           { required: true,  prompt: 'Attach your receipt, inspection photo, damage photos, ticket or not-at-fault email so our team can process your request.', label: 'Attach photo or document' },
   'Pick-up':                       { required: false, prompt: 'Include any photos of vehicle condition at pick-up if relevant.', label: 'Attach photo (optional)' },
   'Drop-off':                      { required: false, prompt: 'Include any photos of vehicle condition at drop-off if relevant.', label: 'Attach photo (optional)' },
-  'Mileage dispute':               { required: false, prompt: 'A screenshot of your Driver App ride history helps our team verify your online vs offline time.', label: 'Attach screenshot (optional)' },
+  'Fee dispute':                   { required: false, prompt: 'A screenshot of the charge, your Driver App ride history, or photos of the car at return help our team review it.', label: 'Attach screenshot or photo (optional)' },
   'Billing question':              { required: false, prompt: 'A screenshot of the charge in your Driver App helps us locate it faster.', label: 'Attach screenshot (optional)' },
-  'Cleaning charge dispute':       { required: false, prompt: 'Photos of the vehicle at return are helpful if you have them.', label: 'Attach photo (optional)' },
   'Vehicle swap / replacement request': { required: false, prompt: 'Attach any vendor documentation if the vehicle has already been inspected.', label: 'Attach documentation (optional)' },
   'EV / charging issue':           { required: false, prompt: 'A photo of your dashboard warning light or charge screen helps us diagnose the issue.', label: 'Attach photo (optional)' },
   'Background check / deactivation': { required: false, prompt: 'Attach any relevant documentation from Lyft if available.', label: 'Attach documentation (optional)' },
@@ -8880,8 +8929,8 @@ function doSubmit(name, email, phone, reason, message, regionName, attachment, r
  var form = new FormData();
  form.append('payload', JSON.stringify(payload));
 
- // Standalone build: post straight to the Apps Script deployment (no Lovable proxy). A text/plain POST with
- // no custom headers avoids a CORS preflight, and Apps Script's JSON reply can be read, so receipt is confirmed.
+ // Standalone build: post straight to the Apps Script deployment. A text/plain POST with no custom headers
+ // avoids a CORS preflight, and Apps Script's JSON reply can be read, so receipt is confirmed, never assumed.
  fetch(APPS_SCRIPT_URL, {
  method: 'POST',
  body: JSON.stringify(payload),
@@ -9981,28 +10030,76 @@ function clearAttachment() {
     baseOpen(mode);
     if (!document.getElementById('contactModal').classList.contains('open')) return;
     var error = document.getElementById('cf-error'); if (error) error.hidden = true;
+    window.milesDraftRestored = false;
     if (draft && draft.region === userRegion && draft.mode === mode) {
       ['cf-name','cf-email','cf-phone','cf-reason','cf-message','cf-response-pref'].forEach(function(id) { document.getElementById(id).value = draft[id]; });
       currentClientId = draft.clientId;
       handleReasonChange(draft['cf-reason']); handleResponsePrefChange(draft['cf-response-pref']);
+      restoreDraftFiles(draft);
+      window.milesDraftRestored = true;
     } else if (mode === 'talk') {
       prefill('', MilesFlow.requestContext(sessionLog));
       document.getElementById('cf-response-pref').value = 'yes'; handleResponsePrefChange('yes');
     }
     window.milesContactMode = mode;
+    updateDraftPill();
   };
   window.closeContactModal = function() {
     if (contactSending || document.getElementById('cf-submit').disabled) return;
     if (document.getElementById('modalSuccessView').style.display !== 'block') {
       draft = { region: userRegion, mode: window.milesContactMode, clientId: currentClientId };
       ['cf-name','cf-email','cf-phone','cf-reason','cf-message','cf-response-pref'].forEach(function(id) { draft[id] = document.getElementById(id).value; });
+      saveDraftFiles(draft);
       document.getElementById('contactModal').classList.remove('open');
       document.body.style.overflow = '';
+      updateDraftPill();
       return;
     }
     draft = null; baseClose();
     document.body.style.overflow = '';
+    updateDraftPill();
   };
+  // Photos and attachments stay with an unsent form (this session only) so closing it to read
+  // something in the chat doesn't lose them.
+  function saveDraftFiles(d) {
+    var input = document.getElementById('cf-attachment');
+    d.files = input && input.files ? Array.prototype.slice.call(input.files) : [];
+    d.photos = (typeof dropoffPhotos === 'object' && dropoffPhotos) ? dropoffPhotos : {};
+  }
+  function restoreDraftFiles(d) {
+    try {
+      if (d.files && d.files.length && typeof DataTransfer !== 'undefined') {
+        var input = document.getElementById('cf-attachment'), dt = new DataTransfer();
+        d.files.forEach(function (f) { dt.items.add(f); });
+        input.files = dt.files; handleAttachmentChange(input);
+      }
+    } catch (e) {}
+    try {
+      if (d.photos && Object.keys(d.photos).length) {
+        var host = document.getElementById('dropoff-photos');
+        if (host && !host.innerHTML) renderDropoffPhotos();
+        dropoffPhotos = d.photos;
+        DROPOFF_SLOTS.forEach(function (slot) { if (dropoffPhotos[slot.key]) renderSlotView(slot); });
+      }
+    } catch (e) {}
+  }
+  // "Finish my message" above the message box while an unsent form is waiting (this session only).
+  var draftPill = null;
+  function updateDraftPill() {
+    try {
+      var bar = document.querySelector('.input-bar'); if (!bar) return;
+      if (!draftPill) {
+        draftPill = document.createElement('button'); draftPill.type = 'button'; draftPill.className = 'miles-draft-pill';
+        draftPill.onclick = function () { if (draft) (window.milesOpenDirect || window.openContactModal)(draft.mode); };
+        bar.insertBefore(draftPill, bar.firstChild);
+      }
+      var open = document.getElementById('contactModal').classList.contains('open');
+      draftPill.textContent = window.milesLang === 'es' ? 'Terminar mi mensaje \u203a' : 'Finish my message \u203a';
+      draftPill.hidden = !(draft && !open && draft.region === userRegion);
+    } catch (e) {}
+  }
+  window.milesHasDraft = function (mode) { return !!(draft && draft.region === userRegion && (!mode || draft.mode === mode)); };
+  window.milesClearDraft = function () { draft = null; updateDraftPill(); };
   function prefill(reason, question) {
     setTimeout(function () {
       var sel = document.getElementById('cf-reason'), msg = document.getElementById('cf-message');
@@ -10017,18 +10114,43 @@ function clearAttachment() {
 </script>
 <script>
 (function(root) {
+  // Friendly labels are presentation only; office routing still receives the original values.
+  var REASONS=[
+    ['Rental & returns','Pick-up','Pick up my car'],
+    ['Rental & returns','Drop-off','Return my car'],
+    ['Rental & returns','Vehicle drop-off','Return my car · photos'],
+    ['Rental & returns','Vehicle swap / replacement request','Request a car swap'],
+    ['Charges & payments','Billing question','Question about a charge'],
+    ['Charges & payments','Fee dispute','Dispute a fee (mileage, cleaning, toll)'],
+    ['Charges & payments','Deposit refund','My deposit refund'],
+    ['Car & documents','Documents or photos','Send a receipt, photos or documents'],
+    ['Car & documents','EV / charging issue','EV or charging help'],
+    ['Car & documents','Vehicle impounded / towed','My car was towed or impounded'],
+    ['Account & protection','CDW / protection plan question','Protection plan (CDW) question'],
+    ['Account & protection','Background check / deactivation','Account access or deactivation'],
+    ['Something else','Other','Something else']
+  ];
+  function reasonsFor(region) {
+    return REASONS.filter(function(r){
+      if(r[1]==='Vehicle drop-off')return region==='SAN';
+      if(r[1]==='Drop-off')return region!=='SAN';
+      return region!=='SAN'||['Pick-up','Vehicle swap / replacement request'].indexOf(r[1])===-1;
+    }).map(function(r){return {group:r[0],value:r[1],label:r[2]};});
+  }
   function replyPreference(noReply) { return noReply ? 'no' : 'yes'; }
   function suggestedReason(text, region) {
     var t=(text||'').toLowerCase();
-    if (/maintenance|oil change|service/.test(t) && /receipt|completed|already|done/.test(t)) return 'Maintenance receipt';
-    if (/inspection/.test(t) && /photo|completed|already|done/.test(t)) return 'Inspection photo';
-    if (/accident/.test(t) && /rent again|re-rent|rerent|new rental/.test(t)) return 'Accident re-rental request';
-    if (/pre-existing|existing damage|damage at pickup/.test(t)) return 'Pre-existing damage report';
+    if (/maintenance|oil change|service/.test(t) && /receipt|completed|already|done/.test(t)) return 'Documents or photos';
+    if (/inspection/.test(t) && /photo|completed|already|done/.test(t)) return 'Documents or photos';
+    if (/accident/.test(t) && /rent again|re-rent|rerent|new rental/.test(t)) return 'Documents or photos';
+    if (/pre-existing|existing damage|damage at pickup/.test(t)) return 'Documents or photos';
     if (/impound|repossess|towed/.test(t)) return 'Vehicle impounded / towed';
     if (/deposit|refund/.test(t)) return 'Deposit refund';
-    if (/cleaning/.test(t) && /charge|dispute|fee/.test(t)) return 'Cleaning charge dispute';
-    if (/mileage|personal miles|miles wrong/.test(t)) return 'Mileage dispute';
-    if (/ticket|citation/.test(t)) return 'Traffic / parking ticket copy';
+    if (/cleaning/.test(t) && /charge|dispute|fee/.test(t)) return 'Fee dispute';
+    if (/mileage|personal miles|miles wrong/.test(t)) return 'Fee dispute';
+    // Asking for a copy of a ticket is "Something else" (as the ticket answer says); sending one is a document.
+    if (/ticket|citation/.test(t) && /\bcop(y|ies)\b/.test(t)) return 'Other';
+    if (/ticket|citation/.test(t)) return 'Documents or photos';
     if (/charge|billing|payment|bill|charged/.test(t)) return 'Billing question';
     if (/return|drop.?off/.test(t)) return region==='SAN' ? 'Vehicle drop-off' : 'Drop-off';
     if (/swap|replacement/.test(t)) return 'Vehicle swap / replacement request';
@@ -10038,7 +10160,7 @@ function clearAttachment() {
     if (/pick.?up|reservation/.test(t)) return 'Pick-up';
     return '';
   }
-  root.MilesFormRules={replyPreference:replyPreference,suggestedReason:suggestedReason};
+  root.MilesFormRules={replyPreference:replyPreference,suggestedReason:suggestedReason,reasonsFor:reasonsFor};
 })(typeof window!=='undefined'?window:globalThis);
 </script>
 <script>
@@ -10046,6 +10168,15 @@ function clearAttachment() {
 (function() {
   var form=document.getElementById('modalFormView');
   var reason=document.getElementById('cf-reason'), message=document.getElementById('cf-message');
+  function refreshReasons(){
+    var selected=reason.value, group=null, groupName='';
+    reason.replaceChildren(new Option('Choose a reason',''));
+    MilesFormRules.reasonsFor(userRegion).forEach(function(item){
+      if(item.group!==groupName){group=document.createElement('optgroup');group.label=item.group;reason.appendChild(group);groupName=item.group;}
+      group.appendChild(new Option(item.label,item.value));
+    });
+    reason.value=selected;
+  }
   var office=document.createElement('div'); office.className='form-office';
   var destination=document.createElement('div');
   var officeLabel=document.createElement('span'); officeLabel.className='form-caption'; officeLabel.textContent='Receiving office';
@@ -10064,8 +10195,11 @@ function clearAttachment() {
   hours.classList.add('form-hours');
   var reasonField=reason.closest('.modal-field'), messageField=message.closest('.modal-field');
   office.after(reasonField); reasonField.after(messageField);
-  document.querySelector('label[for="cf-reason"]').textContent='Contact reason *';
-  document.querySelector('label[for="cf-message"]').textContent='Message to the team *';
+   document.querySelector('label[for="cf-reason"]').textContent='What’s it about? *';
+   document.querySelector('label[for="cf-message"]').textContent='Your message *';
+   message.placeholder='What happened, and what would you like the team to help with?';
+   document.querySelector('label[for="cf-name"]').textContent='Full name *';
+   document.querySelector('label[for="cf-phone"]').textContent='Phone number *';
   var hint=document.createElement('span'); hint.className='form-caption';hint.id='formReasonHint';hint.hidden=true;hint.textContent='Suggested from your conversation — change if needed.';
   reasonField.appendChild(hint); reason.addEventListener('change',function(){hint.hidden=true;});
   var contactRow=document.getElementById('cf-name').closest('.modal-row');
@@ -10079,7 +10213,7 @@ function clearAttachment() {
   var label=document.createElement('label');label.className='form-no-reply';
   var checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.id='cf-no-reply';
   label.append(checkbox,document.createTextNode('No reply needed'));reply.append(explanation,label);emailField.after(reply);
-  function syncReply(){pref.value=MilesFormRules.replyPreference(checkbox.checked);handleResponsePrefChange(pref.value);explanation.textContent=checkbox.checked?'Your request will be logged without an email reply.':'The team will reply to your Lyft email address during office hours.';}
+  function syncReply(){pref.value=MilesFormRules.replyPreference(checkbox.checked);handleResponsePrefChange(pref.value);explanation.textContent=checkbox.checked?'Your request will be logged without an email reply.':userRegion==='SAN'?'The support team will reply to your Lyft email address.':'The team will reply to your Lyft email address during office hours.';}
   checkbox.addEventListener('change',syncReply);
   var safety=document.createElement('p');safety.className='form-safety';
   safety.innerHTML='Not monitored for emergencies. For fire or immediate danger, call <a href="tel:911">911</a>. For roadside help, call <a href="tel:8332745938">Holman 24/7</a>.';
@@ -10091,6 +10225,7 @@ function clearAttachment() {
   window.openContactModal=function(mode){
     baseOpen(mode);
     if (!document.getElementById('contactModal').classList.contains('open')) return;
+     refreshReasons();
     if(movingDraft){
       ['cf-name','cf-email','cf-phone','cf-message','cf-response-pref'].forEach(function(id){document.getElementById(id).value=movingDraft[id];});
       var value=movingDraft['cf-reason'];if(userRegion==='SAN'&&value==='Drop-off')value='Vehicle drop-off';if(userRegion!=='SAN'&&value==='Vehicle drop-off')value='Drop-off';
@@ -10098,8 +10233,10 @@ function clearAttachment() {
       movingDraft=null;
     }
     officeName.textContent=VENDORS[userRegion].regionName;
+     document.getElementById('modalTitle').textContent=mode==='dropoff'?'Return my car':'Message the team';
     document.getElementById('modalSubtitle').textContent='Review your request before sending';
-    hours.textContent='Office hours: '+_officeHoursLabel();
+    hours.hidden=userRegion==='SAN';
+    hours.textContent=userRegion==='SAN'?'':'Office hours: '+_officeHoursLabel();
     checkbox.checked=pref.value==='no';syncReply();
     referenceValue.textContent=currentClientId||'';
     hint.hidden=true;
@@ -10323,6 +10460,33 @@ function clearAttachment() {
   }
   root.MilesFeelRules.correct=correct; root.MilesFeelRules.buildVocab=buildVocab;
 })(typeof window!=='undefined'?window:this);
+/* Conservative section selection: reuse approved content, never infer an account-specific cause. */
+(function(root) {
+  var intents=[
+    {query:/\b(destination filter|auto.?logout)\b/i,title:/destination filter/i},
+    {query:/\b(dispute|wrong|incorrect)\b.*\b(miles|mileage)\b|\b(miles|mileage)\b.*\b(dispute|wrong|incorrect)\b/i,title:/dispute your miles/i},
+    {query:/\b(change|switch)\b.*\bmileage plan\b/i,title:/change your mileage plan/i},
+    {query:/\b(where|which card|which account)\b.*\b(refund|deposit)\b/i,title:/where the refund goes/i},
+    {query:/\b(how long|when|timeline)\b.*\b(deposit|refund)\b/i,title:/refund timeline/i},
+    {query:/\b(after.?hours|weekend|saturday|sunday)\b/i,title:/timing.*after.hours/i},
+    {query:/\b(schedule|book)\b.*\breturn\b/i,title:/schedule your return/i},
+    {query:/\b(clean|cleaning|dirty|smoke odor|pet hair)\b/i,title:/cleanliness requirements/i},
+    {query:/\b(toll|tolls)\b/i,title:/toll charges/i},
+    {query:/\b(payment plan|can.?t pay|cannot pay)\b/i,title:/payment plan/i},
+    {query:/\b(overdue|pay.*balance|balance.*pay)\b/i,title:/overdue balance/i},
+    {query:/\b(collections)\b/i,title:/sent to collections/i},
+    {query:/\b(charging discounts?|charging discount)\b/i,title:/charging discounts/i},
+    {query:/\b(range tips?|improve.*range)\b/i,title:/range tips/i}
+  ];
+  root.MilesFeelRules.focusSection=function(query,titles) {
+    var matches=[];
+    intents.forEach(function(intent) {
+      if (!intent.query.test(String(query||''))) return;
+      titles.forEach(function(title,index) { if (intent.title.test(title) && matches.indexOf(index)<0) matches.push(index); });
+    });
+    return matches.length===1?matches[0]:-1;
+  };
+})(typeof window!=='undefined'?window:this);
 
 </script>
 <script>
@@ -10360,7 +10524,29 @@ function clearAttachment() {
   }
   var baseRender=window.renderMessage;
   window.renderMessage=function(role, content, extra) {
-    var bubble=baseRender.apply(this,arguments);
+    if (role==='assistant' && extra && extra.classList && extra.classList.contains('ev-accordion')) {
+      // Every topic takes this path, including hard-coded intros that bypass varyOpener.
+      if (typeof content==='string') content=content.replace(/^(?:Here is everything you need to know about|Good question\. Here's a full breakdown on|Let me walk you through|Here's what you need to know about|Got it — here's the full picture on) ([^:]+):/, 'Let’s look at $1.');
+      var query='';
+      for (var i=sessionLog.length-1;i>=0;i--) { if (sessionLog[i].role==='user' && sessionLog[i].context!=='office') { query=sessionLog[i].text||''; break; } }
+      var items=Array.from(extra.children).filter(function(item){return item.classList.contains('ev-accordion-item');});
+      var titles=items.map(function(item){return item.querySelector('.ev-accordion-header').textContent;});
+      var focused=R.focusSection(query,titles);
+      if (focused>=0 && items.length>1) {
+        var selected=items[focused], related=document.createElement('details'), summary=document.createElement('summary');
+        related.className='miles-related-details'; summary.textContent=window.milesLang==='es'?'Más sobre este tema':'Related details'; related.appendChild(summary);
+        items.forEach(function(item,index){
+          var open=index===focused;
+          item.classList.toggle('is-open',open);
+          var header=item.querySelector('.ev-accordion-header'), body=item.querySelector('.ev-accordion-body');
+          header.classList.toggle('open',open); header.setAttribute('aria-expanded',String(open)); body.classList.toggle('is-open',open);
+          if (!open) related.appendChild(item);
+        });
+        extra.prepend(selected); extra.appendChild(related);
+        if (window.milesLang!=='es') content='Here’s the part that applies to your question.';
+      }
+    }
+    var bubble=baseRender.call(this,role,content,extra,arguments[3]);
     if (role==='assistant' && bubble && typeof userRegion!=='undefined' && userRegion==='SAN') { try { dropSanHours(bubble); } catch(e) {} }
     // Apply the office's closing time before the type-out effect copies the text, or it would restore 9AM-5PM.
     if (role==='assistant' && bubble && window.milesLocalizeHours) { try { window.milesLocalizeHours(bubble); if (extra && extra.nodeType===1) window.milesLocalizeHours(extra); } catch(e) {} }
@@ -10588,28 +10774,66 @@ function clearAttachment() {
     {id:'extend', reason:'Other', re:/\b(extend|extension|keep (the |my )?(car|vehicle) (longer|another|more)|more (days|weeks) with)\b/i,
      title:'Rental extension request', offer:'Send an extension request',
      steps:[
-       {key:'plate', label:'License plate', q:'What’s the license plate on your car? (Type it below.)', text:true},
-       {key:'length', label:'Extend by', q:'How much longer do you need it?', choices:['1 week','2 weeks','1 month','Not sure yet']},
-       {key:'reason', label:'Reason', q:'Last one — what’s the main reason?', choices:['Still driving for work','Waiting on my own car','Other']}]},
+       {key:'plate', label:'License plate', q:'What’s the license plate on your car? (Type it below.)', q_es:'¿Cuál es la placa de tu auto? (Escríbela abajo.)', text:true},
+       {key:'length', label:'Extend by', q:'How much longer do you need it?', q_es:'¿Cuánto tiempo más lo necesitas?', choices:['1 week','2 weeks','1 month','Not sure yet']},
+       {key:'reason', label:'Reason', q:'Last one — what’s the main reason?', q_es:'Última pregunta: ¿cuál es el motivo principal?', choices:['Still driving for work','Waiting on my own car','Other']}]},
     {id:'swap', reason:'Vehicle swap / replacement request', re:/\b(swap|switch|exchange|replace|different|new) (my |the |a )?(car|vehicle)\b|\b(car|vehicle) (swap|exchange|replacement)\b/i,
      title:'Vehicle swap request', offer:'Request a vehicle swap',
      steps:[
-       {key:'plate', label:'License plate', q:'What’s the license plate on your current car? (Type it below.)', text:true},
-       {key:'why', label:'Why', q:'Why do you need a swap?', choices:['Mechanical problem','Damage','Other']},
-       {key:'drivable', label:'Drivable', q:'Is the car safe to drive right now?', choices:['Yes','No']}]},
+       {key:'plate', label:'License plate', q:'What’s the license plate on your current car? (Type it below.)', q_es:'¿Cuál es la placa de tu auto actual? (Escríbela abajo.)', text:true},
+       {key:'why', label:'Why', q:'Why do you need a swap?', q_es:'¿Por qué necesitas cambiar de auto?', choices:['Mechanical problem','Damage','Other']},
+       {key:'drivable', label:'Drivable', q:'Is the car safe to drive right now?', q_es:'¿Es seguro manejar el auto ahora mismo?', choices:['Yes','No']}]},
     {id:'charge', reason:'Billing question', re:/\b(dispute|charged twice|double charged?|duplicate (billing )?charge|overcharged|wrong charge|refund (a|my|the) charge|billing question|mileage dispute|miles (that )?look wrong|dispute my miles|miles i didn'?t use|personal miles that)\b/i,
      title:'Charge review request', offer:'Ask my office to review a charge',
      steps:[
-       {key:'type', label:'Charge type', q:'Which charge do you want reviewed?', choices:['Weekly rate','Personal miles','Toll or ticket','Cleaning','Damage','Other']},
-       {key:'amount', label:'Amount and date', q:'About how much was it, and on what date? (Type it below.)', text:true},
-       {key:'plate', label:'License plate', q:'And the license plate on your car? (Type it below.)', text:true}]},
-    {id:'maint', reason:'Maintenance receipt', re:/\b(schedule|book|need|due for) (an? )?(oil change|maintenance|service|tire rotation)\b/i,
+       {key:'type', label:'Charge type', q:'Which charge do you want reviewed?', q_es:'¿Qué cargo quieres que revisemos?', choices:['Weekly rate','Personal miles','Toll or ticket','Cleaning','Damage','Other']},
+       {key:'amount', label:'Amount and date', q:'About how much was it, and on what date? (Type it below.)', q_es:'¿De cuánto fue, más o menos, y en qué fecha? (Escríbelo abajo.)', text:true},
+       {key:'plate', label:'License plate', q:'And the license plate on your car? (Type it below.)', q_es:'¿Y la placa de tu auto? (Escríbela abajo.)', text:true}]},
+    {id:'maint', reason:'Documents or photos', re:/\b(schedule|book|need|due for) (an? )?(oil change|maintenance|service|tire rotation)\b/i,
      title:'Maintenance request', offer:'Ask my office about maintenance',
      steps:[
-       {key:'plate', label:'License plate', q:'What’s the license plate? (Type it below.)', text:true},
-       {key:'miles', label:'Current mileage', q:'About how many miles are on it now? (Type it below.)', text:true},
-       {key:'issue', label:'Need', q:'What does it need?', choices:['Oil change','Tires','Warning light','Other']}]}
+       {key:'plate', label:'License plate', q:'What’s the license plate? (Type it below.)', q_es:'¿Cuál es la placa? (Escríbela abajo.)', text:true},
+       {key:'miles', label:'Current mileage', q:'About how many miles are on it now? (Type it below.)', q_es:'¿Cuántas millas tiene ahora, más o menos? (Escríbelo abajo.)', text:true},
+       {key:'issue', label:'Need', q:'What does it need?', q_es:'¿Qué necesita?', choices:['Oil change','Tires','Warning light','Other']}]},
+    // Virtual (unstaffed) return: asked before the drop-off photo form so the team gets one complete message.
+    {id:'return', reason:'Vehicle drop-off', re:/(?!)/,
+     title:'Virtual vehicle return', offer:'Return my car',
+     steps:[
+       {key:'plate', label:'License plate', q:'Let’s log your return. What’s the license plate (or last 6 of the VIN)? (Type it below.)', q_es:'Vamos a registrar tu devolución. ¿Cuál es la placa (o los últimos 6 del VIN)? (Escríbela abajo.)', text:true},
+       {key:'parked', label:'Parked in Flexdrive area', q:'Is the car parked in the marked Flexdrive return area?', q_es:'¿El auto está estacionado en el área de devolución marcada de Flexdrive?', choices:['Yes','Not yet']},
+       {key:'key', label:'Key in drop box', q:'Did you put the key in the drop box?', q_es:'¿Pusiste la llave en el buzón?', choices:['Yes','Not yet']},
+       {key:'damage', label:'New damage', q:'Any new damage, warning lights or problems with the car?', q_es:'¿Hay daños nuevos, luces de advertencia o problemas con el auto?', choices:['No','Yes — I’ll add photos']},
+       {key:'fuel', label:'Gas / charge', q:'How much gas or charge is left?', q_es:'¿Cuánta gasolina o carga le queda?', choices:['Full','More than half','Less than half']},
+       {key:'items', label:'Belongings removed', q:'Last one — have you taken all your belongings out?', q_es:'Última pregunta: ¿sacaste todas tus pertenencias?', choices:['Yes','Not yet']}]}
   ];
+  // Spanish labels for chip choices; the stored answer (sent to staff) stays in English.
+  var CHOICE_ES={'1 week':'1 semana','2 weeks':'2 semanas','1 month':'1 mes','Not sure yet':'Aún no sé','Still driving for work':'Sigo manejando para trabajar','Waiting on my own car':'Esperando mi propio auto','Other':'Otro','Mechanical problem':'Problema mecánico','Damage':'Daño','Yes':'Sí','No':'No','Weekly rate':'Tarifa semanal','Personal miles':'Millas personales','Toll or ticket':'Peaje o multa','Cleaning':'Limpieza','Oil change':'Cambio de aceite','Tires':'Llantas','Warning light':'Luz de advertencia','Not yet':'Todavía no','Yes — I’ll add photos':'Sí, agregaré fotos','Full':'Lleno','More than half':'Más de la mitad','Less than half':'Menos de la mitad'};
+  function localStep(step, lang) {
+    var es=lang==='es';
+    return {q:es&&step.q_es?step.q_es:step.q, choices:step.choices?step.choices.map(function(c){ return {value:c,label:es&&CHOICE_ES[c]?CHOICE_ES[c]:c}; }):null};
+  }
+  // Per-market virtual (unstaffed) return setup. Add an office code to switch it on.
+  // parking / dropbox are optional lot-specific directions shown before the questions; leave null until verified.
+  var RETURN_MARKETS={
+    SAN:{parking:null, dropbox:null}
+  };
+  var VIRTUAL_RETURN=Object.keys(RETURN_MARKETS);
+  function virtualReturn(region) { return Object.prototype.hasOwnProperty.call(RETURN_MARKETS, region); }
+  function returnDirections(region) { var m=RETURN_MARKETS[region]; return m ? {parking:m.parking||null, dropbox:m.dropbox||null} : null; }
+  // Photos the driver should take, shown in chat right before the photo form opens.
+  var PHOTO_CHECKLIST={
+    en:['Dashboard: odometer and gas/charge level','All 4 corners of the outside','Front and back seats, and the trunk','The key going into the drop box'],
+    es:['Tablero: millas y nivel de gasolina/carga','Las 4 esquinas por fuera','Asientos delanteros, traseros y la cajuela','La llave entrando al buzón']};
+  function photoChecklist(lang) { return PHOTO_CHECKLIST[lang==='es'?'es':'en'].slice(); }
+  // Things the driver still needs to do before leaving, based on their answers.
+  function returnReminders(answers, lang) {
+    var a=answers||{}, out=[], es=lang==='es';
+    if (a.parked==='Not yet') out.push(es?'Estaciónate en el área de devolución marcada de Flexdrive.':'Park in the marked Flexdrive return area.');
+    if (a.key==='Not yet') out.push(es?'Pon la llave en el buzón: la devolución no está completa hasta que esté ahí.':'Put the key in the drop box — the return isn’t complete until it’s there.');
+    if (a.items==='Not yet') out.push(es?'Saca todas tus pertenencias del auto.':'Take all your belongings out of the car.');
+    if (/^Yes/.test(a.damage||'')) out.push(es?'Agrega fotos del daño en la casilla “Damage / extra photos”.':'Add photos of the damage in the “Damage / extra photos” tile.');
+    return out;
+  }
   // Escalation shortcuts: before opening the form, ask what it's about so many get solved in chat.
   var TOPICS=[
     {label:'A charge or my miles', flow:'charge'},
@@ -10618,6 +10842,10 @@ function clearAttachment() {
     {label:'Maintenance', flow:'maint'},
     {label:'I was in an accident', query:'I was in an accident'},
     {label:'Returning my car', query:'return my vehicle'}];
+  var TOPIC_ES={'A charge or my miles':'Un cargo o mis millas','Swap my car':'Cambiar mi auto','Extend my rental':'Extender mi renta','Maintenance':'Mantenimiento','I was in an accident':'Tuve un accidente','Returning my car':'Devolver mi auto'};
+  var OFFER_ES={extend:'Enviar solicitud de extensión',swap:'Pedir un cambio de auto',charge:'Pedir que revisen un cargo',maint:'Preguntar por mantenimiento',ret:'Devolver mi auto'};
+  function topicLabel(t, lang) { return lang==='es'&&TOPIC_ES[t.label]?TOPIC_ES[t.label]:t.label; }
+  function offerLabel(f, lang) { return lang==='es'&&OFFER_ES[f.id]?OFFER_ES[f.id]:f.offer; }
   // San Diego has no staff on site: support and returns only, no new rentals, swaps or extensions.
   var SAN_BLOCKED=/\b(swap|switch|exchange|replace(ment)?|extend|extension|renew|new (car|rental|vehicle)|rent (a|another|again|a new)|(get|need|want) (a|another) (car|rental|vehicle)|pick ?up (a|my) (car|vehicle)|picking up)\b/i;
   function sanBlocked(region, text) { return region==='SAN' && SAN_BLOCKED.test(String(text||'')); }
@@ -10633,7 +10861,7 @@ function clearAttachment() {
     flow.steps.forEach(function(s){ lines.push('- '+s.label+': '+(answers[s.key]||'(not given)')); });
     return lines.join('\n');
   }
-  root.MilesRequestRules={FLOWS:FLOWS,requestFor:requestFor,flowById:flowById,summary:summary,TOPICS:TOPICS,topicsFor:topicsFor,sanBlocked:sanBlocked};
+  root.MilesRequestRules={FLOWS:FLOWS,requestFor:requestFor,flowById:flowById,summary:summary,TOPICS:TOPICS,topicsFor:topicsFor,sanBlocked:sanBlocked,virtualReturn:virtualReturn,returnReminders:returnReminders,VIRTUAL_RETURN:VIRTUAL_RETURN,RETURN_MARKETS:RETURN_MARKETS,returnDirections:returnDirections,photoChecklist:photoChecklist,localStep:localStep,topicLabel:topicLabel,offerLabel:offerLabel};
 })(typeof window!=='undefined'?window:this);
 
 </script>
@@ -10644,6 +10872,8 @@ function clearAttachment() {
   var R=window.MilesRequestRules; if (!R) return;
   var reduce=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var active=null, offered=null;
+  function es() { return window.milesLang==='es'; }
+  function L(en, sp) { return es()?sp:en; }
   function clearChips() { chatArea.querySelectorAll('.miles-chips').forEach(function(el){ el.remove(); }); }
   function chips(label, items) {
     var wrap=document.createElement('div'); wrap.className='miles-chips'; wrap.setAttribute('role','group'); wrap.setAttribute('aria-label',label);
@@ -10652,29 +10882,43 @@ function clearAttachment() {
     setTimeout(function(){ chatArea.appendChild(wrap); try { scrollToElement(wrap); } catch(e) {} }, reduce?0:700);
   }
   function ask() {
-    var s=active.flow.steps[active.i];
+    var s=R.localStep(active.flow.steps[active.i], window.milesLang);
     renderMessage('assistant', s.q);
-    if (s.choices) chips('Pick one', s.choices.map(function(c){ return {label:c, run:function(){ clearChips(); answer(c); }}; }));
+    if (s.choices) chips(L('Pick one','Elige una'), s.choices.map(function(c){ return {label:c.label, run:function(){ clearChips(); answer(c.value, c.label); }}; }));
     else { try { milesEnableChat(); } catch(e) {} userInput.focus(); }
   }
-  function answer(val) {
-    renderMessage('user', val);
+  function answer(val, shown) {
+    renderMessage('user', shown||val);
     active.answers[active.flow.steps[active.i].key]=val; active.i++;
     if (active.i<active.flow.steps.length) { setTimeout(ask, 350); return; }
-    var flow=active.flow, text=R.summary(flow, active.answers), unsafe=(flow.id==='swap' && active.answers.drivable==='No'); active=null;
+    var flow=active.flow, answers=active.answers, text=R.summary(flow, answers), unsafe=(flow.id==='swap' && answers.drivable==='No'); active=null;
+    if (window.milesClearDraft) window.milesClearDraft(); // a new request replaces any unsent form
+    if (flow.id==='return') {
+      var todo=R.returnReminders(answers, window.milesLang), list=R.photoChecklist(window.milesLang);
+      setTimeout(function(){
+        renderMessage('assistant', todo.length
+          ? L('Thanks — I’ve filled in your return. Before you leave:','Gracias, ya llené tu devolución. Antes de irte:')+'\n\n• '+todo.join('\n• ')
+          : L('Thanks — I’ve filled in your return.','Gracias, ya llené tu devolución.'));
+        setTimeout(function(){
+          renderMessage('assistant', L('Have your phone ready for these photos:','Ten tu teléfono listo para estas fotos:')+'\n\n1. '+list.map(function(x,i){ return (i?(i+1)+'. ':'')+x; }).join('\n')+'\n\n'+L('When you’re ready, tap the button below to open your return form.','Cuando estés listo, toca el botón de abajo para abrir tu formulario de devolución.'),
+            reopenButton(L('Open my return form','Abrir mi formulario de devolución'), function(){ fillReturn(text); }));
+        }, reduce?0:900);
+      }, 350);
+      return;
+    }
     if (unsafe) {
       // Not safe to drive: roadside first, then the office still gets the swap request.
       setTimeout(function(){
-        renderMessage('assistant','Since the car isn\u2019t safe to drive, please don\u2019t drive it. Call Holman at (833) 274-5938 \u2014 available 24/7 \u2014 for roadside help or a tow. I\u2019ll still send your swap request to your office.');
+        renderMessage('assistant',L('Since the car isn\u2019t safe to drive, please don\u2019t drive it. Call Holman at (833) 274-5938 \u2014 available 24/7 \u2014 for roadside help or a tow. You can still send a swap request to your office after reviewing the form.','Como no es seguro manejar el auto, por favor no lo manejes. Llama a Holman al (833) 274-5938, disponible 24/7, para asistencia en el camino o una grúa. Aun así puedes enviar la solicitud de cambio a tu oficina después de revisar el formulario.'));
         setTimeout(function(){
-          renderMessage('assistant','Your request is filled in below; just add your contact info and send.');
+          renderMessage('assistant',L('Your request is filled in below; just add your contact info and send.','Tu solicitud ya está llena abajo; solo agrega tus datos de contacto y envía.'), reopenButton(L('Open my request','Abrir mi solicitud'), function(){ fill(flow, text); }));
           setTimeout(function(){ fill(flow, text); }, reduce?0:600);
         }, reduce?0:900);
       }, 350);
       return;
     }
     setTimeout(function(){
-      renderMessage('assistant','Thanks — that’s everything your office needs. I’ve filled in the message for you; just add your contact info and send.');
+      renderMessage('assistant',L('Thanks — that’s everything your office needs. I’ve filled in the message for you; just add your contact info and send.','Gracias, es todo lo que tu oficina necesita. Ya llené el mensaje; solo agrega tus datos de contacto y envía.'), reopenButton(L('Open my request','Abrir mi solicitud'), function(){ fill(flow, text); }));
       setTimeout(function(){ fill(flow, text); }, reduce?0:600);
     }, 350);
   }
@@ -10682,29 +10926,57 @@ function clearAttachment() {
   function sanReasons() {
     var sel=document.getElementById('cf-reason'); if (!sel) return;
     Array.prototype.forEach.call(sel.options, function(o){
-      var hide=userRegion==='SAN' && (o.value==='Pick-up' || o.value==='Vehicle swap / replacement request' || o.value==='Accident re-rental request');
+      var hide=userRegion==='SAN' && (o.value==='Pick-up' || o.value==='Vehicle swap / replacement request');
       o.hidden=hide; o.disabled=hide;
     });
   }
   function openDirect(mode) { bypass=true; try { return window.openContactModal(mode); } finally { bypass=false; sanReasons(); } }
   window.milesOpenDirect=openDirect;
   window.openContactModal=function(mode) {
+    // An unsent form is waiting for this mode: reopen it with its message and photos instead of starting over.
+    if (!bypass && window.milesHasDraft && window.milesHasDraft(mode)) return openDirect(mode);
+    if (mode==='dropoff' && !bypass && typeof userRegion!=='undefined' && R.virtualReturn(userRegion)) { start(R.flowById('return')); return; }
     if (mode!=='talk' || bypass) { var r=baseOpen.apply(this, arguments); sanReasons(); return r; }
-    if (window.milesLang==='es' || typeof userRegion==='undefined' || !userRegion) return baseOpen.apply(this, arguments);
-    renderMessage('assistant','Happy to get you to your team. So they can help faster, what’s it about? I can often sort it out right here.');
-    chips('Pick one', R.topicsFor(userRegion).map(function(t){ return {label:t.label, run:function(){ clearChips();
+    if (typeof userRegion==='undefined' || !userRegion) return baseOpen.apply(this, arguments);
+    renderMessage('assistant',L('Happy to get you to your team. So they can help faster, what’s it about? I can often sort it out right here.','Con gusto te comunico con tu equipo. Para que te ayuden más rápido, ¿de qué se trata? Muchas veces lo puedo resolver aquí mismo.'));
+    chips(L('Pick one','Elige una'), R.topicsFor(userRegion).map(function(t){ return {label:R.topicLabel(t, window.milesLang), run:function(){ clearChips();
       if (t.flow) start(R.flowById(t.flow)); else { userInput.value=t.query; window.__milesTyped=true; window.sendMessage(); } }}; })
-      .concat([{label:'Just connect me', run:function(){ clearChips(); openDirect('talk'); }}]));
+      .concat([{label:L('Just connect me','Solo comunícame'), run:function(){ clearChips(); openDirect('talk'); }}]));
     return;
   };
   function fill(flow, text) {
     openDirect('talk');
     var reason=document.getElementById('cf-reason'), msg=document.getElementById('cf-message');
     if (!reason || !msg || !document.getElementById('contactModal') ) return;
+    if (window.milesDraftRestored) return; // reopened: keep what the driver already edited and added
     try { reason.value=flow.reason; onReasonSelect(flow.reason); } catch(e) {}
     msg.value=text; try { msg.dispatchEvent(new Event('input',{bubbles:true})); } catch(e) {}
   }
-  function start(flow) { clearChips(); active={flow:flow,i:0,answers:{}}; ask(); }
+  // A button that stays in the chat so the driver can read the instructions first, or reopen the
+  // filled-in form after closing it (closing clears the form; this fills it again).
+  function reopenButton(label, run) {
+    var wrap=document.createElement('div'); wrap.className='miles-reopen-actions miles-dropoff-actions';
+    var b=document.createElement('button'); b.type='button'; b.className='quick-btn miles-handoff-button miles-dropoff-button'; b.textContent=label;
+    b.onclick=function(){ if (b.disabled) return; b.disabled=true; setTimeout(function(){ b.disabled=false; }, 1500); run(); };
+    wrap.appendChild(b);
+    // Bring the button into view once the message has finished typing out (keeps the message start visible).
+    [900,2200,3500].forEach(function(t){ setTimeout(function(){ if (wrap.isConnected) { try { scrollToElement(wrap); } catch(e) {} } }, t); });
+    return wrap;
+  }
+  function fillReturn(text) {
+    openDirect('dropoff');
+    var msg=document.getElementById('cf-message'); if (!msg || window.milesDraftRestored) return;
+    msg.value=text; try { msg.dispatchEvent(new Event('input',{bubbles:true})); } catch(e) {}
+  }
+  function start(flow) {
+    clearChips(); active={flow:flow,i:0,answers:{}};
+    var d=flow.id==='return' && typeof userRegion!=='undefined' ? R.returnDirections(userRegion) : null;
+    if (d && (d.parking || d.dropbox)) {
+      renderMessage('assistant', [d.parking && L('Where to park: ','Dónde estacionar: ')+d.parking, d.dropbox && L('Key drop box: ','Buzón de llaves: ')+d.dropbox].filter(Boolean).join('\n'));
+      setTimeout(ask, reduce?0:500); return;
+    }
+    ask();
+  }
 
   var baseSend=window.sendMessage;
   window.sendMessage=function() {
@@ -10726,7 +10998,7 @@ function clearAttachment() {
       }, 400);
       return;
     }
-    offered=window.milesLang==='es' ? null : R.requestFor(text);
+    offered=R.requestFor(text);
     if (offered && R.sanBlocked(typeof userRegion!=='undefined'?userRegion:'', offered.title)) offered=null;
     return baseSend.apply(this, arguments);
   };
@@ -10734,7 +11006,7 @@ function clearAttachment() {
   window.scheduleFeedbackPrompt=function() {
     var out=baseFeedback.apply(this, arguments);
     if (offered) { var f=offered; offered=null;
-      setTimeout(function(){ chips('Want me to handle it?', [{label:f.offer, run:function(){ start(f); }}]); }, 900); }
+      setTimeout(function(){ chips(L('Want me to handle it?','¿Quieres que lo haga yo?'), [{label:R.offerLabel(f, window.milesLang), run:function(){ start(f); }}]); }, 900); }
     return out;
   };
   window.milesStartRequest=function(id){ var f=R.flowById(id); if (f) start(f); };
