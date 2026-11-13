@@ -9177,10 +9177,11 @@ window.addEventListener('load', function() {
  var userInputEl = document.getElementById('userInput');
  var appEl = document.querySelector('.app');
 
- // Scroll to bottom when keyboard opens
+ // Keyboard opening: the viewport handler below scrolls once the keyboard has settled
+ // (Nov 13 2026: a fixed 400 ms scroll here fought the keyboard animation on iPhone).
  userInputEl.addEventListener('focus', function() {
  userInputEl.removeAttribute('readonly'); // allow typing now
- setTimeout(function() { scrollToBottom(); }, 400);
+ if (!window.visualViewport) setTimeout(function() { scrollToBottom(); }, 400);
  });
  // Re-add readonly after blur so next focus doesn't trigger scroll
  userInputEl.addEventListener('blur', function() {
@@ -9192,27 +9193,44 @@ window.addEventListener('load', function() {
  // Re-focus input after blur (only if user tapped input bar area, not elsewhere)
  // This keeps the cursor ready without forcing keyboard open
 
- // Visual Viewport API — pins app to visual viewport so input bar stays above keyboard
+ // Visual Viewport API: pins the app to the visible area so the input bar stays above the keyboard.
+ // Nov 13 2026 (stutter fix): iPhone fires dozens of resize/scroll events while the keyboard slides
+ // in or out. Each one used to rewrite the app's size and position and queue its own scroll to the
+ // bottom, so the screen jumped. Now: at most one update per animation frame, only when a value
+ // actually changed, and a single scroll after the keyboard has settled (and only if the renter was
+ // already at the bottom, so reading an earlier answer isn't interrupted).
  if (window.visualViewport) {
- function onViewportResize() {
- if (appEl) {
  var vv = window.visualViewport;
- // Pin the app container to exactly the visible area
- appEl.style.height = Math.round(vv.height) + 'px';
- appEl.style.position = 'fixed';
- appEl.style.top = Math.round(vv.offsetTop) + 'px';
- appEl.style.left = Math.round(vv.offsetLeft) + 'px';
- appEl.style.width = Math.round(vv.width) + 'px';
+ var vvFrame = 0, vvSettle = 0, vvLast = { h: -1, w: -1, t: -1, l: -1 }, vvWasAtBottom = true;
+ function chatNearBottom() {
+ var ca = document.getElementById('chatArea');
+ return !ca || (ca.scrollHeight - ca.scrollTop - ca.clientHeight) < 120;
  }
- // If we're in location entry mode, scroll focused input into view
+ function applyViewport() {
+ vvFrame = 0;
+ if (!appEl) return;
+ var h = Math.round(vv.height), w = Math.round(vv.width), t = Math.round(vv.offsetTop), l = Math.round(vv.offsetLeft);
+ var sizeChanged = (h !== vvLast.h || w !== vvLast.w);
+ if (vvLast.h < 0) appEl.style.position = 'fixed';
+ if (sizeChanged) { appEl.style.height = h + 'px'; appEl.style.width = w + 'px'; }
+ if (t !== vvLast.t) appEl.style.top = t + 'px';
+ if (l !== vvLast.l) appEl.style.left = l + 'px';
+ vvLast = { h: h, w: w, t: t, l: l };
+ if (!sizeChanged) return;
+ clearTimeout(vvSettle);
+ vvSettle = setTimeout(function() {
+ vvSettle = 0;
  var focusedInput = document.querySelector('.location-prompt input:focus');
  if (focusedInput) {
- setTimeout(function() {
  focusedInput.closest('.location-prompt').scrollIntoView({ behavior: 'instant', block: 'end' });
- }, 100);
- } else {
- setTimeout(scrollToBottom, 80);
+ } else if (vvWasAtBottom) {
+ scrollToBottom();
  }
+ }, 160);
+ }
+ function onViewportResize() {
+ if (!vvSettle && !vvFrame) vvWasAtBottom = chatNearBottom(); // remember where the renter was before the keyboard moved
+ if (!vvFrame) vvFrame = requestAnimationFrame(applyViewport);
  }
  window.visualViewport.addEventListener('resize', onViewportResize);
  window.visualViewport.addEventListener('scroll', onViewportResize);
