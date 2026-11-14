@@ -2091,6 +2091,40 @@ html, body { background:#0F406A; }
 </div>
 
 <script>
+// PHONE TEXT SIZE (Nov 13 2026): on iPhone and iPad, follow the Text Size set in
+// Settings > Display & Brightness > Text Size (Dynamic Type). Safari doesn't do this for
+// web pages on its own. We read the phone's body text size, compare it with iOS's default
+// (17 px), and scale Miles's text by the same amount. Capped between 85% and 135% so very
+// large accessibility sizes don't break buttons and cards. Android Chrome already applies
+// the phone's font size to web pages, so nothing is changed there.
+(function () {
+  function apply() {
+    try {
+      var ua = navigator.userAgent || '';
+      var isIOS = /iP(hone|od|ad)/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      if (!isIOS || !document.body) return;
+      var probe = document.createElement('span');
+      probe.style.font = '-apple-system-body';
+      if (!probe.style.font) return; // not supported: leave text as designed
+      probe.style.position = 'absolute'; probe.style.visibility = 'hidden';
+      probe.textContent = 'A';
+      document.body.appendChild(probe);
+      var px = parseFloat(window.getComputedStyle(probe).fontSize);
+      document.body.removeChild(probe);
+      if (!(px > 0)) return;
+      var ratio = Math.min(1.35, Math.max(0.85, px / 17));
+      var pct = Math.abs(ratio - 1) < 0.03 ? '100%' : Math.round(ratio * 100) + '%';
+      var root = document.documentElement.style;
+      root.webkitTextSizeAdjust = pct; root.textSizeAdjust = pct;
+      document.documentElement.setAttribute('data-text-scale', pct);
+    } catch (e) {}
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply); else apply();
+  // Changing Text Size in Settings and coming back to Safari: re-check.
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) apply(); });
+})();
+</script>
+<script>
 // TEST MODE (Nov 13 2026): open Miles with ?test=1 and nothing from that browser tab is logged
 // to the Sheet (sessions, topics, unmatched, escalation questions, feedback). The contact form
 // still sends, so alerts can be tested. Stays on for the tab until it's closed or ?test=0 is opened.
@@ -5949,6 +5983,10 @@ function resolveMarketText(text) {
 }
 
 var CARD_ANSWERS = [
+ // Nov 13 2026: how renters find out maintenance is due (wording from the Dashboard maintenance light answer).
+ { k: ["when maintenance is due","know when maintenance","when is maintenance due","when is my maintenance due","when do i need maintenance","when does my car need maintenance","when does the car need maintenance","when is my next maintenance","when is my next oil change","know when to get an oil change","when do i get an oil change","when is service due","when is my service due","maintenance schedule","how do i know when my car needs service"],
+   a: "Flexdrive tracks your car\u2019s maintenance schedule and will let you know through the app when service is due. You can ignore a general \u201cMaintenance Due\u201d message on the dashboard.\n\nWhen it\u2019s time, take the car to an approved vendor and tell them \u201cThis is a Flexdrive vehicle.\u201d A warning or check engine light is different: get that looked at by an approved vendor as soon as possible.\n\nAsk me \u201capproved vendors\u201d to see the shops near you.", topic: "Maintenance schedule" },
+
  // Nov 13 2026: holding answers until Kal supplies policy wording (from Unmatched / Escalation logs).
  { k: ["phone mount","phone holder","mount on the vent","vent mount","dashcam","dash cam","dashboard camera","dash camera","suction mount","suction cup mount","install a camera","mount a camera","mount my phone"],
    a: "Phone mounts are encouraged. For a dash cam, check Lyft\u2019s recording device policy first, because whether you can record during rides depends on your state and city: https://lft.to/2XhpRWP\n\nRegistering a dash cam in the Lyft Driver App is optional.", topic: "Phone mounts / dash cams" },
@@ -6506,7 +6544,7 @@ var CARD_ANSWERS = [
 
  // ── MAINTENANCE — oil change schedule ────────────────────────
  { k: ["oil change how often","when should i get oil change","oil change interval","oil change reminder","how many miles between oil change","oil change schedule"],
- a: "Most vehicles need an oil change every 5,000-7,500 miles. Your dashboard will show a maintenance reminder when it's due. Take the vehicle to an approved vendor and tell them 'This is a Flexdrive vehicle' — oil changes are covered under your rental.", topic: "Oil change / maintenance location" },
+ a: "Flexdrive tracks your oil change schedule and will let you know through the app when it's due, so you can ignore a general 'Maintenance Due' message on the dashboard. When it's time, take the vehicle to an approved vendor and tell them 'This is a Flexdrive vehicle' — oil changes are covered under your rental. Ask me \u201capproved vendors\u201d to see the shops near you.", topic: "Oil change / maintenance location" },
 
  { k: ["is maintenance covered","is maintenance free","maintenance included","is maintenance included","tire rotation flexdrive","brake inspection flexdrive","tire rotation covered","brakes covered","maintenance covered"],
  a: "Preventative maintenance including oil changes, tire rotations, diagnostics, and general service is covered at approved vendors. Always tell the shop 'This is a Flexdrive vehicle' to ensure billing goes to Flexdrive, not you.", topic: "Oil change / maintenance location",
@@ -8369,7 +8407,7 @@ function showWelcome() {
     var _nextBiz = getNextBusinessDay();
     _holidayBanner = '<div style="background:rgba(255,255,255,0.12);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.95);">' + HOLIDAY_CLOSED_MSG[_todayHol.key] + ' We\'ll be back ' + _nextBiz + ' at 9:00 AM.</div>';
   }
-  s1.innerHTML = '<span style="font-size:17px;font-weight:700;color:var(--white);display:block;margin-bottom:2px;">' + _greet + ', I\'m Miles &#128075;</span><span style="display:block;margin-bottom:10px;"></span>' + _holidayBanner + 'I\'m your Flexdrive support assistant &mdash; Instant answers on mileage, billing, maintenance, protection plans, fees, state rules, and more.<br><br>Lyft app or earnings questions? Visit <a href=\"https://help.lyft.com\" target=\"_blank\" style=\"color:#FF00BF;\">help.lyft.com</a>.';
+  s1.innerHTML = '<span style="font-size:17px;font-weight:700;color:var(--white);display:block;margin-bottom:2px;">' + _greet + ', I\'m Miles &#128075;</span><span style="display:block;margin-bottom:10px;"></span>' + _holidayBanner + 'I\'m Flexdrive\'s virtual assistant for renters, here 24/7. I can help with:<br>&bull; Returns, swaps, maintenance and repairs<br>&bull; Billing, mileage, fees and protection plans<br>&bull; Office hours, locations and your rental agreement<br>&bull; Sending a request to your rental office<br><br><strong>I can\'t see your account</strong>, so I can\'t look up your balance, charges, contract or car. For anything about your account, tap <strong>Support &rarr; Talk to Someone</strong> and your office will help.<br><br>Lyft app or earnings questions? Visit <a href=\"https://help.lyft.com\" target=\"_blank\" style=\"color:#FF00BF;\">help.lyft.com</a>.';
   bubble.appendChild(s1);
 
   var d2 = document.createElement('div');
@@ -9910,9 +9948,19 @@ function clearAttachment() {
     details.appendChild(picker); wrap.appendChild(details); wrap.appendChild(note);
     return wrap;
   }
+  // Welcome (Nov 13 2026): who Miles is, what he can do, and that he can't see the renter's account.
+  window.milesIntro=function() {
+    var es=window.milesLang==='es';
+    window.__milesNoTalkBtn=true; // the intro mentions Talk to Someone; no button before an office is picked
+    try { renderMessage('assistant', es
+      ? "Hola, soy Miles, el asistente virtual de Flexdrive para conductores. Estoy disponible 24/7 para ayudarte con devoluciones, cambios de auto, mantenimiento, facturación, millas, cargos, horarios de la oficina y tu contrato de renta. También puedo enviar una solicitud a tu oficina.\n\nNo puedo ver tu cuenta, así que no puedo consultar tu saldo, cargos, contrato ni tu auto. Para preguntas sobre tu cuenta, toca Support → Talk to Someone."
+      : "Hi, I’m Miles, Flexdrive’s virtual assistant for renters. I’m here 24/7 to help with returns, swaps, maintenance, billing, mileage, fees, office hours and your rental agreement. I can also send a request to your rental office.\n\nI can’t see your account, so I can’t look up your balance, charges, contract or car. For questions about your account, tap Support → Talk to Someone.");
+    } finally { window.__milesNoTalkBtn=false; }
+  };
   window.showWelcome=function() {
     pendingOffice=null; pendingContact=null; officeVersion++; enableChat();
-    renderMessage('assistant',"Hi, I’m Miles. Which city did you rent from?",officeChoices());
+    window.milesIntro();
+    renderMessage('assistant',"To get started, which city did you rent from?",officeChoices());
   };
   window.milesAcceptOffice=acceptOffice;
   window.handleLocationInput=function(text) { var code=resolveRegion(text); if(code) acceptOffice(code); };
@@ -10034,7 +10082,7 @@ function clearAttachment() {
   window.renderMessage = function (role, content) {
     var result = baseRender.apply(this, arguments);
     try {
-      if (role === 'assistant' && typeof content === 'string' && /talk to someone|your rental office can (also|take)|pass it to your rental office/i.test(content)) {
+      if (role === 'assistant' && typeof content === 'string' && !window.__milesNoTalkBtn && /talk to someone|your rental office can (also|take)|pass it to your rental office/i.test(content)) {
         var officeWording = !/talk to someone/i.test(content);
         setTimeout(function () { addTalkButton(officeWording); }, 0);
       }
@@ -10470,6 +10518,7 @@ function clearAttachment() {
     other.onclick=function(){ try{localStorage.removeItem(OFFICE_KEY);}catch(e){} actions.remove(); changeOffice(); };
     actions.appendChild(yes); actions.appendChild(other);
     window.milesEnableChat();
+    if (window.milesIntro) window.milesIntro();
     renderMessage('assistant','Welcome back — are you still renting from '+VENDORS[saved].regionName+'?',actions);
   };
 })();
