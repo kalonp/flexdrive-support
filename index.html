@@ -5984,8 +5984,24 @@ function resolveMarketText(text) {
 
 var CARD_ANSWERS = [
  // Nov 13 2026: how renters find out maintenance is due (wording from the Dashboard maintenance light answer).
- { k: ["when maintenance is due","know when maintenance","when is maintenance due","when is my maintenance due","when do i need maintenance","when does my car need maintenance","when does the car need maintenance","when is my next maintenance","when is my next oil change","know when to get an oil change","when do i get an oil change","when is service due","when is my service due","maintenance schedule","how do i know when my car needs service"],
+ { k: ["when maintenance is due","know when maintenance","know when to get the maintenance","when to get the maintenance","when to get maintenance","when to do maintenance","when to do the maintenance","when to get an oil change","when to get oil change","when to get my oil changed","when is maintenance due","when is my maintenance due","when do i need maintenance","when does my car need maintenance","when does the car need maintenance","when is my next maintenance","when is my next oil change","know when to get an oil change","when do i get an oil change","when is service due","when is my service due","maintenance schedule","how do i know when my car needs service"],
    a: "Flexdrive tracks your car\u2019s maintenance schedule and will let you know through the app when service is due. You can ignore a general \u201cMaintenance Due\u201d message on the dashboard.\n\nWhen it\u2019s time, take the car to an approved vendor and tell them \u201cThis is a Flexdrive vehicle.\u201d A warning or check engine light is different: get that looked at by an approved vendor as soon as possible.\n\nAsk me \u201capproved vendors\u201d to see the shops near you.", topic: "Maintenance schedule" },
+
+ // Nov 16 2026: from Unmatched / Escalation logs Nov 13-16.
+ { k: ["send a message to staff","message to staff","message the staff","message my office","message the office","get a message to","send a message to","message flexdrive","message to flexdrive","report a problem with my rental","report problem with rental","report a problem with the rental","report a problem with my car"],
+   a: "I can send a message to your rental office for you. Tap Talk to Someone, tell them what\u2019s going on, and they\u2019ll reply by email.", topic: "Contact info / phone number / how to reach Flexdrive" },
+
+ { k: ["send a photo","send photos","send pictures","send a picture","upload a photo","upload photos","attach a photo","attach photos"],
+   a: "You can send photos to your rental office: tap Talk to Someone, choose \u201cSend a receipt, photos or documents,\u201d and add your photos before you send.", topic: "Contact info / phone number / how to reach Flexdrive" },
+
+ { k: ["min rental","minimum rental","1 week the min","one week the min","1 week minimum","one week minimum","shortest rental","shortest i can rent"],
+   a: "The minimum rental is 7 days. After that, your rental renews each week on the same day of the week you picked up the car, until you return it.", topic: "Minimum rental period" },
+
+ { k: ["what is your response","response to my issue","response to my request","did you get my message","did you get my request","when will i hear back","when will someone respond","when will they respond","when will someone get back","any update on my request","status of my request","haven't heard back","have not heard back","still haven't heard"],
+   a: "Your rental office replies by email, usually within 1 business day. I can\u2019t see your request or your account, so I can\u2019t check its status here. If it\u2019s been longer than that, tap Talk to Someone and mention your earlier request.", topic: "Contact info / phone number / how to reach Flexdrive" },
+
+ { k: ["haven't received my credit","have not received my credit","still haven't received my credit","where is my credit","waiting for my credit","waiting on my credit","credit hasn't","didn't get my credit","did not get my credit","never got my credit","never received my credit"],
+   a: "I can\u2019t see your account, so I can\u2019t check a credit. Tap Talk to Someone and include when you were told about the credit and who you spoke with, and your office will look into it.", topic: "Billing / payments" },
 
  // Nov 13 2026: holding answers until Kal supplies policy wording (from Unmatched / Escalation logs).
  { k: ["phone mount","phone holder","mount on the vent","vent mount","dashcam","dash cam","dashboard camera","dash camera","suction mount","suction cup mount","install a camera","mount a camera","mount my phone"],
@@ -6186,7 +6202,7 @@ var CARD_ANSWERS = [
   { k: ["how do i schedule a swap","schedule a swap appointment","swap appointment","book a swap","how do i request a swap","set up a swap appointment","how do i get a swap","request a swap","schedule swap"],
     a: "To request or schedule a swap, reach out to your local team — tap Talk to Someone below and they'll help you set it up. Keep in mind a swap is only considered for remarketing or a verified serious mechanical issue confirmed by an approved vendor.", showTalkBtn: true, topic: "Swaps" },
 
-  { k: ["maintenance due but already done","inspection reminder but already did it","already did my maintenance","already completed the inspection","already got maintenance done","got a maintenance reminder but","do i still need to bring it in","maintenance already done","inspection already done","already did the oil change","maintenance reminder is wrong","why do i need an inspection again","keep getting inspection reminders","reminder to bring car in but already did", "need to return my vehicle again", "return my vehicle again", "do i really need to bring it back in", "do i need to bring it back in", "bring it back in", "maintenance is due but", "maintenance due but", "says maintenance is due but", "but i just got it done", "just had it done", "did my maintenance", "just did my maintenance", "already serviced", "flagged for maintenance", "account flagged for maintenance"],
+  { k: ["maintenance due but already done","inspection reminder but already did it","already did my maintenance","already got my maintenance done","already got my maintenance","already had my maintenance","already did maintenance","already did the maintenance","already got my oil change","already got an oil change","already had my oil changed","already had the oil changed","already completed the inspection","already got maintenance done","got a maintenance reminder but","do i still need to bring it in","maintenance already done","inspection already done","already did the oil change","maintenance reminder is wrong","why do i need an inspection again","keep getting inspection reminders","reminder to bring car in but already did", "need to return my vehicle again", "return my vehicle again", "do i really need to bring it back in", "do i need to bring it back in", "bring it back in", "maintenance is due but", "maintenance due but", "says maintenance is due but", "but i just got it done", "just had it done", "did my maintenance", "just did my maintenance", "already serviced", "flagged for maintenance", "account flagged for maintenance"],
     a: "If you got a maintenance or inspection reminder but already had the work done (or you believe it's in error), send us a photo of the bill or receipt showing it was completed. Tap Talk to Someone, choose \"Send a receipt, photos or documents\", and attach the photo. Once we verify it, we'll reset your maintenance miles and update your record so the reminders stop.", showTalkBtn: true, topic: "Maintenance / inspection reminder" },
 
   { k: ["how quickly does the team respond","how long until someone responds","response time","how fast will you respond","when will i hear back","how long to get a response","how long does it take to hear back","how soon will someone reply","how long for a reply"],
@@ -7287,6 +7303,10 @@ function findFuzzySuggestions(userText) {
 
 function findCardAnswer(text) {
  var lower = normalizeForMatch(text).trim();
+ // Whole-message "Message" / "Send message": logged unmatched Nov 14 2026.
+ if (/^(message|send message|send a message|message staff|message office)[.!? ]*$/.test(lower)) {
+   return { a: "I can send a message to your rental office for you. Tap Talk to Someone, tell them what\u2019s going on, and they\u2019ll reply by email.", topic: "Contact info / phone number / how to reach Flexdrive" };
+ }
  // Whole-message rental requests ("Rental", "Car rental", "Booking"): logged unmatched in SFO Oct-Nov 2026.
  if (!isUnstaffed(userRegion) && /^(car rental|rental|rent|renting|renting a car|rent a car|booking|book a car|book a rental|get a rental|would like to get (a )?rental|i would like (to get )?a rental|i want a rental|i want to rent( a car)?|i would like to rent( a car)?|new rental|how do i rent( a car)?)[.!? ]*$/.test(lower)) {
    return { a: "Flexdrive rentals are set up through the Lyft Driver App, and your Lyft earnings go toward the weekly rental cost first. Ask me about what you need to rent, picking up your car, or what\u2019s included.", showVendorBtn: false, sendMsgBtn: false, topic: "What is Flexdrive / Express Drive" };
@@ -8858,6 +8878,9 @@ var ATTACH_CONFIG = {
   'Vehicle swap / replacement request': { required: false, prompt: 'Attach any vendor documentation if the vehicle has already been inspected.', label: 'Attach documentation (optional)' },
   'EV / charging issue':           { required: false, prompt: 'A photo of your dashboard warning light or charge screen helps us diagnose the issue.', label: 'Attach photo (optional)' },
   'Background check / deactivation': { required: false, prompt: 'Attach any relevant documentation from Lyft if available.', label: 'Attach documentation (optional)' },
+  'Maintenance / repair':          { required: false, prompt: 'A photo of the warning light, the problem, or the shop\u2019s paperwork helps us help you faster.', label: 'Attach photo (optional)' },
+  'App notice / warning':          { required: false, prompt: 'A screenshot of the notice or warning in your app helps us check it faster.', label: 'Attach screenshot (optional)' },
+  'Credit request':                { required: false, prompt: 'Attach any shop, tow or repair paperwork that shows the days you couldn\u2019t drive.', label: 'Attach paperwork (optional)' },
 };
 
 function handleReasonChange(reason) {
@@ -10258,9 +10281,13 @@ function clearAttachment() {
     ['Rental & returns','Drop-off','Return my car'],
     ['Rental & returns','Vehicle drop-off','Return my car · photos'],
     ['Rental & returns','Vehicle swap / replacement request','Request a car swap'],
+    ['Rental & returns','Extension request','Extend my rental'],
     ['Charges & payments','Billing question','Question about a charge'],
     ['Charges & payments','Fee dispute','Dispute a fee (mileage, cleaning, toll)'],
+    ['Charges & payments','Credit request','Credit for days I couldn\u2019t drive'],
     ['Charges & payments','Deposit refund','My deposit refund'],
+    ['Car & documents','Maintenance / repair','Car problem, maintenance or repair'],
+    ['Car & documents','App notice / warning','A warning or notice in the app'],
     ['Car & documents','Documents or photos','Send a receipt, photos or documents'],
     ['Car & documents','EV / charging issue','EV or charging help'],
     ['Car & documents','Vehicle impounded / towed','My car was towed or impounded'],
@@ -10273,7 +10300,7 @@ function clearAttachment() {
     return REASONS.filter(function(r){
       if(r[1]==='Vehicle drop-off')return unstaffed(region);
       if(r[1]==='Drop-off')return !unstaffed(region);
-      return !unstaffed(region)||['Pick-up','Vehicle swap / replacement request'].indexOf(r[1])===-1;
+      return !unstaffed(region)||['Pick-up','Vehicle swap / replacement request','Extension request'].indexOf(r[1])===-1;
     }).map(function(r){return {group:r[0],value:r[1],label:r[2]};});
   }
   function replyPreference(noReply) { return noReply ? 'no' : 'yes'; }
@@ -10283,6 +10310,9 @@ function clearAttachment() {
     if (/inspection/.test(t) && /photo|completed|already|done/.test(t)) return 'Documents or photos';
     if (/accident/.test(t) && /rent again|re-rent|rerent|new rental/.test(t)) return 'Documents or photos';
     if (/pre-existing|existing damage|damage at pickup/.test(t)) return 'Documents or photos';
+    if (/\bextend|\bextension/.test(t)) return 'Extension request';
+    if (/(notice|notification|alert|message|warning)s?\b.*\b(return|repossess|maintenance|inspection|registration|not approved)|return (the |my )?(car|vehicle) (message|notice|notification)|repossession (warning|notice)/.test(t)) return 'App notice / warning';
+    if (!/deposit/.test(t) && /\bcredit|reimburs|couldn.?t drive|unable to drive|could not drive|days? (off|without)|in the shop/.test(t)) return 'Credit request';
     if (/impound|repossess|towed/.test(t)) return 'Vehicle impounded / towed';
     if (/deposit|refund/.test(t)) return 'Deposit refund';
     if (/cleaning/.test(t) && /charge|dispute|fee/.test(t)) return 'Fee dispute';
@@ -10295,6 +10325,7 @@ function clearAttachment() {
     if (/swap|replacement/.test(t)) return 'Vehicle swap / replacement request';
     if (/\ba\/?c\b|air condition|heater|\bno heat\b|trunk|door won|window won|window stuck/.test(t)) return 'Vehicle swap / replacement request';
     if (/charging|electric|\bev\b/.test(t)) return 'EV / charging issue';
+    if (/maintenance|repair|mechanic|warning light|check engine|oil change|\btires?\b|brake|headlight|battery|engine|alarm|\bshop\b/.test(t)) return 'Maintenance / repair';
     if (/cdw|protection/.test(t)) return 'CDW / protection plan question';
     if (/pick.?up|reservation/.test(t)) return 'Pick-up';
     return '';
@@ -10537,7 +10568,7 @@ function clearAttachment() {
     {kind:'ack',re:/^(ok(ay)?|k|cool|got it|great|perfect|sounds good|alright|nice|awesome|vale|perfecto|entendido)[\s!.,]*$/i,
      en:['Great! Anything else on your mind?','Sounds good. I’m here if you need anything else.'],
      es:['¡Perfecto! ¿Algo más?']},
-    {kind:'bye',re:/^(bye|goodbye|see (ya|you)|that'?s all|nothing else|no(pe)?,? (that'?s it|thanks?)|adi[oó]s|eso es todo)[\s!.,]*$/i,
+    {kind:'bye',re:/^(bye|goodbye|see (ya|you)|that['\u2019]?s all|nothing else|no(pe)?,? (that['\u2019]?s it|thanks?)|(no[.,!]?\s*)?(i['\u2019]?m done( now)?|done now|i['\u2019]?m all set|all set|i['\u2019]?m good)|adi[oó]s|eso es todo)[\s!.,]*$/i,
      en:['Take care, and drive safe!','Glad I could help. Drive safe!'],
      es:['¡Cuídate y maneja con cuidado!']},
     {kind:'howareyou',re:/^(how are you|how'?s it going|how are u|what'?s up|sup|c[oó]mo est[aá]s)[\s?!.]*$/i,
@@ -10911,7 +10942,7 @@ function clearAttachment() {
 /* Guided requests: pure rules. Collects the details an office needs so one message solves it. */
 (function(root) {
   var FLOWS=[
-    {id:'extend', reason:'Other', re:/\b(extend|extension|keep (the |my )?(car|vehicle) (longer|another|more)|more (days|weeks) with)\b/i,
+    {id:'extend', reason:'Extension request', re:/\b(extend|extension|keep (the |my )?(car|vehicle) (longer|another|more)|more (days|weeks) with)\b/i,
      title:'Rental extension request', offer:'Send an extension request',
      steps:[
        {key:'plate', label:'License plate', q:'What’s the license plate on your car? (Type it below.)', q_es:'¿Cuál es la placa de tu auto? (Escríbela abajo.)', text:true},
@@ -10929,7 +10960,7 @@ function clearAttachment() {
        {key:'type', label:'Charge type', q:'Which charge do you want reviewed?', q_es:'¿Qué cargo quieres que revisemos?', choices:['Weekly rate','Personal miles','Toll or ticket','Cleaning','Damage','Other']},
        {key:'amount', label:'Amount and date', q:'About how much was it, and on what date? (Type it below.)', q_es:'¿De cuánto fue, más o menos, y en qué fecha? (Escríbelo abajo.)', text:true},
        {key:'plate', label:'License plate', q:'And the license plate on your car? (Type it below.)', q_es:'¿Y la placa de tu auto? (Escríbela abajo.)', text:true}]},
-    {id:'maint', reason:'Documents or photos', re:/\b(schedule|book|need|due for) (an? )?(oil change|maintenance|service|tire rotation)\b/i,
+    {id:'maint', reason:'Maintenance / repair', re:/\b(schedule|book|need|due for) (an? )?(oil change|maintenance|service|tire rotation)\b/i,
      title:'Maintenance request', offer:'Ask my office about maintenance',
      steps:[
        {key:'plate', label:'License plate', q:'What’s the license plate? (Type it below.)', q_es:'¿Cuál es la placa? (Escríbela abajo.)', text:true},
@@ -11068,7 +11099,7 @@ function clearAttachment() {
   function sanReasons() {
     var sel=document.getElementById('cf-reason'); if (!sel) return;
     Array.prototype.forEach.call(sel.options, function(o){
-      var hide=isUnstaffed(userRegion) && (o.value==='Pick-up' || o.value==='Vehicle swap / replacement request');
+      var hide=isUnstaffed(userRegion) && (o.value==='Pick-up' || o.value==='Vehicle swap / replacement request' || o.value==='Extension request');
       o.hidden=hide; o.disabled=hide;
     });
   }
