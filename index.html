@@ -8880,6 +8880,7 @@ var ATTACH_CONFIG = {
   'Background check / deactivation': { required: false, prompt: 'Attach any relevant documentation from Lyft if available.', label: 'Attach documentation (optional)' },
   'Maintenance / repair':          { required: false, prompt: 'A photo of the warning light, the problem, or the shop\u2019s paperwork helps us help you faster.', label: 'Attach photo (optional)' },
   'App notice / warning':          { required: false, prompt: 'A screenshot of the notice or warning in your app helps us check it faster.', label: 'Attach screenshot (optional)' },
+  'Bonus or discount':             { required: false, prompt: 'A screenshot of the bonus or discount offer, or your weekly statement, helps us check it faster.', label: 'Attach screenshot (optional)' },
   'Credit request':                { required: false, prompt: 'Attach any shop, tow or repair paperwork that shows the days you couldn\u2019t drive.', label: 'Attach paperwork (optional)' },
 };
 
@@ -10285,6 +10286,7 @@ function clearAttachment() {
     ['Charges & payments','Billing question','Question about a charge'],
     ['Charges & payments','Fee dispute','Dispute a fee (mileage, cleaning, toll)'],
     ['Charges & payments','Credit request','Credit for days I couldn\u2019t drive'],
+    ['Charges & payments','Bonus or discount','Missing bonus or discount'],
     ['Charges & payments','Deposit refund','My deposit refund'],
     ['Car & documents','Maintenance / repair','Car problem, maintenance or repair'],
     ['Car & documents','App notice / warning','A warning or notice in the app'],
@@ -10292,7 +10294,7 @@ function clearAttachment() {
     ['Car & documents','EV / charging issue','EV or charging help'],
     ['Car & documents','Vehicle impounded / towed','My car was towed or impounded'],
     ['Account & protection','CDW / protection plan question','Protection plan (CDW) question'],
-    ['Account & protection','Background check / deactivation','Account access or deactivation'],
+    ['Account & protection','Background check / deactivation','Account, deactivation or renting again'],
     ['Something else','Other','Something else']
   ];
   function unstaffed(region) { return (typeof window!=='undefined' && typeof window.isUnstaffed==='function') ? window.isUnstaffed(region) : region==='SAN'; }
@@ -10309,6 +10311,7 @@ function clearAttachment() {
     if (/maintenance|oil change|service/.test(t) && /receipt|completed|already|done/.test(t)) return 'Documents or photos';
     if (/inspection/.test(t) && /photo|completed|already|done/.test(t)) return 'Documents or photos';
     if (/accident/.test(t) && /rent again|re-rent|rerent|new rental/.test(t)) return 'Documents or photos';
+    if (/rent again|re-?rent|rental eligib|eligible to rent|rental decision/.test(t)) return 'Background check / deactivation';
     if (/pre-existing|existing damage|damage at pickup/.test(t)) return 'Documents or photos';
     if (/\bextend|\bextension/.test(t)) return 'Extension request';
     if (/(notice|notification|alert|message|warning)s?\b.*\b(return|repossess|maintenance|inspection|registration|not approved)|return (the |my )?(car|vehicle) (message|notice|notification)|repossession (warning|notice)/.test(t)) return 'App notice / warning';
@@ -10320,6 +10323,7 @@ function clearAttachment() {
     // Asking for a copy of a ticket is "Something else" (as the ticket answer says); sending one is a document.
     if (/ticket|citation/.test(t) && /\bcop(y|ies)\b/.test(t)) return 'Other';
     if (/ticket|citation/.test(t)) return 'Documents or photos';
+    if (/\bbonus|discount|incentive|promo/.test(t)) return 'Bonus or discount';
     if (/charge|billing|payment|bill|charged/.test(t)) return 'Billing question';
     if (/return|drop.?off/.test(t)) return unstaffed(region) ? 'Vehicle drop-off' : 'Drop-off';
     if (/swap|replacement/.test(t)) return 'Vehicle swap / replacement request';
@@ -11186,6 +11190,71 @@ function clearAttachment() {
   window.milesStartRequest=function(id){ var f=R.flowById(id); if (f) start(f); };
 })();
 
+</script>
+<style>
+.cf-reason-nudge { margin-top:8px; padding:10px 12px; background:#FFF4FB; border:1.5px solid #FF00BF; border-radius:10px; font-size:14px; color:#0F406A; display:flex; gap:8px 10px; align-items:center; flex-wrap:wrap; }
+.cf-reason-nudge[hidden] { display:none; }
+.cf-reason-nudge button { border:0; border-radius:999px; background:#FF00BF; color:#fff; font:600 14px/1.2 inherit; padding:7px 14px; cursor:pointer; }
+</style>
+<script>
+// REASON HELP (Nov 2026): renters were picking "Something else" instead of reading the list.
+// 1. While the reason is blank, Miles picks one from what they type (they can change it).
+// 2. If they choose "Something else" and the message clearly fits a reason, a one-tap
+//    "This sounds like ... Use that?" suggestion appears. Nothing is ever blocked.
+(function () {
+  var reason = document.getElementById('cf-reason'), msg = document.getElementById('cf-message');
+  if (!reason || !msg || !window.MilesFormRules) return;
+  var userPicked = false, autoPicked = false, timer = 0;
+  // Never auto-pick these: they switch the form into photo/return modes the renter should choose.
+  var NO_AUTO = { 'Vehicle drop-off': 1, 'Drop-off': 1, 'Pick-up': 1 };
+  var nudge = document.createElement('div');
+  nudge.id = 'cf-reason-nudge'; nudge.className = 'cf-reason-nudge'; nudge.hidden = true;
+  nudge.setAttribute('role', 'status');
+  (reason.closest('.modal-field') || reason.parentNode).appendChild(nudge);
+  function es() { return window.milesLang === 'es'; }
+  function option(v) {
+    for (var k = 0; k < reason.options.length; k++) { var o = reason.options[k]; if (o.value === v && !o.hidden && !o.disabled) return o; }
+    return null;
+  }
+  function suggestion() {
+    var t = (msg.value || '').trim();
+    if (t.length < 12) return null;
+    var v = '';
+    try { v = MilesFormRules.suggestedReason(t, typeof userRegion !== 'undefined' ? userRegion : ''); } catch (e) {}
+    if (!v || v === 'Other') return null;
+    var o = option(v);
+    return o ? { value: v, label: o.textContent } : null;
+  }
+  function apply(v) { reason.value = v; try { onReasonSelect(v); } catch (e) {} }
+  function render(s) {
+    nudge.replaceChildren();
+    var txt = document.createElement('span');
+    txt.append(es() ? 'Parece que es sobre: ' : 'This sounds like: ');
+    var b = document.createElement('strong'); b.textContent = s.label; txt.appendChild(b);
+    var btn = document.createElement('button'); btn.type = 'button'; btn.textContent = es() ? 'Usar esa' : 'Use that';
+    btn.onclick = function () { apply(s.value); userPicked = true; autoPicked = false; nudge.hidden = true; };
+    nudge.append(txt, btn); nudge.hidden = false;
+  }
+  function update() {
+    var s = suggestion();
+    if (s && !NO_AUTO[s.value] && reason.value !== s.value && (reason.value === '' || (autoPicked && !userPicked))) {
+      apply(s.value); autoPicked = true;
+    }
+    if (s && reason.value === 'Other') render(s); else nudge.hidden = true;
+  }
+  window.milesReasonHelpUpdate = update; // for testing
+  msg.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(update, 500); });
+  reason.addEventListener('change', function () { userPicked = true; autoPicked = false; update(); });
+  var baseOpen = window.openContactModal;
+  if (typeof baseOpen === 'function') {
+    window.openContactModal = function () {
+      userPicked = false; autoPicked = false; nudge.hidden = true;
+      var r = baseOpen.apply(this, arguments);
+      setTimeout(function () { if (reason.value) userPicked = true; update(); }, 60); // a reason set by a guided request or draft counts as chosen
+      return r;
+    };
+  }
+})();
 </script>
 </body>
 </html>
