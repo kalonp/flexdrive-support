@@ -2546,7 +2546,7 @@ const CITY_TO_REGION = {
  "national city": "SAN", "lemon grove": "SAN", "spring valley": "SAN",
  "poway": "SAN", "lakeside": "SAN", "mission valley": "SAN",
  // SFO
- "san francisco": "SFO", "san francisco ca": "SFO", "san fran": "SFO", "sf": "SFO",
+ "san francisco": "SFO", "san francisco ca": "SFO", "sanfransisco": "SFO", "san fransisco": "SFO", "sanfrancisco": "SFO", "san fransico": "SFO", "san fran": "SFO", "sf": "SFO",
  "oakland": "SFO", "daly city": "SFO", "fremont": "SFO", "bay area": "SFO",
  "san jose": "SFO", "san mateo": "SFO", "hayward": "SFO", "berkeley": "SFO",
  "richmond": "SFO", "vallejo": "SFO", "antioch": "SFO", "sunnyvale": "SFO",
@@ -2572,6 +2572,26 @@ const CITY_TO_REGION = {
  "northern virginia": "DC", "nova": "DC", "vienna": "DC"
 };
 
+// Nov 2026: renters often answer "which office?" with the street address ("312 8th St", "5816 Miramar Rd").
+function officeFromAddress(input) {
+ function norm(x) {
+   return String(x || '').toLowerCase()
+     .replace(/(\d+)\s+(st|nd|rd|th)\b/g, '$1$2')
+     .replace(/\bstreet\b/g, 'st').replace(/\broad\b/g, 'rd').replace(/\bavenue\b/g, 'ave').replace(/\bboulevard\b/g, 'blvd').replace(/\bdrive\b/g, 'dr')
+     .replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+ }
+ var t = ' ' + norm(input) + ' ';
+ var codes = Object.keys(VENDORS), hits = [];
+ for (var k = 0; k < codes.length; k++) {
+   var off = VENDORS[codes[k]].office; if (!off || !off.address) continue;
+   var street = norm(String(off.address).split(',')[0]);         // e.g. "312 8th st"
+   var parts = street.split(' '); if (parts.length < 2) continue;
+   var num = parts[0], name = parts[1];                           // "312", "8th"
+   if (t.indexOf(' ' + num + ' ') !== -1 && t.indexOf(' ' + name + ' ') !== -1) hits.push(codes[k]);
+ }
+ // The same address can belong to two offices (Dallas and Fort Worth share Irving): let the picker decide then.
+ return hits.length === 1 ? hits[0] : null;
+}
 function resolveRegion(input) {
  var clean = input.trim().toLowerCase();
  // Exact office name from the picker (e.g. "Houston, TX") always resolves.
@@ -2782,7 +2802,7 @@ var KNOWLEDGE_BASE = [
  },
  {
  topic: "Vehicle repossessed / belongings",
- keywords: ["repossessed", "repo", "belongings", "stuff", "recovered", "personal items", "get my things", "car got repo'd", "they took my car", "flexdrive took my car", "vehicle was repossessed", "my stuff is in the car", "get my belongings", "get my stuff", "retrieve my things", "items left in car", "left stuff in car", "what happened to my things", "recovery yard"],
+ keywords: ["where are my items", "where are my things", "where are my belongings", "where is my stuff", "where are my personal items", "repossessed", "repo", "belongings", "stuff", "recovered", "personal items", "get my things", "car got repo'd", "they took my car", "flexdrive took my car", "vehicle was repossessed", "my stuff is in the car", "get my belongings", "get my stuff", "retrieve my things", "items left in car", "left stuff in car", "what happened to my things", "recovery yard"],
  needsRegion: true,
  showTalkBtn: true,
  response: "We understand this is a stressful situation. If Flexdrive recovered your vehicle, it's usually because of outstanding charges or a missed rental program requirement. Not sure what happened? Tap \"Talk to Someone\" and we'll confirm.\n\nWARNING: Belongings left in the vehicle are disposed of by the tow/recovery yard — Flexdrive does not have access to your items once the vehicle leaves your possession. Contact the recovery yard directly as soon as possible — do not delay.\n\nFlexdrive is not responsible for any belongings left in the vehicle after repossession.\n\nPlease note that any outstanding balance on your account remains your responsibility.\n\nWould you like help finding your recovery location? Please choose your office."
@@ -2887,7 +2907,7 @@ var KNOWLEDGE_BASE = [
   },
   {
     topic: "Billing week / when am I charged",
-    keywords: ["have i already paid", "already paid my rental", "have i paid this week", "did i pay already", "is my rental paid", "paid the full rental", "already paid for this week", "have i paid the rental", "did my payment go through", "was i charged already", "has my payment been taken", "check my payment", "check if i paid", "payment status", "did my rental payment go through", "was my rental charged", "how does billing work", "did i pay for my rental", "paid for my rental", "pay for my rental"],
+    keywords: ["when will i get charged", "when will i be charged", "when do i get charged", "when am i charged", "when will my card be charged", "first charge", "have i already paid", "already paid my rental", "have i paid this week", "did i pay already", "is my rental paid", "paid the full rental", "already paid for this week", "have i paid the rental", "did my payment go through", "was i charged already", "has my payment been taken", "check my payment", "check if i paid", "payment status", "did my rental payment go through", "was my rental charged", "how does billing work", "did i pay for my rental", "paid for my rental", "pay for my rental"],
     response: "To check if your rental has been paid this week, open the Lyft Driver App: Main Menu > Account > Express Drive billing history. This shows all charges, credits, and payment status for the current and past billing weeks.\n\nYour billing week runs Monday to Monday. If your Lyft earnings covered the full rental cost by Monday 4:59 AM, no additional charge is made. If not, your card is charged on Tuesday for the remaining balance."
   },
  {
@@ -2980,7 +3000,7 @@ var KNOWLEDGE_BASE = [
 
  {
  topic: "Rental cost / weekly rate",
- keywords: ["cuanto cuesta", "precio de renta", "cuanto cuesta la renta", "rental cost / weekly rate", "how much", "weekly rate", "rental cost", "how much does it cost", "what does it cost", "rental price", "weekly cost", "how much is the rental", "what is my rate", "what is the cost", "rental fee", "weekly fee", "cost per week", "price per week", "how much do i pay", "what am i charged", "rental amount", "how much is flexdrive", "how much is express drive"],
+ keywords: ["models and prices", "car models", "what cars do you have", "prices", "price list", "how much is a car", "cuanto cuesta", "precio de renta", "cuanto cuesta la renta", "rental cost / weekly rate", "how much", "weekly rate", "rental cost", "how much does it cost", "what does it cost", "rental price", "weekly cost", "how much is the rental", "what is my rate", "what is the cost", "rental fee", "weekly fee", "cost per week", "price per week", "how much do i pay", "what am i charged", "rental amount", "how much is flexdrive", "how much is express drive"],
  response: "Your weekly rental rate is based on your market and vehicle. To see your exact rate:\n\n1. Open the Lyft Driver App\n2. Go to Account > Vehicles > Express Drive\n3. Your weekly rate will be listed there\n\nYour rental cost is automatically deducted from your Lyft earnings each week before you can cash out. If your earnings don't cover the full rental cost, the remaining balance is charged to your payment card on file."
  },
  {
@@ -6797,7 +6817,7 @@ var CARD_ANSWERS = [
  { k: ["can i return after hours","after hours return how","return outside office hours","return when office closed"],
  a: "Yes — use the overnight drop box at the office. Your contract closes the next business day and charges continue until then.", topic: "Return vehicle / end rental" },
 
- { k: ["when does my contract officially close","when does my contract close","how do i close my contract","close my contract","when will my contract close","when will my contract be closed","when does my rental end","contract close date","when does rental officially end","contract closed when"],
+ { k: ["hasn't been processed","has not been processed","not processed yet","return hasn't been processed","drop off hasn't been processed","when does my contract officially close","when does my contract close","how do i close my contract","close my contract","when will my contract close","when will my contract be closed","when does my rental end","contract close date","when does rental officially end","contract closed when"],
  a: "Your contract closes when a Flexdrive associate processes your return during business hours (Mon–Fri 9AM–5PM). After-hours drop-box returns close the next business day.", topic: "Return vehicle / end rental" },
 
  // Swaps
@@ -7618,9 +7638,13 @@ function sendMessage() {
   // Roadside help remains in the safety card, answers and Support menu without a duplicate floating button.
 
 
+ // A question held until the renter picked an office is answered without showing it twice.
+ var _replay = window.__milesReplay; window.__milesReplay = false;
+ if (!_replay) {
  renderMessage('user', text);
  messages.push({ role: 'user', content: text });
  sessionLog.push({ role: 'user', text: text, time: new Date().toLocaleTimeString() });
+ }
  cancelFeedbackPrompt(); // renter active again — clear any pending prompt
  resetSessionTimeout();
 
@@ -7650,6 +7674,10 @@ function sendMessage() {
      if (botEntry && botEntry.role==='bot') botEntry.context='office';
    }
    isTyping = false; return;
+ }
+ if (_typed && !_replay && !userRegion && window.milesHoldQuestion && !(typeof EMERGENCY_REGEX !== 'undefined' && EMERGENCY_REGEX.test(text))
+     && !/^(hi|hello|hey|hola|thanks|thank you|gracias|bye|ok|okay|yes|yeah|yea|yep|no|nope|help|menu)\b/i.test(text)) {
+   window.milesHoldQuestion(text); isTyping = false; return;
  }
 
 
@@ -9921,6 +9949,19 @@ function clearAttachment() {
     document.querySelectorAll('.office-setup').forEach(function(el) { el.remove(); });
     var message='Got it — your rental office is '+VENDORS[code].regionName+'. What can I help you with?';
     if (isUnstaffed(code)) message='Got it — '+officeShortName(code)+'. That office currently handles drop-offs and remote support only, with no new rentals or on-site staff. What can I help you with?';
+    var held=window.milesHeldQuestion;
+    if (held) {
+      window.milesHeldQuestion=null; window.__milesHeldAnswering=true;
+      message=message.replace(' What can I help you with?','');
+      var tries=0;
+      setTimeout(function replay() {
+        if ((typeof isTyping!=='undefined' && isTyping) && tries++ < 25) { setTimeout(replay, 200); return; }
+        window.__milesHeldAnswering=false;
+        var ui=document.getElementById('userInput'); if (!ui) return;
+        ui.value=held; window.__milesTyped=false; window.__milesReplay=true;
+        try { sendMessage(); } catch (e) {}
+      }, 350);
+    }
     if (!silent) rememberBot(message);
     // Keep original session reporting, but never include GPS coordinates.
     try { logSession(code,VENDORS[code].regionName); } catch(e) {}
@@ -9995,19 +10036,49 @@ function clearAttachment() {
     window.milesChangingOffice=true;
   };
   window.promptRentalOffice=function(mode) { pendingContact=mode; changeOffice(); };
+  // Nov 2026: a question asked before picking an office is held, the office list is shown,
+  // and the question is answered right after the office is chosen (so answers and logs use that office).
+  window.milesHoldQuestion=function(text) {
+    window.milesHeldQuestion=text;
+    pendingOffice=null; officeVersion++; enableChat();
+    document.querySelectorAll('.office-setup').forEach(function(el) { el.remove(); });
+    renderMessage('assistant', window.milesLang==='es'
+      ? 'Con gusto te ayudo. ¿En qué oficina rentas tu auto? Las respuestas pueden variar según la oficina, y te respondo en cuanto la elijas.'
+      : 'Happy to help with that. Which office do you rent from? Answers can differ by office, and I\u2019ll answer as soon as you pick.', officeChoices());
+    window.milesChangingOffice=true;
+  };
+  function looksLikePlace(text) {
+    var t=String(text||'').trim();
+    if (!t || t.length>40 || /[?!]/.test(t) || /\d/.test(t)) return false;
+    var words=t.split(/\s+/); if (words.length>3) return false;
+    if (!/^[A-Za-z\u00C0-\u017F .,'\u2019-]+$/.test(t)) return false;
+    if (/^(yes|yeah|yea|yep|no|nope|ok|okay|hi|hello|hey|hola|thanks|thank you|help|menu|other|bye|sss+)$/i.test(t)) return false;
+    try { if (findCardAnswer(t.toLowerCase()) || findBestMatch(t.toLowerCase())) return false; } catch (e) { return false; }
+    return true;
+  }
   window.milesPrepareOffice=function(text) {
     window.milesOfficeReply='';
     var confirmed=MilesOffice.confirm(pendingOffice,text);
     if (confirmed) {
+      var willAnswer=!!window.milesHeldQuestion;
       acceptOffice(confirmed,true); window.milesChangingOffice=false;
-      window.milesOfficeReply='Got it — your rental office is '+VENDORS[confirmed].regionName+'. What can I help you with?';
+      window.milesOfficeReply='Got it — your rental office is '+VENDORS[confirmed].regionName+(willAnswer?'.':'. What can I help you with?');
       if (isUnstaffed(confirmed)) window.milesOfficeReply='Got it — '+officeShortName(confirmed)+'. That office currently handles drop-offs and remote support only, with no new rentals or on-site staff. What can I help you with?';
+      if (willAnswer) window.milesOfficeReply=window.milesOfficeReply.replace(' What can I help you with?','');
       return true;
     }
     if (/^(no|nope|different office)[.!\s]*$/i.test(text.trim())) pendingOffice=null;
-    var code=resolveRegion(text);
+    var addrCode=(typeof officeFromAddress==='function' && (!userRegion || window.milesChangingOffice)) ? officeFromAddress(text) : null;
+    var code=addrCode || resolveRegion(text);
     var explicit=/\b(rent|rented|renting|picked up|rental office|my office)\b/i.test(text);
-    var cityOnly=text.trim().split(/\s+/).length<=4;
+    var cityOnly=!!addrCode || text.trim().split(/\s+/).length<=4;
+    // A place name we don't have an office for ("Mission Viejo"): show the office list instead of guessing.
+    if (!code && !userRegion && looksLikePlace(text)) {
+      window.milesOfficeReply='';
+      renderMessage('assistant', 'I couldn\u2019t match \u201c'+text.trim()+'\u201d to a Flexdrive office. Please pick the office where you rent your car.');
+      changeOffice(true);
+      return true;
+    }
     if (code && (!userRegion || window.milesChangingOffice) && (cityOnly || explicit)) {
       officeVersion++; suggestOffice(code,'typed',true);
       if(cityOnly) window.milesOfficeReply='Is '+VENDORS[code].regionName+' the office where you rented your vehicle?';
